@@ -13,9 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
 Route::get('/', function () {
     return view('welcome');
 });
+*/
+
+Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes();
 
@@ -23,4 +27,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::get('/account', 'AccountsController@index')->name('account.index');
+Route::get('/account/edit', 'AccountsController@edit')->name('account.edit');
 Route::patch('/account/update', 'AccountsController@update');

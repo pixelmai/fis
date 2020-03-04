@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Roboto);@charset "UTF-8";
 
 /*!
  * Bootstrap v4.4.1 (https://getbootstrap.com/)
@@ -34,7 +34,7 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
-  --font-family-sans-serif: "Nunito", sans-serif;
+  --font-family-sans-serif: "Roboto", sans-serif;
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
@@ -66,7 +66,7 @@ section {
 
 body {
   margin: 0;
-  font-family: "Nunito", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.6;
@@ -6378,7 +6378,7 @@ a.close.disabled {
   z-index: 1070;
   display: block;
   margin: 0;
-  font-family: "Nunito", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.6;
@@ -6503,7 +6503,7 @@ a.close.disabled {
   z-index: 1060;
   display: block;
   max-width: 276px;
-  font-family: "Nunito", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.6;
@@ -10883,4 +10883,77 @@ a.text-dark:focus {
     border-color: #dee2e6;
   }
 }
+
+/* HEADER */
+
+.navbar {
+  background: #2c2840;
+}
+
+/* HEADER */
+
+/* CARDS */
+
+#login_page {
+  height: 100vh;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background-image: url("/svg/dino_bg.svg");
+  background-size: 90%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  color: #818181;
+}
+
+#login_page a {
+  color: #646079;
+}
+
+#login_page a:hover {
+  color: black;
+}
+
+#login_page #logo {
+  display: block;
+  height: 255px;
+  width: 255px;
+  margin: 0 auto;
+  background-image: url("/svg/logo.svg");
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+#login_page .card {
+  border: 1px solid #cbc8be;
+  background-color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0px 0px 11px 4px rgba(76, 70, 63, 0.1);
+  padding: 20px;
+}
+
+#login_page .card .card-header {
+  border: 0;
+  background: transparent;
+  color: #08041e;
+  font-size: 3em;
+  font-weight: bold;
+}
+
+#login_page .card .btn {
+  background: #c9166b;
+  border: 1px solid #b2135f;
+  font-size: 1.5em;
+}
+
+#login_page .card .btn:hover {
+  background: #e01977;
+}
+
+#login_page .card input[type=email]:focus,
+#login_page .card input[type=password]:focus {
+  background: #ffffe5;
+}
+
+/* CARDS */
 
