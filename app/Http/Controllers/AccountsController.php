@@ -15,9 +15,11 @@ class AccountsController extends Controller
    *
    * @return void
    */
+
   public function __construct()
   {
     $this->middleware('auth');
+
   }
 
   /**
@@ -37,7 +39,14 @@ class AccountsController extends Controller
   public function edit()
   {
     $user = auth()->user();
-    return view('accounts.edit', compact('user'));
+    $page_settings['title'] = 'Edit Profile';
+    $page_settings['heading'] = TRUE;
+    $page_settings['seltab'] = 'superadmin';
+
+    return view('accounts.edit', [
+      "user"=>$user, 
+      "page_settings"=>$page_settings
+      ]);
   }
 
 

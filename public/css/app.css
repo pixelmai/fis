@@ -10900,7 +10900,7 @@ a.text-dark:focus {
   padding: 0;
   margin: 0;
   background-image: url("/svg/dino_bg.svg");
-  background-size: 90%;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
   color: #818181;
@@ -10938,6 +10938,9 @@ a.text-dark:focus {
   color: #08041e;
   font-size: 3em;
   font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 2px;
 }
 
 #login_page .card .btn {
@@ -10956,4 +10959,19 @@ a.text-dark:focus {
 }
 
 /* CARDS */
+
+/* BASIC DESIGN */
+
+#app .page-header-title {
+  background: #7a144b;
+}
+
+#app .page-header-title .container h1 {
+  color: #fff;
+  font-size: 1.5em;
+  text-transform: uppercase;
+  margin-bottom: 0;
+}
+
+/* BASIC DESIGN */
 

@@ -102,6 +102,27 @@
                 </li>
               @endif
             @else
+
+
+              @if (Auth::user()->superadmin)
+                <li class="nav-item dropdown">
+                  <a id="navBarDropdownAdmin" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>Superadmin</a>
+
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navBarDropdownAdmin">
+                    <a class="dropdown-item" href="/account">
+                      Manage Users
+                    </a>
+
+                    <a class="dropdown-item" href="/account">
+                      App Settings
+                    </a>
+                  </div>
+                </li>
+              @endif
+
+
+
+
               <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                   {{ Auth::user()->fname }} <span class="caret"></span>
@@ -114,16 +135,6 @@
                     Account Profile
                   </a>
 
-                  @if (Auth::user()->superadmin)
-                    <a class="dropdown-item" href="/account">
-                      Manage Users
-                    </a>
-
-                    <a class="dropdown-item" href="/account">
-                      App Settings
-                    </a>
-
-                  @endif
 
                   <a class="dropdown-item" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
@@ -142,7 +153,17 @@
       </div>
     </nav>
 
-    <main class="py-4">
+    <main>
+      @if(!empty($page_settings['heading']) && ($page_settings['heading'] == 1))
+        <div class="page-header-title">
+          <div class="container py-3">
+              <h1>
+                {{ $page_settings['title'] ?? 'No Title' }}
+              </h1>
+          </div>
+        </div>
+      @endif
+
       @yield('content')
     </main>
   </div>
