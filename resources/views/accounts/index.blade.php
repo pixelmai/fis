@@ -1,12 +1,14 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="container">
+<div class="container pt-4">
 
   <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-lg-8">
       <div class="card">
-        <div class="card-header">Edit Profile</div>
+        <div class="card-header">
+          {{ $user->fname }}'s Profile
+        </div>
 
           <div class="card-body">
 

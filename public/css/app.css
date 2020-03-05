@@ -10899,8 +10899,8 @@ a:focus {
   background: #fff;
   border: none;
   border-radius: 0;
-  margin-bottom: 40px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  z-index: 998;
 }
 
 .navbar-btn {
@@ -10929,6 +10929,42 @@ a:focus {
   display: flex;
   width: 100%;
   align-items: stretch;
+  position: relative;
+}
+
+.fixed-position {
+  background: #2c2840;
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  max-height: 100vh;
+  z-index: 999;
+}
+
+.fixed-position::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+
+.fixed-position::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 2px #2c2840;
+  border-radius: 10px;
+}
+
+/* Handle */
+
+.fixed-position::-webkit-scrollbar-thumb {
+  background: #070707;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+
+.fixed-position::-webkit-scrollbar-thumb:hover {
+  background: #009eb3;
 }
 
 #sidebar {
@@ -10937,6 +10973,7 @@ a:focus {
   background: #2c2840;
   color: #fff;
   transition: all 0.3s;
+  min-height: 100vh;
 }
 
 #sidebar .sidebar-header {
@@ -11014,6 +11051,21 @@ a[data-toggle=collapse] {
 #content {
   width: 100%;
   min-height: 100vh;
+}
+
+#content main {
+  margin-top: 67px;
+  margin-left: 250px;
+  padding-bottom: 40px;
+  transition: all 0.3s;
+}
+
+#content main .content-area {
+  padding: 20px;
+}
+
+.push-margin {
+  margin-left: 0 !important;
   transition: all 0.3s;
 }
 
@@ -11021,7 +11073,26 @@ a[data-toggle=collapse] {
   MEDIAQUERIES
 ----------------------------------------------------- */
 
+@media (min-width: 769px) {
+  #content main {
+    margin-left: 250px;
+    transition: all 0.3s;
+    z-index: 99;
+  }
+
+  .navbar {
+    margin-left: 250px;
+    transition: all 0.3s;
+  }
+}
+
 @media (max-width: 768px) {
+  .fixed-position {
+    position: fixed;
+    margin-top: 67px;
+    left: 0;
+  }
+
   #sidebar {
     margin-left: -250px;
   }
@@ -11033,7 +11104,60 @@ a[data-toggle=collapse] {
   #sidebarCollapse span {
     display: none;
   }
+
+  #content main {
+    margin-left: 0;
+    transition: all 0.3s;
+  }
 }
 
 /* TEMPLATE DESIGN */
+
+/* CARDS */
+
+#app .card {
+  border: 0;
+  box-shadow: 0px 0px 11px 4px rgba(76, 70, 63, 0.1);
+  padding: 20px;
+}
+
+#app .card .card-header {
+  border: 0;
+  background: transparent;
+  color: #08041e;
+  font-size: 2.5em;
+  font-weight: bold;
+  padding-bottom: 0;
+}
+
+#app .card .btn {
+  background: #c9166b;
+  border: 1px solid #b2135f;
+  font-size: 1.5em;
+}
+
+#app .card .btn:hover {
+  background: #e01977;
+}
+
+#app .card input[type=email]:focus,
+#app .card input[type=password]:focus {
+  background: #ffffe5;
+}
+
+/* CARDS */
+
+/* FORMS */
+
+form label {
+  font-weight: bold;
+}
+
+form label .required {
+  color: #d00b2b;
+  font-size: 1.1em;
+  line-height: 0.9em;
+}
+
+/* FORMS */
 

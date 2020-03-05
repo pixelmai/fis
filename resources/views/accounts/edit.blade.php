@@ -134,7 +134,7 @@
 
 
             <div class="row py-2">
-              <div class="col-4">
+              <div class="col-12">
                 <button class="btn btn-primary">Update Profile</button>
               </div>
             </div>

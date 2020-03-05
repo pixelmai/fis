@@ -22,8 +22,8 @@
     background: #fff;
     border: none;
     border-radius: 0;
-    margin-bottom: 40px;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    z-index: 998;
   }
 
   .navbar-btn {
@@ -43,6 +43,7 @@
     }
   }
 
+
   /* ---------------------------------------------------
     SIDEBAR STYLE
   ----------------------------------------------------- */
@@ -51,7 +52,41 @@
     display: flex;
     width: 100%;
     align-items: stretch;
+    position: relative;
   }
+
+  .fixed-position{
+    background: $eggplant;
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    max-height: 100vh;
+    z-index: 999;
+  }
+
+  .fixed-position::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  /* Track */
+  .fixed-position::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 2px $eggplant; 
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  .fixed-position::-webkit-scrollbar-thumb {
+    background: rgb(7, 7, 7); 
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  .fixed-position::-webkit-scrollbar-thumb:hover {
+    background: #009eb3; 
+  }
+
 
   #sidebar {
     min-width: 250px;
@@ -59,6 +94,9 @@
     background: $eggplant;
     color: #fff;
     transition: all 0.3s;
+    min-height: 100vh;
+
+
 
     .sidebar-header {
       padding: 20px 10px;
@@ -144,14 +182,55 @@
   #content {
     width: 100%;
     min-height: 100vh;
+
+    main{
+      margin-top: 67px;
+      margin-left: 250px;
+      padding-bottom: 40px;
+      transition: all 0.3s;
+      
+      .content-area{
+        padding: 20px;
+      }
+    }
+  }
+
+
+  .push-margin{
+    margin-left: 0 !important;
     transition: all 0.3s;
   }
+
 
   /* ---------------------------------------------------
     MEDIAQUERIES
   ----------------------------------------------------- */
 
+
+  @media (min-width: 769px) {
+    #content {
+      main{
+        margin-left: 250px;
+        transition: all 0.3s;
+        z-index: 99;
+      }
+    }
+
+    .navbar {
+      margin-left: 250px;
+      transition: all 0.3s;
+    }
+  }
+
+
+
   @media (max-width: 768px) {
+
+    .fixed-position{
+      position: fixed;
+      margin-top: 67px;
+      left: 0;
+    }
     #sidebar {
       margin-left: -250px;
     }
@@ -161,7 +240,69 @@
     #sidebarCollapse span {
       display: none;
     }
+
+    #content {
+      main{
+        margin-left: 0;
+        transition: all 0.3s;
+      }
+    }
   }
 /* TEMPLATE DESIGN */
 
 
+
+/* CARDS */
+  #app{
+   
+    .card{
+      border: 0;
+      -webkit-box-shadow: 0px 0px 11px 4px rgba(76,70,63,0.1);
+      -moz-box-shadow: 0px 0px 11px 4px rgba(76,70,63,0.1);
+      box-shadow: 0px 0px 11px 4px rgba(76,70,63,0.1);
+      padding: 20px;
+
+
+      .card-header{
+        border: 0;
+        background: transparent;
+        color: #08041e;
+        font-size: 2.5em;
+        font-weight: bold;
+        padding-bottom: 0;
+      }
+
+      .btn{
+        background: $fuschia;
+        border: 1px solid darken($fuschia, 5%);
+        font-size: 1.5em;
+
+        &:hover{
+          background: lighten($fuschia, 5%);
+        }
+      }
+
+      input[type=email], input[type=password]{
+        &:focus{
+          background: #ffffe5;
+        }
+      }
+    }
+
+  }
+/* CARDS */
+
+
+/* FORMS */
+  form{
+    label {
+      font-weight: bold;
+
+      .required{
+        color: #d00b2b;
+        font-size: 1.1em;
+        line-height: .9em;
+      }
+    }
+  }
+/* FORMS */

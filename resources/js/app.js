@@ -35,5 +35,7 @@ const app = new Vue({
 $(document).ready(function () {
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
+        $('#content main').toggleClass('push-margin');
+        $('#content .navbar').toggleClass('push-margin');
     });
 });

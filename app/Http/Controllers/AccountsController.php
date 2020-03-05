@@ -98,7 +98,11 @@ class AccountsController extends Controller
 
     //$user->update($data);
 
-    return redirect("/account");
+    //return redirect("/account");
+    return redirect("/account")->with('status', 'successfully inserted');
+
+
+
 
   }
 
