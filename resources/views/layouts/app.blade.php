@@ -16,156 +16,155 @@
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+  <!-- Font Awesome JS -->
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+
   <!-- Styles -->
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-  <div id="app">
-    <nav class="navbar navbar-expand-md navbar-dark shadow-sm">
-      <div class="container">
-        <a class="navbar-brand d-flex" href="{{ url('/') }}">
-          <div><img src="/svg/dino.svg" alt="" style="height: 30px;" class="pr-1" /></div>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+<div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+              <a class="navbar-brand d-flex justify-content-center" href="{{ url('/') }}">
+                <div><img src="/svg/dino.svg" alt="" style="height: 30px;" class="pr-1" /></div><div class="pl-2 pt-1">FABLAB</div>
+              </a>
+            </div>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <!-- Left Side Of Navbar -->
-          @if (Auth::user())
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item dropdown">
-                <a id="navBarDropdownClients" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>Customers</a>
+            @if (Auth::user())
+              <ul class="list-unstyled components">
+                  <li class="active">
+                      <a href="#">Dashboard</a>
+                  </li>
+                  <li>
+                      <a href="#submenuClients" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Customers</a>
+                      <ul class="collapse list-unstyled" id="submenuClients">
+                          <li>
+                              <a href="#">Clients</a>
+                          </li>
+                          <li>
+                              <a href="#">Companies</a>
+                          </li>
+                          <li>
+                              <a href="#">Projects</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                      <a href="#submenuTransactions" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Transactions</a>
+                      <ul class="collapse list-unstyled" id="submenuTransactions">
+                          <li>
+                              <a href="#">Invoices</a>
+                          </li>
+                          <li>
+                              <a href="#">Official Billing</a>
+                          </li>
+                          <li>
+                              <a href="#">Services</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                      <a href="#submenuInventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Inventory</a>
+                      <ul class="collapse list-unstyled" id="submenuInventory">
+                          <li>
+                              <a href="#">Consumables</a>
+                          </li>
+                          <li>
+                              <a href="#">Tools</a>
+                          </li>
+                          <li>
+                              <a href="#">Machines</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                      <a href="#">Reports</a>
+                  </li>
 
-                <div class="dropdown-menu" aria-labelledby="navBarDropdownClients">
-                  <a class="dropdown-item" href="/account">
-                    Clients
-                  </a>
-                  <a class="dropdown-item" href="/account">
-                    Companies
-                  </a>
-                  <a class="dropdown-item" href="/account">
-                    Project
-                  </a>
-                </div>
-
-              </li>
-              <li class="nav-item dropdown">
-                <a id="navBarDropdownTransactions" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>Transactions</a>
-
-                <div class="dropdown-menu" aria-labelledby="navBarDropdownTransactions">
-                  <a class="dropdown-item" href="/account">
-                    Invoices
-                  </a>
-                  <a class="dropdown-item" href="/account">
-                    Official Billing
-                  </a>
-                  <a class="dropdown-item" href="/account">
-                    Services
-                  </a>
-                </div>
-              </li>
-
-              <li class="nav-item dropdown">
-                <a id="navBarDropdownInventory" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>Inventory</a>
-
-                <div class="dropdown-menu" aria-labelledby="navBarDropdownTransactions">
-                  <a class="dropdown-item" href="/account">
-                    Consumables
-                  </a>
-                  <a class="dropdown-item" href="/account">
-                    Tools
-                  </a>
-                  <a class="dropdown-item" href="/account">
-                    Machines
-                  </a>
-                </div>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link" href="#">Reports</a>
-              </li>
-
-            </ul>
+              </ul>
             @endif
+          </nav>
 
-          <!-- Right Side Of Navbar -->
-          <ul class="navbar-nav ml-auto">
-            <!-- Authentication Links -->
-            @guest
-              <li class="nav-item dropdown-menu">
-                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-              </li>
-              @if (Route::has('register'))
-                <li class="nav-item">
-                  <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                </li>
-              @endif
-            @else
+    
+        
 
+        <!-- Page Content  -->
+        <div id="content">
 
-              @if (Auth::user()->superadmin)
-                <li class="nav-item dropdown">
-                  <a id="navBarDropdownAdmin" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>Superadmin</a>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
 
-                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navBarDropdownAdmin">
-                    <a class="dropdown-item" href="/account">
-                      Manage Users
-                    </a>
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        <!-- span>Toggle Sidebar</span -->
+                    </button>
 
-                    <a class="dropdown-item" href="/account">
-                      App Settings
-                    </a>
-                  </div>
-                </li>
-              @endif
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
 
 
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                             @if (Auth::user()->superadmin)
+                            <li class="nav-item dropdown">
+                              <a id="navBarDropdownAdmin" class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>Superadmin</a>
+
+                              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navBarDropdownAdmin">
+                                <a class="dropdown-item" href="/account">
+                                  Manage Users
+                                </a>
+
+                                <a class="dropdown-item" href="/account">
+                                  App Settings
+                                </a>
+                              </div>
+                            </li>
+                          @endif
 
 
-              <li class="nav-item dropdown">
-                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                  {{ Auth::user()->fname }} <span class="caret"></span>
-                </a>
+
+
+                          <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                              {{ Auth::user()->fname }} <span class="caret"></span>
+                            </a>
 
 
 
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="/account">
-                    Account Profile
-                  </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                              <a class="dropdown-item" href="/account">
+                                Account Profile
+                              </a>
 
 
-                  <a class="dropdown-item" href="{{ route('logout') }}"
-                    onclick="event.preventDefault();
-                           document.getElementById('logout-form').submit();">
-                    {{ __('Logout') }}
-                  </a>
+                              <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                       document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                              </a>
 
-                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                  </form>
+                              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                              </form>
+                            </div>
+                          </li>
+                        </ul>
+                    </div>
                 </div>
-              </li>
-            @endguest
-          </ul>
-        </div>
-      </div>
-    </nav>
+            </nav>
 
-    <main>
-      @if(!empty($page_settings['heading']) && ($page_settings['heading'] == 1))
-        <div class="page-header-title">
-          <div class="container py-3">
-              <h1>
-                {{ $page_settings['title'] ?? 'No Title' }}
-              </h1>
-          </div>
+            <main>
+              @yield('content')
+            </main>
         </div>
-      @endif
+    </div>
+<!-- partial -->
+  <script  src="./script.js"></script>
 
-      @yield('content')
-    </main>
-  </div>
 </body>
 </html>

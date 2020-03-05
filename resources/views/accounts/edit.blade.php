@@ -4,7 +4,7 @@
 <div class="container pt-4">
 
   <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-lg-8">
       <div class="card">
         <div class="card-header">
           Edit Profile
