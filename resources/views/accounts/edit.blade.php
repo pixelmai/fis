@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="container pt-4">
+<div class="container pt-5">
 
   <div class="row justify-content-center">
     <div class="col-lg-8">
@@ -94,7 +94,7 @@
               </div>
 
               <div class="col-6">
-                <label for="number" class="col-form-label">Position</label>
+                <label for="number" class="col-form-label">Position <span class="required">*</span></label>
 
               
                   <input id="position" 

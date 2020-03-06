@@ -104,15 +104,66 @@
                     <!-- span>Toggle Sidebar</span -->
                 </button>
 
-                <a href="#" class="d-inline-block d-lg-none ml-auto" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <a href="#" class="d-inline-block d-lg-none ml-auto" data-toggle="collapse" data-target="#navbarMobileContent" aria-controls="navbarMobileContent" aria-expanded="false" aria-label="Toggle navigation">
                     <img src="{{ $user->profileImage() }}" class="rounded-circle border" style="width: 45px; height: 45px;" alt="" />
                 </a>
 
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse" id="navbarMobileContent">
+                    <ul class="nav navbar-nav ml-auto d-md-block d-lg-none">
+                      <li class="nav-item">
+                        <a href="/account">
+                          View Profile
+                        </a>
+                      </li>
+
+                      <li class="nav-item">
+                        <a href="/account">
+                          Change Password
+                        </a>
+                      </li>
+
+                      <li class="nav-item">
+                          <a href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                   document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                          </a>
+
+                          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                          </form>
+                      </li>
+
+
+                      @if (Auth::user()->superadmin)
+                        <li class="nav-item superadmin">
+                          <strong class="nav-caption">Super Admin</strong>
+                        </li>
+                        <li class="nav-item superadmin">
+                          <a href="/account">
+                            Manage Users
+                          </a>
+                        </li>
+                        <li class="nav-item superadmin">
+                          <a href="/account">
+                            App Settings
+                          </a>
+                        </li>
+
+                      @endif
+
+
+
+
+                    </ul>
+                </div>
+
+
+                <div class="collapse navbar-collapse d-none d-lg-block d-xl-block" id="navbarLarge">
                     <ul class="nav navbar-nav ml-auto">
                       @if (Auth::user()->superadmin)
-                        <li class="nav-item dropdown d-none d-lg-block d-xl-block">
+                        <li class="nav-item dropdown">
                           <a id="navBarDropdownAdmin" class="nav-link superadmin-icon" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             <div class="pr-3">
                               <i class="fas fa-users-cog"></i>
@@ -121,9 +172,7 @@
 
                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navBarDropdownAdmin">
                             <h6 class="dropdown-header">Super Admin</h6>
-
                             <div class="dropdown-divider"></div>
-                            
                             <a class="dropdown-item" href="/account">
                               Manage Users
                             </a>
@@ -135,7 +184,7 @@
                         </li>
                       @endif
 
-                      <li class="nav-item dropdown d-none d-lg-block d-xl-block">
+                      <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link user-image" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                           <div class="pl-3">
                             <img src="{{ $user->profileImage() }}" class="rounded-circle border" style="width: 45px; height: 45px;" alt="" />
@@ -169,50 +218,8 @@
                           </form>
                         </div>
                       </li>
-
-
-                      <li class="nav-item d-md-block d-lg-none">
-                        <a class="mobile-link" href="/account">
-                          View Profile
-                        </a>
-                      </li>
-
-                      <li class="nav-item d-md-block d-lg-none">
-                        <a class="mobile-link" href="/account">
-                          Change Password
-                        </a>
-                      </li>
-
-
-                      @if (Auth::user()->superadmin)
-                        <li class="nav-item d-md-block d-lg-none">
-                          <a class="mobile-link" href="/account">
-                            Manage Users
-                          </a>
-                        </li>
-                        <li class="nav-item d-md-block d-lg-none">
-                          <a class="mobile-link" href="/account">
-                            App Settings
-                          </a>
-                        </li>
-
-                      @endif
-
-
-                      <li class="nav-item  d-md-block d-lg-none">
-                          <a class="mobile-link" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                   document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
-                          </a>
-
-                          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                          </form>
-                      </li>
-
                     </ul>
-                </div>
+                  </div>
             </div>
         </nav>
 
@@ -220,7 +227,14 @@
 
         <main>
           @if(session('status'))
-            <div class="status"><span>{{ session('status') }}</span></div>
+
+
+            <div class="alert alert-{{ session('status') }}  alert-dismissible fade show" role="alert">
+              <span>{{ session('message') }}</span>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
           @endif
           <div class="content-area">
             @yield('content')

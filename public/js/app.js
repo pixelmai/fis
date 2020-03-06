@@ -49532,6 +49532,9 @@ $(document).ready(function () {
     $('#content main').toggleClass('push-margin');
     $('#content .navbar').toggleClass('push-margin');
   });
+  setTimeout(function () {
+    $(".alert").alert('close');
+  }, 3000);
 });
 
 /***/ }),

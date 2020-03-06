@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="container pt-4">
+<div class="container pt-5">
 
   <div class="row justify-content-center">
     <div class="col-lg-8">
@@ -18,9 +18,11 @@
               <div class="col-md-8">
                 <h1>{{ $user->fname }} {{ $user->lname }}</h1>
 
-                <div class="chip mb-2">
-                  {{ $user->position }}
-                </div>
+                @if ($user->position)
+                  <div class="chip mb-2">
+                    {{ $user->position }}
+                  </div>
+                @endif
 
                 <hr />
 
@@ -31,20 +33,27 @@
                     {{ $user->email }}
                   </div>
 
-                  <div class="info-item">
-                    <strong>Contact Number</strong>
-                    {{ $user->number }}
-                  </div>
+                  @if ($user->number)
+                    <div class="info-item">
+                      <strong>Contact Number</strong>
+                      {{ $user->number }}
+                    </div>
+                  @endif
 
-                  <div class="info-item">
-                    <strong>Address</strong>
-                    {{ $user->address }}
-                  </div>
+                  @if ($user->address)
+                    <div class="info-item">
+                      <strong>Address</strong>
+                      {{ $user->address }}
+                    </div>
 
-                  <div class="info-item">
-                    <strong>Skillset</strong>
-                    {{ $user->skillset }}
-                  </div>
+                  @endif
+
+                  @if ($user->skillset)
+                    <div class="info-item">
+                      <strong>Skillset</strong>
+                      {{ $user->skillset }}
+                    </div>
+                  @endif
                 </div>
 
 

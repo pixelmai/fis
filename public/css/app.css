@@ -10916,10 +10916,48 @@ a:focus {
   padding-top: 7px;
 }
 
-.navbar .mobile-link {
+#navbarMobileContent .nav-item a {
   display: block;
-  padding: 10px 5px;
+  padding: 10px 20px;
   border-bottom: 1px solid #eee;
+  font-size: 1.2em;
+}
+
+#navbarMobileContent .nav-item a:hover {
+  background: #eee;
+}
+
+#navbarMobileContent .nav-item .nav-caption {
+  display: block;
+  padding: 10px 20px;
+  border-bottom: 1px solid #eee;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #999;
+}
+
+#navbarMobileContent .nav-item:first-child {
+  margin-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+#navbarMobileContent .superadmin {
+  background: #f9f7ec;
+}
+
+#navbarMobileContent .superadmin .nav-caption {
+  display: block;
+  border-bottom: 1px solid #f0eade;
+  color: #c0b59d;
+}
+
+#navbarMobileContent .superadmin a {
+  border-bottom: 1px solid #f0eade;
+}
+
+#navbarMobileContent .superadmin a:hover {
+  background: #fff4da;
 }
 
 .navbar-btn {
@@ -11078,7 +11116,7 @@ a[data-toggle=collapse] {
 }
 
 #content main {
-  margin-top: 67px;
+  margin-top: 65px;
   margin-left: 250px;
   padding-bottom: 40px;
   transition: all 0.3s;
@@ -11102,6 +11140,7 @@ a[data-toggle=collapse] {
     margin-left: 250px;
     transition: all 0.3s;
     z-index: 99;
+    position: relative;
   }
 
   .navbar {
@@ -11215,4 +11254,16 @@ form label .required {
 }
 
 /* ACCOUNTS */
+
+/* NOTIFICATION */
+
+.alert {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: all 0.3s;
+}
+
+/* NOTIFICATION */
 

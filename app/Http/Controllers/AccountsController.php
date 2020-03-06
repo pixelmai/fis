@@ -64,7 +64,7 @@ class AccountsController extends Controller
       'email' => 'email',
       'number' => ['nullable', new PhoneNumber],
       'address' => 'nullable',
-      'position' => 'nullable',
+      'position' => 'required',
       'skillset' => 'nullable',
     ]);
 
@@ -73,10 +73,8 @@ class AccountsController extends Controller
 
       $imagePath = request('image')->store('profile','public');
 
-      $image = Image::make(public_path("storage/{$imagePath}"))->fit(1000, 1000);
+      $image = Image::make(public_path("storage/{$imagePath}"))->fit(800, 800);
       $image->save();
-
-
       $user->image = $imagePath;
     }
 
@@ -94,14 +92,13 @@ class AccountsController extends Controller
     $user->address = $data['address'];
     $user->position = $data['position'];
     $user->skillset = $data['skillset'];
-    $user->update();
 
 
+    $query = $user->update();
 
-    //$user->update($data);
-
-    //return redirect("/account");
-    return redirect("/account")->with('status', 'successfully inserted');
+    if($query){
+      return redirect("/account")->with(['status' => 'success', 'message' => 'Updated Account Successfully']);
+    }
 
   }
 
