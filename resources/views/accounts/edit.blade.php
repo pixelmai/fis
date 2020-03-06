@@ -7,7 +7,7 @@
     <div class="col-lg-8">
       <div class="card">
         <div class="card-header">
-          Edit Profile
+          <div class="bh">Edit Profile</div>
         </div>
 
           <div class="card-body">
@@ -15,6 +15,8 @@
             <form action="/account/update" enctype="multipart/form-data" method="POST">
               @csrf
               @method('PATCH')
+
+
 
             <div class="form-group row d-flex">
               <div class="col-6">
@@ -52,7 +54,45 @@
               </div>
             </div>
 
+
+            <div class="form-group row">
+              <div class="col-12">
+                <label for="email" class="col-form-label">Email Address <span class="required">*</span></label>
+
+                  <input id="email" 
+                    type="text" 
+                    class="form-control @error('email') is-invalid @enderror" 
+                    name="email" 
+                    value="{{ old('email') ?? $user->email }}"  
+                    autocomplete="email" autofocus>
+
+                  @error('email')
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $message }}</strong>
+                      </span>
+                  @enderror
+              </div>
+            </div>
+
+
             <div class="form-group row d-flex">
+              <div class="col-6">
+                <label for="number" class="col-form-label">Contact Number</label>
+              
+                  <input id="number" 
+                    type="text" 
+                    class="form-control @error('number') is-invalid @enderror" 
+                    name="number" 
+                    value="{{ old('number') ?? $user->number }}" 
+                    autocomplete="number" autofocus>
+
+                  @error('number')
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $message }}</strong>
+                      </span>
+                  @enderror
+              </div>
+
               <div class="col-6">
                 <label for="number" class="col-form-label">Position</label>
 
@@ -65,23 +105,6 @@
                     autocomplete="position" autofocus>
 
                   @error('position')
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                      </span>
-                  @enderror
-              </div>
-
-              <div class="col-6">
-                <label for="number" class="col-form-label">Contact Number</label>
-              
-                  <input id="number" 
-                    type="text" 
-                    class="form-control @error('number') is-invalid @enderror" 
-                    name="number" 
-                    value="{{ old('number') ?? $user->number }}" 
-                    autocomplete="number" autofocus>
-
-                  @error('number')
                       <span class="invalid-feedback" role="alert">
                           <strong>{{ $message }}</strong>
                       </span>
@@ -133,9 +156,28 @@
             </div>
 
 
+
+            <div class="form-group row">
+
+              <div class="col-12">
+                <label for="image" class="col-form-label">Profile Image</label><br />
+
+                <img src="{{ $user->profileImage() }}" style="width: 250px; height: 250px;" alt="" />
+
+                <div class="pt-3">
+                  <input type="file" class="form-control-file" id="image" name="image">
+
+                  @error('image')
+                    <strong>{{ $message }}</strong>
+                  @enderror
+                </div>
+              </div>
+            </div> 
+
+
             <div class="row py-2">
               <div class="col-12">
-                <button class="btn btn-primary">Update Profile</button>
+                <button class="btn btn-primary btn-lg">Update Profile</button>
               </div>
             </div>
 

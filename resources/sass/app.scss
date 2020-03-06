@@ -56,13 +56,18 @@
   }
 
   .fixed-position{
-    background: $eggplant;
-    display: block;
+    background: rgb(90,26,61);
+    background: -moz-linear-gradient(0deg, rgba(90,26,61,1) 0%, rgba(44,40,64,1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(90,26,61,1) 0%, rgba(44,40,64,1) 100%);
+    background: linear-gradient(0deg, rgba(90,26,61,1) 0%, rgba(44,40,64,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#5a1a3d",endColorstr="#2c2840",GradientType=1);
     position: fixed;
     top: 0;
     left: 0;
     overflow-y: auto;
+    overflow-x: hidden;
     max-height: 100vh;
+    min-height: 100vh;
     z-index: 999;
   }
 
@@ -91,10 +96,8 @@
   #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: $eggplant;
     color: #fff;
     transition: all 0.3s;
-    min-height: 100vh;
 
 
 
@@ -117,12 +120,14 @@
       li {
         a {
         padding: 10px 20px;
-        font-size: 1.1em;
+        font-size: .9em;
+        text-transform: uppercase;
+        letter-spacing: 2px;
         display: block;
 
           &:hover{
           color: #fff;
-          background: $eggplantd;
+          background: rgba(29, 26, 47, 0.5);
           }
         }
       }
@@ -147,8 +152,10 @@
 
       a {
         font-size: 0.9em !important;
+        text-transform: none;
+        letter-spacing: 0;
         padding-left: 30px !important;
-        background: $eggplantd;
+        background: rgba(29, 26, 47, 0.3);
 
         &:hover{
           background: #8c2e61;
@@ -261,26 +268,38 @@
       -moz-box-shadow: 0px 0px 11px 4px rgba(76,70,63,0.1);
       box-shadow: 0px 0px 11px 4px rgba(76,70,63,0.1);
       padding: 20px;
+      font-size: 1.1em;
 
 
       .card-header{
         border: 0;
         background: transparent;
-        color: #08041e;
-        font-size: 2.5em;
-        font-weight: bold;
+        color: $text_dviolet;
         padding-bottom: 0;
-      }
 
-      .btn{
-        background: $fuschia;
-        border: 1px solid darken($fuschia, 5%);
-        font-size: 1.5em;
+        .bh{
+          font-size: 2.3em;
+          font-weight: bold;
+        }
 
-        &:hover{
-          background: lighten($fuschia, 5%);
+        .sh{
+          font-weight: normal;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          color: #999;
+          font-size: .9em;
+          line-height: 1em;
         }
       }
+
+      .card-body{
+        h1{
+          color: $text_dviolet;
+          font-weight: bold;
+        }
+      }
+
+
 
       input[type=email], input[type=password]{
         &:focus{
@@ -306,3 +325,27 @@
     }
   }
 /* FORMS */
+
+/* ACCOUNTS */
+  .chip{
+    border: 1px solid #ddd;
+    text-transform: uppercase;
+    display: inline-block;
+    padding: 2px 20px;
+    letter-spacing: 2px;
+    background: #f1f1f1;
+    font-size: .8em;
+  }
+
+  .info-block{
+
+    .info-item{
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    strong{
+      display: block;
+    }
+  }
+/* ACCOUNTS */

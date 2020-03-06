@@ -1,10 +1,7 @@
 @extends('layouts.login_temp')
 
 @section('content')
-<div class="container pt-3">
-  <div class="row justify-content-center py-5">
-    <div id="logo"></div>
-  </div>
+
   <div class="row justify-content-center">
     <div class="col-md-6 col-lg-5">
       <div id="login" class="card">
@@ -79,5 +76,5 @@
       </div>
     </div>
   </div>
-</div>
+
 @endsection

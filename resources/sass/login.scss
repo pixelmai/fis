@@ -65,6 +65,12 @@
         text-transform: uppercase;
         text-align: center;
         letter-spacing: 2px;
+        line-height: 1em;
+
+        .sh{
+          font-size: .7em;
+          line-height: 1em;
+        }
       }
 
       .btn{
@@ -84,22 +90,12 @@
       }
     }
 
+    .back-login{
+      padding-top: 30px;
+      display: block;
+      text-align: center;
+      font-size: 1.2em;
+    }
   }
 /* CARDS */
 
-
-/* BASIC DESIGN */
-  #app{
-    .page-header-title{
-      background: #7a144b;
-      .container{
-        h1{
-          color: #fff;
-          font-size: 1.5em;
-          text-transform: uppercase;
-          margin-bottom:  0;
-        }
-      }
-    }
-  }
-/* BASIC DESIGN */

@@ -59,6 +59,11 @@ class User extends Authenticatable
 
   }
 
+  public function profileImage(){
+    $imagePath = ($this->image) ? '/storage/' . $this->image : '/images/no_profile.png';
+    return $imagePath;
+  }
+
 
 
 }

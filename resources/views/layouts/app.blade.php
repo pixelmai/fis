@@ -31,7 +31,7 @@
     <nav id="sidebar">
         <div class="sidebar-header">
           <a class="navbar-brand d-flex justify-content-center" href="{{ url('/') }}">
-            <div><img src="/svg/dino.svg" alt="" style="height: 30px;" class="pr-1" /></div><div class="pl-2 pt-1">FABLAB</div>
+            <div><img src="/svg/dino.svg" alt="" style="height: 30px;" class="pr-1" /></div><div class="pl-2 pt-1">FABLAB WIS</div>
           </a>
         </div>
 
@@ -140,7 +140,10 @@
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                           <a class="dropdown-item" href="/account">
-                            Account Profile
+                            View Profile
+                          </a>
+                          <a class="dropdown-item" href="/account">
+                            Change Password
                           </a>
 
 
@@ -164,7 +167,7 @@
 
         <main>
           @if(session('status'))
-            <div class="status">{{ session('status') }}</div>
+            <div class="status"><span>{{ session('status') }}</span></div>
           @endif
           <div class="content-area">
             @yield('content')

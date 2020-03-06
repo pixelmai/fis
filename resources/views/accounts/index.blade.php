@@ -7,137 +7,65 @@
     <div class="col-lg-8">
       <div class="card">
         <div class="card-header">
-          {{ $user->fname }}'s Profile
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="sh">View Profile</div>
+          </div>
         </div>
 
           <div class="card-body">
 
-            <form action="/account/update" enctype="multipart/form-data" method="POST">
-              @csrf
-              @method('PATCH')
+            <div class="row">
+              <div class="col-md-8">
+                <h1>{{ $user->fname }} {{ $user->lname }}</h1>
 
-            <div class="form-group row d-flex">
-              <div class="col-6">
-                <label for="fname" class="col-form-label">First Name <span class="required">*</span></label>
-              
-                  <input id="fname" 
-                    type="text" 
-                    class="form-control @error('fname') is-invalid @enderror" 
-                    name="fname" 
-                    value="{{ old('fname') ?? $user->fname }}" required 
-                    autocomplete="fname" autofocus>
+                <div class="chip mb-2">
+                  {{ $user->position }}
+                </div>
 
-                  @error('fname')
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                      </span>
-                  @enderror
+                <hr />
+
+                <div class="info-block pt-1">
+
+                  <div class="info-item">
+                    <strong>Email Address</strong>
+                    {{ $user->email }}
+                  </div>
+
+                  <div class="info-item">
+                    <strong>Contact Number</strong>
+                    {{ $user->number }}
+                  </div>
+
+                  <div class="info-item">
+                    <strong>Address</strong>
+                    {{ $user->address }}
+                  </div>
+
+                  <div class="info-item">
+                    <strong>Skillset</strong>
+                    {{ $user->skillset }}
+                  </div>
+                </div>
+
+
+                <div class="row py-2">
+                  <div class="col-12">
+                    <a href="/account/edit" class="btn btn-outline-primary btn-lg">
+                      Edit Profile
+                    </a>
+                  </div>
+                </div>
+
               </div>
 
-              <div class="col-6">
-                <label for="lname" class="col-form-label">Last Name <span class="required">*</span></label>
-              
-                  <input id="lname" 
-                    type="text" 
-                    class="form-control @error('lname') is-invalid @enderror" 
-                    name="lname" 
-                    value="{{ old('lname') ?? $user->lname }}" required 
-                    autocomplete="lname" autofocus>
-
-                  @error('lname')
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                      </span>
-                  @enderror
-              </div>
-            </div>
-
-            <div class="form-group row d-flex">
-              <div class="col-6">
-                <label for="number" class="col-form-label">Position</label>
-
-              
-                  <input id="position" 
-                    type="text" 
-                    class="form-control @error('position') is-invalid @enderror" 
-                    name="position" 
-                    value="{{ old('position') ?? $user->position }}"  
-                    autocomplete="position" autofocus>
-
-                  @error('position')
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                      </span>
-                  @enderror
-              </div>
-
-              <div class="col-6">
-                <label for="number" class="col-form-label">Contact Number</label>
-              
-                  <input id="number" 
-                    type="text" 
-                    class="form-control @error('number') is-invalid @enderror" 
-                    name="number" 
-                    value="{{ old('number') ?? $user->number }}" 
-                    autocomplete="number" autofocus>
-
-                  @error('number')
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                      </span>
-                  @enderror
+              <div class="col-md-4">
+                <img src="{{ $user->profileImage() }}" class="w-100 border" alt="" />
               </div>
             </div>
 
-
-            <div class="form-group row">
-              <div class="col-12">
-                <label for="number" class="col-form-label">Address</label>
-
-              
-                  <textarea id="address" 
-                    type="text" 
-                    class="form-control @error('address') is-invalid @enderror" 
-                    name="address" autofocus>{{ old('address') ?? $user->address }}</textarea>
-
-                  @error('address')
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                      </span>
-                  @enderror
-              </div>
-            </div>
+            
 
 
-
-             <div class="form-group row">
-
-
-              <div class="col-12">
-                <label for="number" class="col-form-label">Skillset</label>
-
-              
-                  <input id="skillset" 
-                    type="text" 
-                    class="form-control @error('skillset') is-invalid @enderror" 
-                    name="skillset" 
-                    value="{{ old('skillset') ?? $user->skillset }}"  
-                    autocomplete="skillset" autofocus>
-
-                  @error('skillset')
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                      </span>
-                  @enderror
-              </div>
-            </div>
-
-
-            <div class="row py-2">
-              <div class="col-4">
-                <button class="btn btn-primary">Update Profile</button>
-              </div>
-            </div>
 
           </form>
 

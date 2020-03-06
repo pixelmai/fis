@@ -22,7 +22,13 @@
 <body>
   <div id="login_page">
     <main class="py-4">
-      @yield('content')
+    <div class="container pt-3">
+      <div class="row justify-content-center py-5">
+        <div id="logo"></div>
+      </div>
+
+        @yield('content')
+      </div>
     </main>
   </div>
 </body>

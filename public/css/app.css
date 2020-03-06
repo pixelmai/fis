@@ -10933,13 +10933,16 @@ a:focus {
 }
 
 .fixed-position {
-  background: #2c2840;
-  display: block;
+  background: #5a1a3d;
+  background: linear-gradient(0deg, #5a1a3d 0%, #2c2840 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#5a1a3d",endColorstr="#2c2840",GradientType=1);
   position: fixed;
   top: 0;
   left: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   max-height: 100vh;
+  min-height: 100vh;
   z-index: 999;
 }
 
@@ -10970,10 +10973,8 @@ a:focus {
 #sidebar {
   min-width: 250px;
   max-width: 250px;
-  background: #2c2840;
   color: #fff;
   transition: all 0.3s;
-  min-height: 100vh;
 }
 
 #sidebar .sidebar-header {
@@ -10992,13 +10993,15 @@ a:focus {
 
 #sidebar ul li a {
   padding: 10px 20px;
-  font-size: 1.1em;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
   display: block;
 }
 
 #sidebar ul li a:hover {
   color: #fff;
-  background: #1d1a2f;
+  background: rgba(29, 26, 47, 0.5);
 }
 
 #sidebar ul li.active > a {
@@ -11020,8 +11023,10 @@ a:focus {
 
 #sidebar ul ul a {
   font-size: 0.9em !important;
+  text-transform: none;
+  letter-spacing: 0;
   padding-left: 30px !important;
-  background: #1d1a2f;
+  background: rgba(29, 26, 47, 0.3);
 }
 
 #sidebar ul ul a:hover {
@@ -11119,25 +11124,33 @@ a[data-toggle=collapse] {
   border: 0;
   box-shadow: 0px 0px 11px 4px rgba(76, 70, 63, 0.1);
   padding: 20px;
+  font-size: 1.1em;
 }
 
 #app .card .card-header {
   border: 0;
   background: transparent;
   color: #08041e;
-  font-size: 2.5em;
-  font-weight: bold;
   padding-bottom: 0;
 }
 
-#app .card .btn {
-  background: #c9166b;
-  border: 1px solid #b2135f;
-  font-size: 1.5em;
+#app .card .card-header .bh {
+  font-size: 2.3em;
+  font-weight: bold;
 }
 
-#app .card .btn:hover {
-  background: #e01977;
+#app .card .card-header .sh {
+  font-weight: normal;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #999;
+  font-size: 0.9em;
+  line-height: 1em;
+}
+
+#app .card .card-body h1 {
+  color: #08041e;
+  font-weight: bold;
 }
 
 #app .card input[type=email]:focus,
@@ -11160,4 +11173,27 @@ form label .required {
 }
 
 /* FORMS */
+
+/* ACCOUNTS */
+
+.chip {
+  border: 1px solid #ddd;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 2px 20px;
+  letter-spacing: 2px;
+  background: #f1f1f1;
+  font-size: 0.8em;
+}
+
+.info-block .info-item {
+  margin-bottom: 10px;
+  display: block;
+}
+
+.info-block strong {
+  display: block;
+}
+
+/* ACCOUNTS */
 

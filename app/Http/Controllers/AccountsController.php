@@ -61,6 +61,7 @@ class AccountsController extends Controller
       'image' => '',
       'fname' => 'required',
       'lname' => 'required',
+      'email' => 'email',
       'number' => ['nullable', new PhoneNumber],
       'address' => 'nullable',
       'position' => 'nullable',
@@ -70,13 +71,13 @@ class AccountsController extends Controller
 
     if(request('image')){
 
-
       $imagePath = request('image')->store('profile','public');
 
       $image = Image::make(public_path("storage/{$imagePath}"))->fit(1000, 1000);
       $image->save();
 
-      $imageArray = ['image' => $imagePath];
+
+      $user->image = $imagePath;
     }
 
     /*
@@ -88,6 +89,7 @@ class AccountsController extends Controller
 
     $user->fname = $data['fname'];
     $user->lname = $data['lname'];
+    $user->email = $data['email'];
     $user->number = $data['number'];
     $user->address = $data['address'];
     $user->position = $data['position'];
@@ -100,9 +102,6 @@ class AccountsController extends Controller
 
     //return redirect("/account");
     return redirect("/account")->with('status', 'successfully inserted');
-
-
-
 
   }
 
