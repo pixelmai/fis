@@ -31,63 +31,62 @@
     <nav id="sidebar">
         <div class="sidebar-header">
           <a class="navbar-brand d-flex justify-content-center" href="{{ url('/') }}">
-            <div><img src="/svg/dino.svg" alt="" style="height: 30px;" class="pr-1" /></div><div class="pl-2 pt-1">FABLAB WIS</div>
+            <div class="pr-1" style="height: 30px;">
+              <img src="/svg/dino.svg" alt="" style="height: 30px;" class="pr-1" />
+            </div>
+            <div class="pl-2 pt-1">FABLAB WIS</div>
           </a>
         </div>
-
-        @if (Auth::user())
-          <ul class="list-unstyled components">
-              <li class="active">
-                  <a href="#">Dashboard</a>
-              </li>
-              <li>
-                  <a href="#submenuClients" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Customers</a>
-                  <ul class="collapse list-unstyled" id="submenuClients">
-                      <li>
-                          <a href="#">Clients</a>
-                      </li>
-                      <li>
-                          <a href="#">Companies</a>
-                      </li>
-                      <li>
-                          <a href="#">Projects</a>
-                      </li>
-                  </ul>
-              </li>
-              <li>
-                  <a href="#submenuTransactions" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Transactions</a>
-                  <ul class="collapse list-unstyled" id="submenuTransactions">
-                      <li>
-                          <a href="#">Invoices</a>
-                      </li>
-                      <li>
-                          <a href="#">Official Billing</a>
-                      </li>
-                      <li>
-                          <a href="#">Services</a>
-                      </li>
-                  </ul>
-              </li>
-              <li>
-                  <a href="#submenuInventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Inventory</a>
-                  <ul class="collapse list-unstyled" id="submenuInventory">
-                      <li>
-                          <a href="#">Consumables</a>
-                      </li>
-                      <li>
-                          <a href="#">Tools</a>
-                      </li>
-                      <li>
-                          <a href="#">Machines</a>
-                      </li>
-                  </ul>
-              </li>
-              <li>
-                  <a href="#">Reports</a>
-              </li>
-
-          </ul>
-        @endif
+        <ul class="list-unstyled components">
+            <li class="active">
+                <a href="#">Dashboard</a>
+            </li>
+            <li>
+                <a href="#submenuClients" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Customers</a>
+                <ul class="collapse list-unstyled" id="submenuClients">
+                    <li>
+                        <a href="#">Clients</a>
+                    </li>
+                    <li>
+                        <a href="#">Companies</a>
+                    </li>
+                    <li>
+                        <a href="#">Projects</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#submenuTransactions" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Transactions</a>
+                <ul class="collapse list-unstyled" id="submenuTransactions">
+                    <li>
+                        <a href="#">Invoices</a>
+                    </li>
+                    <li>
+                        <a href="#">Official Billing</a>
+                    </li>
+                    <li>
+                        <a href="#">Services</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#submenuInventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Inventory</a>
+                <ul class="collapse list-unstyled" id="submenuInventory">
+                    <li>
+                        <a href="#">Consumables</a>
+                    </li>
+                    <li>
+                        <a href="#">Tools</a>
+                    </li>
+                    <li>
+                        <a href="#">Machines</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Reports</a>
+            </li>
+        </ul>
       </nav>
     </div>
 
@@ -105,18 +104,26 @@
                     <!-- span>Toggle Sidebar</span -->
                 </button>
 
-                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fas fa-align-justify"></i>
-                </button>
+                <a href="#" class="d-inline-block d-lg-none ml-auto" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <img src="{{ $user->profileImage() }}" class="rounded-circle border" style="width: 45px; height: 45px;" alt="" />
+                </a>
 
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
-                         @if (Auth::user()->superadmin)
-                        <li class="nav-item dropdown">
-                          <a id="navBarDropdownAdmin" class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>Superadmin</a>
+                      @if (Auth::user()->superadmin)
+                        <li class="nav-item dropdown d-none d-lg-block d-xl-block">
+                          <a id="navBarDropdownAdmin" class="nav-link superadmin-icon" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <div class="pr-3">
+                              <i class="fas fa-users-cog"></i>
+                            </div>
+                          </a>
 
                           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navBarDropdownAdmin">
+                            <h6 class="dropdown-header">Super Admin</h6>
+
+                            <div class="dropdown-divider"></div>
+                            
                             <a class="dropdown-item" href="/account">
                               Manage Users
                             </a>
@@ -128,17 +135,20 @@
                         </li>
                       @endif
 
-
-
-
-                      <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                          {{ Auth::user()->fname }} <span class="caret"></span>
+                      <li class="nav-item dropdown d-none d-lg-block d-xl-block">
+                        <a id="navbarDropdown" class="nav-link user-image" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                          <div class="pl-3">
+                            <img src="{{ $user->profileImage() }}" class="rounded-circle border" style="width: 45px; height: 45px;" alt="" />
+                            <span class="caret"></span>
+                          </div>
                         </a>
 
-
-
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                          <h6 class="dropdown-header">
+                            {{ $user->fname }}
+                          </h6>
+
+                          <div class="dropdown-divider"></div>
                           <a class="dropdown-item" href="/account">
                             View Profile
                           </a>
@@ -146,6 +156,7 @@
                             Change Password
                           </a>
 
+                          
 
                           <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
@@ -158,6 +169,48 @@
                           </form>
                         </div>
                       </li>
+
+
+                      <li class="nav-item d-md-block d-lg-none">
+                        <a class="mobile-link" href="/account">
+                          View Profile
+                        </a>
+                      </li>
+
+                      <li class="nav-item d-md-block d-lg-none">
+                        <a class="mobile-link" href="/account">
+                          Change Password
+                        </a>
+                      </li>
+
+
+                      @if (Auth::user()->superadmin)
+                        <li class="nav-item d-md-block d-lg-none">
+                          <a class="mobile-link" href="/account">
+                            Manage Users
+                          </a>
+                        </li>
+                        <li class="nav-item d-md-block d-lg-none">
+                          <a class="mobile-link" href="/account">
+                            App Settings
+                          </a>
+                        </li>
+
+                      @endif
+
+
+                      <li class="nav-item  d-md-block d-lg-none">
+                          <a class="mobile-link" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                   document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                          </a>
+
+                          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                          </form>
+                      </li>
+
                     </ul>
                 </div>
             </div>

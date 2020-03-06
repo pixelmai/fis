@@ -18,12 +18,32 @@
   }
 
   .navbar {
-    padding: 15px 10px;
+    padding: 10px;
     background: #fff;
     border: none;
     border-radius: 0;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
     z-index: 998;
+
+
+    .user-image{
+      padding: 0;
+      line-height: 1em;
+      border-left: 1px solid #ddd;
+    }
+
+    .superadmin-icon{
+      font-size: 2.2em;
+      padding: 0;
+      line-height: 1em;
+      padding-top: 7px;
+    }
+
+    .mobile-link{
+      display: block;
+      padding: 10px 5px;
+      border-bottom: 1px solid #eee;
+    }
   }
 
   .navbar-btn {
@@ -233,11 +253,13 @@
 
   @media (max-width: 768px) {
 
+
     .fixed-position{
       position: fixed;
-      margin-top: 67px;
+      margin-top: 64px;
       left: 0;
     }
+
     #sidebar {
       margin-left: -250px;
     }
