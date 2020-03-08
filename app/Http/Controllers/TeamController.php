@@ -6,7 +6,6 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
-
 use App\Rules\PhoneNumber;
 use App\Rules\MatchOldPassword;
 use Hash;
@@ -28,9 +27,7 @@ class TeamController extends Controller
 
 
   public function index(){
-  
     //$posts = Post::whereIn('user_id', $users)->orderBy('created_at', 'DESC')->get();
-
     $user = auth()->user();
 
     if($user->superadmin){
@@ -64,7 +61,14 @@ class TeamController extends Controller
    */
   public function create()
   {
-    //
+    $user = auth()->user();
+
+    if($user->superadmin){
+      return view('team.create', compact('user'));
+    }else{
+      return redirect("/team")->with(['status' => 'danger', 'message' => 'No permission to edit user']);
+    }
+
   }
 
   /**
@@ -76,17 +80,45 @@ class TeamController extends Controller
   public function store(Request $request)
   {
     //
-  }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  \App\User  $user
-   * @return \Illuminate\Http\Response
-   */
-  public function show(User $user)
-  {
-    //
+    $user = auth()->user();
+
+    if(!$user->superadmin){
+      return redirect("/team")->with(['status' => 'danger', 'message' => 'No permission to create team members']);
+    }
+
+    $data = request()->validate([
+      'fname' => ['required', 'string', 'max:255'],
+      'lname' => ['required', 'string', 'max:255'],
+      'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+      'password' => ['required', 'string', 'min:8', 'confirmed'],
+      'position' => ['required', 'string', 'max:255'],
+    ]);
+
+    
+    if(isset($request['superadmin']) && $request['superadmin'] == 1){
+      $data['superadmin'] = TRUE;
+    }else{
+      $data['superadmin'] = FALSE;
+    }
+  
+    $data['password'] = Hash::make($data['password']);
+
+
+    $query = auth()->user()->create([
+      'fname' => $data['fname'],
+      'lname' => $data['lname'],
+      'email' => $data['email'],
+      'password' => $data['password'],
+      'position' => $data['position'],
+      'superadmin' => $data['superadmin'],
+    ]);
+
+
+    if($query){
+      return redirect("/team")->with(['status' => 'success', 'message' => 'Created Team Member Successfully']);
+    }
+
   }
 
   /**
@@ -193,7 +225,6 @@ class TeamController extends Controller
     }else{
       return redirect("/team")->with(['status' => 'danger', 'message' => 'No permission to edit user']);
     }
-
 
   }
 

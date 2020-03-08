@@ -21,7 +21,9 @@ Route::get('/', function () {
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Auth::routes();
+Auth::routes([
+	'register' => false, // Registration Routes...
+]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -42,6 +44,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 	Route::patch('/team/update/{user}', 'TeamController@update');
 	Route::get('/team/activate/{user}', 'TeamController@activate')->name('team.activate');
 	Route::get('/team/deactivate/{user}', 'TeamController@deactivate')->name('team.deactivate');
+	Route::get('/team/create', 'TeamController@create');
+	Route::post('/team/store', 'TeamController@store');
 /* Team Settings */
 
 

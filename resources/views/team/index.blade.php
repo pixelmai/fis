@@ -10,7 +10,7 @@
       </div>
       <div>
         @if($user->superadmin)
-          <a href="team/add" class="btn btn-lg btn-success">Add Team Member</a>
+          <a href="team/create" class="btn btn-lg btn-success">Add Team Member</a>
         @endif
       </div>
     </div>
@@ -55,7 +55,15 @@
                   <td>{{ $team_member->position ?? 'Not Set' }}</td>
                   <td>{{ $team_member->email }}</td>
                   <td>{{ $team_member->number ?? 'Not Set' }}</td>
-                  <td>{{ timeAgo(strtotime($team_member->last_login)) . ' ago' ?? 'Never logged in' }}</td>
+                  <td>
+                    @if($team_member->last_login)
+                      {{ timeAgo(strtotime($team_member->last_login)) }}
+                      ago
+                    @else
+                      Never logged in
+                    @endif
+
+                  </td>
                   <td class="text-right">
 
                     <a href="team/profile/{{ $team_member->id }}" class="btn btn-sm btn-outline-secondary">View</a>
@@ -68,10 +76,14 @@
             </tbody>
           </table>
 
-
-        
-
       </div>
+
+      <div class="row mt-4">
+        <div class="col-12 d-flex justify-content-center">
+          {{ $team->links() }}
+        </div>
+      </div>
+
     </div>
   </div>
 
