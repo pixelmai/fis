@@ -11,6 +11,11 @@
           <form method="POST" action="{{ route('login') }}">
             @csrf
 
+            @if (session('message'))
+              <div class="alert alert-danger">{{ session('message') }}</div>
+            @endif
+
+    
             <div class="form-group row" >
               <div class="col-12">
                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Email Address">

@@ -24,6 +24,8 @@ class CreateUsersTable extends Migration
             $table->string('position')->nullable();
             $table->text('skillset')->nullable();
             $table->boolean('superadmin')->default(0);     
+            $table->boolean('is_active')->default(1);
+            $table->timestamp('last_login')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

@@ -12,7 +12,6 @@ use App\Rules\MatchOldPassword;
 use Hash;
 
 
-
 class AccountsController extends Controller
 {
   /**
@@ -90,7 +89,6 @@ class AccountsController extends Controller
     $user->address = $data['address'];
     $user->position = $data['position'];
     $user->skillset = $data['skillset'];
-
 
     $query = $user->update();
 

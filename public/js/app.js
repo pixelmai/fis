@@ -49533,7 +49533,7 @@ $(document).ready(function () {
     $('#content .navbar').toggleClass('push-margin');
   });
   setTimeout(function () {
-    $(".alert").alert('close');
+    $("#app #content .alert").alert('close');
   }, 3000);
 });
 

@@ -41,7 +41,7 @@ $(document).ready(function () {
 
 
 	setTimeout(function() {
-		$(".alert").alert('close');
+		$("#app #content .alert").alert('close');
 	}, 3000);
 
 });
