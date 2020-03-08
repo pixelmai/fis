@@ -24,6 +24,16 @@
                   </div>
                 @endif
 
+
+                @if($user->superadmin)
+                  <div class="chip chip-admin">Admin</div>
+                @endif
+
+                @if($user->is_active==FALSE)
+                  <div class="chip chip-deactivated">Inactive</div>
+                @endif
+
+
                 <hr />
 
                 <div class="info-block pt-1">

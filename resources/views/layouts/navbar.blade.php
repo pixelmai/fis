@@ -42,8 +42,8 @@
             <strong class="nav-caption">Super Admin</strong>
           </li>
           <li class="nav-item superadmin">
-            <a href="/account">
-              Manage Users
+            <a href="/team">
+              Manage Team
             </a>
           </li>
           <li class="nav-item superadmin">
@@ -70,8 +70,8 @@
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navBarDropdownAdmin">
               <h6 class="dropdown-header">Super Admin</h6>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="/account">
-                Manage Users
+              <a class="dropdown-item" href="/team">
+                Manage Team
               </a>
 
               <a class="dropdown-item" href="/account">
