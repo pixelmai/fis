@@ -25,6 +25,16 @@ class HomeController extends Controller
     public function index()
     {
         $user = auth()->user();
-        return view('home', compact('user'));
+        //return view('home', compact('user'));
+
+        $page_settings['seltab'] = 'dashboard'; //selected menu header
+        //$page_settings['seltab2'] = 'clients'; //inner selected menu
+
+        return view('home', [
+          "user"=>$user, 
+          "page_settings"=>$page_settings
+        ]);
+
+
     }
 }

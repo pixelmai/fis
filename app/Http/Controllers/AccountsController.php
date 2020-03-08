@@ -44,14 +44,7 @@ class AccountsController extends Controller
   public function edit()
   {
     $user = auth()->user();
-    $page_settings['title'] = 'Edit Profile';
-    $page_settings['heading'] = TRUE;
-    $page_settings['seltab'] = 'superadmin';
-
-    return view('accounts.edit', [
-      "user"=>$user, 
-      "page_settings"=>$page_settings
-      ]);
+    return view('accounts.edit', compact('user'));
   }
 
 

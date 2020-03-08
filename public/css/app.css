@@ -11066,6 +11066,10 @@ a:focus {
   background: #c9166b;
 }
 
+#sidebar ul li.active > a:hover {
+  background: #c9166b;
+}
+
 #sidebar ul a[aria-expanded=true] {
   background: #161420;
 }
@@ -11088,6 +11092,15 @@ a:focus {
 
 #sidebar ul ul a:hover {
   background: #8c2e61;
+}
+
+#sidebar ul ul li.active > a {
+  color: #fff;
+  background: #662146;
+}
+
+#sidebar ul ul li.active > a:hover {
+  background: #662146;
 }
 
 #sidebar.active {

@@ -1,0 +1,62 @@
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <a class="navbar-brand d-flex justify-content-center" href="{{ url('/') }}">
+      <div class="pr-1" style="height: 30px;">
+        <img src="/svg/dino.svg" alt="" style="height: 30px;" class="pr-1" />
+      </div>
+      <div class="pl-2 pt-1">FABLAB WIS</div>
+    </a>
+  </div>
+  <ul class="list-unstyled components">
+      <li @if(!empty($page_settings['seltab']) && ($page_settings['seltab'] == 'dashboard')) class="active" @endif>
+          <a href="/">Dashboard</a>
+      </li>
+      <li @if(!empty($page_settings['seltab']) && ($page_settings['seltab'] == 'customers')) class="active" @endif>
+          <a href="#submenuClients" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Customers</a>
+          <ul class="@if(!empty($page_settings['seltab']) && ($page_settings['seltab'] == 'customers')) active @else collapse @endif list-unstyled" id="submenuClients">
+              <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'clients')) class="active" @endif>
+                  <a href="#">Clients</a>
+              </li>
+              <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'companies')) class="active" @endif>
+                  <a href="#">Companies</a>
+              </li>
+              <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'projects')) class="active" @endif>
+                  <a href="#">Projects</a>
+              </li>
+          </ul>
+      </li>
+      <li @if(!empty($page_settings['seltab']) && ($page_settings['seltab'] == 'transactions')) class="active" @endif>
+          <a href="#submenuTransactions" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Transactions</a>
+          <ul class="@if(!empty($page_settings['seltab']) && ($page_settings['seltab'] == 'transactions')) active @else collapse @endif list-unstyled" id="submenuTransactions">
+              <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'invoices')) class="active" @endif>
+                  <a href="#">Invoices</a>
+              </li>
+              <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'official')) class="active" @endif>
+                  <a href="#">Official Billing</a>
+              </li>
+              <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'services')) class="active" @endif>
+                  <a href="#">Services</a>
+              </li>
+          </ul>
+      </li>
+      <li @if(!empty($page_settings['seltab']) && ($page_settings['seltab'] == 'inventory')) class="active" @endif>
+
+          <a href="#submenuInventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Inventory</a>
+
+          <ul class="@if(!empty($page_settings['seltab']) && ($page_settings['seltab'] == 'inventory')) active @else collapse @endif list-unstyled" id="submenuInventory">
+              <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'consumables')) class="active" @endif>
+                  <a href="#">Consumables</a>
+              </li>
+              <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'tools')) class="active" @endif>
+                  <a href="#">Tools</a>
+              </li>
+              <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'machines')) class="active" @endif>
+                  <a href="#">Machines</a>
+              </li>
+          </ul>
+      </li>
+      <li @if(!empty($page_settings['seltab']) && ($page_settings['seltab'] == 'reports')) class="active" @endif>
+          <a href="#">Reports</a>
+      </li>
+  </ul>
+</nav>

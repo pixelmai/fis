@@ -165,7 +165,6 @@
     transition: all 0.3s;
 
 
-
     .sidebar-header {
       padding: 20px 10px;
       letter-spacing: 2px;
@@ -200,6 +199,9 @@
       li.active>a{
         color: #fff;
         background: $fuschia;
+        &:hover{
+          background: $fuschia;
+        }
       }
 
 
@@ -225,6 +227,15 @@
         &:hover{
           background: #8c2e61;
         }
+      }
+
+      li.active>a{
+        color: #fff;
+        background: darken(#8c2e61, 10%);
+        &:hover{
+          background: darken(#8c2e61, 10%);
+        }
+        
       }
     }
   }
