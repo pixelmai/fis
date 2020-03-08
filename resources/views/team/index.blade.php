@@ -9,7 +9,9 @@
         <h1 class="pt-1 pb-0">Team Members</h1>
       </div>
       <div>
-        <a href="team/add" class="btn btn-lg btn-success">Add Team Member</a>
+        @if($user->superadmin)
+          <a href="team/add" class="btn btn-lg btn-success">Add Team Member</a>
+        @endif
       </div>
     </div>
   </div>

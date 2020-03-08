@@ -36,7 +36,7 @@ class TeamController extends Controller
     if($user->superadmin){
       $team = User::orderBy('superadmin', 'DESC')->orderBy('is_active', 'DESC')->orderBy('superadmin', 'DESC')->orderBy('id','ASC')->paginate(10);
     }else{
-      $team = User::where('is_active', TRUE)->orderBy('id','ASC')->paginate(10);
+      $team = User::where('is_active', TRUE)->orderBy('superadmin', 'DESC')->orderBy('id','ASC')->paginate(10);
     }
   
 

@@ -2,8 +2,8 @@
   <div class="container-fluid">
 
     <button type="button" id="sidebarCollapse" class="btn btn-info">
-        <i class="fas fa-align-left"></i>
-        <!-- span>Toggle Sidebar</span -->
+      <i class="fas fa-align-left"></i>
+      <!-- span>Toggle Sidebar</span -->
     </button>
 
     <a href="#" class="d-inline-block d-lg-none ml-auto" data-toggle="collapse" data-target="#navbarMobileContent" aria-controls="navbarMobileContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,50 +37,75 @@
         </li>
 
 
-        @if (Auth::user()->superadmin)
+        
           <li class="nav-item superadmin">
-            <strong class="nav-caption">Super Admin</strong>
+            @if (Auth::user()->superadmin)
+              <strong class="nav-caption">Admin</strong>
+            @endif
           </li>
           <li class="nav-item superadmin">
             <a href="/team">
-              Manage Team
+               @if (Auth::user()->superadmin)
+                Manage Team 
+              @else
+                Team Members 
+              @endif
             </a>
           </li>
           <li class="nav-item superadmin">
-            <a href="/account">
-              App Settings
+            <a href="/appsettings">
+                @if (Auth::user()->superadmin)
+                  App Settings
+                @else
+                  App Information
+                @endif
             </a>
           </li>
-
-        @endif
+     
       </ul>
     </div>
 
 
     <div class="collapse navbar-collapse d-none d-lg-block d-xl-block" id="navbarLarge">
       <ul class="nav navbar-nav ml-auto">
-        @if (Auth::user()->superadmin)
+        
           <li class="nav-item dropdown">
             <a id="navBarDropdownAdmin" class="nav-link superadmin-icon" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
               <div class="pr-3">
-                <i class="fas fa-users-cog"></i>
+                @if (Auth::user()->superadmin)
+                  <i class="fas fa-users-cog"></i>
+                @else
+                  <i class="fas fa-info-circle"></i>
+                @endif
+
               </div>
             </a>
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navBarDropdownAdmin">
-              <h6 class="dropdown-header">Super Admin</h6>
-              <div class="dropdown-divider"></div>
+              @if (Auth::user()->superadmin)
+                <h6 class="dropdown-header">Administrator</h6>
+                <div class="dropdown-divider"></div>
+              @endif
+
               <a class="dropdown-item" href="/team">
-                Manage Team
+                 @if (Auth::user()->superadmin)
+                  Manage Team 
+                @else
+                  Team Members 
+                @endif
               </a>
 
-              <a class="dropdown-item" href="/account">
-                App Settings
+              <a class="dropdown-item" href="/appsettings">
+                @if (Auth::user()->superadmin)
+                  App Settings
+                @else
+                  App Information
+                @endif
+
               </a>
             </div>
           </li>
-        @endif
-
+       
         <li class="nav-item dropdown">
           <a id="navbarDropdown" class="nav-link user-image" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
             <div class="pl-3">
@@ -91,7 +116,7 @@
 
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
             <h6 class="dropdown-header">
-              {{ $user->fname }}
+              Hi, {{ $user->fname }}!
             </h6>
 
             <div class="dropdown-divider"></div>
