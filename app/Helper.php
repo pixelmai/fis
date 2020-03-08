@@ -24,3 +24,7 @@ function timeAgo($tm,$rcs = 0) {
    if(($rcs == 1)&&($v >= 1)&&(($cur_tm-$_tm) > 0)) $x .= time_ago($_tm);
    return $x;
 }
+
+function dateOnly($d) {
+ return date("F jS, Y", strtotime($d));
+}

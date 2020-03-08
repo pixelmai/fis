@@ -48,4 +48,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 	Route::post('/team/store', 'TeamController@store');
 /* Team Settings */
 
+/* App Settings */
+	Route::get('/appsettings', 'AppsettingsController@index')->name('appsettings.index');
+	Route::get('/appsettings/edit', 'AppsettingsController@edit')->name('appsettings.edit');
+	Route::patch('/appsettings/update', 'AppsettingsController@update')->name('appsettings.update');
 
+/* App Settings */
