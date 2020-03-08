@@ -58,15 +58,15 @@
                 </div>
 
 
-                <div class="row py-2">
-                  <div class="col-12">
-                    <a href="/appsettings/edit" class="btn btn-outline-primary btn-lg">
-                      Edit Information
-                    </a>
-
-
+                @if($user->superadmin)
+                  <div class="row py-2">
+                    <div class="col-12">
+                      <a href="/appsettings/edit" class="btn btn-outline-primary btn-lg">
+                        Edit Information
+                      </a>
+                    </div>
                   </div>
-                </div>
+                @endif
 
               </div>
 

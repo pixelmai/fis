@@ -57,9 +57,12 @@ class AppsettingsController extends Controller
   {
     //
     $user = auth()->user();
-    $appsettings = Appsettings::find(1);
-
-    return view('appsettings.edit', ['user' => $user, 'appsettings' => $appsettings]);
+    if($user->superadmin){
+      $appsettings = Appsettings::find(1);
+      return view('appsettings.edit', ['user' => $user, 'appsettings' => $appsettings]);
+    }else{
+      return redirect("/appsettings")->with(['status' => 'danger', 'message' => 'No permission to update App Settings']);
+    }
   }
 
   /**
@@ -104,26 +107,6 @@ class AppsettingsController extends Controller
       if($query){
         return redirect("/appsettings")->with(['status' => 'success', 'message' => 'Updated Application Settings Successfully']);
       }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }else{
       return redirect("/appsettings")->with(['status' => 'danger', 'message' => 'No permission to update App Settings']);
