@@ -93,7 +93,7 @@
             <div class="form-group row d-flex">
 
               <div class="col-6">
-                <label for="password" class="col-form-label text-md-right">{{ __('Password') }}</label>
+                <label for="password" class="col-form-label text-md-right">{{ __('Password') }} <span class="required">*</span></label>
                   <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
 
                   @error('password')
@@ -105,7 +105,7 @@
 
 
               <div class="col-6">
-                <label for="password-confirm" class="col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+                <label for="password-confirm" class="col-form-label text-md-right">{{ __('Confirm Password') }} <span class="required">*</span></label>
 
                
                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">

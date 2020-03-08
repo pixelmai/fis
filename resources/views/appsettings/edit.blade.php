@@ -100,7 +100,7 @@
 
             <div class="form-group row">
               <div class="col-12">
-                <label for="number" class="col-form-label">Address</label>
+                <label for="number" class="col-form-label">Address <span class="required">*</span></label>
 
               
                   <textarea id="address" 
