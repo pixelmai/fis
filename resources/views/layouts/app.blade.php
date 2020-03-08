@@ -118,7 +118,7 @@
                       </li>
 
                       <li class="nav-item">
-                        <a href="/account">
+                        <a href="/account/password">
                           Change Password
                         </a>
                       </li>
@@ -201,7 +201,7 @@
                           <a class="dropdown-item" href="/account">
                             View Profile
                           </a>
-                          <a class="dropdown-item" href="/account">
+                          <a class="dropdown-item" href="/account/password">
                             Change Password
                           </a>
 

@@ -29,3 +29,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/account', 'AccountsController@index')->name('account.index');
 Route::get('/account/edit', 'AccountsController@edit')->name('account.edit');
 Route::patch('/account/update', 'AccountsController@update');
+
+
+Route::get('/account/password', 'AccountsController@changePassword');
+Route::patch('/account/password', 'AccountsController@updatePassword')->name('update.password');
+
+

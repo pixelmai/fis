@@ -6,7 +6,12 @@ Use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
+
 use App\Rules\PhoneNumber;
+use App\Rules\MatchOldPassword;
+use Hash;
+
+
 
 class AccountsController extends Controller
 {
@@ -101,5 +106,33 @@ class AccountsController extends Controller
     }
 
   }
+
+  public function changePassword()
+  {
+    $user = auth()->user();
+    return view('accounts.changePassword', compact('user'));
+  }
+
+  public function updatePassword(Request $request)
+  {
+
+    $request->validate([
+        'current_password' => ['required', new MatchOldPassword],
+        'new_password' => ['required','min:8'],
+        'new_confirm_password' => ['same:new_password'],
+    ]);
+
+    $query = User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
+
+    if($query){
+      return redirect("/account")->with(['status' => 'success', 'message' => 'Password Changed Successfully.']);
+    }
+
+
+
+  }
+
+
+
 
 }

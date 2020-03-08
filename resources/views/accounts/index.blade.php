@@ -62,6 +62,11 @@
                     <a href="/account/edit" class="btn btn-outline-primary btn-lg">
                       Edit Profile
                     </a>
+
+                    <a href="/account/password" class="btn btn-outline-secondary btn-lg">
+                      Change Password
+                    </a>
+
                   </div>
                 </div>
 
