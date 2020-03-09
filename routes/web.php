@@ -20,6 +20,7 @@ Route::get('/', function () {
 */
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/bootapp', 'BootappController@index')->name('home');
 
 Auth::routes([
 	'register' => false, // Registration Routes...
