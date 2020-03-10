@@ -18,7 +18,7 @@
 
 
               <div class="form-group row">
-                <div class="col-6">
+                <div class="col-md-6">
                   <label for="current_password" class="col-form-label"> 
                     Current Password 
                     <span class="required">*</span></label>
@@ -39,7 +39,7 @@
 
 
             <div class="form-group row">
-              <div class="col-6">
+              <div class="col-md-6">
                 <label for="new_password" class="col-form-label"> 
                   New Password 
                   <span class="required">*</span></label>
@@ -60,7 +60,7 @@
 
 
             <div class="form-group row">
-              <div class="col-6">
+              <div class="col-md-6">
                 <label for="new_confirm_password" class="col-form-label"> 
                   Confirm Password 
                   <span class="required">*</span></label>

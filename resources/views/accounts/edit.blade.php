@@ -19,7 +19,7 @@
 
 
             <div class="form-group row d-flex">
-              <div class="col-6">
+              <div class="col-md-6">
                 <label for="fname" class="col-form-label">First Name <span class="required">*</span></label>
               
                   <input id="fname" 
@@ -36,7 +36,7 @@
                   @enderror
               </div>
 
-              <div class="col-6">
+              <div class="col-md-6">
                 <label for="lname" class="col-form-label">Last Name <span class="required">*</span></label>
               
                   <input id="lname" 
@@ -76,7 +76,7 @@
 
 
             <div class="form-group row d-flex">
-              <div class="col-6">
+              <div class="col-md-6">
                 <label for="number" class="col-form-label">Contact Number</label>
               
                   <input id="number" 
@@ -93,7 +93,7 @@
                   @enderror
               </div>
 
-              <div class="col-6">
+              <div class="col-md-6">
                 <label for="number" class="col-form-label">Position <span class="required">*</span></label>
 
               

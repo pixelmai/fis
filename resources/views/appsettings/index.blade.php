@@ -2,7 +2,6 @@
 @section('content')
 
 <div class="container pt-5">
-
   <div class="row justify-content-center">
     <div class="col-lg-8">
       <div class="card">
@@ -48,7 +47,7 @@
 
 
                   <div class="info-item">
-                    <strong>Last Updated:</strong>
+                    <strong>Last Updated by</strong>
                     {{ $settings_updater->fname }}
                     {{ $settings_updater->lname }}
                     on

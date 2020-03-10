@@ -19,7 +19,7 @@
 
 
             <div class="form-group row d-flex">
-              <div class="col-6">
+              <div class="col-md-6">
                 <label for="fname" class="col-form-label">First Name <span class="required">*</span></label>
               
                   <input id="fname" 
@@ -36,7 +36,7 @@
                   @enderror
               </div>
 
-              <div class="col-6">
+              <div class="col-md-6">
                 <label for="lname" class="col-form-label">Last Name <span class="required">*</span></label>
               
                   <input id="lname" 
@@ -56,13 +56,13 @@
 
             @if($team_member->id != 1 )
               <div class="form-group row d-flex">
-                <div class="col-6">
+                <div class="col-md-6">
                   <label for="setadmin" class="col-form-label">Set as Admin</label>
                 
                     <input type="checkbox" id="setadmin" name="setadmin" value="1" @if($team_member->superadmin == 1 ) checked @endif >
                 </div>
 
-                <div class="col-6">
+                <div class="col-md-6">
                   <label for="deactivate" class="col-form-label">Deactivate Account</label>
                 
                     <input type="checkbox" id="deactivate" name="deactivate" value="1" @if(!$team_member->is_active == 1 ) checked @endif >
@@ -93,7 +93,7 @@
 
 
             <div class="form-group row d-flex">
-              <div class="col-6">
+              <div class="col-md-6">
                 <label for="number" class="col-form-label">Contact Number</label>
               
                   <input id="number" 
@@ -110,7 +110,7 @@
                   @enderror
               </div>
 
-              <div class="col-6">
+              <div class="col-md-6">
                 <label for="number" class="col-form-label">Position <span class="required">*</span></label>
 
               

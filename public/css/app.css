@@ -10884,6 +10884,87 @@ a.text-dark:focus {
   }
 }
 
+/* LOGIN */
+
+#login_page {
+  height: 100vh;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background-image: url("/svg/dino_bg.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  color: #818181;
+}
+
+#login_page a {
+  color: #646079;
+}
+
+#login_page a:hover {
+  color: black;
+}
+
+#login_page #logo {
+  display: block;
+  height: 255px;
+  width: 255px;
+  margin: 0 auto;
+  background-image: url("/svg/logo.svg");
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+#login_page .card {
+  border: 1px solid #cbc8be;
+  background-color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0px 0px 11px 4px rgba(76, 70, 63, 0.1);
+  padding: 20px;
+}
+
+#login_page .card .card-header {
+  border: 0;
+  background: transparent;
+  color: #08041e;
+  font-size: 3em;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 2px;
+  line-height: 1em;
+}
+
+#login_page .card .card-header .sh {
+  font-size: 0.7em;
+  line-height: 1em;
+}
+
+#login_page .card .btn {
+  background: #c9166b;
+  border: 1px solid #b2135f;
+  font-size: 1.5em;
+}
+
+#login_page .card .btn:hover {
+  background: #e01977;
+}
+
+#login_page .card input[type=email]:focus,
+#login_page .card input[type=password]:focus {
+  background: #ffffe5;
+}
+
+#login_page .back-login {
+  padding-top: 30px;
+  display: block;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+/* LOGIN */
+
 /* TEMPLATE DESIGN */
 
 a,
@@ -11191,6 +11272,22 @@ a[data-toggle=collapse] {
 
 /* CARDS */
 
+#app .bh {
+  font-size: 2.3em;
+  font-weight: bold;
+  display: block;
+}
+
+#app .sh {
+  font-weight: normal;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #999;
+  font-size: 0.9em;
+  line-height: 1em;
+  display: block;
+}
+
 #app .card {
   border: 0;
   box-shadow: 0px 0px 11px 4px rgba(76, 70, 63, 0.1);
@@ -11205,27 +11302,13 @@ a[data-toggle=collapse] {
   padding-bottom: 0;
 }
 
-#app .card .card-header .bh {
-  font-size: 2.3em;
-  font-weight: bold;
-}
-
-#app .card .card-header .sh {
-  font-weight: normal;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #999;
-  font-size: 0.9em;
-  line-height: 1em;
-}
-
-#app .card .card-body h1 {
+#app .card-body h1 {
   color: #08041e;
   font-weight: bold;
 }
 
-#app .card input[type=email]:focus,
-#app .card input[type=password]:focus {
+#app input[type=email]:focus,
+#app input[type=password]:focus {
   background: #ffffe5;
 }
 
@@ -11323,5 +11406,55 @@ form label .required {
 #app .card.card-table table .deactivated {
   background: #f7f7f7;
   color: #999;
+}
+
+#app .card.card-table table .icon_menu a {
+  padding: 5px;
+  color: #111;
+}
+
+#app .card.card-table table .icon_menu a .fa-ban {
+  color: #e3342f;
+}
+
+#app .card.card-table table .icon_menu a .fa-check {
+  color: #38c172;
+}
+
+#app .settings_tab {
+  position: relative;
+  z-index: 999;
+}
+
+#app .settings_tab .sh {
+  padding-top: 12px;
+  padding-bottom: 10px;
+}
+
+#app .settings_tab .nav-tabs {
+  border-bottom: 0;
+}
+
+#app .settings_tab .nav-tabs .active,
+#app .settings_tab .nav-tabs .active:hover {
+  background: #fff;
+  border: 1px solid #dee2e6;
+  border-bottom: 1px solid #fff;
+  font-weight: bold;
+}
+
+#app .settings_tab .nav-tabs a:hover {
+  background: #eaecd7;
+  border: 1px solid #e1e4c6;
+  border-bottom: 1px solid #fff;
+}
+
+#app .settings_tab .nav-tabs a:focus-within {
+  border: 1px solid transparent;
+  border-bottom: 1px solid #fff;
+}
+
+.lh-1 {
+  line-height: 1em;
 }
 

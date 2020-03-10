@@ -22,7 +22,7 @@ function timeAgo($tm,$rcs = 0) {
 
    $no = floor($no); if($no <> 1) $pds[$v] .='s'; $x=sprintf("%d %s ",$no,$pds[$v]);
    if(($rcs == 1)&&($v >= 1)&&(($cur_tm-$_tm) > 0)) $x .= time_ago($_tm);
-   return $x;
+   return $x . " ago";
 }
 
 function dateOnly($d) {

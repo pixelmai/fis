@@ -49535,6 +49535,9 @@ $(document).ready(function () {
   setTimeout(function () {
     $("#app #content .alert").alert('close');
   }, 3000);
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
 });
 
 /***/ }),

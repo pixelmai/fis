@@ -54,4 +54,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('/appsettings/edit', 'AppsettingsController@edit')->name('appsettings.edit');
 	Route::patch('/appsettings/update', 'AppsettingsController@update')->name('appsettings.update');
 
+	Route::get('/categories', 'SectorsController@index')->name('sectors.index');
+
+	Route::get('/categories/sectors/create', 'SectorsController@create')->name('sectors.create');
+
+	Route::post('/categories/sectors/store', 'SectorsController@store')->name('sectors.store');
+
 /* App Settings */

@@ -58,7 +58,6 @@
                   <td>
                     @if($team_member->last_login)
                       {{ timeAgo(strtotime($team_member->last_login)) }}
-                      ago
                     @else
                       Never logged in
                     @endif

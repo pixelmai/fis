@@ -47,6 +47,7 @@
         </div>
       @endif
       
+
       <div class="content-area">
         @yield('content')
       </div>

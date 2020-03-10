@@ -8,11 +8,7 @@ use Illuminate\Http\Request;
 
 class BootappController extends Controller
 {
-  /**
-   * Display a listing of the resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
+
   public function index()
   {
 
@@ -24,10 +20,7 @@ class BootappController extends Controller
       'fname' => 'Charlotte Mae',
       'lname' => 'Efren',
       'email' => 'cursefury@gmail.com',
-      'number' => '091891234567',
-      'address' => 'Cebu City',
       'position' => 'UX Designer',
-      'skillset' => 'UI Design, UX Design, Front-end Programming, Illustration',
       'password' => '$2y$10$0exVx6HCj.khY42bZsjMPuUtMO7n5e02/iatuv/wFMKyAgoitlGmS',
       'superadmin'=> 1,
       ]);
@@ -37,7 +30,7 @@ class BootappController extends Controller
       if(!$appsettings){
         Appsettings::create([
         'name' => 'FABLAB UP Cebu',
-        'address' => '6000, 168 Gorordo Ave, Cebu City, 6000 Cebu',
+        'address' => 'Undergraduate Bldg., University of the Philippines Cebu, Gorordo Ave., Lahug, Cebu City 6000',
         'number' => '(032) 232 8187',
         'email' => 'fablab.upcebu@up.edu.ph',
         'manager' => 'Fidel Ricafranca',

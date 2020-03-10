@@ -19,13 +19,6 @@ class TeamController extends Controller
     $this->middleware('auth');
   }
   
-  /**
-   * Display a listing of the resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
-
-
   public function index(){
     //$posts = Post::whereIn('user_id', $users)->orderBy('created_at', 'DESC')->get();
     $user = auth()->user();
@@ -53,12 +46,6 @@ class TeamController extends Controller
     }
   }
 
-
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
   public function create()
   {
     $user = auth()->user();
@@ -71,16 +58,8 @@ class TeamController extends Controller
 
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
   public function store(Request $request)
   {
-    //
-
     $user = auth()->user();
 
     if(!$user->superadmin){
@@ -121,16 +100,8 @@ class TeamController extends Controller
 
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  \App\User  $user
-   * @return \Illuminate\Http\Response
-   */
   public function edit($tm)
   {
-    //
-
     $user = auth()->user();
     $team_member = User::find($tm);
 
@@ -147,17 +118,8 @@ class TeamController extends Controller
     }
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  \App\User  $user
-   * @return \Illuminate\Http\Response
-   */
   public function update($uid)
   {
-    //
-
     $user = User::find(auth()->user()->id);
     $team_member = User::find($uid);
 
@@ -181,18 +143,10 @@ class TeamController extends Controller
       if(request('image')){
 
         $imagePath = request('image')->store('profile','public');
-
         $image = Image::make(public_path("storage/{$imagePath}"))->fit(800, 800);
         $image->save();
         $team_member->image = $imagePath;
       }
-
-      /*
-      $user->update(array_merge(
-        $data,
-        $imageArray ?? []
-      ));
-      */
 
       $team_member->fname = $data['fname'];
       $team_member->lname = $data['lname'];
@@ -231,7 +185,6 @@ class TeamController extends Controller
 
   public function activate($uid)
   {
-    //
     $user = User::find(auth()->user()->id);
     $team_member = User::find($uid);
 
@@ -254,7 +207,6 @@ class TeamController extends Controller
 
   public function deactivate($uid)
   {
-    //
     $user = User::find(auth()->user()->id);
     $team_member = User::find($uid);
 
@@ -277,7 +229,6 @@ class TeamController extends Controller
 
 
   public function canUpdate(User $tm){
-
     $user = auth()->user();
     $result = false;
     if($user->superadmin){

@@ -14,11 +14,6 @@ use Hash;
 
 class AccountsController extends Controller
 {
-  /**
-   * Create a new controller instance.
-   *
-   * @return void
-   */
 
   public function __construct()
   {
@@ -26,19 +21,11 @@ class AccountsController extends Controller
 
   }
 
-  /**
-   * Show the application dashboard.
-   *
-   * @return \Illuminate\Contracts\Support\Renderable
-   */
-
-
   public function index()
   {
     $user = auth()->user();
     return view('accounts.index', compact('user'));
   }
-
 
   public function edit()
   {
@@ -46,13 +33,10 @@ class AccountsController extends Controller
     return view('accounts.edit', compact('user'));
   }
 
-
-
   public function update()
   {
 
     $user = User::find(auth()->user()->id);
-
 
     $data = request()->validate([
       'image' => '',
@@ -69,7 +53,6 @@ class AccountsController extends Controller
     if(request('image')){
 
       $imagePath = request('image')->store('profile','public');
-
       $image = Image::make(public_path("storage/{$imagePath}"))->fit(800, 800);
       $image->save();
       $user->image = $imagePath;
@@ -119,11 +102,6 @@ class AccountsController extends Controller
       return redirect("/account")->with(['status' => 'success', 'message' => 'Password Changed Successfully.']);
     }
 
-
-
   }
-
-
-
 
 }

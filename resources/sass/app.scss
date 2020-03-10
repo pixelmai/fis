@@ -8,6 +8,90 @@
 @import '~bootstrap/scss/bootstrap';
 
 
+
+/* LOGIN */
+  #login_page{
+    height: 100vh;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    background-image: url('/svg/dino_bg.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    color: #818181;
+
+    a{
+      color: $light_links;
+
+      &:hover{
+        color: darken($light_links, 50%);
+      }
+    }
+
+    #logo{
+      display: block;
+      height: 255px;
+      width: 255px;
+      margin: 0 auto;
+      background-image: url('/svg/logo.svg');
+      background-size: 100%;
+      background-repeat: no-repeat;
+    }
+
+    .card{
+      border: 1px solid #cbc8be;
+      background-color: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.7);
+      -webkit-box-shadow: 0px 0px 11px 4px rgba(76,70,63,0.1);
+      -moz-box-shadow: 0px 0px 11px 4px rgba(76,70,63,0.1);
+      box-shadow: 0px 0px 11px 4px rgba(76,70,63,0.1);
+      padding: 20px;
+
+
+      .card-header{
+        border: 0;
+        background: transparent;
+        color: #08041e;
+        font-size: 3em;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-align: center;
+        letter-spacing: 2px;
+        line-height: 1em;
+
+        .sh{
+          font-size: .7em;
+          line-height: 1em;
+        }
+      }
+
+      .btn{
+        background: $fuschia;
+        border: 1px solid darken($fuschia, 5%);
+        font-size: 1.5em;
+
+        &:hover{
+          background: lighten($fuschia, 5%);
+        }
+      }
+
+      input[type=email], input[type=password]{
+        &:focus{
+          background: #ffffe5;
+        }
+      }
+    }
+
+    .back-login{
+      padding-top: 30px;
+      display: block;
+      text-align: center;
+      font-size: 1.2em;
+    }
+  }
+/* LOGIN */
+
 /* TEMPLATE DESIGN */
   a,
   a:hover,
@@ -340,7 +424,23 @@
 
 /* CARDS */
   #app{
-   
+
+    .bh{
+      font-size: 2.3em;
+      font-weight: bold;
+      display: block;
+    }
+
+    .sh{
+      font-weight: normal;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #999;
+      font-size: .9em;
+      line-height: 1em;
+      display: block;
+    }
+
     .card{
       border: 0;
       -webkit-box-shadow: 0px 0px 11px 4px rgba(76,70,63,0.1);
@@ -349,45 +449,31 @@
       padding: 20px;
       font-size: 1.1em;
 
-
       .card-header{
         border: 0;
         background: transparent;
         color: $text_dviolet;
         padding-bottom: 0;
-
-        .bh{
-          font-size: 2.3em;
-          font-weight: bold;
-        }
-
-        .sh{
-          font-weight: normal;
-          letter-spacing: 2px;
-          text-transform: uppercase;
-          color: #999;
-          font-size: .9em;
-          line-height: 1em;
-        }
-      }
-
-      .card-body{
-        h1{
-          color: $text_dviolet;
-          font-weight: bold;
-        }
-      }
-
-
-
-      input[type=email], input[type=password]{
-        &:focus{
-          background: #ffffe5;
-        }
       }
     }
 
+    .card-body{
+      h1{
+        color: $text_dviolet;
+        font-weight: bold;
+      }
+    }
+
+
+
+    input[type=email], input[type=password]{
+      &:focus{
+        background: #ffffe5;
+      }
+    }
   }
+
+  
 /* CARDS */
 
 
@@ -458,7 +544,6 @@
 
 
 #app {
-
   .card.card-table{
     padding: 0;
     table{
@@ -486,6 +571,64 @@
         background: #f7f7f7;
         color: #999;
       }
+
+      .icon_menu{
+        a{
+          padding: 5px;
+          color: #111;
+
+          .fa-ban{
+            color: $red;
+          }
+
+          .fa-check{
+            color: $green;
+          }
+        }
+      }
     }
   }
+
+  .settings_tab{
+    position: relative;
+    z-index: 999;
+
+    .sh{
+      padding-top: 12px;
+      padding-bottom: 10px;
+    }
+
+    .nav-tabs{
+      border-bottom: 0;
+
+      .active, .active:hover{
+        background: #fff;
+        border: 1px solid #dee2e6;
+        border-bottom: 1px solid #fff;
+        font-weight: bold;
+      }
+
+      a{
+        &:hover{
+          background: darken($body-bg, 5%);
+          border: 1px solid darken($body-bg, 10%);
+          border-bottom: 1px solid #fff;
+        }
+
+        &:focus-within{
+          border: 1px solid transparent;
+          border-bottom: 1px solid #fff;
+        }
+      }
+    }
+  }
+
+
+}
+
+
+
+
+.lh-1{
+  line-height: 1em;
 }

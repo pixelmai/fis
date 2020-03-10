@@ -61,7 +61,13 @@
                 @endif
             </a>
           </li>
-     
+          @if (Auth::user()->superadmin)
+            <li class="nav-item superadmin">
+              <a href="/categories">
+                Data Categories
+              </a>
+            </li>
+          @endif
       </ul>
     </div>
 
@@ -103,6 +109,13 @@
                 @endif
 
               </a>
+
+              @if (Auth::user()->superadmin)
+                <a class="dropdown-item" href="/categories">
+                    Data Categories
+                </a>
+              @endif
+
             </div>
           </li>
        
