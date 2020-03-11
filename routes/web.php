@@ -20,44 +20,52 @@ Route::get('/', function () {
 */
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('/bootapp', 'BootappController@index')->name('home');
+Route::get('/bootapp', 'BootappController@index')->name('bootapp');
 
 Auth::routes([
-	'register' => false, // Registration Routes...
+  'register' => false, // Registration Routes...
 ]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 
 /* Account Settings */
-	Route::get('/account', 'AccountsController@index')->name('account.index');
-	Route::get('/account/edit', 'AccountsController@edit')->name('account.edit');
-	Route::patch('/account/update', 'AccountsController@update');
-	Route::get('/account/password', 'AccountsController@changePassword');
-	Route::patch('/account/password', 'AccountsController@updatePassword')->name('update.password');
+  Route::get('/account', 'AccountsController@index')->name('account.index');
+  Route::get('/account/edit', 'AccountsController@edit');
+  Route::patch('/account/update', 'AccountsController@update');
+  Route::get('/account/password', 'AccountsController@changePassword');
+  Route::patch('/account/password', 'AccountsController@updatePassword');
 /* Account Settings */
 
 
 /* Team Settings */
-	Route::get('/team', 'TeamController@index')->name('team.index');
-	Route::get('/team/profile/{user}', 'TeamController@profile')->name('team.profile');
-	Route::get('/team/edit/{user}', 'TeamController@edit')->name('team.edit');
-	Route::patch('/team/update/{user}', 'TeamController@update');
-	Route::get('/team/activate/{user}', 'TeamController@activate')->name('team.activate');
-	Route::get('/team/deactivate/{user}', 'TeamController@deactivate')->name('team.deactivate');
-	Route::get('/team/create', 'TeamController@create');
-	Route::post('/team/store', 'TeamController@store');
+  Route::get('/team', 'TeamController@index')->name('team.index');
+  Route::get('/team/profile/{user}', 'TeamController@profile')->name('team.profile');
+  Route::get('/team/edit/{user}', 'TeamController@edit');
+  Route::patch('/team/update/{user}', 'TeamController@update');
+  Route::get('/team/activate/{user}', 'TeamController@activate');
+  Route::get('/team/deactivate/{user}', 'TeamController@deactivate');
+  Route::get('/team/create', 'TeamController@create');
+  Route::post('/team/store', 'TeamController@store');
 /* Team Settings */
 
 /* App Settings */
-	Route::get('/appsettings', 'AppsettingsController@index')->name('appsettings.index');
-	Route::get('/appsettings/edit', 'AppsettingsController@edit')->name('appsettings.edit');
-	Route::patch('/appsettings/update', 'AppsettingsController@update')->name('appsettings.update');
+  Route::get('/appsettings', 'AppsettingsController@index')->name('appsettings.index');
+  Route::get('/appsettings/edit', 'AppsettingsController@edit');
+  Route::patch('/appsettings/update', 'AppsettingsController@update');
 
-	Route::get('/categories', 'SectorsController@index')->name('sectors.index');
 
-	Route::get('/categories/sectors/create', 'SectorsController@create')->name('sectors.create');
 
-	Route::post('/categories/sectors/store', 'SectorsController@store')->name('sectors.store');
+  Route::get('/categories', 'AppsettingsController@categories')->name('categories.index');
+  Route::get('/categories/sectors', 'SectorsController@index')->name('sectors.index');
+  Route::get('/categories/sectors/create', 'SectorsController@create');
+  Route::post('/categories/sectors/store', 'SectorsController@store');
+  Route::get('/categories/sectors/edit/{tid}', 'SectorsController@edit');
+  Route::patch('/categories/sectors/update/{tid}', 'SectorsController@update');
+
+  Route::get('/categories/sectors/deactivate/{tid}', 'SectorsController@deactivate');
+
+  Route::get('/categories/sectors/activate/{tid}', 'SectorsController@activate');
+
 
 /* App Settings */

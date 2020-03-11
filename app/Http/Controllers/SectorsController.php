@@ -10,16 +10,29 @@ class SectorsController extends Controller
 {
 
 
+  private $cat_settings;
+  private $unauth;
+
+  public function __construct()
+  {
+    //Page repeated defaults
+    $this->cat_settings['seltab'] = 'sectors';
+    $this->homeLink = '/categories';
+    $this->unauth = '/home';
+    $this->unauthMsg = 'No permission to Type Categories';
+  }
+
+
   public function index()
   {
     $user = auth()->user();
     if($user->superadmin){
-      $cat_settings['seltab'] = 'sectors';
+
       $cat_types = Sectors::orderBy('is_active', 'DESC')->orderBy('name', 'ASC')->paginate(20);
 
-      return view('appsettings.categories.index', ['user' => $user, 'cat_settings'=> $cat_settings,'cat_types'=>$cat_types]);
+      return view('appsettings.categories.sectors.index', ['user' => $user, 'cat_settings'=> $this->cat_settings,'cat_types'=>$cat_types]);
     }else{
-      return redirect("/home")->with(['status' => 'danger', 'message' => 'No permission to edit types']);
+      return notifyRedirect($this->unauth, $this->unauthMsg, 'danger');
     }
   }
 
@@ -27,29 +40,22 @@ class SectorsController extends Controller
   public function create()
   {
     $user = auth()->user();
-    $cat_settings['seltab'] = 'sectors';
 
     if($user->superadmin){
-      return view('appsettings.categories.create', ['user' => $user, 'cat_settings'=> $cat_settings]);
+      return view('appsettings.categories.sectors.create', ['user' => $user, 'cat_settings'=> $this->cat_settings]);
     }else{
-      return redirect("/home")->with(['status' => 'danger', 'message' => 'No permission to edit types']);
+      return notifyRedirect($this->unauth, $this->unauthMsg, 'danger');
     }
 
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
   public function store(Request $request)
   {
 
     $user = auth()->user();
 
     if(!$user->superadmin){
-      return redirect("/team")->with(['status' => 'danger', 'message' => 'No permission to create data types']);
+      return notifyRedirect($this->unauth, $this->unauthMsg, 'danger');
     }
 
     $data = request()->validate([
@@ -69,55 +75,88 @@ class SectorsController extends Controller
 
 
     if($query){
-      return redirect("/categories")->with(['status' => 'success', 'message' => 'Created Type Successfully']);
+      return notifyRedirect($this->homeLink, 'Added a type category successfully', 'success');
     }
 
-
-
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  \App\Sectors  $sectors
-   * @return \Illuminate\Http\Response
-   */
-  public function show(Sectors $sectors)
+  public function edit($tid)
   {
-    //
+    $user = auth()->user();
+    $cat_type = Sectors::find($tid);
+
+    if($user->superadmin && $cat_type){
+      return view('appsettings.categories.sectors.edit', ['user' => $user, 'cat_type' => $cat_type, 'cat_settings'=> $this->cat_settings]);
+    }else{
+      return notifyRedirect($this->unauth, $this->unauthMsg, 'danger');
+    }
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  \App\Sectors  $sectors
-   * @return \Illuminate\Http\Response
-   */
-  public function edit(Sectors $sectors)
+  public function update($tid)
   {
-    //
+
+    $user = auth()->user();
+    $cat_type = Sectors::find($tid);
+
+    if($user->superadmin && $cat_type){
+      $data = request()->validate([
+        'name' => 'required',
+        'description' => 'required',
+      ]);
+
+      $cat_type->name = $data['name'];
+      $cat_type->description = $data['description'];
+      
+      $query = $cat_type->update();
+
+      if($query){
+        return notifyRedirect($this->homeLink, 'Updated '. $cat_type->name .' type successfully', 'success');
+      }
+
+    }else{
+      return notifyRedirect($this->unauth, $this->unauthMsg, 'danger');
+    }
+
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  \App\Sectors  $sectors
-   * @return \Illuminate\Http\Response
-   */
-  public function update(Request $request, Sectors $sectors)
+ 
+  public function deactivate($tid)
   {
-    //
+    $user = auth()->user();
+    $cat_type = Sectors::find($tid);
+
+    if($user->superadmin && $cat_type){
+
+      $cat_type->is_active = 0;
+      $query = $cat_type->update();
+
+      if($query){
+        return notifyRedirect($this->homeLink, 'Deactivated '. $cat_type->name .' type successfully', 'success');
+      }
+
+    }else{
+      return notifyRedirect($this->unauth, $this->unauthMsg, 'danger');
+    }
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  \App\Sectors  $sectors
-   * @return \Illuminate\Http\Response
-   */
-  public function destroy(Sectors $sectors)
+  public function activate($tid)
   {
-    //
+    $user = auth()->user();
+    $cat_type = Sectors::find($tid);
+
+    if($user->superadmin && $cat_type){
+
+      $cat_type->is_active = 1;
+      $query = $cat_type->update();
+
+      if($query){
+        return notifyRedirect($this->homeLink, 'Activated '. $cat_type->name .' type successfully', 'success');
+      }
+
+    }else{
+      return notifyRedirect($this->unauth, $this->unauthMsg, 'danger');
+    }
   }
+
+
 }

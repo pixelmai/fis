@@ -69,4 +69,16 @@ class AppsettingsController extends Controller
 
   }
 
+
+  public function categories(){
+    $user = auth()->user();
+    if($user->superadmin){
+      $cat_settings['seltab'] = 'info';
+      return view('appsettings.categories.index', ['user' => $user, 'cat_settings'=> $cat_settings]);
+    }else{
+      return notifyRedirect($this->unauth, $this->unauthMsg, 'danger');
+    }
+  }
+
+
 }

@@ -2,16 +2,7 @@
 @section('content')
 
 <div class="container pt-5">
-  <div class="row settings_tab justify-content-center">
-    <div class="col-lg-8">
-      <div class="d-lg-flex justify-content-between">
-        <div class="sh">Data Categories</div>
-        <div>
-          @include('layouts.appsettings_tab')
-        </div>
-      </div>
-    </div>
-  </div>
+  @include('layouts.appsettings_tab')
   <div class="row justify-content-center">
 
     <div class="col-lg-8">

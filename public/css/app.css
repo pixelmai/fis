@@ -11225,49 +11225,6 @@ a[data-toggle=collapse] {
   transition: all 0.3s;
 }
 
-/* ---------------------------------------------------
-  MEDIAQUERIES
------------------------------------------------------ */
-
-@media (min-width: 769px) {
-  #content main {
-    margin-left: 250px;
-    transition: all 0.3s;
-    z-index: 99;
-    position: relative;
-  }
-
-  .navbar {
-    margin-left: 250px;
-    transition: all 0.3s;
-  }
-}
-
-@media (max-width: 768px) {
-  .fixed-position {
-    position: fixed;
-    margin-top: 64px;
-    left: 0;
-  }
-
-  #sidebar {
-    margin-left: -250px;
-  }
-
-  #sidebar.active {
-    margin-left: 0;
-  }
-
-  #sidebarCollapse span {
-    display: none;
-  }
-
-  #content main {
-    margin-left: 0;
-    transition: all 0.3s;
-  }
-}
-
 /* TEMPLATE DESIGN */
 
 /* CARDS */
@@ -11423,7 +11380,7 @@ form label .required {
 
 #app .settings_tab {
   position: relative;
-  z-index: 999;
+  z-index: 101;
 }
 
 #app .settings_tab .sh {
@@ -11457,4 +11414,56 @@ form label .required {
 .lh-1 {
   line-height: 1em;
 }
+
+/* ---------------------------------------------------
+  MEDIAQUERIES
+----------------------------------------------------- */
+
+@media (min-width: 769px) {
+  #content main {
+    margin-left: 250px;
+    transition: all 0.3s;
+    z-index: 99;
+    position: relative;
+  }
+
+  .navbar {
+    margin-left: 250px;
+    transition: all 0.3s;
+  }
+}
+
+@media (max-width: 768px) {
+  .fixed-position {
+    position: fixed;
+    margin-top: 64px;
+    left: 0;
+  }
+
+  #sidebar {
+    margin-left: -250px;
+  }
+
+  #sidebar.active {
+    margin-left: 0;
+  }
+
+  #sidebarCollapse span {
+    display: none;
+  }
+
+  #content main {
+    margin-left: 0;
+    transition: all 0.3s;
+  }
+
+  #app .settings_tab .nav-tabs li a {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+/* ---------------------------------------------------
+  MEDIAQUERIES
+----------------------------------------------------- */
 

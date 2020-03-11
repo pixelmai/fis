@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Appsettings;
+use App\Sectors;
 use Illuminate\Http\Request;
 
 class BootappController extends Controller
@@ -11,10 +12,10 @@ class BootappController extends Controller
 
   public function index()
   {
-
+    $s = FALSE;
+    // PRIMARY ADMIN CREATION
 
     $user = User::find(1);
-
     if(!$user){
       User::create([
       'fname' => 'Charlotte Mae',
@@ -25,27 +26,47 @@ class BootappController extends Controller
       'superadmin'=> 1,
       ]);
 
-      $appsettings = Appsettings::find(1);
+      $s = TRUE;
+    }
 
-      if(!$appsettings){
-        Appsettings::create([
-        'name' => 'FABLAB UP Cebu',
-        'address' => 'Undergraduate Bldg., University of the Philippines Cebu, Gorordo Ave., Lahug, Cebu City 6000',
-        'number' => '(032) 232 8187',
-        'email' => 'fablab.upcebu@up.edu.ph',
-        'manager' => 'Fidel Ricafranca',
-        'user_id' => 1,
-        ]);
-      }
+    // APP SETTING DEFAULTS
+    $appsettings = Appsettings::find(1);
+    if(!$appsettings){
+      Appsettings::create([
+      'name' => 'FABLAB UP Cebu',
+      'address' => 'Undergraduate Bldg., University of the Philippines Cebu, Gorordo Ave., Lahug, Cebu City 6000',
+      'number' => '(032) 232 8187',
+      'email' => 'fablab.upcebu@up.edu.ph',
+      'manager' => 'Fidel Ricafranca',
+      'user_id' => 1,
+      ]);
 
-
-      dd('Successfully setup primary database items');
-
+      $s = TRUE;
     }
 
 
+    // SECTORS LIST
+    $sectors = Sectors::find(1);
+    if(!$sectors){
+      Sectors::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Creative']);
+      Sectors::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Furniture']);
+      Sectors::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'GDH', 'description' => 'Gifts, Décor, and Houseware industry']);
+      Sectors::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Wearables']);
+      Sectors::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Food']);
+      Sectors::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Others']);
 
+      $s = TRUE;
+    }
+
+    if($s){
+      dd('Successfully setup primary database items');
+    } else{
+      dd('Nothing to add');
+    }
+    
   }
+
+
 
    
 }
