@@ -12,6 +12,4 @@ class Sectors extends Model
 	protected $fillable = [
 	'name', 'description', 'updatedby_id', 
 	];
-
-
 }

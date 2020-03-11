@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Appsettings;
-use App\Sectors;
 use App\Partners;
+use App\Sectors;
+use App\Servcats;
 use Illuminate\Http\Request;
 
 class BootappController extends Controller
@@ -45,7 +46,6 @@ class BootappController extends Controller
       $s = TRUE;
     }
 
-
     // SECTORS LIST
     $sectors = Sectors::find(1);
     if(!$sectors){
@@ -60,7 +60,7 @@ class BootappController extends Controller
     }
 
 
-    // SECTORS LIST
+    // PARTNERS LIST
     $partners = Partners::find(1);
     if(!$partners){
       Partners::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'GOV', 'description' => 'Government' ]);
@@ -69,6 +69,15 @@ class BootappController extends Controller
       $s = TRUE;
     }
 
+
+    // SECTORS LIST
+    $servcats = Servcats::find(1);
+    if(!$servcats){
+      Servcats::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Machine Use']);
+      Servcats::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Tour']);
+      Servcats::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Consultation']);
+      $s = TRUE;
+    }
 
     if($s){
       dd('Successfully setup primary database items');

@@ -23,7 +23,13 @@
 
           <h4><a href="/categories/partners">Partners</a></h4>
           <p>
-            Used to categorize <strong>companies and institutions</strong> that have partnerships with FABLAB. Types are: GOV, NGO, COMMERCIAL
+            Used to categorize <strong>Companies and Institutions</strong> that have partnerships with FABLAB. Default types are: GOV  / NGO / COMMERCIAL
+          </p>
+
+
+          <h4><a href="/categories/services">Services</a></h4>
+          <p>
+            Used to categorize the <strong>Services Offered</strong> by FABLAB. Default types are: Machine Use / Consultation / Tour
           </p>
 
         </div>
