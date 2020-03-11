@@ -86,4 +86,24 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/categories/services/deactivate/{tid}', 'ServcatsController@deactivate');
   Route::get('/categories/services/activate/{tid}', 'ServcatsController@activate');
 
+  //Registrations
+  Route::get('/categories/registrations', 'RegcatsController@index')->name('registrations.index');
+
+  Route::get('/categories/registrations', 'RegcatsController@index')->name('registrations.index');
+  Route::get('/categories/registrations/create', 'RegcatsController@create');
+  Route::post('/categories/registrations/store', 'RegcatsController@store');
+  Route::get('/categories/registrations/edit/{tid}', 'RegcatsController@edit');
+  Route::patch('/categories/registrations/update/{tid}', 'RegcatsController@update');
+  Route::get('/categories/registrations/deactivate/{tid}', 'RegcatsController@deactivate');
+  Route::get('/categories/registrations/activate/{tid}', 'RegcatsController@activate');
+
+
+  Route::get('/categories/registrations/msmecreate', 'RegcatsController@msmecreate');
+  Route::post('/categories/registrations/msmestore', 'RegcatsController@msmestore');
+  Route::get('/categories/registrations/msmeedit/{tid}', 'RegcatsController@msmeedit');
+  Route::patch('/categories/registrations/msmeupdate/{tid}', 'RegcatsController@msmeupdate');
+  Route::get('/categories/registrations/msmedeactivate/{tid}', 'RegcatsController@msmedeactivate');
+  Route::get('/categories/registrations/msmeactivate/{tid}', 'RegcatsController@msmeactivate');
+
+
 /* App Settings */

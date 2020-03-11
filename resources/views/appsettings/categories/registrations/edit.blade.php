@@ -9,13 +9,13 @@
       <div class="card">
         <div class="card-header">
           <div class="d-flex justify-content-between">
-            <div class="bh">Edit Services Type</div>
+            <div class="bh">Edit MSME Type</div>
           </div>
         </div>
 
         <div class="card-body">
 
-          <form action="/categories/services/update/{{ $cat_type->id }}" enctype="multipart/form-data" method="POST">
+          <form action="/categories/registrations/update/{{ $cat_type->id }}" enctype="multipart/form-data" method="POST">
               @csrf
               @method('PATCH')
 
@@ -39,6 +39,28 @@
               </div>
 
             </div>
+
+
+            <div class="form-group row">
+              <div class="col-md-6">
+                <label for="msme_types" class="col-form-label">MSME Classification <span class="required">*</span></label>
+
+                <select id="msme_types" name="msme_types" class="form-control @error('$msme_types') is-invalid @enderror" autofocus>
+
+                  @foreach($msme_types as $msme_type)
+                    <option value="{{ $msme_type->id }}" @if($cat_type->regmsmes_id == $msme_type->id) selected @endif >{{ $msme_type->name }}</option>
+                  @endforeach
+                </select>
+
+
+                @error('$msme_types')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+              </div>
+            </div>
+
 
 
             <div class="form-group row">

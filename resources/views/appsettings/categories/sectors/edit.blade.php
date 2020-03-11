@@ -62,7 +62,7 @@
 
             <div class="row py-2">
               <div class="col-12">
-                <button class="btn btn-primary btn-lg">Create Type</button>
+                <button class="btn btn-primary btn-lg">Update Type</button>
               </div>
             </div>
 

@@ -9,13 +9,13 @@
       <div class="card">
         <div class="card-header">
           <div class="d-flex justify-content-between">
-            <div class="bh">Edit Services Type</div>
+            <div class="bh">Edit MSME Type</div>
           </div>
         </div>
 
         <div class="card-body">
 
-          <form action="/categories/services/update/{{ $cat_type->id }}" enctype="multipart/form-data" method="POST">
+          <form action="/categories/registrations/msmeupdate/{{ $cat_type->id }}" enctype="multipart/form-data" method="POST">
               @csrf
               @method('PATCH')
 

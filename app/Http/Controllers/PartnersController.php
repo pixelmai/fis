@@ -26,7 +26,7 @@ class PartnersController extends Controller
     $user = auth()->user();
     if($user->superadmin){
 
-      $cat_types = Partners::orderBy('is_active', 'DESC')->orderBy('name', 'ASC')->paginate(20);
+      $cat_types = Partners::orderBy('is_active', 'DESC')->orderBy('id', 'ASC')->paginate(20);
 
       return view('appsettings.categories.partners.index', ['user' => $user, 'cat_settings'=> $this->cat_settings,'cat_types'=>$cat_types]);
     }else{
@@ -117,7 +117,6 @@ class PartnersController extends Controller
 
   }
 
- 
   public function deactivate($tid)
   {
     $user = auth()->user();

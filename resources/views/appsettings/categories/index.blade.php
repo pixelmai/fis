@@ -18,19 +18,49 @@
         <div class="card-body">
           <h4><a href="/categories/sectors">Sectors</a></h4>
           <p>
-            Used in the <strong>FABLAB UP Cebu Prototypes Developed Update Report</strong> for DTI. Sector categories includes labels such as Creative / Furniture / GDH / Wearables / Food / etc.
+            Used in the <strong>FABLAB UP Cebu Prototypes Developed Update Report</strong> for DTI. <br>Default types includes:
           </p>
+
+          <ul>
+            <li>Creative</li>
+            <li>Furniture</li>
+            <li>GDH</li>
+            <li>Wearables</li>
+            <li>Food</li>
+          </ul>
 
           <h4><a href="/categories/partners">Partners</a></h4>
           <p>
-            Used to categorize <strong>Companies and Institutions</strong> that have partnerships with FABLAB. Default types are: GOV  / NGO / COMMERCIAL
+            Used to categorize <strong>Companies and Institutions</strong> that have partnerships with FABLAB. <br>Default types are: 
           </p>
-
+          <ul>
+            <li>GOV</li>
+            <li>NGO</li>
+            <li>Commercial</li>
+          </ul>
 
           <h4><a href="/categories/services">Services</a></h4>
           <p>
-            Used to categorize the <strong>Services Offered</strong> by FABLAB. Default types are: Machine Use / Consultation / Tour
+            Used to categorize the <strong>Services Offered</strong> by FABLAB. <br>Default types are:
           </p>
+
+          <ul>
+            <li>Machine Use</li>
+            <li>Consultation</li>
+            <li>Tour</li>
+          </ul>
+
+          <h4><a href="/categories/registrations">Registrations</a></h4>
+          <p>
+            Classifies the <strong>registration status and potential</strong> of the client. <br>Default values are: 
+          </p>
+          <ul>
+            <li>Registered (DTI / SEC / CDA)</li>
+            <li>Unregistered</li>
+            <li>Potential (Students/Hobbyist))</li>
+          </ul>
+
+
 
         </div>
 
