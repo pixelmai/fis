@@ -76,4 +76,14 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/categories/partners/deactivate/{tid}', 'PartnersController@deactivate');
   Route::get('/categories/partners/activate/{tid}', 'PartnersController@activate');
 
+
+  //Services
+  Route::get('/categories/services', 'ServcatsController@index')->name('services.index');
+  Route::get('/categories/services/create', 'ServcatsController@create');
+  Route::post('/categories/services/store', 'ServcatsController@store');
+  Route::get('/categories/services/edit/{tid}', 'ServcatsController@edit');
+  Route::patch('/categories/services/update/{tid}', 'ServcatsController@update');
+  Route::get('/categories/services/deactivate/{tid}', 'ServcatsController@deactivate');
+  Route::get('/categories/services/activate/{tid}', 'ServcatsController@activate');
+
 /* App Settings */
