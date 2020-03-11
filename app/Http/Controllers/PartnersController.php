@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Sectors;
+use App\Partners;
 use Illuminate\Http\Request;
 
-class SectorsController extends Controller
+class PartnersController extends Controller
 {
   private $cat_settings;
   private $unauth;
@@ -14,8 +14,8 @@ class SectorsController extends Controller
   public function __construct()
   {
     //Page repeated defaults
-    $this->cat_settings['seltab'] = 'sectors';
-    $this->homeLink = '/categories/sectors';
+    $this->cat_settings['seltab'] = 'partners';
+    $this->homeLink = '/categories/partners';
     $this->unauth = '/home';
     $this->unauthMsg = 'No permission to Type Categories';
   }
@@ -26,9 +26,9 @@ class SectorsController extends Controller
     $user = auth()->user();
     if($user->superadmin){
 
-      $cat_types = Sectors::orderBy('is_active', 'DESC')->orderBy('name', 'ASC')->paginate(20);
+      $cat_types = partners::orderBy('is_active', 'DESC')->orderBy('name', 'ASC')->paginate(20);
 
-      return view('appsettings.categories.sectors.index', ['user' => $user, 'cat_settings'=> $this->cat_settings,'cat_types'=>$cat_types]);
+      return view('appsettings.categories.partners.index', ['user' => $user, 'cat_settings'=> $this->cat_settings,'cat_types'=>$cat_types]);
     }else{
       return notifyRedirect($this->unauth, $this->unauthMsg, 'danger');
     }
@@ -40,7 +40,7 @@ class SectorsController extends Controller
     $user = auth()->user();
 
     if($user->superadmin){
-      return view('appsettings.categories.sectors.create', ['user' => $user, 'cat_settings'=> $this->cat_settings]);
+      return view('appsettings.categories.partners.create', ['user' => $user, 'cat_settings'=> $this->cat_settings]);
     }else{
       return notifyRedirect($this->unauth, $this->unauthMsg, 'danger');
     }
@@ -64,7 +64,7 @@ class SectorsController extends Controller
     $data['is_active'] = 1;
 
 
-    $query = Sectors::create([
+    $query = Partners::create([
       'name' => $data['name'],
       'description' => $data['description'],
       'is_active' => 1,
@@ -81,10 +81,10 @@ class SectorsController extends Controller
   public function edit($tid)
   {
     $user = auth()->user();
-    $cat_type = Sectors::find($tid);
+    $cat_type = Partners::find($tid);
 
     if($user->superadmin && $cat_type){
-      return view('appsettings.categories.sectors.edit', ['user' => $user, 'cat_type' => $cat_type, 'cat_settings'=> $this->cat_settings]);
+      return view('appsettings.categories.partners.edit', ['user' => $user, 'cat_type' => $cat_type, 'cat_settings'=> $this->cat_settings]);
     }else{
       return notifyRedirect($this->unauth, $this->unauthMsg, 'danger');
     }
@@ -94,7 +94,7 @@ class SectorsController extends Controller
   {
 
     $user = auth()->user();
-    $cat_type = Sectors::find($tid);
+    $cat_type = Partners::find($tid);
 
     if($user->superadmin && $cat_type){
       $data = request()->validate([
@@ -121,7 +121,7 @@ class SectorsController extends Controller
   public function deactivate($tid)
   {
     $user = auth()->user();
-    $cat_type = Sectors::find($tid);
+    $cat_type = Partners::find($tid);
 
     if($user->superadmin && $cat_type){
 
@@ -140,7 +140,7 @@ class SectorsController extends Controller
   public function activate($tid)
   {
     $user = auth()->user();
-    $cat_type = Sectors::find($tid);
+    $cat_type = Partners::find($tid);
 
     if($user->superadmin && $cat_type){
 
@@ -155,6 +155,4 @@ class SectorsController extends Controller
       return notifyRedirect($this->unauth, $this->unauthMsg, 'danger');
     }
   }
-
-
 }

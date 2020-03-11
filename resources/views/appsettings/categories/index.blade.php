@@ -21,6 +21,11 @@
             Used in the <strong>FABLAB UP Cebu Prototypes Developed Update Report</strong> for DTI. Sector categories includes labels such as Creative / Furniture / GDH / Wearables / Food / etc.
           </p>
 
+          <h4><a href="/categories/partners">Partners</a></h4>
+          <p>
+            Used to categorize <strong>companies and institutions</strong> that have partnerships with FABLAB. Types are: GOV, NGO, COMMERCIAL
+          </p>
+
         </div>
 
       </div>
