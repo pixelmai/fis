@@ -12,7 +12,7 @@
         <div class="card-header">
           <div class="pt-2 d-flex justify-content-between">
             <div class="bh">MSME</div>
-            <div class="pt-2"><a href="/categories/registrations/create" class="btn btn-lg btn-success">Add MSME Type</a></div>
+            <div class="pt-2"><a href="/categories/registrations/msmecreate" class="btn btn-lg btn-success">Add MSME Type</a></div>
           </div>
         </div>
 
@@ -36,16 +36,16 @@
                     {{ $cat_type->description }}
                   </td>
                   <td class="icon_menu text-right">
-                    <a href="/categories/registrations/edit/{{ $cat_type->id }}" class="name" data-toggle="tooltip" data-placement="left" title="Edit">
+                    <a href="/categories/registrations/msmeedit/{{ $cat_type->id }}" class="name" data-toggle="tooltip" data-placement="left" title="Edit">
                       <i class="fas fa-edit"></i>
                     </a>
 
                     @if ($cat_type->is_active)
-                      <a href="/categories/registrations/deactivate/{{ $cat_type->id }}" class="name" data-toggle="tooltip" data-placement="left" title="Deactivate" onclick="return confirm('Are you sure you want to deactivate this item?');">
+                      <a href="/categories/registrations/msmedeactivate/{{ $cat_type->id }}" class="name" data-toggle="tooltip" data-placement="left" title="Deactivate" onclick="return confirm('Are you sure you want to deactivate this item?');">
                         <i class="fas fa-ban"></i>
                       </a>
                     @else
-                      <a href="/categories/registrations/activate/{{ $cat_type->id }}" class="name" data-toggle="tooltip" data-placement="left" title="Activate">
+                      <a href="/categories/registrations/msmeactivate/{{ $cat_type->id }}" class="name" data-toggle="tooltip" data-placement="left" title="Activate">
                         <i class="fas fa-check"></i>
                       </a>
                     @endif

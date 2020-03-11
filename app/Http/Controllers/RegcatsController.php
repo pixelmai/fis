@@ -34,19 +34,19 @@ class RegcatsController extends Controller
   }
 
 
-  public function create()
+  public function msmecreate()
   {
     $user = auth()->user();
 
     if($user->superadmin){
-      return view('appsettings.categories.registrations.create', ['user' => $user, 'cat_settings'=> $this->cat_settings]);
+      return view('appsettings.categories.registrations.msmecreate', ['user' => $user, 'cat_settings'=> $this->cat_settings]);
     }else{
       return notifyRedirect($this->unauth, $this->unauthMsg, 'danger');
     }
 
   }
 
-  public function store(Request $request)
+  public function msmestore(Request $request)
   {
 
     $user = auth()->user();
@@ -77,19 +77,19 @@ class RegcatsController extends Controller
 
   }
 
-  public function edit($tid)
+  public function msmeedit($tid)
   {
     $user = auth()->user();
     $cat_type = Regmsmes::find($tid);
 
     if($user->superadmin && $cat_type){
-      return view('appsettings.categories.registrations.edit', ['user' => $user, 'cat_type' => $cat_type, 'cat_settings'=> $this->cat_settings]);
+      return view('appsettings.categories.registrations.msmeedit', ['user' => $user, 'cat_type' => $cat_type, 'cat_settings'=> $this->cat_settings]);
     }else{
       return notifyRedirect($this->unauth, $this->unauthMsg, 'danger');
     }
   }
 
-  public function update($tid)
+  public function msmeupdate($tid)
   {
 
     $user = auth()->user();
@@ -117,7 +117,7 @@ class RegcatsController extends Controller
   }
 
  
-  public function deactivate($tid)
+  public function msmedeactivate($tid)
   {
     $user = auth()->user();
     $cat_type = Regmsmes::find($tid);
@@ -136,7 +136,7 @@ class RegcatsController extends Controller
     }
   }
 
-  public function activate($tid)
+  public function msmeactivate($tid)
   {
     $user = auth()->user();
     $cat_type = Regmsmes::find($tid);
