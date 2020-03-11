@@ -17,7 +17,7 @@ class SectorsController extends Controller
   {
     //Page repeated defaults
     $this->cat_settings['seltab'] = 'sectors';
-    $this->homeLink = '/categories';
+    $this->homeLink = '/categories/sectors';
     $this->unauth = '/home';
     $this->unauthMsg = 'No permission to Type Categories';
   }

@@ -41,7 +41,7 @@
                     </a>
 
                     @if ($cat_type->is_active)
-                      <a href="/categories/sectors/deactivate/{{ $cat_type->id }}" class="name" data-toggle="tooltip" data-placement="left" title="Deactivate">
+                      <a href="/categories/sectors/deactivate/{{ $cat_type->id }}" class="name" data-toggle="tooltip" data-placement="left" title="Deactivate" onclick="return confirm('Are you sure you want to deactivate this item?');">
                         <i class="fas fa-ban"></i>
                       </a>
                     @else

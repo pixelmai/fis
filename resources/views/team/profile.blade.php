@@ -65,8 +65,6 @@
                   @endif
                 </div>
 
-
-
                 
 
                   <div class="row py-2">
@@ -85,7 +83,7 @@
                           Activate
                         </a>
                       @else
-                        <a href="/team/deactivate/{{ $team_member->id }}" class="btn btn-danger btn-lg">
+                        <a href="/team/deactivate/{{ $team_member->id }}" class="btn btn-danger btn-lg" onclick="return confirm('Are you sure you want to deactivate this user?');">
                           Deactivate
                         </a>
                       @endif
