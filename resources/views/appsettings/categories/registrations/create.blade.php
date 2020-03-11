@@ -18,8 +18,6 @@
           <form action="/categories/registrations/store" enctype="multipart/form-data" method="POST">
               @csrf
 
-
-
             <div class="form-group row">
 
               <div class="col-md-6">
@@ -38,9 +36,28 @@
                       </span>
                   @enderror
               </div>
-
             </div>
 
+
+            <div class="form-group row">
+              <div class="col-md-6">
+                <label for="msme_types" class="col-form-label">MSME Classification <span class="required">*</span></label>
+
+                <select id="msme_types" name="msme_types" class="form-control @error('$msme_types') is-invalid @enderror" autofocus>
+
+                  @foreach($msme_types as $msme_type)
+                    <option value="{{ $msme_type->id }}">{{ $msme_type->name }}</option>
+                  @endforeach
+                </select>
+
+
+                @error('$msme_types')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+              </div>
+            </div>
 
             <div class="form-group row">
               <div class="col-12">

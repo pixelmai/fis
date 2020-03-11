@@ -7,6 +7,8 @@ use App\Appsettings;
 use App\Partners;
 use App\Sectors;
 use App\Servcats;
+use App\Regmsmes;
+use App\Regtypes;
 use Illuminate\Http\Request;
 
 class BootappController extends Controller
@@ -79,12 +81,34 @@ class BootappController extends Controller
       $s = TRUE;
     }
 
+    // REGISTRATION MSME LIST
+    $regmsme = Regmsmes::find(1);
+    if(!$regmsme){
+      Regmsmes::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Registered']);
+      Regmsmes::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Unregistered']);
+      Regmsmes::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Potential']);
+      $s = TRUE;
+    }
+
+    // REGISTRATION TYPES LIST
+    $regtypes = Regtypes::find(1);
+    if(!$regmsme){
+      Regtypes::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'DTI','regmsmes_id' => '1']);
+      Regtypes::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'SEC','regmsmes_id' => '1']);
+      Regtypes::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'CDA','regmsmes_id' => '1']);
+      Regtypes::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Unregistered','regmsmes_id' => '2']);
+      Regtypes::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Student','regmsmes_id' => '3']);
+      Regtypes::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Hobbyist','regmsmes_id' => '3']);
+      $s = TRUE;
+    }
+
+
     if($s){
       dd('Successfully setup primary database items');
     } else{
       dd('Nothing to add');
     }
-    
+
   }
 
 

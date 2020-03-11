@@ -11,4 +11,8 @@ class Regmsmes extends Model
 	protected $fillable = [
 	'name', 'description', 'updatedby_id', 
 	];
+
+  public function regtypes(){
+    return $this->hasMany('App\Regtypes');
+  }
 }
