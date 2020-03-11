@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use App\Partners;
+use App\Regmsmes;
 use Illuminate\Http\Request;
 
-class PartnersController extends Controller
+class RegcatsController extends Controller
 {
   private $cat_settings;
   private $unauth;
@@ -14,21 +14,20 @@ class PartnersController extends Controller
   public function __construct()
   {
     //Page repeated defaults
-    $this->cat_settings['seltab'] = 'partners';
-    $this->homeLink = '/categories/partners';
+    $this->cat_settings['seltab'] = 'registrations';
+    $this->homeLink = '/categories/registrations';
     $this->unauth = '/home';
     $this->unauthMsg = 'No permission to Type Categories';
   }
-
 
   public function index()
   {
     $user = auth()->user();
     if($user->superadmin){
 
-      $cat_types = Partners::orderBy('is_active', 'DESC')->orderBy('name', 'ASC')->paginate(20);
+      $cat_types = Regmsmes::orderBy('is_active', 'DESC')->orderBy('name', 'ASC')->paginate(20);
 
-      return view('appsettings.categories.partners.index', ['user' => $user, 'cat_settings'=> $this->cat_settings,'cat_types'=>$cat_types]);
+      return view('appsettings.categories.registrations.index', ['user' => $user, 'cat_settings'=> $this->cat_settings,'cat_types'=>$cat_types]);
     }else{
       return notifyRedirect($this->unauth, $this->unauthMsg, 'danger');
     }
@@ -40,7 +39,7 @@ class PartnersController extends Controller
     $user = auth()->user();
 
     if($user->superadmin){
-      return view('appsettings.categories.partners.create', ['user' => $user, 'cat_settings'=> $this->cat_settings]);
+      return view('appsettings.categories.registrations.create', ['user' => $user, 'cat_settings'=> $this->cat_settings]);
     }else{
       return notifyRedirect($this->unauth, $this->unauthMsg, 'danger');
     }
@@ -64,7 +63,7 @@ class PartnersController extends Controller
     $data['is_active'] = 1;
 
 
-    $query = Partners::create([
+    $query = Regmsmes::create([
       'name' => $data['name'],
       'description' => $data['description'],
       'is_active' => 1,
@@ -81,10 +80,10 @@ class PartnersController extends Controller
   public function edit($tid)
   {
     $user = auth()->user();
-    $cat_type = Partners::find($tid);
+    $cat_type = Regmsmes::find($tid);
 
     if($user->superadmin && $cat_type){
-      return view('appsettings.categories.partners.edit', ['user' => $user, 'cat_type' => $cat_type, 'cat_settings'=> $this->cat_settings]);
+      return view('appsettings.categories.registrations.edit', ['user' => $user, 'cat_type' => $cat_type, 'cat_settings'=> $this->cat_settings]);
     }else{
       return notifyRedirect($this->unauth, $this->unauthMsg, 'danger');
     }
@@ -94,7 +93,7 @@ class PartnersController extends Controller
   {
 
     $user = auth()->user();
-    $cat_type = Partners::find($tid);
+    $cat_type = Regmsmes::find($tid);
 
     if($user->superadmin && $cat_type){
       $data = request()->validate([
@@ -117,10 +116,11 @@ class PartnersController extends Controller
 
   }
 
+ 
   public function deactivate($tid)
   {
     $user = auth()->user();
-    $cat_type = Partners::find($tid);
+    $cat_type = Regmsmes::find($tid);
 
     if($user->superadmin && $cat_type){
 
@@ -139,7 +139,7 @@ class PartnersController extends Controller
   public function activate($tid)
   {
     $user = auth()->user();
-    $cat_type = Partners::find($tid);
+    $cat_type = Regmsmes::find($tid);
 
     if($user->superadmin && $cat_type){
 
