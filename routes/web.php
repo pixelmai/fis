@@ -57,15 +57,23 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
   Route::get('/categories', 'AppsettingsController@categories')->name('categories.index');
+
+  //Sectors
   Route::get('/categories/sectors', 'SectorsController@index')->name('sectors.index');
   Route::get('/categories/sectors/create', 'SectorsController@create');
   Route::post('/categories/sectors/store', 'SectorsController@store');
   Route::get('/categories/sectors/edit/{tid}', 'SectorsController@edit');
   Route::patch('/categories/sectors/update/{tid}', 'SectorsController@update');
-
   Route::get('/categories/sectors/deactivate/{tid}', 'SectorsController@deactivate');
-
   Route::get('/categories/sectors/activate/{tid}', 'SectorsController@activate');
 
+  //Partners
+  Route::get('/categories/partners', 'PartnersController@index')->name('partners.index');
+  Route::get('/categories/partners/create', 'PartnersController@create');
+  Route::post('/categories/partners/store', 'PartnersController@store');
+  Route::get('/categories/partners/edit/{tid}', 'PartnersController@edit');
+  Route::patch('/categories/partners/update/{tid}', 'PartnersController@update');
+  Route::get('/categories/partners/deactivate/{tid}', 'PartnersController@deactivate');
+  Route::get('/categories/partners/activate/{tid}', 'PartnersController@activate');
 
 /* App Settings */

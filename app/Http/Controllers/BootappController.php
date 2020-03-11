@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Appsettings;
 use App\Sectors;
+use App\Partners;
 use Illuminate\Http\Request;
 
 class BootappController extends Controller
@@ -57,6 +58,17 @@ class BootappController extends Controller
 
       $s = TRUE;
     }
+
+
+    // SECTORS LIST
+    $partners = Partners::find(1);
+    if(!$partners){
+      Partners::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'GOV', 'description' => 'Government' ]);
+      Partners::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'NGO', 'description' => 'Nonprofit Organization']);
+      Partners::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Commercial']);
+      $s = TRUE;
+    }
+
 
     if($s){
       dd('Successfully setup primary database items');

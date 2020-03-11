@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Sectors extends Model
+class Partners extends Model
 {
     //
 	protected $guarded = [];
@@ -12,6 +12,5 @@ class Sectors extends Model
 	protected $fillable = [
 	'name', 'description', 'updatedby_id', 
 	];
-
 
 }
