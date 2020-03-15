@@ -15,7 +15,7 @@
           <a href="#submenuClients" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Customers</a>
           <ul class="@if(!empty($page_settings['seltab']) && ($page_settings['seltab'] == 'customers')) active @else collapse @endif list-unstyled" id="submenuClients">
               <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'clients')) class="active" @endif>
-                  <a href="#">Clients</a>
+                  <a href="/clients">Clients</a>
               </li>
               <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'companies')) class="active" @endif>
                   <a href="#">Companies</a>

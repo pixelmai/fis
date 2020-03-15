@@ -13,6 +13,8 @@ class PartnersController extends Controller
 
   public function __construct()
   {
+    $this->middleware('auth');
+    
     //Page repeated defaults
     $this->cat_settings['seltab'] = 'partners';
     $this->homeLink = '/categories/partners';

@@ -49538,6 +49538,7 @@ $(document).ready(function () {
   $(function () {
     $('[data-toggle="tooltip"]').tooltip();
   });
+  $('#date_of_birth').datepicker();
 });
 
 /***/ }),

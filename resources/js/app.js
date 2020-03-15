@@ -48,5 +48,7 @@ $(document).ready(function () {
 	  $('[data-toggle="tooltip"]').tooltip()
 	})
 
+	$('#date_of_birth').datepicker();
+
 });
 
