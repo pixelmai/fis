@@ -109,7 +109,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 /* App Settings */
 
 /* Clients */
-  Route::get('/clients', 'ClientsController@index');
+  Route::get('/clients', 'ClientsController@index')->name('clients.index');
   Route::get('/clients/create', 'ClientsController@create');
   Route::post('/clients/create', 'ClientsController@store');
   Route::get('/clients/list', 'ClientsController@clientsList'); 
@@ -117,7 +117,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 /* Clients */
 
 
+  Route::resource('/dbase', 'DtablesController');
 
-  Route::get('/dbase', 'DtablesController@index');
+  //Route::get('/dbase', 'DtablesController@index')->name('dbase.index');
 
   Route::get('/dbase-list', 'DtablesController@usersList'); 
