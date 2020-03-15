@@ -8,6 +8,8 @@ use App\Regtypes;
 use App\Sectors;
 use App\Rules\PhoneNumber;
 use Illuminate\Http\Request;
+use Redirect,Response,DB,Config;
+use Yajra\Datatables\Datatables;
 
 class ClientsController extends Controller
 {
@@ -25,14 +27,15 @@ class ClientsController extends Controller
   }
 
 
-
   public function index()
   {
     $user = auth()->user();
 
     $clients = Clients::orderBy('fname', 'ASC')->orderBy('lname', 'ASC')->paginate(10);
 
-    return view('clients.index', ['user' => $user, 'clients' => $clients, 'page_settings'=> $this->page_settings]);
+    return view('clients.index', ['user' => $user, 'page_settings'=> $this->page_settings]);
+
+    //return view('clients.index', ['user' => $user, 'clients' => $clients, 'page_settings'=> $this->page_settings]);
 
   }
 
@@ -114,48 +117,32 @@ class ClientsController extends Controller
 
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  \App\Clients  $clients
-   * @return \Illuminate\Http\Response
-   */
   public function show(Clients $clients)
   {
     //
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  \App\Clients  $clients
-   * @return \Illuminate\Http\Response
-   */
   public function edit(Clients $clients)
   {
     //
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  \App\Clients  $clients
-   * @return \Illuminate\Http\Response
-   */
+
   public function update(Request $request, Clients $clients)
   {
     //
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  \App\Clients  $clients
-   * @return \Illuminate\Http\Response
-   */
   public function destroy(Clients $clients)
   {
     //
   }
+
+  public function clientsList()
+  {
+      $clients = DB::table('clients')->select('*');
+      return datatables()->of($clients)
+          ->make(true);
+  }
+
 }

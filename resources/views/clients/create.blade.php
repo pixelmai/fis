@@ -349,10 +349,15 @@
   </div>
 </div>
 
-
-
-@endsection
-
+@stop
 
 
 
+@push('scripts')
+  <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+  <script>
+  $(document).ready( function () {
+    $('#date_of_birth').datepicker();
+  </script>
+
+@endpush
