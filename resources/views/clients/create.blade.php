@@ -12,7 +12,7 @@
 
           <div class="card-body">
 
-            <form action="/clients/store" enctype="multipart/form-data" method="POST">
+            <form action="/clients/create" enctype="multipart/form-data" method="POST">
               @csrf
 
             <div class="form-group row d-flex">

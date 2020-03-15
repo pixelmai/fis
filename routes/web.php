@@ -109,6 +109,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 /* App Settings */
 
 /* Clients */
+  Route::get('/clients', 'ClientsController@index');
   Route::get('/clients/create', 'ClientsController@create');
-  Route::post('/clients/store', 'ClientsController@store');
+  Route::post('/clients/create', 'ClientsController@store');
+
 /* Clients */

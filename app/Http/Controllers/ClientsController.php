@@ -21,13 +21,18 @@ class ClientsController extends Controller
     //Page repeated defaults
     $this->page_settings['seltab'] = 'customers';
     $this->page_settings['seltab2'] = 'clients';
-    $this->homeLink = '/clients/create';
+    $this->homeLink = '/clients';
   }
 
 
 
   public function index()
   {
+    $user = auth()->user();
+
+    $clients = Clients::orderBy('fname', 'ASC')->orderBy('lname', 'ASC')->paginate(10);
+
+    return view('clients.index', ['user' => $user, 'clients' => $clients, 'page_settings'=> $this->page_settings]);
 
   }
 
@@ -44,18 +49,10 @@ class ClientsController extends Controller
 
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
   public function store()
   {
 
     $user = auth()->user();
-    
-
 
     $data = request()->validate([
       'fname' => ['required', 'string', 'max:50'],
@@ -79,11 +76,8 @@ class ClientsController extends Controller
 
 
     $is_freelancer = (isset($data['is_freelancer']) && $data['is_freelancer'] == 1 ? TRUE : FALSE); 
-
     $is_food = (isset($data['is_food']) && $data['is_food'] == 1 ? 1 : 0); 
-
     $is_pwd = (isset($data['is_pwd']) && $data['is_pwd'] == 1 ? 1 : 0); 
-
     $dob = (isset($data['date_of_birth']) ? dateDatabase($data['date_of_birth']) : $data['date_of_birth']);
 
 
