@@ -114,3 +114,9 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::post('/clients/create', 'ClientsController@store');
 
 /* Clients */
+
+
+
+  Route::get('/dbase', 'DtablesController@index');
+
+  Route::get('/dbase-list', 'DtablesController@usersList'); 

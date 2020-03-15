@@ -9,9 +9,15 @@
 
   <title>FABLAB UP Cebu</title>
 
-  <!-- Scripts -->
+
+
+  <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+  <script src="{{ asset('js/popper.min.js') }}"></script>
+  <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+  
+  <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+
   <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('js/bootstrap-datepicker.min.js') }}" defer></script>
 
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -23,8 +29,12 @@
 
 
   <!-- Styles -->
-  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
   <link href="{{ asset('css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('css/jquery.dataTables.min.css') }}" rel="stylesheet">
+  <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+
 </head>
 <body>
 <div id="app" class="wrapper">
@@ -56,8 +66,8 @@
     </main>
   </div>
 </div>
-<!-- partial -->
-  <script  src="./script.js"></script>
+
+@stack('scripts')
 
 </body>
 </html>
