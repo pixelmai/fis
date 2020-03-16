@@ -31,7 +31,7 @@ class ClientsController extends Controller
   {
     $user = auth()->user();
 
-    $clients = Clients::orderBy('fname', 'ASC')->orderBy('lname', 'ASC')->paginate(10);
+    //$clients = Clients::orderBy('fname', 'ASC')->orderBy('lname', 'ASC')->paginate(10);
 
     return view('clients.index', ['user' => $user, 'page_settings'=> $this->page_settings]);
 
@@ -140,7 +140,7 @@ class ClientsController extends Controller
 
   public function clientsList()
   {
-      $clients = DB::table('clients')->select('*');
+      $clients = DB::table('clients')->select('fname','lname','email','number','company_id','position');
       return datatables()->of($clients)
           ->make(true);
   }

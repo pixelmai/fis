@@ -18,7 +18,7 @@
 
   <div class="row justify-content-center">
     <div class="col-lg-12">
-      <div class="card card-table">
+
 
         <table id="clients_datatable" class="table table-responsive-md">
           <thead class="thead-dark">
@@ -35,7 +35,6 @@
         
         </table>
 
-      </div>
     </div>
   </div>
 </div>
