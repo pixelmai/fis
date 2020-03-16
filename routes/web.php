@@ -109,7 +109,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 /* App Settings */
 
 /* Clients */
-  Route::get('/clients', 'ClientsController@index')->name('clients.index');
+  Route::resource('/clients', 'ClientsController');
   Route::get('/clients/create', 'ClientsController@create');
   Route::post('/clients/create', 'ClientsController@store');
   Route::get('/clients/list', 'ClientsController@clientsList'); 

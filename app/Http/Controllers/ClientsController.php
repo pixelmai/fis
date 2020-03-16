@@ -31,7 +31,21 @@ class ClientsController extends Controller
   {
     $user = auth()->user();
 
-    //$clients = Clients::orderBy('fname', 'ASC')->orderBy('lname', 'ASC')->paginate(10);
+    if(request()->ajax()){
+
+      $clients = DB::table('clients')->select('id','fname','lname','email','number','company_id','position');
+      return datatables()->of($clients)
+          ->addColumn('action', function($data){
+        $button = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Edit" class="edit btn btn-success edit-post">Edit</a>';
+        $button .= '&nbsp;&nbsp;';
+        $button .= '<a href="javascript:void(0);" id="delete-post" data-toggle="tooltip" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn btn-danger">   Delete</a>';
+        return $button;
+        })
+        ->rawColumns(['action'])
+        ->make(true);
+        
+    }
+          
 
     return view('clients.index', ['user' => $user, 'page_settings'=> $this->page_settings]);
 

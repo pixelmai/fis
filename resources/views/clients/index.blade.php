@@ -23,13 +23,14 @@
         <table id="clients_datatable" class="table table-responsive-md">
           <thead class="thead-dark">
             <tr>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Email</th>
-              <th scope="col">Contact #</th>
-              <th scope="col">Company</th>
-              <th scope="col">Position</th>
-              <th scope="col">&nbsp;</th>
+              <th scope="col">ID</th>
+              <th scope="col">Fname</th>
+              <th scope="col">Created at</th>
+              <th scope="col">Action</th>
+              <th scope="col">ID</th>
+              <th scope="col">Fname</th>
+              <th scope="col">Created at</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
         
@@ -47,23 +48,31 @@
   <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
    <script>
    $(document).ready( function () {
-    $('#clients_datatable').DataTable({
-           processing: true,
-           serverSide: true,
-           ajax: "{{ url('clients/list') }}",
-           columns: [
-                    { data: 'fname', name: 'fname' },
-                    { data: 'lname', name: 'lname' },
-                    { data: 'email', name: 'email' },
-                    { data: 'number', name: 'number' },
-                    { data: 'company_id', name: 'company_id' },
-                    { data: 'position', name: 'position' },
-
-                    { data: 'id', name: 'id', render:function(data, type, row){
-    return "<a class='btn btn-sm btn-outline-secondary' href='/clients/view"+ row.id +"'>View</a>"
-}},
-                 ]
-        });
+   $.ajaxSetup({
+      headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+  });
+ 
+  $('#clients_datatable').DataTable({
+         processing: true,
+         serverSide: true,
+         ajax: {
+          url: "{{ route('clients.index') }}",
+          type: 'GET',
+         },
+         columns: [
+                  { data: 'id', name: 'id', 'visible': false},
+                  { data: 'fname', name: 'First Name' },
+                  { data: 'lname', name: 'Last Name' },
+                  { data: 'email', name: 'Email Address' },
+                  { data: 'number', name: 'Contact #' },
+                  { data: 'company_id', name: 'Company' },
+                  { data: 'position', name: 'Position' },
+                  {data: 'action', name: 'action', orderable: false},
+               ],
+        order: [[0, 'desc']]
+  });
      });
   </script>
 @endpush
