@@ -24,12 +24,12 @@
           <thead class="thead-dark">
             <tr>
               <th scope="col">ID</th>
-              <th scope="col">Fname</th>
-              <th scope="col">Created at</th>
-              <th scope="col">Action</th>
-              <th scope="col">ID</th>
-              <th scope="col">Fname</th>
-              <th scope="col">Created at</th>
+              <th scope="col">First Name</th>
+              <th scope="col">Last Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Contact</th>
+              <th scope="col">Company</th>
+              <th scope="col">Position</th>
               <th scope="col">Action</th>
             </tr>
           </thead>
@@ -63,12 +63,12 @@
          },
          columns: [
                   { data: 'id', name: 'id', 'visible': false},
-                  { data: 'fname', name: 'First Name' },
-                  { data: 'lname', name: 'Last Name' },
-                  { data: 'email', name: 'Email Address' },
-                  { data: 'number', name: 'Contact #' },
-                  { data: 'company_id', name: 'Company' },
-                  { data: 'position', name: 'Position' },
+                  { data: 'fname', name: 'fname' },
+                  { data: 'lname', name: 'lname' },
+                  { data: 'email', name: 'email' },
+                  { data: 'number', name: 'number' },
+                  { data: 'company_id', name: 'company_id' },
+                  { data: 'position', name: 'position' },
                   {data: 'action', name: 'action', orderable: false},
                ],
         order: [[0, 'desc']]
