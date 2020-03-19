@@ -18,9 +18,9 @@ class ClientsController extends Controller
 
   public function __construct()
   {
-  $this->middleware('auth');
+    $this->middleware('auth');
 
-  //Page repeated defaults
+    //Page repeated defaults
     $this->page_settings['seltab'] = 'customers';
     $this->page_settings['seltab2'] = 'clients';
     $this->homeLink = '/clients';
@@ -29,107 +29,107 @@ class ClientsController extends Controller
 
   public function index()
   {
-  $user = auth()->user();
+    $user = auth()->user();
 
-  if(request()->ajax()){
+    if(request()->ajax()){
 
-    $clients = DB::table('clients')->select('id','fname','lname','email','number','company_id','position');
-    return datatables()->of($clients)
-      ->addColumn('action', function($data){
-    $button = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post">
-      <i class="fas fa-edit"></i>
-    </a>';
-    $button .= '&nbsp;&nbsp;';
-    $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a>';
-    return $button;
-    })
-    ->addColumn('checkbox', '<input type="checkbox" name="row_checkbox[]" class="row_checkbox" value="{{$id}}" />')
-      ->rawColumns(['checkbox','action'])
+      $clients = DB::table('clients')->select('id','fname','lname','email','number','company_id','position');
+      return datatables()->of($clients)
+        ->addColumn('action', function($data){
+      $button = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post">
+        <i class="fas fa-edit"></i>
+      </a>';
+      $button .= '&nbsp;&nbsp;';
+      $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a>';
+      return $button;
+      })
+      ->addColumn('checkbox', '<input type="checkbox" name="tbl_row_checkbox[]" class="tbl_row_checkbox" value="{{$id}}" />')
+        ->rawColumns(['checkbox','action'])
 
-    ->make(true);
-    
-  }
+      ->make(true);
       
+    }
+        
 
-  return view('clients.index', ['user' => $user, 'page_settings'=> $this->page_settings]);
+    return view('clients.index', ['user' => $user, 'page_settings'=> $this->page_settings]);
 
-  //return view('clients.index', ['user' => $user, 'clients' => $clients, 'page_settings'=> $this->page_settings]);
+    //return view('clients.index', ['user' => $user, 'clients' => $clients, 'page_settings'=> $this->page_settings]);
 
   }
 
 
   public function create()
   {
-  $user = auth()->user();
+    $user = auth()->user();
 
-  $registration_id = Regtypes::where('is_active', '1')->orderBy('id', 'ASC')->get();
+    $registration_id = Regtypes::where('is_active', '1')->orderBy('id', 'ASC')->get();
 
-  $sector_id = Sectors::where('is_active', '1')->orderBy('id', 'ASC')->get();
+    $sector_id = Sectors::where('is_active', '1')->orderBy('id', 'ASC')->get();
 
-  return view('clients.create', ['user' => $user, 'page_settings'=> $this->page_settings,'registration_id'=>$registration_id, 'sector_id'=> $sector_id]);
+    return view('clients.create', ['user' => $user, 'page_settings'=> $this->page_settings,'registration_id'=>$registration_id, 'sector_id'=> $sector_id]);
 
   }
 
   public function store()
   {
 
-  $user = auth()->user();
+    $user = auth()->user();
 
-  $data = request()->validate([
-    'fname' => ['required', 'string', 'max:50'],
-    'lname' =>['required', 'string', 'max:50'],
-    'gender' => ['required'],
-    'date_of_birth' => ['nullable'],
-    'email' => ['nullable', 'email', 'max:255'],
-    'number' => ['nullable', 'max:30', new PhoneNumber],
-    'address' => ['nullable'],
-    'company_id' => ['nullable'],
-    'registration_id' => ['required'],
-    'sector_id' => ['required'],
-    'position' => ['nullable', 'string', 'max:100'],
-    'url' => ['nullable','string', 'max:255'],
-    'skillset' => ['nullable'],
-    'hobbies' => ['nullable'],
-    'is_freelancer' => ['nullable'],
-    'is_food' => ['nullable'],
-    'is_pwd' => ['nullable'],
-  ]);
-
-
-  $is_freelancer = (isset($data['is_freelancer']) && $data['is_freelancer'] == 1 ? TRUE : FALSE); 
-  $is_food = (isset($data['is_food']) && $data['is_food'] == 1 ? 1 : 0); 
-  $is_pwd = (isset($data['is_pwd']) && $data['is_pwd'] == 1 ? 1 : 0); 
-  $dob = (isset($data['date_of_birth']) ? dateDatabase($data['date_of_birth']) : $data['date_of_birth']);
+    $data = request()->validate([
+      'fname' => ['required', 'string', 'max:50'],
+      'lname' =>['required', 'string', 'max:50'],
+      'gender' => ['required'],
+      'date_of_birth' => ['nullable'],
+      'email' => ['nullable', 'email', 'max:255'],
+      'number' => ['nullable', 'max:30', new PhoneNumber],
+      'address' => ['nullable'],
+      'company_id' => ['nullable'],
+      'registration_id' => ['required'],
+      'sector_id' => ['required'],
+      'position' => ['nullable', 'string', 'max:100'],
+      'url' => ['nullable','string', 'max:255'],
+      'skillset' => ['nullable'],
+      'hobbies' => ['nullable'],
+      'is_freelancer' => ['nullable'],
+      'is_food' => ['nullable'],
+      'is_pwd' => ['nullable'],
+    ]);
 
 
-  $query = Clients::create([
-    'fname' => $data['fname'],
-    'lname' => $data['lname'],
-    'gender' => $data['gender'],
-    'date_of_birth' => $dob,
-    'email' => $data['email'],
-    'number' => $data['number'],
-    'address' => $data['address'],
-    'company_id' => $data['company_id'],
-    'registration_id' => $data['registration_id'],
-    'sector_id' => $data['sector_id'],
-    'position' => $data['position'],
-    'url' => $data['url'],
-    'skillset' => $data['skillset'],
-    'hobbies' => $data['hobbies'],
-    'is_imported' => 0,
-  
-    'is_freelancer' => $is_freelancer,
-    'is_food' => $is_food,
-    'is_pwd' => $is_pwd, 
-  
-    'updatedby_id' => $user->id,
-  ]);
+    $is_freelancer = (isset($data['is_freelancer']) && $data['is_freelancer'] == 1 ? TRUE : FALSE); 
+    $is_food = (isset($data['is_food']) && $data['is_food'] == 1 ? 1 : 0); 
+    $is_pwd = (isset($data['is_pwd']) && $data['is_pwd'] == 1 ? 1 : 0); 
+    $dob = (isset($data['date_of_birth']) ? dateDatabase($data['date_of_birth']) : $data['date_of_birth']);
 
 
-  if($query){
-    return notifyRedirect($this->homeLink, 'Added a Client successfully', 'success');
-  }
+    $query = Clients::create([
+      'fname' => $data['fname'],
+      'lname' => $data['lname'],
+      'gender' => $data['gender'],
+      'date_of_birth' => $dob,
+      'email' => $data['email'],
+      'number' => $data['number'],
+      'address' => $data['address'],
+      'company_id' => $data['company_id'],
+      'registration_id' => $data['registration_id'],
+      'sector_id' => $data['sector_id'],
+      'position' => $data['position'],
+      'url' => $data['url'],
+      'skillset' => $data['skillset'],
+      'hobbies' => $data['hobbies'],
+      'is_imported' => 0,
+    
+      'is_freelancer' => $is_freelancer,
+      'is_food' => $is_food,
+      'is_pwd' => $is_pwd, 
+    
+      'updatedby_id' => $user->id,
+    ]);
+
+
+    if($query){
+      return notifyRedirect($this->homeLink, 'Added a Client successfully', 'success');
+    }
 
 
 
@@ -140,9 +140,9 @@ class ClientsController extends Controller
   //
   }
 
-  public function edit(Clients $clients)
+  public function edit($id)
   {
-  //
+    dd('bunay');
   }
 
 
@@ -153,16 +153,26 @@ class ClientsController extends Controller
 
   public function destroy($id)
   {
-    $row = Clients::where('id',$id)->delete();
-    
-    return Response::json($row);
+    if(request()->ajax()){
+      $row = Clients::where('id',$id)->delete();
+      return Response::json($row);
+    }else{
+      return notifyRedirect($this->homeLink, 'Deletion action not permitted', 'danger');
+    }
   }
 
-  public function clientsList()
+
+  public function massrem(Request $request)
   {
-    $clients = DB::table('clients')->select('fname','lname','email','number','company_id','position');
-    return datatables()->of($clients)
-      ->make(true);
+    if(request()->ajax()){
+      $row_id_array = $request->input('id');
+      $row = Clients::whereIn('id', $row_id_array);
+      if($row->delete())
+      {
+          echo 'Data Deleted';
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Deletion action not permitted', 'danger');
+    }
   }
-
 }

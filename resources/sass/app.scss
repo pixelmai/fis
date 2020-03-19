@@ -576,6 +576,8 @@
     width: 100% !important;
     tr{
       td{
+        vertical-align: middle;
+        
         .btn-outline-secondary, .btn-outline-danger{
           border: 1px solid #eee;
         }

@@ -11415,6 +11415,10 @@ form label .required {
   width: 100% !important;
 }
 
+#app #clients_datatable tr td {
+  vertical-align: middle;
+}
+
 #app #clients_datatable tr td .btn-outline-secondary,
 #app #clients_datatable tr td .btn-outline-danger {
   border: 1px solid #eee;
