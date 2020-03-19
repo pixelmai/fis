@@ -11,9 +11,7 @@ $(document).ready(function () {
 		$("#app #content .alert").alert('close');
 	}, 3000);
 
-	$(function () {
-	  $('[data-toggle="tooltip"]').tooltip()
-	})
+	$('body').tooltip({selector: '[data-toggle="tooltip"]'});
 
 });
 
@@ -26,3 +24,5 @@ window.generateNotif=function(data){
     $("#notifAlert").fadeOut("1000");
   }, 4000);
 };
+
+

@@ -30,7 +30,7 @@
               <th scope="col">Company</th>
               <th scope="col">Position</th>
               <th scope="col" class="col_actions"/>
-                <button type="button" name="bulk_delete" id="bulk_delete" class="btn btn-danger btn-sm">Delete All</i></button>
+                <button type="button" name="bulk_delete" id="bulk_delete" class="btn btn-danger btn-sm d-none">Delete All</i></button>
               </th>
             </tr>
           </thead>
@@ -47,6 +47,7 @@
 
 @push('scripts')
   <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+
   <script>
     $(document).ready( function () {
       $.ajaxSetup({
@@ -54,6 +55,8 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
       });
+
+
 
       $('#clients_datatable').DataTable({
              processing: true,
@@ -67,14 +70,25 @@
                       { data: 'checkbox', orderable:false, searchable:false},
                       { data: 'fname', name: 'fname' },
                       { data: 'lname', name: 'lname' },
-                      { data: 'email', name: 'email' },
-                      { data: 'number', name: 'number' },
+                      { data: 'email', name: 'email', orderable: false  },
+                      { data: 'number', name: 'number', orderable: false, searchable: false },
                       { data: 'company_id', name: 'company_id' },
                       { data: 'position', name: 'position' },
                       {data: 'action', name: 'action', orderable: false},
                    ],
             order: [[0, 'desc']]
       });
+
+      $('#clients_datatable tbody').on('click', '.tbl_row_checkbox', function () {
+          $(this).parent().parent().toggleClass('rowselected');
+
+          if ( document.querySelector('.rowselected') !== null ) {
+            $('#bulk_delete').removeClass('d-none');
+          }else{
+            $('#bulk_delete').addClass('d-none');
+          }
+
+      } );
 
 
       $('body').on('click', '#delete-row', function () {
@@ -95,6 +109,7 @@
                 };
 
                 generateNotif(notifData);
+                $('#bulk_delete').addClass('d-none');
 
               },
               error: function (data) {
@@ -129,6 +144,8 @@
                     
                     generateNotif(notifData);
 
+                    $('#bulk_delete').addClass('d-none');
+
                   },
                   error: function (data) {
                     console.log('Error:', data);
@@ -143,11 +160,12 @@
       });
 
 
-
+    
 
     }); //end document ready
 
-  
+
+
 
   </script>
 @endpush

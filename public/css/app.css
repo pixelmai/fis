@@ -11413,6 +11413,15 @@ form label .required {
 
 #app #clients_datatable {
   width: 100% !important;
+  border-bottom: 1px solid #dee2e6;
+}
+
+#app #clients_datatable #bulk_delete {
+  padding: 1px 10px;
+}
+
+#app #clients_datatable tr.rowselected {
+  background: #fff3f3;
 }
 
 #app #clients_datatable tr td {

@@ -574,10 +574,20 @@
 
   #clients_datatable{
     width: 100% !important;
+    border-bottom: 1px solid #dee2e6;
+
+    #bulk_delete{
+      padding: 1px 10px;
+    }
+
+    tr.rowselected{
+      background: #fff3f3;
+    }
+
     tr{
       td{
         vertical-align: middle;
-        
+
         .btn-outline-secondary, .btn-outline-danger{
           border: 1px solid #eee;
         }
@@ -607,6 +617,8 @@
       padding-right: 10px;
     }
   }
+
+
 }
 
 

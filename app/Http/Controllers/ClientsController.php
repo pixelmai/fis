@@ -36,11 +36,11 @@ class ClientsController extends Controller
       $clients = DB::table('clients')->select('id','fname','lname','email','number','company_id','position');
       return datatables()->of($clients)
         ->addColumn('action', function($data){
-      $button = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post">
+      $button = '<a href="" data-toggle="tooltip" data-placement="left" data-id="'.$data->id.'" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post">
         <i class="fas fa-edit"></i>
       </a>';
       $button .= '&nbsp;&nbsp;';
-      $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a>';
+      $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="left" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a>';
       return $button;
       })
       ->addColumn('checkbox', '<input type="checkbox" name="tbl_row_checkbox[]" class="tbl_row_checkbox" value="{{$id}}" />')
@@ -160,7 +160,6 @@ class ClientsController extends Controller
       return notifyRedirect($this->homeLink, 'Deletion action not permitted', 'danger');
     }
   }
-
 
   public function massrem(Request $request)
   {
