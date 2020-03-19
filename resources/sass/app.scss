@@ -572,10 +572,47 @@
     }
   }
 
+  #clients_datatable{
+    width: 100% !important;
+    tr{
+      td{
+        .btn-outline-secondary, .btn-outline-danger{
+          border: 1px solid #eee;
+        }
 
+        .btn-outline-secondary{
+          &:hover{
+            border: 1px solid #6c757d;
+          }
+        }
+
+        .btn-outline-danger{
+          color: #6c757d;
+          &:hover{
+            color: #fff;
+            border: 1px solid #e3342f;
+          }
+        }
+
+      }
+      td:last-child{
+        text-align: right;
+      }
+    }
+
+    .col_actions{
+      text-align: right;
+      padding-right: 10px;
+    }
+  }
 }
 
 
+
+
+/* ---------------------------------------------------
+  ADDITIONAL OOP
+----------------------------------------------------- */
 
 
 .lh-1{

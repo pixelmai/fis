@@ -11411,6 +11411,41 @@ form label .required {
   border-bottom: 1px solid #fff;
 }
 
+#app #clients_datatable {
+  width: 100% !important;
+}
+
+#app #clients_datatable tr td .btn-outline-secondary,
+#app #clients_datatable tr td .btn-outline-danger {
+  border: 1px solid #eee;
+}
+
+#app #clients_datatable tr td .btn-outline-secondary:hover {
+  border: 1px solid #6c757d;
+}
+
+#app #clients_datatable tr td .btn-outline-danger {
+  color: #6c757d;
+}
+
+#app #clients_datatable tr td .btn-outline-danger:hover {
+  color: #fff;
+  border: 1px solid #e3342f;
+}
+
+#app #clients_datatable tr td:last-child {
+  text-align: right;
+}
+
+#app #clients_datatable .col_actions {
+  text-align: right;
+  padding-right: 10px;
+}
+
+/* ---------------------------------------------------
+  ADDITIONAL OOP
+----------------------------------------------------- */
+
 .lh-1 {
   line-height: 1em;
 }

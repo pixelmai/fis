@@ -112,7 +112,9 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::resource('/clients', 'ClientsController');
   Route::get('/clients/create', 'ClientsController@create');
   Route::post('/clients/create', 'ClientsController@store');
-  Route::get('/clients/list', 'ClientsController@clientsList'); 
+  //Route::get('/clients/list', 'ClientsController@clientsList'); 
+  Route::get('/clients/destroy/{id}', 'ClientsController@destroy');
+
 
 /* Clients */
 

@@ -18,19 +18,20 @@
 
   <div class="row justify-content-center">
     <div class="col-lg-12">
-
-
-        <table id="clients_datatable" class="table table-responsive-md">
+        <table id="clients_datatable" class="table table-responsive-md" data-page-length="25">
           <thead class="thead-dark">
             <tr>
               <th scope="col">ID</th>
+              <th scope="col" class="col_checkbox">&nbsp;</th>
               <th scope="col">First Name</th>
               <th scope="col">Last Name</th>
               <th scope="col">Email</th>
               <th scope="col">Contact</th>
               <th scope="col">Company</th>
               <th scope="col">Position</th>
-              <th scope="col">Action</th>
+              <th scope="col" class="col_actions"/>
+                <button type="button" name="bulk_delete" id="bulk_delete" class="btn btn-danger btn-sm">Delete All</i></button>
+              </th>
             </tr>
           </thead>
         
@@ -46,34 +47,62 @@
 
 @push('scripts')
   <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
-   <script>
-   $(document).ready( function () {
-   $.ajaxSetup({
+  <script>
+  $(document).ready( function () {
+    $.ajaxSetup({
       headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
-  });
- 
-  $('#clients_datatable').DataTable({
-         processing: true,
-         serverSide: true,
-         ajax: {
-          url: "{{ route('clients.index') }}",
-          type: 'GET',
-         },
-         columns: [
-                  { data: 'id', name: 'id', 'visible': false},
-                  { data: 'fname', name: 'fname' },
-                  { data: 'lname', name: 'lname' },
-                  { data: 'email', name: 'email' },
-                  { data: 'number', name: 'number' },
-                  { data: 'company_id', name: 'company_id' },
-                  { data: 'position', name: 'position' },
-                  {data: 'action', name: 'action', orderable: false},
-               ],
-        order: [[0, 'desc']]
-  });
-     });
+    });
+
+    $('#clients_datatable').DataTable({
+           processing: true,
+           serverSide: true,
+           ajax: {
+            url: "{{ route('clients.index') }}",
+            type: 'GET',
+           },
+           columns: [
+                    { data: 'id', name: 'id', 'visible': false},
+                    { data: 'checkbox', orderable:false, searchable:false},
+                    { data: 'fname', name: 'fname' },
+                    { data: 'lname', name: 'lname' },
+                    { data: 'email', name: 'email' },
+                    { data: 'number', name: 'number' },
+                    { data: 'company_id', name: 'company_id' },
+                    { data: 'position', name: 'position' },
+                    {data: 'action', name: 'action', orderable: false},
+                 ],
+          order: [[0, 'desc']]
+    });
+
+
+    $('body').on('click', '#delete-row', function () {
+      var row_id = $(this).data("id");
+
+      if (confirm('Are you sure want to delete row?')) {
+
+        $.ajax({
+            type: "get",
+            url: "/clients/destroy/"+row_id,
+            success: function (data) {
+              var oTable = $('#clients_datatable').dataTable(); 
+              oTable.fnDraw(false);
+
+              var alertHtml = '<div class="alert alert-warning alert-dismissible fade show" role="alert"><span>Successfully deleted Client</span><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+
+              $("main").prepend(alertHtml);
+            },
+            error: function (data) {
+                console.log('Error:', data);
+            }
+        });
+      } 
+    });   
+
+
+
+  }); //end document ready
   </script>
 @endpush
 
