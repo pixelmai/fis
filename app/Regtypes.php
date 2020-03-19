@@ -12,8 +12,12 @@ class Regtypes extends Model
 	'name', 'description', 'updatedby_id', 'regmsmes_id'
 	];
 
-  public function regmsmes(){
-    return $this->belongsTo('App\Regmsmes');
-  }
+	public function regmsmes(){
+	return $this->belongsTo('App\Regmsmes');
+	}
+
+	public function clients(){
+		return $this->hasMany('App\Clients');
+	}
 
 }

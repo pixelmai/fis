@@ -36,10 +36,12 @@ class ClientsController extends Controller
       $clients = DB::table('clients')->select('id','fname','lname','email','number','company_id','position');
       return datatables()->of($clients)
         ->addColumn('action', function($data){
-      $button = '<a href="" data-toggle="tooltip" data-placement="left" data-id="'.$data->id.'" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post">
+      $button = '<a href="/clients/view/'.$data->id.'" data-toggle="tooltip" data-placement="left" data-original-title="View" class="edit btn btn-outline-secondary btn-sm">
+        <i class="fas fa-eye"></i>
+      </a>';
+      $button .= '<a href="" data-toggle="tooltip" data-placement="left" data-id="'.$data->id.'" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post">
         <i class="fas fa-edit"></i>
       </a>';
-      $button .= '&nbsp;&nbsp;';
       $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="left" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a>';
       return $button;
       })
@@ -62,11 +64,11 @@ class ClientsController extends Controller
   {
     $user = auth()->user();
 
-    $registration_id = Regtypes::where('is_active', '1')->orderBy('id', 'ASC')->get();
+    $regtype_id = Regtypes::where('is_active', '1')->orderBy('id', 'ASC')->get();
 
     $sector_id = Sectors::where('is_active', '1')->orderBy('id', 'ASC')->get();
 
-    return view('clients.create', ['user' => $user, 'page_settings'=> $this->page_settings,'registration_id'=>$registration_id, 'sector_id'=> $sector_id]);
+    return view('clients.create', ['user' => $user, 'page_settings'=> $this->page_settings,'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id]);
 
   }
 
@@ -84,7 +86,7 @@ class ClientsController extends Controller
       'number' => ['nullable', 'max:30', new PhoneNumber],
       'address' => ['nullable'],
       'company_id' => ['nullable'],
-      'registration_id' => ['required'],
+      'regtype_id' => ['required'],
       'sector_id' => ['required'],
       'position' => ['nullable', 'string', 'max:100'],
       'url' => ['nullable','string', 'max:255'],
@@ -111,7 +113,7 @@ class ClientsController extends Controller
       'number' => $data['number'],
       'address' => $data['address'],
       'company_id' => $data['company_id'],
-      'registration_id' => $data['registration_id'],
+      'regtype_id' => $data['regtype_id'],
       'sector_id' => $data['sector_id'],
       'position' => $data['position'],
       'url' => $data['url'],
@@ -131,13 +133,17 @@ class ClientsController extends Controller
       return notifyRedirect($this->homeLink, 'Added a Client successfully', 'success');
     }
 
-
-
   }
 
-  public function show(Clients $clients)
+  public function view($id)
   {
-  //
+    $user = auth()->user();
+    $client = Clients::with('sector','regtype')->find($id);
+
+
+    return view('clients.view', ['user' => $user, 'client' => $client, 'page_settings'=> $this->page_settings]);
+
+
   }
 
   public function edit($id)

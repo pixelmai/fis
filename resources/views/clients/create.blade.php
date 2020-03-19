@@ -155,17 +155,17 @@
             <div class="form-group row d-flex">
 
               <div class="col-md-6">
-                <label for="registration_id" class="col-form-label">Registration Type <span class="required">*</span></label>
+                <label for="regtype_id" class="col-form-label">Registration Type <span class="required">*</span></label>
 
-                <select id="registration_id" name="registration_id" class="form-control @error('$registration_id') is-invalid @enderror" autofocus>
+                <select id="regtype_id" name="regtype_id" class="form-control @error('$regtype_id') is-invalid @enderror" autofocus>
 
-                  @foreach($registration_id as $registration_id_unit)
-                    <option value="{{ $registration_id_unit->id }}">{{ $registration_id_unit->name }}</option>
+                  @foreach($regtype_id as $regtype_id_unit)
+                    <option value="{{ $regtype_id_unit->id }}">{{ $regtype_id_unit->name }}</option>
                   @endforeach
                 </select>
 
 
-                @error('$registration_id')
+                @error('$regtype_id')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>

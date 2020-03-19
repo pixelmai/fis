@@ -11,4 +11,9 @@ class Sectors extends Model
 	protected $fillable = [
 	'name', 'description', 'updatedby_id', 
 	];
+
+	public function clients(){
+		return $this->hasMany('App\Clients');
+	}
+
 }

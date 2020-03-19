@@ -572,7 +572,7 @@
     }
   }
 
-  #clients_datatable{
+  #listpage_datatable{
     width: 100% !important;
     border-bottom: 1px solid #dee2e6;
 
@@ -587,6 +587,11 @@
     tr{
       td{
         vertical-align: middle;
+
+        .btn{
+          margin-left: 5px;
+
+        }
 
         .btn-outline-secondary, .btn-outline-danger{
           border: 1px solid #eee;
@@ -607,8 +612,14 @@
         }
 
       }
+      td:first-child{
+        line-height: 1em;
+        padding-left: 20px;
+      }
       td:last-child{
         text-align: right;
+        width: 120px !important;
+        min-width: 120px !important;
       }
     }
 
@@ -616,6 +627,8 @@
       text-align: right;
       padding-right: 10px;
     }
+
+
   }
 
 

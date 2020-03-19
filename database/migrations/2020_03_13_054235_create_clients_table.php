@@ -24,7 +24,7 @@ class CreateClientsTable extends Migration
             $table->text('address')->nullable();
             $table->tinyInteger('company_id')->nullable();
             $table->string('position')->nullable();
-            $table->tinyInteger('registration_id');
+            $table->tinyInteger('regtype_id');
             $table->tinyInteger('sector_id');
             $table->text('url')->nullable();
             $table->text('skillset')->nullable();

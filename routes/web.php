@@ -113,16 +113,10 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/clients/create', 'ClientsController@create');
   Route::post('/clients/create', 'ClientsController@store');
   Route::get('/clients/edit/{id}', 'ClientsController@edit');
+  Route::get('/clients/view/{id}', 'ClientsController@view');
   //Route::get('/clients/list', 'ClientsController@clientsList'); 
   Route::get('/clients/destroy/{id}', 'ClientsController@destroy');
   Route::get('/clients/massrem', 'ClientsController@massrem');
 
 
 /* Clients */
-
-
-  Route::resource('/dbase', 'DtablesController');
-
-  //Route::get('/dbase', 'DtablesController@index')->name('dbase.index');
-
-  Route::get('/dbase-list', 'DtablesController@usersList'); 

@@ -18,7 +18,7 @@
 
   <div class="row justify-content-center">
     <div class="col-lg-12">
-        <table id="clients_datatable" class="table table-responsive-md" data-page-length="25">
+        <table id="listpage_datatable" class="table table-responsive-md" data-page-length="25">
           <thead class="thead-dark">
             <tr>
               <th scope="col">ID</th>
@@ -58,7 +58,7 @@
 
 
 
-      $('#clients_datatable').DataTable({
+      $('#listpage_datatable').DataTable({
              processing: true,
              serverSide: true,
              ajax: {
@@ -79,7 +79,7 @@
             order: [[0, 'desc']]
       });
 
-      $('#clients_datatable tbody').on('click', '.tbl_row_checkbox', function () {
+      $('#listpage_datatable tbody').on('click', '.tbl_row_checkbox', function () {
           $(this).parent().parent().toggleClass('rowselected');
 
           if ( document.querySelector('.rowselected') !== null ) {
@@ -100,7 +100,7 @@
               type: "get",
               url: "/clients/destroy/"+row_id,
               success: function (data) {
-                var oTable = $('#clients_datatable').dataTable(); 
+                var oTable = $('#listpage_datatable').dataTable(); 
                 oTable.fnDraw(false);
 
                 var notifData = {
@@ -135,7 +135,7 @@
                   data:{id:id},
                   url: "/clients/massrem",
                   success: function (data) {
-                    $('#clients_datatable').DataTable().ajax.reload();
+                    $('#listpage_datatable').DataTable().ajax.reload();
 
                     var notifData = {
                       status: 'danger',
