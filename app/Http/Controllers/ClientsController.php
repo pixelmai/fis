@@ -163,7 +163,8 @@ class ClientsController extends Controller
       $row = Clients::where('id',$id)->delete();
       return Response::json($row);
     }else{
-      return notifyRedirect($this->homeLink, 'Deletion action not permitted', 'danger');
+      $row = Clients::where('id',$id)->delete();
+      return notifyRedirect($this->homeLink, 'Successfully deleted client.' , 'warning');
     }
   }
 

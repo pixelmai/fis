@@ -462,6 +462,18 @@
     border: 1px solid $yellow;
     color: #000;
   }
+
+  .chip-student{
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+  }
+  
+  .chip-pwd{
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+  }
   
 
   .info-block{
@@ -641,13 +653,22 @@
   ADDITIONAL OOP
 ----------------------------------------------------- */
 
-
 .lh-1{
   line-height: 1em;
 }
 
+hr.dotted{ border-top: 1px dotted #ddd; }
 
+.input-group-addon{
+  border: 1px solid #ced4da;
+  border-left: 0; 
+  background: #eee;
 
+  span{
+    padding: 5px 10px 0;
+    display: block;
+  }
+}
 
 /* ---------------------------------------------------
   MEDIAQUERIES
