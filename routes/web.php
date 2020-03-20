@@ -113,8 +113,8 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/clients/create', 'ClientsController@create');
   Route::post('/clients/create', 'ClientsController@store');
   Route::get('/clients/edit/{id}', 'ClientsController@edit');
+  Route::patch('/clients/edit/{id}', 'ClientsController@update');
   Route::get('/clients/view/{id}', 'ClientsController@view');
-  //Route::get('/clients/list', 'ClientsController@clientsList'); 
   Route::get('/clients/destroy/{id}', 'ClientsController@destroy');
   Route::get('/clients/massrem', 'ClientsController@massrem');
 

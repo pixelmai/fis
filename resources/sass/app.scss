@@ -481,6 +481,10 @@
     .info-item{
       margin-bottom: 10px;
       display: block;
+
+      a{
+        color: $blue;
+      }
     }
 
     strong{

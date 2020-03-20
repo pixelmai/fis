@@ -11326,6 +11326,10 @@ form label .required {
   display: block;
 }
 
+.info-block .info-item a {
+  color: #3490dc;
+}
+
 .info-block strong {
   display: block;
 }

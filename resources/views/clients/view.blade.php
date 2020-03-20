@@ -84,7 +84,7 @@
                 @if ($client->url)
                 <div class="info-item">
                   <strong>Portfolio URL</strong>
-                  {{ $client->url }}
+                  <a href="{{ $client->url }}">{{ $client->url }}</a>
                 </div>
                 @endif
 

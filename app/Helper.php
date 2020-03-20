@@ -34,5 +34,8 @@ function notifyRedirect($link, $message, $status){
 
 function dateDatabase($d) {
   return date('Y-m-d',strtotime($d));
+}
 
+function datetoDpicker($d) {
+  return date('m/d/Y',strtotime($d));
 }
