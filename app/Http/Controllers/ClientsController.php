@@ -10,7 +10,7 @@ use App\Rules\Url;
 use App\Rules\PhoneNumber;
 use Illuminate\Http\Request;
 use Redirect,Response,DB,Config;
-use Yajra\Datatables\Datatables;
+use Datatables;
 
 class ClientsController extends Controller
 {
