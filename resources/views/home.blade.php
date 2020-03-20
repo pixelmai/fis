@@ -12,11 +12,6 @@
 
         <div class="card-body">
           <p>Welcome to FABLAB WIS, {{ $user->fname }}!</p>
-
-          <h4>Current Development Links</h4>
-          <ul>
-            <li><a href="">Sectors</a></li>
-          </ul>
         </div>
       </div>
     </div>
