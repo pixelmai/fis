@@ -19,7 +19,7 @@
               <div class="col-md-6">
                 <label for="fname" class="col-form-label">First Name <span class="required">*</span></label>
               
-                  <input id="fname" type="text" class="form-control @error('fname') is-invalid @enderror" name="fname" value="{{ old('fname') }}" required autofocus>
+                  <input id="fname" type="text" class="form-control @error('fname') is-invalid @enderror" name="fname" value="{{ old('fname') }}" required autofocus autocomplete="off">
 
                   @error('fname')
                     <span class="invalid-feedback" role="alert">
@@ -36,7 +36,7 @@
                     class="form-control @error('lname') is-invalid @enderror" 
                     name="lname" 
                     value="{{ old('lname') }}" required 
-                    autofocus>
+                    autofocus autocomplete="off">
 
                   @error('lname')
                       <span class="invalid-feedback" role="alert">
@@ -77,7 +77,7 @@
               
 
                 <div id="date_of_birth" class="input-group date @error('date_of_birth') is-invalid @enderror" data-provide="datepicker">
-                    <input name="date_of_birth" type="text" class="form-control" value="{{ old('date_of_birth') }}" >
+                    <input name="date_of_birth" type="text" class="form-control" value="{{ old('date_of_birth') }}" autocomplete="off">
                     <div class="input-group-addon">
                       <span><i class="fa fa-calendar"></i></span>
                     </div>
@@ -103,7 +103,7 @@
                     class="form-control @error('email') is-invalid @enderror" 
                     name="email" 
                     value="{{ old('email') }}"  
-                    autofocus>
+                    autofocus autocomplete="off">
 
                   @error('email')
                       <span class="invalid-feedback" role="alert">
@@ -122,7 +122,7 @@
                     class="form-control @error('number') is-invalid @enderror" 
                     name="number" 
                     value="{{ old('number') }}"  
-                    autofocus>
+                    autofocus autocomplete="off">
 
                   @error('number')
                       <span class="invalid-feedback" role="alert">
@@ -205,7 +205,7 @@
                     class="form-control @error('company_id') is-invalid @enderror" 
                     name="company_id" 
                     value="{{ old('company_id') }}"  
-                    autocomplete="company_id" autofocus>
+                    autocomplete="off" autofocus>
 
                   @error('company_id')
                       <span class="invalid-feedback" role="alert">
@@ -229,8 +229,7 @@
                     type="text" 
                     class="form-control @error('position') is-invalid @enderror" 
                     name="position" 
-                    value="{{ old('position') }}"  
-                    autocomplete="position" autofocus>
+                    value="{{ old('position') }}" autofocus>
 
                   @error('position')
                       <span class="invalid-feedback" role="alert">
@@ -248,8 +247,7 @@
                     type="text" 
                     class="form-control @error('url') is-invalid @enderror" 
                     name="url" 
-                    value="{{ old('url') }}"  
-                    autocomplete="url" autofocus>
+                    value="{{ old('url') }}" autofocus autocomplete="off">
 
                   @error('url')
                       <span class="invalid-feedback" role="alert">

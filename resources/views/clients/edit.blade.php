@@ -20,7 +20,7 @@
               <div class="col-md-6">
                 <label for="fname" class="col-form-label">First Name <span class="required">*</span></label>
               
-                  <input id="fname" type="text" class="form-control @error('fname') is-invalid @enderror" name="fname" value="{{ old('fname') ?? $client->fname }}" required autofocus>
+                  <input id="fname" type="text" class="form-control @error('fname') is-invalid @enderror" name="fname" value="{{ old('fname') ?? $client->fname }}" required autofocus autocomplete="off">
 
                   @error('fname')
                     <span class="invalid-feedback" role="alert">
@@ -37,7 +37,7 @@
                     class="form-control @error('lname') is-invalid @enderror" 
                     name="lname" 
                     value="{{ old('lname') ?? $client->lname }}" required 
-                    autofocus>
+                    autofocus autocomplete="off">
 
                   @error('lname')
                       <span class="invalid-feedback" role="alert">
@@ -80,7 +80,7 @@
               
 
                 <div id="date_of_birth" class="input-group date @error('date_of_birth') is-invalid @enderror" data-provide="datepicker">
-                    <input name="date_of_birth" type="text" class="form-control" value="{{ old('date_of_birth') ?? datetoDpicker($client->date_of_birth) }}" >
+                    <input name="date_of_birth" type="text" class="form-control" value="{{ old('date_of_birth') ?? datetoDpicker($client->date_of_birth) }}" autocomplete="off">
                     <div class="input-group-addon">
                       <span><i class="fa fa-calendar"></i></span>
                     </div>
@@ -106,7 +106,7 @@
                     class="form-control @error('email') is-invalid @enderror" 
                     name="email" 
                     value="{{ old('email') ?? $client->email }}"  
-                    autofocus>
+                    autofocus autocomplete="off">
 
                   @error('email')
                       <span class="invalid-feedback" role="alert">
@@ -125,7 +125,7 @@
                     class="form-control @error('number') is-invalid @enderror" 
                     name="number" 
                     value="{{ old('number') ?? $client->number }}"  
-                    autofocus>
+                    autofocus autocomplete="off">
 
                   @error('number')
                       <span class="invalid-feedback" role="alert">
@@ -209,7 +209,7 @@
                     class="form-control @error('company_id') is-invalid @enderror" 
                     name="company_id" 
                     value="{{ old('company_id') ?? $client->company_id }}"  
-                    autocomplete="company_id" autofocus>
+                    autofocus>
 
                   @error('company_id')
                       <span class="invalid-feedback" role="alert">
@@ -234,7 +234,7 @@
                     class="form-control @error('position') is-invalid @enderror" 
                     name="position" 
                     value="{{ old('position') ?? $client->position }}"  
-                    autocomplete="position" autofocus>
+                    autofocus>
 
                   @error('position')
                       <span class="invalid-feedback" role="alert">
@@ -253,7 +253,7 @@
                     class="form-control @error('url') is-invalid @enderror" 
                     name="url" 
                     value="{{ old('url') ?? $client->url }}"  
-                    autocomplete="url" autofocus>
+                    autocomplete="off" autofocus>
 
                   @error('url')
                       <span class="invalid-feedback" role="alert">
@@ -277,7 +277,7 @@
                     class="form-control @error('skillset') is-invalid @enderror" 
                     name="skillset" 
                     value="{{ old('skillset') ?? $client->skillset }}"  
-                    autocomplete="skillset" autofocus>
+                    autocomplete="off" autofocus>
 
                   @error('skillset')
                       <span class="invalid-feedback" role="alert">
@@ -296,7 +296,7 @@
                     class="form-control @error('hobbies') is-invalid @enderror" 
                     name="hobbies" 
                     value="{{ old('hobbies') ?? $client->hobbies }}"  
-                    autocomplete="hobbies" autofocus>
+                    autocomplete="off" autofocus>
 
                   @error('hobbies')
                       <span class="invalid-feedback" role="alert">
