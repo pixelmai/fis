@@ -11309,9 +11309,25 @@ form label .required {
   color: #000;
 }
 
+.chip-student {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.chip-pwd {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+}
+
 .info-block .info-item {
   margin-bottom: 10px;
   display: block;
+}
+
+.info-block .info-item a {
+  color: #3490dc;
 }
 
 .info-block strong {
@@ -11411,8 +11427,82 @@ form label .required {
   border-bottom: 1px solid #fff;
 }
 
+#app #listpage_datatable {
+  width: 100% !important;
+  border-bottom: 1px solid #dee2e6;
+}
+
+#app #listpage_datatable #bulk_delete {
+  padding: 1px 10px;
+}
+
+#app #listpage_datatable tr.rowselected {
+  background: #fff3f3;
+}
+
+#app #listpage_datatable tr td {
+  vertical-align: middle;
+}
+
+#app #listpage_datatable tr td .btn {
+  margin-left: 5px;
+}
+
+#app #listpage_datatable tr td .btn-outline-secondary,
+#app #listpage_datatable tr td .btn-outline-danger {
+  border: 1px solid #eee;
+}
+
+#app #listpage_datatable tr td .btn-outline-secondary:hover {
+  border: 1px solid #6c757d;
+}
+
+#app #listpage_datatable tr td .btn-outline-danger {
+  color: #6c757d;
+}
+
+#app #listpage_datatable tr td .btn-outline-danger:hover {
+  color: #fff;
+  border: 1px solid #e3342f;
+}
+
+#app #listpage_datatable tr td:first-child {
+  line-height: 1em;
+  padding-left: 20px;
+}
+
+#app #listpage_datatable tr td:last-child {
+  text-align: right;
+  width: 120px !important;
+  min-width: 120px !important;
+}
+
+#app #listpage_datatable .col_actions {
+  text-align: right;
+  padding-right: 10px;
+}
+
+/* ---------------------------------------------------
+  ADDITIONAL OOP
+----------------------------------------------------- */
+
 .lh-1 {
   line-height: 1em;
+}
+
+hr.dotted {
+  border-top: 1px dotted #ddd;
+}
+
+.input-group-addon {
+  border: 1px solid #ced4da;
+  border-left: 0;
+  background: #eee;
+}
+
+.input-group-addon span {
+  padding: 5px 10px 0;
+  display: block;
 }
 
 /* ---------------------------------------------------

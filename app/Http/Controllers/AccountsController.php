@@ -18,7 +18,6 @@ class AccountsController extends Controller
   public function __construct()
   {
     $this->middleware('auth');
-
   }
 
   public function index()
@@ -40,12 +39,12 @@ class AccountsController extends Controller
 
     $data = request()->validate([
       'image' => '',
-      'fname' => 'required',
-      'lname' => 'required',
-      'email' => 'email',
-      'number' => ['nullable', new PhoneNumber],
+      'fname' => ['required', 'string', 'max:50'],
+      'lname' => ['required', 'string', 'max:50'],
+      'email' => ['required', 'string', 'email', 'max:255'],
+      'number' => ['nullable', 'max:30', new PhoneNumber],
       'address' => 'nullable',
-      'position' => 'required',
+      'position' => ['required', 'string', 'max:100'],
       'skillset' => 'nullable',
     ]);
 
