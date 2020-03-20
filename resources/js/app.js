@@ -15,7 +15,6 @@ $(document).ready(function () {
 
 });
 
-
 window.generateNotif=function(data){
   var alertHtml = '<div id="notifAlert" class="alert alert-'+data.status+' alert-dismissible" role="alert"><span>'+ data.message +'</span><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
   $("main").prepend(alertHtml);
@@ -24,5 +23,6 @@ window.generateNotif=function(data){
     $("#notifAlert").fadeOut("1000");
   }, 4000);
 };
+
 
 
