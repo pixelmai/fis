@@ -31,7 +31,7 @@
 
           <h4><a href="/categories/partners">Partners</a></h4>
           <p>
-            Used to categorize <strong>Companies and Institutions</strong> that have partnerships with FABLAB. <br>Default types are: 
+            Used to categorize <strong>Partner Companies and Institutions</strong> of FABLAB. <br>Default types are: 
           </p>
           <ul>
             <li>GOV</li>
@@ -52,15 +52,13 @@
 
           <h4><a href="/categories/registrations">Registrations</a></h4>
           <p>
-            Classifies the <strong>registration status and potential</strong> of the client. <br>Default values are: 
+            Classifies the <strong>Registration status</strong> of the clients. <br>Default values are: 
           </p>
           <ul>
             <li>Registered (DTI / SEC / CDA)</li>
             <li>Unregistered</li>
             <li>Potential (Students/Hobbyist))</li>
           </ul>
-
-
 
         </div>
 

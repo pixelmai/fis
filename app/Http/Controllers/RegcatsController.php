@@ -14,6 +14,8 @@ class RegcatsController extends Controller
 
   public function __construct()
   {
+    $this->middleware('auth');
+
     //Page repeated defaults
     $this->cat_settings['seltab'] = 'registrations';
     $this->homeLink = '/categories/registrations';
@@ -70,9 +72,6 @@ class RegcatsController extends Controller
       'description' => ['nullable', 'string'],
       'msme_types' => ['required'],
     ]);
-
-    $data['is_active'] = 1;
-
 
     $query = Regtypes::create([
       'name' => $data['name'],
@@ -171,14 +170,6 @@ class RegcatsController extends Controller
     }
   }
 
-
-
-
-
-
-
-
-
   public function msmecreate()
   {
     $user = auth()->user();
@@ -204,9 +195,6 @@ class RegcatsController extends Controller
       'name' => ['required', 'string', 'max:255'],
       'description' => ['nullable', 'string'],
     ]);
-
-    $data['is_active'] = 1;
-
 
     $query = Regmsmes::create([
       'name' => $data['name'],

@@ -13,6 +13,8 @@ class SectorsController extends Controller
 
   public function __construct()
   {
+    $this->middleware('auth');
+    
     //Page repeated defaults
     $this->cat_settings['seltab'] = 'sectors';
     $this->homeLink = '/categories/sectors';

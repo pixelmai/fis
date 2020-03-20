@@ -67,11 +67,11 @@ class TeamController extends Controller
     }
 
     $data = request()->validate([
-      'fname' => ['required', 'string', 'max:255'],
-      'lname' => ['required', 'string', 'max:255'],
+      'fname' => ['required', 'string', 'max:50'],
+      'lname' => ['required', 'string', 'max:50'],
       'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
       'password' => ['required', 'string', 'min:8', 'confirmed'],
-      'position' => ['required', 'string', 'max:255'],
+      'position' => ['required', 'string', 'max:100'],
     ]);
 
     
@@ -128,12 +128,12 @@ class TeamController extends Controller
 
       $data = request()->validate([
         'image' => '',
-        'fname' => 'required',
-        'lname' => 'required',
-        'email' => 'email',
-        'number' => ['nullable', new PhoneNumber],
+        'fname' => ['required', 'string', 'max:50'],
+        'lname' => ['required', 'string', 'max:50'],
+        'email' => ['required', 'string', 'email', 'max:255'],
+        'number' => ['nullable', 'max:30', new PhoneNumber],
         'address' => 'nullable',
-        'position' => 'required',
+        'position' => ['required', 'string', 'max:100'],
         'skillset' => 'nullable',
         'setadmin' => 'nullable',
         'deactivate' => 'nullable',
