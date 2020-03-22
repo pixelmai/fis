@@ -25,17 +25,11 @@
                     </div>
 
                     @if ($client->is_freelancer == 1)
-                      <div class="chip mb-2">
+                      <div class="chip mb-2 chip-freelancer">
                         Freelancer
                       </div>
                     @endif
 
-
-                    @if ($client->regtype->name == 'Student')
-                      <div class="chip mb-2 chip-student">
-                        Student
-                      </div>
-                    @endif
 
                     @if ($client->is_pwd == 1)
                       <div class="chip mb-2 chip-pwd">
@@ -198,7 +192,17 @@
                   @endif
 
 
-       
+                  <div class="updatedby text-right">
+                    Last updated by
+                    <b>
+                      <a href="/team/profile/{{ $updater->id }}">
+                        {{ $updater->fname }}
+                        {{ $updater->lname }}
+                      </a>
+                    </b>
+                    on
+                    {{ dateOnly($client->updated_at) }}
+                  </div>
 
 
                 </div>

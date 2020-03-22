@@ -23,6 +23,10 @@ class Clients extends Model
     return $this->belongsTo('App\Regtypes');
   }
 
+  public function company(){
+    return $this->belongsTo('App\Companies');
+  }
+
 }
 
 

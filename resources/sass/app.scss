@@ -423,6 +423,12 @@
           line-height: 1.6;
         }
       }
+
+      .updatedby{
+        padding-top: 20px;
+        font-size: .8em;
+        color: #888;
+      }
     }
 
 
@@ -475,7 +481,7 @@
     color: #000;
   }
 
-  .chip-student{
+  .chip-freelancer{
     color: #155724;
     background-color: #d4edda;
     border-color: #c3e6cb;
@@ -607,9 +613,6 @@
       padding: 1px 10px;
     }
 
-    tr.rowselected{
-      background: #fff3f3;
-    }
 
     tr{
       td{
@@ -619,6 +622,8 @@
           margin-left: 5px;
 
         }
+
+
 
         .btn-outline-secondary, .btn-outline-danger{
           border: 1px solid #eee;
@@ -648,6 +653,23 @@
         width: 120px !important;
         min-width: 120px !important;
       }
+
+      .hover_buttons{
+        opacity: 0;
+      }
+
+      &:hover{
+        background: #f9f9f9;
+
+        .hover_buttons{
+          opacity: 1;
+        }
+      }
+    }
+
+    tr.rowselected, tr.rowselected:hover{
+      background: #fff3f3;
+
     }
 
     .col_actions{
@@ -725,6 +747,19 @@ hr.dotted{ border-top: 1px dotted #ddd; }
 
   @media (max-width: 768px) {
 
+    #app {
+      #listpage_datatable{
+
+
+        tr{
+
+
+          .hover_buttons{
+            opacity: 1;
+          }
+        }
+      }
+    }
 
     .fixed-position{
       position: fixed;
@@ -758,6 +793,13 @@ hr.dotted{ border-top: 1px dotted #ddd; }
       }
     }
   }
+
+
+
+
+
+
+
 
 /* ---------------------------------------------------
   MEDIAQUERIES

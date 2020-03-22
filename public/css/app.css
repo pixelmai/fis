@@ -11276,6 +11276,12 @@ a[data-toggle=collapse] {
   line-height: 1.6;
 }
 
+#app .card-body .updatedby {
+  padding-top: 20px;
+  font-size: 0.8em;
+  color: #888;
+}
+
 #app input[type=email]:focus,
 #app input[type=password]:focus {
   background: #ffffe5;
@@ -11321,7 +11327,7 @@ form label .required {
   color: #000;
 }
 
-.chip-student {
+.chip-freelancer {
   color: #155724;
   background-color: #d4edda;
   border-color: #c3e6cb;
@@ -11448,10 +11454,6 @@ form label .required {
   padding: 1px 10px;
 }
 
-#app #listpage_datatable tr.rowselected {
-  background: #fff3f3;
-}
-
 #app #listpage_datatable tr td {
   vertical-align: middle;
 }
@@ -11487,6 +11489,23 @@ form label .required {
   text-align: right;
   width: 120px !important;
   min-width: 120px !important;
+}
+
+#app #listpage_datatable tr .hover_buttons {
+  opacity: 0;
+}
+
+#app #listpage_datatable tr:hover {
+  background: #f9f9f9;
+}
+
+#app #listpage_datatable tr:hover .hover_buttons {
+  opacity: 1;
+}
+
+#app #listpage_datatable tr.rowselected,
+#app #listpage_datatable tr.rowselected:hover {
+  background: #fff3f3;
 }
 
 #app #listpage_datatable .col_actions {
@@ -11556,6 +11575,10 @@ hr.dotted {
 }
 
 @media (max-width: 768px) {
+  #app #listpage_datatable tr .hover_buttons {
+    opacity: 1;
+  }
+
   .fixed-position {
     position: fixed;
     margin-top: 64px;
