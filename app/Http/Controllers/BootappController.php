@@ -9,6 +9,7 @@ use App\Sectors;
 use App\Servcats;
 use App\Regmsmes;
 use App\Regtypes;
+use App\Companies;
 use Illuminate\Http\Request;
 
 class BootappController extends Controller
@@ -99,6 +100,13 @@ class BootappController extends Controller
       Regtypes::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Unregistered','regmsmes_id' => '2']);
       Regtypes::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Student','regmsmes_id' => '3']);
       Regtypes::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Hobbyist','regmsmes_id' => '3']);
+      $s = TRUE;
+    }
+
+    // REGISTRATION MSME LIST
+    $companies = Companies::find(1);
+    if(!$companies){
+      Companies::create(['is_partner' => 0, 'updatedby_id' => 1, 'name' => '-','client_id'=> 0 ]);
       $s = TRUE;
     }
 

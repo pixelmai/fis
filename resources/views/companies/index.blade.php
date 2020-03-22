@@ -11,7 +11,7 @@
         <h1 class="pt-1 pb-0">Companies</h1>
       </div>
       <div>
-        <a href="clients/create" class="btn btn-lg btn-success">Add Company</a>
+        <a href="companies/create" class="btn btn-lg btn-success">Add Company</a>
       </div>
     </div>
   </div>

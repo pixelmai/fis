@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Clients;
+use App\Companies;
 use App\Regtypes;
 use App\Sectors;
 use App\Rules\Url;
@@ -30,9 +31,27 @@ class ClientsController extends Controller
   {
     $user = auth()->user();
 
+
     if(request()->ajax()){
 
-      $clients = DB::table('clients')->select('id','fname','lname','email','number','company_id','position');
+      // $clients = DB::table('clients')->with('companies')->select('id','fname','lname','email','number','company_id','position');
+
+
+      $clients = DB::table('clients')
+            ->leftJoin('companies', 'clients.company_id', '=', 'companies.id')
+            ->select(
+            'clients.id',
+            'clients.fname',
+            'clients.lname',
+            'clients.email',
+            'clients.number',
+            'clients.company_id',
+            'clients.position',
+            'companies.name')
+            ->get();
+
+
+
       return datatables()->of($clients)
         ->addColumn('action', function($data){
       $button = '<div class="hover_buttons"><a href="/clients/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
@@ -98,6 +117,8 @@ class ClientsController extends Controller
     $is_pwd = (isset($data['is_pwd']) && $data['is_pwd'] == 1 ? 1 : 0); 
     $dob = (isset($data['date_of_birth']) ? dateDatabase($data['date_of_birth']) : $data['date_of_birth']);
 
+    $company_id = ($data['company_id'] == '' ? 1 : $data['company_id']); 
+
 
     $query = Clients::create([
       'fname' => $data['fname'],
@@ -107,7 +128,7 @@ class ClientsController extends Controller
       'email' => $data['email'],
       'number' => $data['number'],
       'address' => $data['address'],
-      'company_id' => $data['company_id'],
+      'company_id' => $company_id,
       'regtype_id' => $data['regtype_id'],
       'sector_id' => $data['sector_id'],
       'position' => $data['position'],
@@ -197,7 +218,8 @@ class ClientsController extends Controller
     $is_food = (isset($data['is_food']) && $data['is_food'] == 1 ? 1 : 0); 
     $is_pwd = (isset($data['is_pwd']) && $data['is_pwd'] == 1 ? 1 : 0); 
     $dob = (isset($data['date_of_birth']) ? dateDatabase($data['date_of_birth']) : $data['date_of_birth']);
-
+    $company_id = ($data['company_id'] == '' ? 1 : $data['company_id']); 
+    
 
     $client->fname = $data['fname'];
     $client->lname = $data['lname'];
@@ -206,7 +228,7 @@ class ClientsController extends Controller
     $client->email = $data['email'];
     $client->number = $data['number'];
     $client->address = $data['address'];
-    $client->company_id = $data['company_id'];
+    $client->company_id = $company_id;
     $client->regtype_id = $data['regtype_id'];
     $client->sector_id = $data['sector_id'];
     $client->position = $data['position'];

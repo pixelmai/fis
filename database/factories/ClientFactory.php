@@ -13,6 +13,7 @@ $factory->define(Clients::class, function (Faker $faker) {
         'gender' => 'm',
         'regtype_id' => 1,
         'sector_id' => 1,
+        'company_id' => 1,
         'updatedby_id' => 1,
         'email' => $faker->unique()->safeEmail,
     ];
