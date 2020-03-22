@@ -13,6 +13,11 @@ $(document).ready(function () {
 
 	$('body').tooltip({selector: '[data-toggle="tooltip"]'});
 
+	$("select").dropkick({
+	  mobile: true
+	});
+
+
 });
 
 window.generateNotif=function(data){

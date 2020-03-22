@@ -411,6 +411,18 @@
         color: $text_dviolet;
         font-weight: bold;
       }
+
+      .dk-select.form-control{
+        border: 0;
+        padding: 0;
+
+        .dk-selected{
+          padding: 0.375rem 0.75rem;
+          font-size: 0.9rem;
+          font-weight: 400;
+          line-height: 1.6;
+        }
+      }
     }
 
 
@@ -643,7 +655,24 @@
       padding-right: 10px;
     }
 
+  }
 
+  .dataTables_wrapper{
+    border-top: 1px dotted #ccc;
+    .dataTables_length, .dataTables_filter{
+      padding: 20px 0 10px;
+      .dk-select{
+        width: 70px;
+      }
+    }
+
+    .dataTables_filter{
+      input{
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        min-width: 250px;
+      }
+    }
   }
 
 
