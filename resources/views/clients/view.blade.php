@@ -44,9 +44,7 @@
                       <i class="fas fa-edit"></i>
                     </a>
 
-                    <a href="/clients/destroy/{{ $client->id }}" data-toggle="tooltip" data-placement="top" data-original-title="Delete" class="edit btn btn-outline-danger btn-lg" onclick="return confirm('Are you sure you want to delete this client?');">
-                      <i class="fas fa-trash"></i>
-                    </a>
+                    <a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn btn-outline-danger btn-lg"><i class="fas fa-trash"></i></a>
 
                   </div>
                 </div>
@@ -225,8 +223,45 @@
 
 
 
-@endsection
+@stop
+
+
+
+@push('scripts')
+
+  <script>
+    $(document).ready( function () {
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+
+      $('body').on('click', '#delete-row', function () {
+        var row_id = $(this).data("id");
+
+        if (confirm('Are you sure want to delete row?')) {
+
+          $.ajax({
+              type: "get",
+              url: "/clients/destroy/"+'{{ $client->id }}',
+              success: function (data) {
+                window.location.href = '{{ url('/clients') }}';
+;
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+      });   
+
+    
+
+    }); //end document ready
 
 
 
 
+  </script>
+@endpush

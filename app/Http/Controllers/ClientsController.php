@@ -15,7 +15,6 @@ use Datatables;
 class ClientsController extends Controller
 {
   private $page_settings;
-  private $unauth;
 
   public function __construct()
   {
@@ -135,10 +134,16 @@ class ClientsController extends Controller
   {
     $user = auth()->user();
     $client = Clients::with('sector','regtype')->find($id);
-    $updater = User::find($client->updatedby_id);
 
-    return view('clients.view', ['user' => $user, 'client' => $client, 'page_settings'=> $this->page_settings, 'updater' => $updater]);
+    if($client){
+      $updater = User::find($client->updatedby_id);
+      return view('clients.view', ['user' => $user, 'client' => $client, 'page_settings'=> $this->page_settings, 'updater' => $updater]);
 
+    }else{
+      return notifyRedirect('/clients', 'Client not found', 'danger');
+    }
+
+  
 
   }
 
@@ -147,10 +152,16 @@ class ClientsController extends Controller
     $user = auth()->user();
     $client = Clients::find($id);
 
-    $regtype_id = Regtypes::where('is_active', '1')->orderBy('id', 'ASC')->get();
-    $sector_id = Sectors::where('is_active', '1')->orderBy('id', 'ASC')->get();
+    if($client){
 
-    return view('clients.edit', ['user' => $user, 'page_settings'=> $this->page_settings,'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 'client'=> $client]);
+      $regtype_id = Regtypes::where('is_active', '1')->orderBy('id', 'ASC')->get();
+      $sector_id = Sectors::where('is_active', '1')->orderBy('id', 'ASC')->get();
+
+      return view('clients.edit', ['user' => $user, 'page_settings'=> $this->page_settings,'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 'client'=> $client]);
+    }else{
+      return notifyRedirect('/clients', 'Client not found', 'danger');
+    }
+
 
 
   }
@@ -217,12 +228,16 @@ class ClientsController extends Controller
 
   public function destroy($id)
   {
-    if(request()->ajax()){
-      $row = Clients::where('id',$id)->delete();
-      return Response::json($row);
+    $client = Clients::find($id);
+    if($client){
+      if(request()->ajax()){
+        $row = Clients::where('id',$id)->delete();
+        return Response::json($row);
+      }else{
+        return notifyRedirect('/clients', 'Unauthorized to delete', 'danger');
+      }
     }else{
-      $row = Clients::where('id',$id)->delete();
-      return notifyRedirect($this->homeLink, 'Successfully deleted client.' , 'warning');
+      return notifyRedirect('/clients', 'Client not found', 'danger');
     }
   }
 

@@ -117,6 +117,17 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/clients/view/{id}', 'ClientsController@view');
   Route::get('/clients/destroy/{id}', 'ClientsController@destroy');
   Route::get('/clients/massrem', 'ClientsController@massrem');
-
-
 /* Clients */
+
+
+/* Companies */
+  Route::get('/companies', 'CompaniesController@index');
+  Route::get('/companies/create', 'CompaniesController@create');
+  Route::post('/companies/create', 'CompaniesController@store');
+  Route::get('/companies/edit/{id}', 'CompaniesController@edit');
+  Route::patch('/companies/edit/{id}', 'CompaniesController@update');
+  Route::get('/companies/view/{id}', 'CompaniesController@view');
+  Route::get('/companies/destroy/{id}', 'CompaniesController@destroy');
+  Route::get('/companies/massrem', 'CompaniesController@massrem');
+/* Companies */
+

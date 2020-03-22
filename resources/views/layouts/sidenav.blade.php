@@ -18,7 +18,7 @@
                   <a href="/clients">Clients</a>
               </li>
               <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'companies')) class="active" @endif>
-                  <a href="#">Companies</a>
+                  <a href="/companies">Companies</a>
               </li>
               <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'projects')) class="active" @endif>
                   <a href="#">Projects</a>
