@@ -53,14 +53,15 @@ class CompaniesController extends Controller
 
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
+
   public function create()
   {
-    //
+    $user = auth()->user();
+    $partner_id = Partners::where('is_active', '1')->where('id', '!=' , 1)->orderBy('id', 'ASC')->get();
+
+
+    return view('companies.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'partner_id' => $partner_id]);
+
   }
 
   /**

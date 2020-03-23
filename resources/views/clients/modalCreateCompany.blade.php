@@ -3,7 +3,7 @@
 <div class="modal-dialog modal-lg">
 <div class="modal-content">
     <div class="modal-header">
-        <h4 class="modal-title">Create Company</h4>
+        <h4 class="modal-title">Create New Company</h4>
     </div>
     <div class="modal-body">
         <form id="postForm" name="postForm" class="form-horizontal">

@@ -434,6 +434,33 @@
 
   }); //end document ready
 
+
+  //NOT WORKING current task
+  if ($("#postForm").length > 0) {
+    $("#postForm").validate({
+        submitHandler: function(form) {
+        var actionType = $('#btn-save').val();
+        $('#btn-save').html('Sending..');
+      
+        $.ajax({
+            data: $('#postForm').serialize(),
+            url: "/companies/store",
+            type: "POST",
+            dataType: 'json',
+            success: function (data) {
+              $('#postForm').trigger("reset");
+              $('#ajax-crud-modal').modal('hide');
+              $('#btn-save').html('Save Changes');
+            },
+            error: function (data) {
+                console.log('Error:', data);
+                $('#btn-save').html('Save Changes');
+            }
+        });
+      }
+    })
+  }
+
   </script>
 
 
