@@ -6,6 +6,7 @@ use App\User;
 use App\Clients;
 use App\Companies;
 use App\Regtypes;
+use App\Partners;
 use App\Sectors;
 use App\Rules\Url;
 use App\Rules\PhoneNumber;
@@ -82,7 +83,10 @@ class ClientsController extends Controller
 
     $sector_id = Sectors::where('is_active', '1')->orderBy('id', 'ASC')->get();
 
-    return view('clients.create', ['user' => $user, 'page_settings'=> $this->page_settings,'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id]);
+    $partner_id = Partners::where('is_active', '1')->where('id', '!=' , 1)->orderBy('id', 'ASC')->get();
+
+
+    return view('clients.create', ['user' => $user, 'page_settings'=> $this->page_settings,'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 'partner_id' => $partner_id]);
 
   }
 

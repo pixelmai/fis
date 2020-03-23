@@ -196,16 +196,15 @@
 
             <div class="form-group row">
 
-              <div class="col-6">
-                <label for="company_id" class="col-form-label">Company</label>
-
+              <div class="col-md-6">
+                <label for="company_id" class="col-form-label">Company/Institution</label>
                   <div>
                     <input id="company_name" 
                       type="text" 
                       class="w-100 form-control @error('company_name') is-invalid @enderror" 
                       name="company_name" 
                       value="{{ old('company_name') }}"  
-                      autocomplete="off" autofocus placeholder="Type Company Name to search">
+                      autocomplete="off" autofocus placeholder="Type name to search">
 
                     <input id="company_id" 
                       type="hidden" 
@@ -219,8 +218,10 @@
                     @enderror
                   </div>
               </div>
+              <div class="col-md-6">
+                <a href="javascript:void(0)" class="btn btn-info" id="add-company">Add New Company</a>
+              </div>
 
-              
 
             </div>
 
@@ -353,8 +354,21 @@
   </div>
 </div>
 
+
+
+
+
+
 @stop
 
+
+@push('modals')
+
+@include('clients.modalCreateCompany')
+
+
+
+@endpush
 
 
 @push('scripts')
@@ -365,20 +379,7 @@
   $(document).ready( function () {
     $('#date_of_birth').datepicker();
 
-    /*
-      var path = "{{ route('clientsauto') }}";
-      $('input#company_id').typeahead({
-          source:  function (query, process) {
-            return $.get(path, { query: query }, function (data) {
-                return process(data);
-            });
-          }
-      }); 
-    */
-
-
-
-var engine = new Bloodhound({
+    var engine = new Bloodhound({
         remote: {
             url: '{{ route('clientsauto') }}?q=%QUERY%',
             wildcard: '%QUERY%'
@@ -414,6 +415,20 @@ var engine = new Bloodhound({
       if(suggestion.id){
         $('#company_id').val(suggestion.id);
       }
+    });
+
+
+
+    $('#add-company').click(function () {
+        $('#btn-save').val("create-post");
+        $('#postForm').trigger("reset");
+        $('#ajax-crud-modal').modal('show');
+    });
+     
+
+
+    $('#is_partner').click(function(){
+        $('#partner_type').toggleClass('d-none');
     });
 
 
