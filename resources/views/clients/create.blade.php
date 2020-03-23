@@ -199,19 +199,27 @@
               <div class="col-12">
                 <label for="company_id" class="col-form-label">Company</label>
 
-              
-                  <input id="company_id" 
-                    type="text" 
-                    class="form-control @error('company_id') is-invalid @enderror" 
-                    name="company_id" 
-                    value="{{ old('company_id') }}"  
-                    autocomplete="off" autofocus>
+                  <div>
+                    <input id="company_name" 
+                      type="text" 
+                      class="form-control @error('company_id') is-invalid @enderror" 
+                      name="company_id" 
+                      value="{{ old('company_id') }}"  
+                      autocomplete="off" autofocus>
 
-                  @error('company_id')
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                      </span>
-                  @enderror
+                    <input id="company_id" 
+                      type="text" 
+                      class="form-control @error('company_id') is-invalid @enderror" 
+                      name="company_id" 
+                      value="{{ old('company_id') }}"  
+                      autocomplete="off" autofocus>
+
+                    @error('company_id')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                  </div>
               </div>
 
               
@@ -353,9 +361,67 @@
 
 @push('scripts')
   <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+  <script src="{{ asset('js/typeahead.bundle.min.js') }}"></script>
+
   <script>
   $(document).ready( function () {
     $('#date_of_birth').datepicker();
+
+    /*
+      var path = "{{ route('clientsauto') }}";
+      $('input#company_id').typeahead({
+          source:  function (query, process) {
+            return $.get(path, { query: query }, function (data) {
+                return process(data);
+            });
+          }
+      }); 
+    */
+
+
+
+var engine = new Bloodhound({
+        remote: {
+            url: '{{ route('clientsauto') }}?q=%QUERY%',
+            wildcard: '%QUERY%'
+        },
+        datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace
+    });
+
+    $("input#company_name").typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 2
+    }, {
+        source: engine.ttAdapter(),
+        // This will be appended to "tt-dataset-" to form the class name of the suggestion menu.
+        name: 'companies',
+        // the key from the array we want to display (name,id,email,etc...)
+        display: 'name',
+        templates: {
+            empty: [
+                '<div class="list-group search-results-dropdown"><div class="list-group-item"><a href="#">Nothing found.</a></div></div>'
+            ],
+            header: [
+                '<div class="list-group search-results-dropdown">'
+            ],
+            suggestion: function (data) {
+              $('#company_id').val(1);
+              return '<div>' + data.name + '</div>';
+            }
+        }
+
+    }).on('typeahead:select', function(ev, suggestion) {
+      if(suggestion.id){
+        $('#company_id').val(suggestion.id);
+      }
+    });
+
+
+  }); //end document ready
+
   </script>
+
 
 @endpush

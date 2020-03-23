@@ -135,3 +135,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
   Route::get('/clientsList', 'ClientsController@dblist');
   Route::get('/companiesList', 'CompaniesController@dblist');
+
+
+  Route::get('/clients/autocomplete', 'ClientsController@autocomplete')->name('clientsauto');
