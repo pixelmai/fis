@@ -196,23 +196,21 @@
 
             <div class="form-group row">
 
-              <div class="col-12">
+              <div class="col-6">
                 <label for="company_id" class="col-form-label">Company</label>
 
                   <div>
                     <input id="company_name" 
                       type="text" 
-                      class="form-control @error('company_id') is-invalid @enderror" 
-                      name="company_id" 
-                      value="{{ old('company_id') }}"  
-                      autocomplete="off" autofocus>
+                      class="w-100 form-control @error('company_name') is-invalid @enderror" 
+                      name="company_name" 
+                      value="{{ old('company_name') }}"  
+                      autocomplete="off" autofocus placeholder="Type Company Name to search">
 
                     <input id="company_id" 
-                      type="text" 
-                      class="form-control @error('company_id') is-invalid @enderror" 
+                      type="hidden" 
                       name="company_id" 
-                      value="{{ old('company_id') }}"  
-                      autocomplete="off" autofocus>
+                      value="{{ old('company_id') }}">
 
                     @error('company_id')
                         <span class="invalid-feedback" role="alert">
@@ -408,7 +406,7 @@ var engine = new Bloodhound({
             ],
             suggestion: function (data) {
               $('#company_id').val(1);
-              return '<div>' + data.name + '</div>';
+              return '<div class="list-group-item">' + data.name + '</div>';
             }
         }
 
