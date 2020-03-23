@@ -21,7 +21,8 @@
         <table id="listpage_datatable" class="table table-responsive-md" data-page-length="25">
           <thead class="thead-dark">
             <tr>
-              <th scope="col">ID</th>
+              <th scope="col">&nbsp;</th>
+              <th scope="cold">&nbsp;</th>
               <th scope="col" class="col_checkbox">&nbsp;</th>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
@@ -66,13 +67,23 @@
              },
              columns: [
                       { data: 'id', name: 'id', 'visible': false},
+                      { data: "contactperson.fname", 'visible': false},
                       { data: 'checkbox', orderable:false, searchable:false},
                       { data: 'name', name: 'name' },
                       { data: 'email', name: 'email', orderable: false  },
                       { data: 'number', name: 'number', orderable: false, searchable: false },
-                      { data: 'partner_id', name: 'partner_id' },
-                      { data: 'client_id', name: 'client_id' },
-                      {data: 'action', name: 'action', orderable: false},
+                      { data: 'partner.name', orderable: false},
+     
+
+                      { data: "contactperson.lname", render: function ( data, type, row ) {
+                          // Combine the first and last names into a single table field
+                          if ( type === 'display' || type === 'filter' ) {
+                            return '<a href="/clients/view/'+row.contactperson.id+'">'+row.contactperson.fname+' '+row.contactperson.lname+'</a>';
+                          } else {
+                            return row.contactperson.lname;
+                          }
+                      }, orderable: false },
+                      {data: 'action', name: 'action', orderable: false,  searchable:false},
                    ],
             order: [[0, 'desc']]
       });

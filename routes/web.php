@@ -133,5 +133,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 
-  Route::get('/clientsList', 'ClientsController@clientsList');
-  
+  Route::get('/clientsList', 'ClientsController@dblist');
+  Route::get('/companiesList', 'CompaniesController@dblist');

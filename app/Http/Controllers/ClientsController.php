@@ -279,30 +279,30 @@ class ClientsController extends Controller
 
 
 
-public function clientsList()
-{
-  /*
-  $clients = DB::table('clients')->select('*');
-  return datatables()->of($clients)
-      ->make(true);
-  */
+  public function dblist()
+  {
+    /*
+    $clients = DB::table('clients')->select('*');
+    return datatables()->of($clients)
+        ->make(true);
+    */
 
- $clients = DB::table('clients')
-            ->leftJoin('companies', 'clients.company_id', '=', 'companies.id')
-            ->select(
-            'clients.id',
-            'clients.fname',
-            'clients.lname',
-            'clients.email',
-            'clients.number',
-            'clients.company_id',
-            'clients.position',
-            'companies.name as company_name')
-            ->get();
+    $clients = DB::table('clients')
+              ->leftJoin('companies', 'clients.company_id', '=', 'companies.id')
+              ->select(
+              'clients.id',
+              'clients.fname',
+              'clients.lname',
+              'clients.email',
+              'clients.number',
+              'clients.company_id',
+              'clients.position',
+              'companies.name as company_name')
+              ->get();
 
-  return datatables()->of($clients)
-      ->make(true);
-}
+    return datatables()->of($clients)
+        ->make(true);
+  }
 
 
 }
