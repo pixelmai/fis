@@ -72,7 +72,7 @@
                       { data: 'lname', name: 'lname' },
                       { data: 'email', name: 'email', orderable: false  },
                       { data: 'number', name: 'number', orderable: false, searchable: false },
-                      { data: 'name', name: 'company_id' },
+                      { data: 'company_name', name: 'company_name' },
                       { data: 'position', name: 'position' },
                       {data: 'action', name: 'action', orderable: false},
                    ],

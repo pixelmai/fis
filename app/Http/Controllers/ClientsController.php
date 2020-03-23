@@ -47,7 +47,7 @@ class ClientsController extends Controller
             'clients.number',
             'clients.company_id',
             'clients.position',
-            'companies.name')
+            'companies.name as company_name')
             ->get();
 
 
@@ -276,4 +276,33 @@ class ClientsController extends Controller
       return notifyRedirect($this->homeLink, 'Deletion action not permitted', 'danger');
     }
   }
+
+
+
+public function clientsList()
+{
+  /*
+  $clients = DB::table('clients')->select('*');
+  return datatables()->of($clients)
+      ->make(true);
+  */
+
+ $clients = DB::table('clients')
+            ->leftJoin('companies', 'clients.company_id', '=', 'companies.id')
+            ->select(
+            'clients.id',
+            'clients.fname',
+            'clients.lname',
+            'clients.email',
+            'clients.number',
+            'clients.company_id',
+            'clients.position',
+            'companies.name as company_name')
+            ->get();
+
+  return datatables()->of($clients)
+      ->make(true);
+}
+
+
 }

@@ -100,10 +100,10 @@
 
                 <div class="row">
                   <div class="col-md-6">
-                    @if ($client->company_id)
+                    @if ($client->company_id && $client->company_id != 1)
                       <div class="info-item">
-                        <strong>Company</strong>
-                        {{ $client->company_id }}
+                        <strong>Company/Institution</strong>
+                        <a href="/companies/view/{{ $client->company_id }}">{{ $client->company->name }}</a>
                       </div>
                     @endif
 

@@ -131,3 +131,7 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/companies/massrem', 'CompaniesController@massrem');
 /* Companies */
 
+
+
+  Route::get('/clientsList', 'ClientsController@clientsList');
+  
