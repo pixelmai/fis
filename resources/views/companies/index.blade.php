@@ -73,8 +73,6 @@
                       { data: 'email', name: 'email', orderable: false  },
                       { data: 'number', name: 'number', orderable: false, searchable: false },
                       { data: 'partner.name', orderable: false},
-     
-
                       { data: "contactperson.lname", render: function ( data, type, row ) {
                           // Combine the first and last names into a single table field
                           if ( type === 'display' || type === 'filter' ) {

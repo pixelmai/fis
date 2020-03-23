@@ -20,7 +20,7 @@ class CreateCompaniesTable extends Migration
       $table->string('number')->nullable();
       $table->text('address')->nullable();
       $table->text('url')->nullable();
-      $table->tinyInteger('partner_id')->nullable(); //partner in settings
+      $table->tinyInteger('partner_id')->default(1);//partner in settings
       $table->tinyInteger('client_id'); //contact_person
       $table->text('description')->nullable();
       $table->boolean('is_partner')->default(0);

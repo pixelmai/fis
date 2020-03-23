@@ -66,6 +66,7 @@ class BootappController extends Controller
     // PARTNERS LIST
     $partners = Partners::find(1);
     if(!$partners){
+      Partners::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => '-', 'description' => 'Not a partner' ]);
       Partners::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'GOV', 'description' => 'Government' ]);
       Partners::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'NGO', 'description' => 'Nonprofit Organization']);
       Partners::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Commercial']);
