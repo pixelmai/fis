@@ -377,6 +377,10 @@
 
   <script>
   $(document).ready( function () {
+
+
+
+
     $('#date_of_birth').datepicker();
 
     var engine = new Bloodhound({
@@ -432,34 +436,91 @@
     });
 
 
+ // Clicking the save button on the open modal for both CREATE and UPDATE
+    $("#btn-save").click(function (e) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        e.preventDefault();
+
+        var check_is_partner;
+
+        if($('#is_partner').prop("checked") == true){
+          check_is_partner = 1;
+        } else {
+          check_is_partner = 0;
+        }
+
+        var formData = {
+          name: jQuery('#comp_name').val(),
+          email: jQuery('#comp_email').val(),
+          number: jQuery('#comp_number').val(),
+          address: jQuery('#comp_address').val(),
+          description: jQuery('#comp_description').val(),
+          url: jQuery('#comp_url').val(),
+          partner_id: $('#partner_id').children("option:selected").val(),
+          is_partner: check_is_partner,
+          updatedby_id: jQuery('#updatedby_id').val(),
+        };
+
+        var state = jQuery('#btn-save').val();
+        var type = "POST";
+        $.ajax({
+            type: type,
+            url: "/companies/modalStore",
+            data: formData,
+            dataType: 'json',
+            success: function (data) {
+              $('#company_name').val(data.name);
+              $('#company_id').val(data.id);
+              $('#ajaxForm').trigger("reset");
+              $('#ajax-crud-modal').modal('hide');
+              
+            },
+            error: function (data) {
+                console.log('Error:', data);
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   }); //end document ready
 
 
   //NOT WORKING current task
-  if ($("#postForm").length > 0) {
-    $("#postForm").validate({
-        submitHandler: function(form) {
-        var actionType = $('#btn-save').val();
-        $('#btn-save').html('Sending..');
-      
-        $.ajax({
-            data: $('#postForm').serialize(),
-            url: "/companies/store",
-            type: "POST",
-            dataType: 'json',
-            success: function (data) {
-              $('#postForm').trigger("reset");
-              $('#ajax-crud-modal').modal('hide');
-              $('#btn-save').html('Save Changes');
-            },
-            error: function (data) {
-                console.log('Error:', data);
-                $('#btn-save').html('Save Changes');
-            }
-        });
-      }
-    })
-  }
+
 
   </script>
 

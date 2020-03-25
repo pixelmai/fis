@@ -59,7 +59,6 @@ class CompaniesController extends Controller
     $user = auth()->user();
     $partner_id = Partners::where('is_active', '1')->where('id', '!=' , 1)->orderBy('id', 'ASC')->get();
 
-
     return view('companies.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'partner_id' => $partner_id]);
 
   }
@@ -73,6 +72,78 @@ class CompaniesController extends Controller
   public function store(Request $request)
   {
     //
+
+    $user = auth()->user();
+
+    $data = request()->validate([
+      'name' => ['required', 'string', 'max:255'],
+      'email' => ['nullable', 'email', 'max:255'],
+      'number' => ['nullable', 'max:30', new PhoneNumber],
+      'url' => ['nullable', 'string', 'max:255', new Url],
+      'address' => ['nullable'],
+      'description' => ['nullable'],
+      'client_id' => ['required'],
+      'is_partner' => ['nullable'],
+      'partner_id' => ['required'],
+    ]);
+
+
+    if(isset($data['is_partner']) && $data['is_partner'] == 1){
+      $is_partner = TRUE;
+      $partner_id = $data['partner_id'];
+    }else{
+      $is_partner = FALSE;
+      $partner_id = 1;
+    }
+
+    $query = Companies::create([
+      'name' => $data['name'],
+      'email' => $data['email'],
+      'number' => $data['number'],
+      'address' => $data['address'],
+      'client_id' => $data['client_id'],
+      'partner_id' => $partner_id,
+      'url' => $data['url'],
+      'description' => $data['description'],
+      'is_imported' => 0,
+      'is_partner' => $is_partner, 
+
+      'updatedby_id' => $user->id,
+    ]);
+
+    if($query){
+      return notifyRedirect($this->homeLink, 'Added a Company successfully', 'success');
+    }
+  }
+
+
+  public function modalStore(Request $request)
+  {  
+  
+      if($request->is_partner == 1){
+        $is_partner = TRUE;
+        $partner_id = $request->partner_id;
+      }else{
+        $is_partner = FALSE;
+        $partner_id = 1;
+      }
+
+     $query = Companies::create([
+      'name' => $request->name,
+      'email' => $request->email,
+      'number' => $request->number,
+      'address' => $request->address,
+      'description' => $request->description,
+      'url' => $request->url,
+      'client_id' => 0,
+      'partner_id' => $partner_id,
+      'is_imported' => 0,
+      'is_partner' => $is_partner,
+      'updatedby_id' => $request->updatedby_id,
+     ]);
+
+
+      return Response::json($query);
   }
 
   /**

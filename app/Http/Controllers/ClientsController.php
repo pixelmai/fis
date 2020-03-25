@@ -49,6 +49,7 @@ class ClientsController extends Controller
             'clients.company_id',
             'clients.position',
             'companies.name as company_name')
+            ->where('clients.id', '!=' , 0)
             ->get();
 
 
@@ -124,6 +125,10 @@ class ClientsController extends Controller
     $company_id = ($data['company_id'] == '' ? 1 : $data['company_id']); 
 
 
+
+
+
+
     $query = Clients::create([
       'fname' => $data['fname'],
       'lname' => $data['lname'],
@@ -147,6 +152,14 @@ class ClientsController extends Controller
     
       'updatedby_id' => $user->id,
     ]);
+
+
+    $company_check = Companies::find($company_id);
+
+    if($company_check->client_id == 0){
+      $company_check->client_id = $query->id;
+      $company_check->update();
+    }
 
 
     if($query){

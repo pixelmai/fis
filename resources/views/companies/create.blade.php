@@ -12,7 +12,7 @@
 
           <div class="card-body">
 
-            <form action="/clients/create" enctype="multipart/form-data" method="POST">
+            <form action="/companies/create" enctype="multipart/form-data" method="POST">
               @csrf
 
               <div class="form-group row">
@@ -30,6 +30,21 @@
 
               </div>
 
+
+              <div class="form-group row">
+                <div class="col-md-6">
+                  <label for="client_id" class="col-form-label">Contact Person <span class="required">*</span></label>
+                
+                    <input id="client_id" type="text" class="form-control @error('client_id') is-invalid @enderror" name="client_id" value="{{ old('client_id') }}" required autofocus autocomplete="off">
+
+                    @error('client_id')
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $message }}</strong>
+                      </span>
+                    @enderror
+                </div>
+
+              </div>
 
 
               <div class="form-group row d-flex">
@@ -71,11 +86,12 @@
                 </div>
               </div>
 
+
               <div class="form-group row">
                 <div class="col-md-6">
                   <label for="url" class="col-form-label">URL</label>
                 
-                    <input id="url" type="text" class="form-control @error('url') is-invalid @enderror" name="url" value="{{ old('url') }}" required autofocus autocomplete="off">
+                    <input id="url" type="text" class="form-control @error('url') is-invalid @enderror" name="url" value="{{ old('url') }}" autofocus autocomplete="off">
 
                     @error('url')
                       <span class="invalid-feedback" role="alert">
@@ -145,7 +161,7 @@
                 <div class="col-12">
                   <label for="description" class="col-form-label">Description</label>
 
-                    <input id="description" type="text" class="form-control @error('description') is-invalid @enderror" name="description" value="{{ old('description') }}" required autofocus autocomplete="off">
+                    <input id="description" type="text" class="form-control @error('description') is-invalid @enderror" name="description" value="{{ old('description') }}" autofocus autocomplete="off">
 
                     @error('description')
                         <span class="invalid-feedback" role="alert">

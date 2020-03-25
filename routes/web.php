@@ -124,6 +124,7 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/companies', 'CompaniesController@index');
   Route::get('/companies/create', 'CompaniesController@create');
   Route::post('/companies/create', 'CompaniesController@store');
+  Route::post('/companies/modalStore', 'CompaniesController@modalStore');
   Route::get('/companies/edit/{id}', 'CompaniesController@edit');
   Route::patch('/companies/edit/{id}', 'CompaniesController@update');
   Route::get('/companies/view/{id}', 'CompaniesController@view');

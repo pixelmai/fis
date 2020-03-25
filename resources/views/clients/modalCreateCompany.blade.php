@@ -6,15 +6,17 @@
         <h4 class="modal-title">Create New Company</h4>
     </div>
     <div class="modal-body">
-        <form id="postForm" name="postForm" class="form-horizontal">
+        <form id="ajaxForm" name="ajaxForm" class="form-horizontal">
+
+          <input id="updatedby_id" type="hidden" value="{{ $user->id }}">
 
           <div class="form-group row">
             <div class="col-md-12">
-              <label for="name" class="col-form-label">Company Name <span class="required">*</span></label>
+              <label for="comp_name" class="col-form-label">Company Name <span class="required">*</span></label>
             
-                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autofocus autocomplete="off">
+                <input id="comp_name" type="text" class="form-control @error('comp_name') is-invalid @enderror" name="comp_name" value="{{ old('comp_name') }}" required autofocus autocomplete="off">
 
-                @error('name')
+                @error('comp_name')
                   <span class="invalid-feedback" role="alert">
                       <strong>{{ $message }}</strong>
                   </span>
@@ -28,16 +30,16 @@
           <div class="form-group row d-flex">
 
             <div class="col-md-6">
-              <label for="email" class="col-form-label">Email Address </label>
+              <label for="comp_email" class="col-form-label">Email Address </label>
 
-                <input id="email" 
+                <input id="comp_email" 
                   type="text" 
-                  class="form-control @error('email') is-invalid @enderror" 
-                  name="email" 
-                  value="{{ old('email') }}"  
+                  class="form-control @error('comp_email') is-invalid @enderror" 
+                  name="comp_email" 
+                  value="{{ old('comp_email') }}"  
                   autofocus autocomplete="off">
 
-                @error('email')
+                @error('comp_email')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -46,17 +48,17 @@
 
 
             <div class="col-md-6">
-              <label for="number" class="col-form-label">Number</label>
+              <label for="comp_number" class="col-form-label">Number</label>
 
             
-                <input id="number" 
+                <input id="comp_number" 
                   type="text" 
-                  class="form-control @error('number') is-invalid @enderror" 
-                  name="number" 
-                  value="{{ old('number') }}"  
+                  class="form-control @error('comp_number') is-invalid @enderror" 
+                  name="comp_number" 
+                  value="{{ old('comp_number') }}"  
                   autofocus autocomplete="off">
 
-                @error('number')
+                @error('comp_number')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -66,11 +68,11 @@
 
           <div class="form-group row">
             <div class="col-md-6">
-              <label for="url" class="col-form-label">URL</label>
+              <label for="comp_url" class="col-form-label">URL</label>
             
-                <input id="url" type="text" class="form-control @error('url') is-invalid @enderror" name="url" value="{{ old('url') }}" required autofocus autocomplete="off">
+                <input id="comp_url" type="text" class="form-control @error('comp_url') is-invalid @enderror" name="comp_url" value="{{ old('comp_url') }}" autofocus autocomplete="off">
 
-                @error('url')
+                @error('comp_url')
                   <span class="invalid-feedback" role="alert">
                       <strong>{{ $message }}</strong>
                   </span>
@@ -118,14 +120,14 @@
 
           <div class="form-group row">
             <div class="col-12">
-              <label for="address" class="col-form-label">Address</label>
+              <label for="comp_address" class="col-form-label">Address</label>
 
-                <textarea id="address" 
+                <textarea id="comp_address" 
                   type="text" 
-                  class="form-control @error('address') is-invalid @enderror" 
-                  name="address" autofocus>{{ old('address') }}</textarea>
+                  class="form-control @error('comp_address') is-invalid @enderror" 
+                  name="comp_address" autofocus>{{ old('comp_address') }}</textarea>
 
-                @error('address')
+                @error('comp_address')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
@@ -136,11 +138,11 @@
 
           <div class="form-group row">
             <div class="col-12">
-              <label for="description" class="col-form-label">Description</label>
+              <label for="comp_description" class="col-form-label">Description</label>
 
-                <input id="description" type="text" class="form-control @error('description') is-invalid @enderror" name="description" value="{{ old('description') }}" required autofocus autocomplete="off">
+                <input id="comp_description" type="text" class="form-control @error('comp_description') is-invalid @enderror" name="comp_description" value="{{ old('comp_description') }}" autofocus autocomplete="off">
 
-                @error('description')
+                @error('comp_description')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
                     </span>
