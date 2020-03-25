@@ -404,7 +404,7 @@
         display: 'name',
         templates: {
             empty: [
-                '<div class="list-group search-results-dropdown"><div class="list-group-item"><a href="#">Nothing found.</a></div></div>'
+                '<div class="list-group search-results-dropdown"><div class="list-group-item"><a href="#">Nothing found. Create New Company?</a></div></div>'
             ],
             header: [
                 '<div class="list-group search-results-dropdown">'
@@ -475,9 +475,8 @@
             success: function (data) {
               $('#company_name').val(data.name);
               $('#company_id').val(data.id);
-              $('#ajaxForm').trigger("reset");
               $('#ajax-crud-modal').modal('hide');
-              
+
             },
             error: function (data) {
                 console.log('Error:', data);
