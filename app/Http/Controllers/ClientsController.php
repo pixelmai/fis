@@ -289,12 +289,31 @@ class ClientsController extends Controller
   public function massrem(Request $request)
   {
     if(request()->ajax()){
+      
       $row_id_array = $request->input('id');
+
+      /*
       $row = Clients::whereIn('id', $row_id_array);
       if($row->delete())
       {
           echo 'Data Deleted';
       }
+      */
+
+      $count_deleted = 0;
+
+      foreach ($row_id_array as $client_row) {
+        $company = Companies::where('client_id', $client_row)->get();
+        if($company->isEmpty()){
+          $row = Clients::where('id', $client_row)->delete();
+          $count_deleted++;
+        }
+      }
+
+
+      return Response::json($count_deleted);
+
+
     }else{
       return notifyRedirect($this->homeLink, 'Deletion action not permitted', 'danger');
     }
@@ -310,6 +329,7 @@ class ClientsController extends Controller
         ->make(true);
     */
 
+    /*
     $clients = DB::table('clients')
               ->leftJoin('companies', 'clients.company_id', '=', 'companies.id')
               ->select(
@@ -322,6 +342,9 @@ class ClientsController extends Controller
               'clients.position',
               'companies.name as company_name')
               ->get();
+    */
+
+    $clients = Clients::with('maincompany')->get();
 
     return datatables()->of($clients)
         ->make(true);

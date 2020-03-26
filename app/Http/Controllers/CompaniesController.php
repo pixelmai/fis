@@ -134,17 +134,17 @@ class CompaniesController extends Controller
 
 
       $query = Companies::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'number' => $request->number,
-        'address' => $request->address,
-        'description' => $request->description,
-        'url' => $request->url,
-        'client_id' => 0,
-        'partner_id' => $partner_id,
-        'is_imported' => 0,
-        'is_partner' => $is_partner,
-        'updatedby_id' => $request->updatedby_id,
+      'name' => $request->name,
+      'email' => $request->email,
+      'number' => $request->number,
+      'address' => $request->address,
+      'description' => $request->description,
+      'url' => $request->url,
+      'client_id' => 0,
+      'partner_id' => $partner_id,
+      'is_imported' => 0,
+      'is_partner' => $is_partner,
+      'updatedby_id' => $request->updatedby_id,
       ]);
 
 

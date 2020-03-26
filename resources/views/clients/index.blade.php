@@ -56,7 +56,7 @@
         }
       });
 
-      
+
 
       $('#listpage_datatable').DataTable({
              processing: true,
@@ -134,6 +134,7 @@
 
       $(document).on('click', '#bulk_delete', function(){
           var id = [];
+
           if(confirm("Are you sure you want to Delete this data?"))
           {
               $('.tbl_row_checkbox:checked').each(function(){
@@ -147,13 +148,29 @@
                   data:{id:id},
                   url: "/clients/massrem",
                   success: function (data) {
-                    $('#listpage_datatable').DataTable().ajax.reload();
+                    var notifData = [];
 
-                    var notifData = {
-                      status: 'danger',
-                      message: 'Successfully deleted selected clients.',
-                    };
+                    if(data == 0){
+                      notifData = {
+                        status: 'danger',
+                        message: 'Main Contacts of Companies cannot be deleted.',
+                      };
+                    }else if(data < id.length){
+                      $('#listpage_datatable').DataTable().ajax.reload();
+                      notifData = {
+                        status: 'danger',
+                        message: 'Successfully deleted '+ data +' out of ' + id.length + ' selected clients. Main Contacts of Companies cannot be deleted.',
+                      };
+                    }else {
+                      $('#listpage_datatable').DataTable().ajax.reload();
+                      notifData = {
+                        status: 'danger',
+                        message: 'Successfully deleted all '+ data +' selected clients.',
+                      };
+                    }
+
                     
+
                     generateNotif(notifData);
 
                     $('#bulk_delete').addClass('d-none');

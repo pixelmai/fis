@@ -27,6 +27,10 @@ class Clients extends Model
     return $this->belongsTo('App\Companies');
   }
 
+  public function maincompany(){
+    return $this->hasMany('App\Companies','client_id','id');
+  }
+
 }
 
 
