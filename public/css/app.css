@@ -11287,6 +11287,11 @@ form label .required {
   line-height: 0.9em;
 }
 
+form label .error {
+  color: #d00b2b;
+  font-weight: normal;
+}
+
 /* FORMS */
 
 /* ACCOUNTS */

@@ -218,8 +218,10 @@
                     @enderror
                   </div>
               </div>
-              <div class="col-md-6">
-                <a href="javascript:void(0)" class="btn btn-info" id="add-company">Add New Company</a>
+              <div class="col-md-6 d-flex">
+                <div class="align-self-end"> 
+                  <a href="javascript:void(0)" class="btn btn-outline-primary" id="add-company">Add New Company</a>
+                </div>
               </div>
 
 
@@ -364,9 +366,7 @@
 
 @push('modals')
 
-@include('clients.modalCreateCompany')
-
-
+  @include('clients.modalCreateCompany')
 
 @endpush
 
@@ -403,7 +403,7 @@
         display: 'name',
         templates: {
             empty: [
-                '<div class="list-group search-results-dropdown"><div class="list-group-item"><a href="#">Nothing found. Create New Company?</a></div></div>'
+                '<div class="list-group search-results-dropdown"><div class="list-group-item"><a data-toggle="modal" href="#ajax-crud-modal">Nothing found. <br> Create New Company?</a></div></div>'
             ],
             header: [
                 '<div class="list-group search-results-dropdown">'
@@ -424,8 +424,7 @@
 
 
     $('#add-company').click(function () {
-        $('#btn-save').val("create-post");
-        $('#postForm').trigger("reset");
+        $('#ajax-crud-modal').trigger("reset");
         $('#ajax-crud-modal').modal('show');
     });
      
@@ -529,23 +528,11 @@
         validator.resetForm();
     })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    $('#ajax-crud-modal').on('shown.bs.modal', function(){
+        if($('#company_name').val()){
+          $('#comp_name').val(jQuery('#company_name').val());
+        }
+    });
 
 
 
@@ -554,8 +541,6 @@
 
   }); //end document ready
 
-
-  //NOT WORKING current task
 
 
   </script>
