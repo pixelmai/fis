@@ -246,8 +246,18 @@
               type: "get",
               url: "/clients/destroy/"+'{{ $client->id }}',
               success: function (data) {
-                window.location.href = '{{ url('/clients') }}';
-;
+
+                if(data == 'deleted_no'){
+                  var notifData = {
+                    status: 'danger',
+                    message: 'Cannot delete a contact person of a company',
+                  };
+                  generateNotif(notifData);
+
+                }else{
+                  window.location.href = '{{ url('/clients') }}';
+                }
+              
               },
               error: function (data) {
                   console.log('Error:', data);

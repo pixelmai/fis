@@ -406,7 +406,7 @@
         display: 'name',
         templates: {
             empty: [
-                '<div class="list-group search-results-dropdown"><div class="list-group-item"><a data-toggle="modal" href="#ajax-crud-modal">Nothing found. <br> Create New Company?</a></div></div>'
+                '<div class="list-group search-results-dropdown"><div class="list-group-item"><a id="sugg_create_comp" data-toggle="modal" href="#ajax-crud-modal">Nothing found. <br> Create New Company?</a></div></div>'
             ],
             header: [
                 '<div class="list-group search-results-dropdown">'
@@ -491,6 +491,7 @@
           check_is_partner = 0;
         }
 
+
         var formData = {
           name: jQuery('#comp_name').val(),
           email: jQuery('#comp_email').val(),
@@ -514,10 +515,16 @@
               $('#company_name').val(data.name);
               $('#company_id').val(data.id);
               $('#ajax-crud-modal').modal('hide');
-
             },
             error: function (data) {
-                console.log('Error:', data);
+              console.log('Error:', data);
+              $('#sameCompName').text('Company already exists');
+
+              var notifData = {
+                status: 'danger',
+                message: 'Unsuccessful creation. Company with the same name exists',
+              };
+              generateNotif(notifData);
             }
         });
 
@@ -525,10 +532,21 @@
       },
     });
 
+    $('#comp_name').on('input', function(){
+      if($('#sameCompName').text()){
+        $('#sameCompName').text('');
+      }
+    });
 
     $('#ajax-crud-modal').on('hidden.bs.modal', function () {
         $(this).find('form').trigger('reset');
         validator.resetForm();
+    });
+
+    $('#ajax-crud-modal').on('shown.bs.modal', function(){
+        if($('#company_name').val()){
+          $('#comp_name').val(jQuery('#company_name').val());
+        }
     });
 
 

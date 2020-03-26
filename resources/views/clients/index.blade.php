@@ -56,7 +56,7 @@
         }
       });
 
-
+      
 
       $('#listpage_datatable').DataTable({
              processing: true,
@@ -100,16 +100,28 @@
               type: "get",
               url: "/clients/destroy/"+row_id,
               success: function (data) {
-                var oTable = $('#listpage_datatable').dataTable(); 
-                oTable.fnDraw(false);
+                if(data == 'deleted_yes'){
+                  var oTable = $('#listpage_datatable').dataTable(); 
+                  oTable.fnDraw(false);
 
-                var notifData = {
-                  status: 'warning',
-                  message: 'Successfully deleted a client.',
-                };
+                  var notifData = {
+                    status: 'warning',
+                    message: 'Successfully deleted a client.',
+                  };
 
-                generateNotif(notifData);
-                $('#bulk_delete').addClass('d-none');
+                  generateNotif(notifData);
+                  $('#bulk_delete').addClass('d-none');
+                }else{
+
+                  var notifData = {
+                    status: 'danger',
+                    message: 'Cannot delete a contact person of a company',
+                  };
+
+                  generateNotif(notifData);
+                  $('#bulk_delete').addClass('d-none');
+
+                }
 
               },
               error: function (data) {

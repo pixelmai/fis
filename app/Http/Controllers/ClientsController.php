@@ -271,8 +271,13 @@ class ClientsController extends Controller
     $client = Clients::find($id);
     if($client){
       if(request()->ajax()){
-        $row = Clients::where('id',$id)->delete();
-        return Response::json($row);
+        $company = Companies::where('client_id', $client->id)->get();
+        if(!$company->isEmpty()){
+          return Response::json('deleted_no');
+        }else{
+          $row = Clients::where('id',$id)->delete();
+          return Response::json('deleted_yes');
+        }
       }else{
         return notifyRedirect('/clients', 'Unauthorized to delete', 'danger');
       }
