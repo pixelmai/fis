@@ -374,15 +374,14 @@
 @push('scripts')
   <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
   <script src="{{ asset('js/typeahead.bundle.min.js') }}"></script>
+  <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 
   <script>
   $(document).ready( function () {
 
-
-
-
     $('#date_of_birth').datepicker();
 
+    /* Type Ahead */
     var engine = new Bloodhound({
         remote: {
             url: '{{ route('clientsauto') }}?q=%QUERY%',
@@ -421,6 +420,7 @@
       }
     });
 
+    /* Type Ahead */
 
 
     $('#add-company').click(function () {
@@ -436,14 +436,50 @@
     });
 
 
- // Clicking the save button on the open modal for both CREATE and UPDATE
-    $("#btn-save").click(function (e) {
+    
+    //Validator and the Submit Form codes on success
+
+    var validator = $("#ajaxForm").validate({
+      errorPlacement: function(error, element) {
+        // Append error within linked label
+        $( element )
+          .closest( "form" )
+            .find( "label[for='" + element.attr( "id" ) + "']" )
+              .append( error );
+      },
+      errorElement: "span",
+      rules: {
+        comp_name: {
+          required: true,
+          minlength: 2
+        },
+        comp_email: {
+          email: true
+        },
+        comp_url: {
+          url: true
+        },
+        comp_number: {
+          minlength: 7
+        },
+      },
+      messages: {
+        comp_name: {
+          required: " (required)",
+          minlength: " (at least 2 characters)"
+        },
+        comp_email: " (invalid email format)",
+        comp_url: " (invalid URL format)",
+        comp_number: " (at least 7 characters)",
+      },
+      submitHandler: function(form) {
+        
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
             }
         });
-        e.preventDefault();
+        //form.preventDefault();
 
         var check_is_partner;
 
@@ -482,15 +518,16 @@
                 console.log('Error:', data);
             }
         });
+
+
+      },
     });
 
 
-
-
-
-
-
-
+    $('#ajax-crud-modal').on('hidden.bs.modal', function () {
+        $(this).find('form').trigger('reset');
+        validator.resetForm();
+    })
 
 
 
