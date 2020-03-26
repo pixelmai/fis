@@ -258,10 +258,19 @@ class ClientsController extends Controller
     $client->is_pwd = $is_pwd;  
     $client->updatedby_id = $user->id;
 
-      $query = $client->update();
+    $query = $client->update();
+
+
+    $company_check = Companies::find($company_id);
+
+    if($company_check->client_id == 0){
+      $company_check->client_id = $client->id;
+      $company_check->update();
+    }
+
 
     if($query){
-      return notifyRedirect('/clients/view/'.$client->id, 'Updated client'. $client->fname.' '.$client->lname.' successfully', 'success');
+      return notifyRedirect('/clients/view/'.$client->id, 'Updated client '. $client->fname.' '.$client->lname.' successfully', 'success');
     }
 
   }
