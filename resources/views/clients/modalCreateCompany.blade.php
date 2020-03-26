@@ -13,8 +13,9 @@
           <div class="form-group row">
             <div class="col-md-12">
               <label for="comp_name" class="col-form-label">Company Name <span class="required">*</span>
+                <span id="sameCompName"></span>
               </label>
-            
+              
                 <input id="comp_name" type="text" class="form-control @error('comp_name') is-invalid @enderror" name="comp_name" value="{{ old('comp_name') }}" required autofocus minlength="2" autocomplete="off">
 
                 @error('comp_name')

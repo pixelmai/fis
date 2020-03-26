@@ -515,14 +515,12 @@
             },
             error: function (data) {
               console.log('Error:', data);
-
-              $('#ajax-crud-modal').modal('hide');
+              $('#sameCompName').text('Company already exists');
 
               var notifData = {
                 status: 'danger',
                 message: 'Unsuccessful creation. Company with the same name exists',
               };
-              
               generateNotif(notifData);
             }
         });
@@ -531,6 +529,11 @@
       },
     });
 
+    $('#comp_name').on('input', function(){
+      if($('#sameCompName').text()){
+        $('#sameCompName').text('');
+      }
+    });
 
     $('#ajax-crud-modal').on('hidden.bs.modal', function () {
         $(this).find('form').trigger('reset');

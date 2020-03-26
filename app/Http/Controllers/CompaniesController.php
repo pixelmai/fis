@@ -128,28 +128,24 @@ class CompaniesController extends Controller
         $partner_id = 1;
       }
 
-
-      $request = request()->validate([
+      $data = request()->validate([
         'name' => ['required', 'string', 'max:255', 'unique:companies'],
-        'email' => ['nullable', 'email', 'max:255'],
-        'number' => ['nullable', 'max:30', new PhoneNumber],
-        'url' => ['nullable', 'string', 'max:255', new Url],
       ]);
 
 
-     $query = Companies::create([
-      'name' => $request->name,
-      'email' => $request->email,
-      'number' => $request->number,
-      'address' => $request->address,
-      'description' => $request->description,
-      'url' => $request->url,
-      'client_id' => 0,
-      'partner_id' => $partner_id,
-      'is_imported' => 0,
-      'is_partner' => $is_partner,
-      'updatedby_id' => $request->updatedby_id,
-     ]);
+      $query = Companies::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'number' => $request->number,
+        'address' => $request->address,
+        'description' => $request->description,
+        'url' => $request->url,
+        'client_id' => 0,
+        'partner_id' => $partner_id,
+        'is_imported' => 0,
+        'is_partner' => $is_partner,
+        'updatedby_id' => $request->updatedby_id,
+      ]);
 
 
       return Response::json($query);
