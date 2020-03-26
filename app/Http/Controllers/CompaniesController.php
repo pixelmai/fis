@@ -76,7 +76,7 @@ class CompaniesController extends Controller
     $user = auth()->user();
 
     $data = request()->validate([
-      'name' => ['required', 'string', 'max:255'],
+      'name' => ['required', 'string', 'max:255', 'unique:companies'],
       'email' => ['nullable', 'email', 'max:255'],
       'number' => ['nullable', 'max:30', new PhoneNumber],
       'url' => ['nullable', 'string', 'max:255', new Url],
@@ -127,6 +127,15 @@ class CompaniesController extends Controller
         $is_partner = FALSE;
         $partner_id = 1;
       }
+
+
+      $request = request()->validate([
+        'name' => ['required', 'string', 'max:255', 'unique:companies'],
+        'email' => ['nullable', 'email', 'max:255'],
+        'number' => ['nullable', 'max:30', new PhoneNumber],
+        'url' => ['nullable', 'string', 'max:255', new Url],
+      ]);
+
 
      $query = Companies::create([
       'name' => $request->name,

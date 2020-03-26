@@ -12,7 +12,8 @@
 
           <div class="form-group row">
             <div class="col-md-12">
-              <label for="comp_name" class="col-form-label">Company Name <span class="required">*</span></label>
+              <label for="comp_name" class="col-form-label">Company Name <span class="required">*</span>
+              </label>
             
                 <input id="comp_name" type="text" class="form-control @error('comp_name') is-invalid @enderror" name="comp_name" value="{{ old('comp_name') }}" required autofocus minlength="2" autocomplete="off">
 
@@ -135,7 +136,6 @@
             </div>
           </div>
 
-
           <div class="form-group row">
             <div class="col-12">
               <label for="comp_description" class="col-form-label">Description</label>
@@ -152,15 +152,12 @@
 
 
 
-
-
-
-
           <div class="form-group row">
-
             <div class="col-12">
-             <button type="submit"  class="btn btn-primary btn-lg" id="btn-save" value="create">Save
+             <button type="submit" class="btn btn-primary btn-lg" id="btn-save" value="create">Add Company
              </button>
+             <button type="button" class="btn btn-outline-secondary btn-lg" data-dismiss="modal">Cancel</button>
+
 
              
             </div>

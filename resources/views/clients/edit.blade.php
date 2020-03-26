@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="container pt-5">
+<div class="container pt-3">
 
   <div class="row justify-content-center">
     <div class="col-lg-8">
@@ -80,7 +80,7 @@
               
 
                 <div id="date_of_birth" class="input-group date @error('date_of_birth') is-invalid @enderror" data-provide="datepicker">
-                    <input name="date_of_birth" type="text" class="form-control" value="{{ old('date_of_birth') ?? datetoDpicker($client->date_of_birth) }}" autocomplete="off">
+                    <input name="date_of_birth" type="text" class="form-control" value="{{ old('date_of_birth') ?? datetoDpicker($client->date_of_birth) }}" autocomplete="off" placeholder="mm/dd/yyyy">
                     <div class="input-group-addon">
                       <span><i class="fa fa-calendar"></i></span>
                     </div>
@@ -200,27 +200,38 @@
 
             <div class="form-group row">
 
-              <div class="col-12">
-                <label for="company_id" class="col-form-label">Company</label>
+              <div class="col-md-6">
+                <label for="company_id" class="col-form-label">Company/Institution</label>
+                  <div>
+                    <input id="company_name" 
+                      type="text" 
+                      class="w-100 form-control @error('company_name') is-invalid @enderror" 
+                      name="company_name" 
+                      value="{{ old('company_name') ?? $client->company->name }}"  
+                      autocomplete="off" autofocus placeholder="Type name to search">
 
-              
-                  <input id="company_id" 
-                    type="text" 
-                    class="form-control @error('company_id') is-invalid @enderror" 
-                    name="company_id" 
-                    value="{{ old('company_id') ?? $client->company_id }}"  
-                    autofocus>
+                    <input id="company_id" 
+                      type="hidden" 
+                      name="company_id" 
+                      value="{{ old('company_id') ?? $client->company_id }}">
 
-                  @error('company_id')
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                      </span>
-                  @enderror
+                    @error('company_id')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                  </div>
+              </div>
+              <div class="col-md-6 d-flex">
+                <div class="align-self-end"> 
+                  <a href="javascript:void(0)" class="btn btn-outline-primary" id="add-company">Add New Company</a>
+                </div>
               </div>
 
-              
 
             </div>
+
+
 
 
             <div class="form-group row">
@@ -356,12 +367,177 @@
 @stop
 
 
+@push('modals')
+
+  @include('clients.modalCreateCompany')
+
+@endpush
+
 
 @push('scripts')
   <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+  <script src="{{ asset('js/typeahead.bundle.min.js') }}"></script>
+  <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
+
   <script>
   $(document).ready( function () {
+
     $('#date_of_birth').datepicker();
+
+    /* Type Ahead */
+    var engine = new Bloodhound({
+        remote: {
+            url: '{{ route('clientsauto') }}?q=%QUERY%',
+            wildcard: '%QUERY%'
+        },
+        datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace
+    });
+
+    $("input#company_name").typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 2
+    }, {
+        source: engine.ttAdapter(),
+        // This will be appended to "tt-dataset-" to form the class name of the suggestion menu.
+        name: 'companies',
+        // the key from the array we want to display (name,id,email,etc...)
+        display: 'name',
+        templates: {
+            empty: [
+                '<div class="list-group search-results-dropdown"><div class="list-group-item"><a data-toggle="modal" href="#ajax-crud-modal">Nothing found. <br> Create New Company?</a></div></div>'
+            ],
+            header: [
+                '<div class="list-group search-results-dropdown">'
+            ],
+            suggestion: function (data) {
+              $('#company_id').val(1);
+              return '<div class="list-group-item">' + data.name + '</div>';
+            }
+        }
+
+    }).on('typeahead:select', function(ev, suggestion) {
+      if(suggestion.id){
+        $('#company_id').val(suggestion.id);
+      }
+    });
+
+    /* Type Ahead */
+
+
+    $('#add-company').click(function () {
+        $('#ajax-crud-modal').trigger("reset");
+        $('#ajax-crud-modal').modal('show');
+    });
+     
+
+
+    $('#is_partner').click(function(){
+        $('#partner_type').toggleClass('d-none');
+    });
+
+
+    
+    //Validator and the Submit Form codes on success
+
+    var validator = $("#ajaxForm").validate({
+      errorPlacement: function(error, element) {
+        // Append error within linked label
+        $( element )
+          .closest( "form" )
+            .find( "label[for='" + element.attr( "id" ) + "']" )
+              .append( error );
+      },
+      errorElement: "span",
+      rules: {
+        comp_name: {
+          required: true,
+          minlength: 2
+        },
+        comp_email: {
+          email: true
+        },
+        comp_url: {
+          url: true
+        },
+        comp_number: {
+          minlength: 7
+        },
+      },
+      messages: {
+        comp_name: {
+          required: " (required)",
+          minlength: " (at least 2 characters)"
+        },
+        comp_email: " (invalid email format)",
+        comp_url: " (invalid URL format)",
+        comp_number: " (at least 7 characters)",
+      },
+      submitHandler: function(form) {
+        
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        //form.preventDefault();
+
+        var check_is_partner;
+
+        if($('#is_partner').prop("checked") == true){
+          check_is_partner = 1;
+        } else {
+          check_is_partner = 0;
+        }
+
+        var formData = {
+          name: jQuery('#comp_name').val(),
+          email: jQuery('#comp_email').val(),
+          number: jQuery('#comp_number').val(),
+          address: jQuery('#comp_address').val(),
+          description: jQuery('#comp_description').val(),
+          url: jQuery('#comp_url').val(),
+          partner_id: $('#partner_id').children("option:selected").val(),
+          is_partner: check_is_partner,
+          updatedby_id: jQuery('#updatedby_id').val(),
+        };
+
+        var state = jQuery('#btn-save').val();
+        var type = "POST";
+        $.ajax({
+            type: type,
+            url: "/companies/modalStore",
+            data: formData,
+            dataType: 'json',
+            success: function (data) {
+              $('#company_name').val(data.name);
+              $('#company_id').val(data.id);
+              $('#ajax-crud-modal').modal('hide');
+
+            },
+            error: function (data) {
+                console.log('Error:', data);
+            }
+        });
+
+
+      },
+    });
+
+
+    $('#ajax-crud-modal').on('hidden.bs.modal', function () {
+        $(this).find('form').trigger('reset');
+        validator.resetForm();
+    });
+
+
+
+  }); //end document ready
+
+
+
   </script>
+
 
 @endpush

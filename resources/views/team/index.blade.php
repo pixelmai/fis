@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="pt-4 px-2">
+<div class="pt-2 px-2">
 
   <div class="row pb-3">
     <div class="col-lg-12 d-flex justify-content-between">

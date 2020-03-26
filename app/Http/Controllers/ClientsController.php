@@ -127,8 +127,6 @@ class ClientsController extends Controller
 
 
 
-
-
     $query = Clients::create([
       'fname' => $data['fname'],
       'lname' => $data['lname'],
@@ -161,7 +159,6 @@ class ClientsController extends Controller
       $company_check->update();
     }
 
-
     if($query){
       return notifyRedirect($this->homeLink, 'Added a Client successfully', 'success');
     }
@@ -188,14 +185,19 @@ class ClientsController extends Controller
   public function edit($id)
   {
     $user = auth()->user();
-    $client = Clients::find($id);
+    $client = Clients::with('company')->find($id);
 
     if($client){
 
       $regtype_id = Regtypes::where('is_active', '1')->orderBy('id', 'ASC')->get();
       $sector_id = Sectors::where('is_active', '1')->orderBy('id', 'ASC')->get();
 
-      return view('clients.edit', ['user' => $user, 'page_settings'=> $this->page_settings,'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 'client'=> $client]);
+      $partner_id = Partners::where('is_active', '1')->where('id', '!=' , 1)->orderBy('id', 'ASC')->get();
+
+
+
+      return view('clients.edit', ['user' => $user, 'page_settings'=> $this->page_settings,'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 'client'=> $client, 'partner_id' => $partner_id]);
+
     }else{
       return notifyRedirect('/clients', 'Client not found', 'danger');
     }

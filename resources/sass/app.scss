@@ -443,7 +443,7 @@
         line-height: .9em;
       }
 
-      .error{
+      .error, #compExists{
         color: #d00b2b;
         font-weight: normal;
       }
@@ -506,14 +506,15 @@
 
 /* NOTIFICATION */
   .alert{
-    position: absolute;
-    top: 0;
+    position: fixed;
+    bottom: 0;
     left: 0;
     width: 100%;
     transition: all 0.3s;
-    z-index: 100;
+    z-index: 1060 !important;
+    margin: 0;
+    border-radius: 0;
   }
-
 /* NOTIFICATION */
 
 

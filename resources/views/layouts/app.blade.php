@@ -43,14 +43,7 @@
 
 
     <main>
-      @if(session('status'))
-        <div class="alert alert-{{ session('status') }}  alert-dismissible fade show" role="alert">
-          <span>{{ session('message') }}</span>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      @endif
+
       
 
       <div class="content-area">
@@ -58,7 +51,21 @@
       </div>
     </main>
   </div>
+
+@if(session('status'))
+  <div class="alert alert-{{ session('status') }}  alert-dismissible fade show" role="alert">
+    <span>{{ session('message') }}</span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+@endif
+
 </div>
+
+
+
+
 
 @stack('modals')
 
