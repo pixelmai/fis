@@ -508,13 +508,32 @@
   .alert{
     position: fixed;
     bottom: 0;
-    left: 0;
-    width: 100%;
+    right: 0;
     transition: all 0.3s;
     z-index: 1060 !important;
-    margin: 0;
+    margin: 20px;
+    font-size: 1em;
     border-radius: 0;
   }
+
+  .alert-success{
+    background: $green;
+    color: #fff;
+    border: 1px solid darken($green, 5%);
+  }
+
+  .alert-danger{
+    background: $red;
+    color: #fff;
+    border: 1px solid darken($red, 5%);
+  }
+
+  .alert-warning{
+    background: $yellow;
+    color: #000;
+    border: 1px solid darken($yellow, 5%);
+  }
+
 /* NOTIFICATION */
 
 

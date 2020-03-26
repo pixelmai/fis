@@ -11351,12 +11351,30 @@ form label #compExists {
 .alert {
   position: fixed;
   bottom: 0;
-  left: 0;
-  width: 100%;
+  right: 0;
   transition: all 0.3s;
   z-index: 1060 !important;
-  margin: 0;
+  margin: 20px;
+  font-size: 1em;
   border-radius: 0;
+}
+
+.alert-success {
+  background: #38c172;
+  color: #fff;
+  border: 1px solid #32ad66;
+}
+
+.alert-danger {
+  background: #e3342f;
+  color: #fff;
+  border: 1px solid #db231d;
+}
+
+.alert-warning {
+  background: #ffed4a;
+  color: #000;
+  border: 1px solid #ffea31;
 }
 
 /* NOTIFICATION */
