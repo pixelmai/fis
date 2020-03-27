@@ -117,6 +117,7 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/clients/view/{id}', 'ClientsController@view');
   Route::get('/clients/destroy/{id}', 'ClientsController@destroy');
   Route::get('/clients/massrem', 'ClientsController@massrem');
+  Route::get('/clients/autocomplete', 'ClientsController@autocomplete')->name('clientsauto');
 /* Clients */
 
 
@@ -130,6 +131,7 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/companies/view/{id}', 'CompaniesController@view');
   Route::get('/companies/destroy/{id}', 'CompaniesController@destroy');
   Route::get('/companies/massrem', 'CompaniesController@massrem');
+  Route::get('/companies/autocomplete', 'CompaniesController@autocomplete')->name('companiesauto');
 /* Companies */
 
 
@@ -138,4 +140,3 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/companiesList', 'CompaniesController@dblist');
 
 
-  Route::get('/clients/autocomplete', 'ClientsController@autocomplete')->name('clientsauto');

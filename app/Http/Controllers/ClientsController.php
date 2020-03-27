@@ -301,12 +301,12 @@ class ClientsController extends Controller
       
       $row_id_array = $request->input('id');
 
-      /*
-      $row = Clients::whereIn('id', $row_id_array);
-      if($row->delete())
-      {
-          echo 'Data Deleted';
-      }
+      /* This is quick delete without dependencies
+        $row = Clients::whereIn('id', $row_id_array);
+        if($row->delete())
+        {
+            echo 'Data Deleted';
+        }
       */
 
       $count_deleted = 0;
@@ -319,9 +319,7 @@ class ClientsController extends Controller
         }
       }
 
-
       return Response::json($count_deleted);
-
 
     }else{
       return notifyRedirect($this->homeLink, 'Deletion action not permitted', 'danger');

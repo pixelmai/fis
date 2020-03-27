@@ -32,19 +32,39 @@
 
 
               <div class="form-group row">
-                <div class="col-md-6">
-                  <label for="client_id" class="col-form-label">Contact Person <span class="required">*</span></label>
-                
-                    <input id="client_id" type="text" class="form-control @error('client_id') is-invalid @enderror" name="client_id" value="{{ old('client_id') }}" required autofocus autocomplete="off">
 
-                    @error('client_id')
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $message }}</strong>
-                      </span>
-                    @enderror
+                <div class="col-md-6">
+                  <div>
+
+                    <label for="contact_person" class="col-form-label">Contact Person <span class="required">*</span></label>
+                      
+                      <div class="d-flex">
+                        <div class="w-50">
+                          <input id="contact_person" type="text" class="form-control @error('contact_person') is-invalid @enderror" name="contact_person" value="{{ old('contact_person') }}" required autofocus autocomplete="off" placeholder="Search last name">
+                        </div>
+                        <div class="w-50">
+                          <input id="contact_person_fname" class="form-control ml-2" type="text" disabled>
+                        </div>
+                      </div>
+
+                      <input id="client_id" type="text" name="client_id" value="{{ old('client_id') }}">
+
+                      @error('contact_person')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                      @enderror
+                  </div>
+                </div>
+                
+                <div class="col-md-6 d-flex">
+                  <div class="align-self-end"> 
+                    <a href="javascript:void(0)" class="btn btn-outline-primary" id="add-company">Add New Client</a>
+                  </div>
                 </div>
 
               </div>
+
 
 
               <div class="form-group row d-flex">
@@ -203,7 +223,9 @@
 
 @push('scripts')
 
+  <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
   <script src="{{ asset('js/typeahead.bundle.min.js') }}"></script>
+  <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 
   <script>
   $(document).ready( function () {
@@ -211,6 +233,73 @@
     $('#is_partner').click(function(){
         $('#partner_type').toggleClass('d-none');
     });
+
+
+  /* Type Ahead */
+    var engine = new Bloodhound({
+        remote: {
+            url: '{{ route('companiesauto') }}?q=%QUERY%',
+            wildcard: '%QUERY%'
+        },
+        datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace
+    });
+
+    $("input#contact_person").typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 2
+    }, {
+        source: engine.ttAdapter(),
+        // This will be appended to "tt-dataset-" to form the class name of the suggestion menu.
+        name: 'client',
+        // the key from the array we want to display (name,id,email,etc...)
+        //display: function(cname){return cname.fname+' '+cname.lname},
+        display: 'lname',
+        templates: {
+            empty: [
+                '<div class="list-group search-results-dropdown"><div class="list-group-item"><a id="sugg_create_comp" data-toggle="modal" href="#ajax-crud-modal">Nothing found. <br> Create New Client?</a></div></div>'
+            ],
+            header: [
+                '<div class="list-group search-results-dropdown">'
+            ],
+            suggestion: function (data) {
+              $('#client_id').val(0);
+              $('#contact_person_fname').val();
+              return '<div class="list-group-item">' + data.lname + ' ' + data.fname +'</div>';
+            }
+        }
+
+    }).on('typeahead:select', function(ev, suggestion) {
+      if(suggestion.id){
+        $('#client_id').val(suggestion.id);
+        $('#contact_person_fname').val(suggestion.fname);
+      }
+    });
+
+    $('#contact_person').on('input', function(){
+      $('#client_id').val(0);
+      if($('#contact_person_fname').val()){
+        $('#contact_person_fname').val('');
+      }
+    });
+
+
+    /* Type Ahead */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   }); //end document ready
 

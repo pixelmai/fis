@@ -547,6 +547,10 @@
     });
 
 
+    $('#company_name').on('input', function(){
+      $('#company_id').val(1);
+    });
+
 
   }); //end document ready
 

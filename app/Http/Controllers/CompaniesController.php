@@ -214,4 +214,21 @@ class CompaniesController extends Controller
   }
 
 
+
+  public function autocomplete(Request $request)
+  {
+      /*
+      $data = Companies::select("name")
+              ->where("name","LIKE","%{$request->input('query')}%")
+              ->get();
+      */
+
+      return Clients::where("lname","LIKE","%{$request->get('q')}%")->get();
+
+
+      //return response()->json($data);
+  }
+
+
+
 }

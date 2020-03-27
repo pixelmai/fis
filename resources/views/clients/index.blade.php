@@ -169,8 +169,6 @@
                       };
                     }
 
-                    
-
                     generateNotif(notifData);
 
                     $('#bulk_delete').addClass('d-none');
