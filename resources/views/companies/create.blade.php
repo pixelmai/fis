@@ -47,7 +47,7 @@
                         </div>
                       </div>
 
-                      <input id="client_id" type="text" name="client_id" value="{{ old('client_id') }}">
+                      <input id="client_id" type="hidden" name="client_id" value="{{ old('client_id') }}" required>
 
                       @error('contact_person')
                         <span class="invalid-feedback" role="alert">
@@ -59,7 +59,7 @@
                 
                 <div class="col-md-6 d-flex">
                   <div class="align-self-end"> 
-                    <a href="javascript:void(0)" class="btn btn-outline-primary" id="add-company">Add New Client</a>
+                    <a href="javascript:void(0)" class="btn btn-outline-primary" id="add-client">Add New Client</a>
                   </div>
                 </div>
 
@@ -217,7 +217,7 @@
 
 
 @push('modals')
-
+  @include('companies.modalCreateClient')
 @endpush
 
 
@@ -282,6 +282,12 @@
       if($('#contact_person_fname').val()){
         $('#contact_person_fname').val('');
       }
+    });
+
+
+    $('#add-client').click(function () {
+        $('#ajax-crud-modal').trigger("reset");
+        $('#ajax-crud-modal').modal('show');
     });
 
 

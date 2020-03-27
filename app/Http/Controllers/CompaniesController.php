@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Clients;
 use App\Companies;
+use App\Regtypes;
 use App\Partners;
+use App\Sectors;
 use App\Rules\Url;
 use App\Rules\PhoneNumber;
 use Illuminate\Http\Request;
@@ -58,8 +60,14 @@ class CompaniesController extends Controller
   {
     $user = auth()->user();
     $partner_id = Partners::where('is_active', '1')->where('id', '!=' , 1)->orderBy('id', 'ASC')->get();
+    $regtype_id = Regtypes::where('is_active', '1')->orderBy('id', 'ASC')->get();
 
-    return view('companies.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'partner_id' => $partner_id]);
+    $sector_id = Sectors::where('is_active', '1')->orderBy('id', 'ASC')->get();
+
+
+    return view('companies.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 
+      'partner_id' => $partner_id]);
+
 
   }
 
