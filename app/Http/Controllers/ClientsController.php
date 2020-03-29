@@ -125,8 +125,6 @@ class ClientsController extends Controller
     $company_id = ($data['company_id'] == '' ? 1 : $data['company_id']); 
 
 
-
-
     $query = Clients::create([
       'fname' => $data['fname'],
       'lname' => $data['lname'],
@@ -164,6 +162,39 @@ class ClientsController extends Controller
     }
 
   }
+
+
+
+  public function modalStore(Request $request)
+  {  
+    /*  
+      $is_freelancer = (isset($request->is_freelancer) && $request->is_freelancer == 1 ? TRUE : FALSE); 
+      $is_food = (isset($request->is_food) && $request->is_food == 1 ? 1 : 0); 
+      $is_pwd = (isset($request->is_pwd) && $request->is_pwd == 1 ? 1 : 0); 
+    */
+      
+      $query = Clients::create([
+      'fname' => $request->fname,
+      'lname' => $request->lname,
+      'email' => $request->email,
+      'number' => $request->number,
+      'position' => $request->position,
+      'sector_id' => $request->sector_id,
+      'regtype_id' => $request->regtype_id,
+      'company_id' => 1,
+      'is_imported' => 0,
+      'is_freelancer' => $request->is_freelancer,
+      'is_food' => $request->is_food,
+      'is_pwd' => $request->is_pwd,
+      'updatedby_id' => $request->updatedby_id,
+      ]);
+
+
+      return Response::json($query);
+  }
+
+
+
 
   public function view($id)
   {

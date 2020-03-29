@@ -290,11 +290,99 @@
         $('#ajax-crud-modal').modal('show');
     });
 
-
     /* Type Ahead */
 
 
+    //Validator and the Submit Form codes on success
 
+    var validator = $("#ajaxForm").validate({
+      errorPlacement: function(error, element) {
+        // Append error within linked label
+        $( element )
+          .closest( "form" )
+            .find( "label[for='" + element.attr( "id" ) + "']" )
+              .append( error );
+      },
+      errorElement: "span",
+      rules: {
+        comp_name: {
+          required: true,
+          minlength: 2
+        },
+        comp_email: {
+          email: true
+        },
+        comp_url: {
+          url: true
+        },
+        comp_number: {
+          minlength: 7
+        },
+      },
+      messages: {
+        comp_name: {
+          required: " (required)",
+          minlength: " (at least 2 characters)"
+        },
+        comp_email: " (invalid email format)",
+        comp_url: " (invalid URL format)",
+        comp_number: " (at least 7 characters)",
+      },
+      submitHandler: function(form) {
+        
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        //form.preventDefault();
+
+        var check_is_freelancer, check_is_food, check_is_pwd;
+
+        check_is_freelancer = ($('#is_freelancer').prop("checked") == true) ? 1 : 0;
+        check_is_food = ($('#is_food').prop("checked") == true) ? 1 : 0;
+        check_is_pwd = ($('#is_pwd').prop("checked") == true) ? 1 : 0;
+
+
+        var formData = {
+          fname: jQuery('#fname').val(),
+          lname: jQuery('#lname').val(),
+          email: jQuery('#client_email').val(),
+          number: jQuery('#client_number').val(),
+          position: jQuery('#position').val(),
+          regtype_id: $('#regtype_id').children("option:selected").val(),
+          sector_id: $('#sector_id').children("option:selected").val(),
+
+          is_freelancer: check_is_freelancer,
+          is_food: check_is_food,
+          is_pwd: check_is_pwd,
+
+          updatedby_id: jQuery('#updatedby_id').val(),
+        };
+
+        var state = jQuery('#btn-save').val();
+        var type = "POST";
+        $.ajax({
+            type: type,
+            url: "/clients/modalStore",
+            data: formData,
+            dataType: 'json',
+            success: function (data) {
+              $('#contact_person').val(data.lname);
+              $('#contact_person_fname').val(data.fname);
+              $('#client_id').val(data.id);
+              $('#add-client').addClass('d-none');
+              $("#contact_person").prop('disabled', true);
+              $("#contact_person").css("background-color", "#e9ecef");
+              $('#ajax-crud-modal').modal('hide');
+            },
+            error: function (data) {
+              console.log('Error:', data);
+            }
+        });
+
+      },
+    });
 
 
 

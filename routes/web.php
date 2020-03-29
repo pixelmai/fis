@@ -118,6 +118,8 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/clients/destroy/{id}', 'ClientsController@destroy');
   Route::get('/clients/massrem', 'ClientsController@massrem');
   Route::get('/clients/autocomplete', 'ClientsController@autocomplete')->name('clientsauto');
+
+  Route::post('/clients/modalStore', 'ClientsController@modalStore');
 /* Clients */
 
 

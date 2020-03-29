@@ -115,9 +115,18 @@ class CompaniesController extends Controller
       'description' => $data['description'],
       'is_imported' => 0,
       'is_partner' => $is_partner, 
-
       'updatedby_id' => $user->id,
     ]);
+
+
+    $client_check = Clients::find($data['client_id']);
+
+    if($client_check->company_id == 1){
+      $client_check->company_id = $query->id;
+      $client_check->update();
+    }
+
+
 
     if($query){
       return notifyRedirect($this->homeLink, 'Added a Company successfully', 'success');
