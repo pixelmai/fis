@@ -179,9 +179,8 @@ class CompaniesController extends Controller
     $company = Companies::find($id);
     if($company){
 
-      //if(request()->ajax()){
+      if(request()->ajax()){
         $total_clients = Clients::where('company_id', $id)->get(); 
-        //$cp_comp = Companies::where('client_id', $company->client_id)->get();
 
         if (count($total_clients) > 1){
           foreach ($total_clients as $client_row) {
@@ -199,10 +198,10 @@ class CompaniesController extends Controller
         $row = Companies::where('id',$id)->delete();
         return Response::json($row);
 
-      /*
+      
       }else{
         return notifyRedirect('/clients', 'Unauthorized to delete', 'danger');
-      } */
+      } 
     }else{
       return notifyRedirect('/clients', 'Client not found', 'danger');
     }
@@ -221,23 +220,21 @@ class CompaniesController extends Controller
 
       foreach ($row_id_array as $company_row) {
         $company = Companies::find($company_row);
-        $company_count = Companies::where('client_id', $company->client_id)->get();
-        $client = Clients::find($company->client_id);
+        $total_clients = Clients::where('company_id', $company_row)->get(); 
 
-
-        if((count($company_count)) == 1 && ($client->company_id == $company_row)){
-          $client->company_id = 1;
-          $client->update();
-        }elseif (count($company_count) >= 2){
-          foreach ($company_count as $compcheck) {
-            if($compcheck->id != $company_row){
-              $client->company_id = $compcheck->id;
-              $client->update();
-            }
+        if (count($total_clients) > 1){
+          foreach ($total_clients as $client_row) {
+            $client = Clients::find($client_row->id);
+            $client_comp = Companies::where('client_id', $client->id)->get();
+            $this->deleteClientUpdater($client, $client_comp, $company_row);
           }
+        }else{
+          $client = Clients::find($company->client_id);
+          $client_comp = Companies::where('client_id', $client->id)->get();
+          $this->deleteClientUpdater($client, $client_comp, $company_row);
         }
-      
 
+  
         $row = Companies::where('id',$company_row)->delete();
         $count_deleted++;
       }
@@ -286,10 +283,12 @@ class CompaniesController extends Controller
       $client->company_id = 1;
       $client->update();
     }elseif (count($comp) >= 2){
-      foreach ($comp as $compcheck) {
-        if($compcheck->id != $id){
-          $client->company_id = $compcheck->id;
-          $client->update();
+      if($client->company_id == $id){
+        foreach ($comp as $compcheck) {
+          if($compcheck->id != $id){
+            $client->company_id = $compcheck->id;
+            $client->update();
+          }
         }
       }
     }else{
