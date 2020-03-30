@@ -179,31 +179,76 @@ class CompaniesController extends Controller
     $company = Companies::find($id);
     if($company){
 
-      if(request()->ajax()){
+      //if(request()->ajax()){
       
         $company_count = Companies::where('client_id', $company->client_id)->get();
+        $client = Clients::find($company->client_id);
 
-        if(count($company_count) == 1){
-          $client = Clients::find($company->client_id);
-
-          if($client->company_id == $company->id){
-            $client->company_id = 1;
-            $client->update();
+        if((count($company_count)) == 1 && ($client->company_id == $company->id)){
+          $client->company_id = 1;
+          $client->update();
+        }elseif (count($company_count) >= 2){
+          foreach ($company_count as $company_row) {
+            if($company_row->id != $id){
+              $client->company_id = $company_row->id;
+              $client->update();
+            }
           }
         }
 
         $row = Companies::where('id',$id)->delete();
         return Response::json($row);
 
-      
+      /*
       }else{
         return notifyRedirect('/clients', 'Unauthorized to delete', 'danger');
-      } 
+      } */
     }else{
       return notifyRedirect('/clients', 'Client not found', 'danger');
     }
 
   }
+
+
+  public function massrem(Request $request)
+  {
+    if(request()->ajax()){
+      
+      $row_id_array = $request->input('id');
+
+      $count_deleted = 0;
+
+      foreach ($row_id_array as $company_row) {
+        $company = Companies::find($company_row);
+        $company_count = Companies::where('client_id', $company->client_id)->get();
+        $client = Clients::find($company->client_id);
+
+
+        if((count($company_count)) == 1 && ($client->company_id == $company_row)){
+          $client->company_id = 1;
+          $client->update();
+        }elseif (count($company_count) >= 2){
+          foreach ($company_count as $compcheck) {
+            if($compcheck->id != $company_row){
+              $client->company_id = $compcheck->id;
+              $client->update();
+            }
+          }
+        }
+      
+
+        $row = Companies::where('id',$company_row)->delete();
+        $count_deleted++;
+      }
+
+      return Response::json($count_deleted);
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Deletion action not permitted', 'danger');
+    }
+  }
+
+
 
 
   public function dblist()

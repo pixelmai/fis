@@ -144,13 +144,13 @@
                 $.ajax({
                   type: "get",
                   data:{id:id},
-                  url: "/clients/massrem",
+                  url: "/companies/massrem",
                   success: function (data) {
                     $('#listpage_datatable').DataTable().ajax.reload();
 
                     var notifData = {
                       status: 'danger',
-                      message: 'Successfully deleted selected clients.',
+                      message: 'Successfully deleted '+ data +' selected companies.',
                     };
                     
                     generateNotif(notifData);
