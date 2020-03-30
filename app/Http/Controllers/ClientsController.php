@@ -167,11 +167,6 @@ class ClientsController extends Controller
 
   public function modalStore(Request $request)
   {  
-    /*  
-      $is_freelancer = (isset($request->is_freelancer) && $request->is_freelancer == 1 ? TRUE : FALSE); 
-      $is_food = (isset($request->is_food) && $request->is_food == 1 ? 1 : 0); 
-      $is_pwd = (isset($request->is_pwd) && $request->is_pwd == 1 ? 1 : 0); 
-    */
       
       $query = Clients::create([
       'fname' => $request->fname,

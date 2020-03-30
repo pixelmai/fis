@@ -71,15 +71,8 @@ class CompaniesController extends Controller
 
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
   public function store(Request $request)
   {
-    //
 
     $user = auth()->user();
 
@@ -118,7 +111,6 @@ class CompaniesController extends Controller
       'updatedby_id' => $user->id,
     ]);
 
-
     $client_check = Clients::find($data['client_id']);
 
     if($client_check->company_id == 1){
@@ -126,13 +118,10 @@ class CompaniesController extends Controller
       $client_check->update();
     }
 
-
-
     if($query){
       return notifyRedirect($this->homeLink, 'Added a Company successfully', 'success');
     }
   }
-
 
   public function modalStore(Request $request)
   {  
@@ -168,59 +157,57 @@ class CompaniesController extends Controller
       return Response::json($query);
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  \App\Companies  $companies
-   * @return \Illuminate\Http\Response
-   */
   public function show(Companies $companies)
   {
-    //
+    
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  \App\Companies  $companies
-   * @return \Illuminate\Http\Response
-   */
   public function edit(Companies $companies)
   {
-    //
+    
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  \App\Companies  $companies
-   * @return \Illuminate\Http\Response
-   */
+
   public function update(Request $request, Companies $companies)
   {
     //
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  \App\Companies  $companies
-   * @return \Illuminate\Http\Response
-   */
-  public function destroy(Companies $companies)
+
+  public function destroy($id)
   {
-    //
+    $company = Companies::find($id);
+    if($company){
+
+      if(request()->ajax()){
+      
+        $company_count = Companies::where('client_id', $company->client_id)->get();
+
+        if(count($company_count) == 1){
+          $client = Clients::find($company->client_id);
+
+          if($client->company_id == $company->id){
+            $client->company_id = 1;
+            $client->update();
+          }
+        }
+
+        $row = Companies::where('id',$id)->delete();
+        return Response::json($row);
+
+      
+      }else{
+        return notifyRedirect('/clients', 'Unauthorized to delete', 'danger');
+      } 
+    }else{
+      return notifyRedirect('/clients', 'Client not found', 'danger');
+    }
+
   }
 
 
   public function dblist()
   {
-    /*
-    $clients = DB::table('clients')->select('*');
-    return datatables()->of($clients)
-        ->make(true);
-    */
 
     $clients = Companies::with('partner:id,name', 'contactperson:id,fname,lname')->where('id', '!=' , 1)->get();
 

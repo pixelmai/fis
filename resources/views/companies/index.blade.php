@@ -109,14 +109,14 @@
 
           $.ajax({
               type: "get",
-              url: "/clients/destroy/"+row_id,
+              url: "/companies/destroy/"+row_id,
               success: function (data) {
                 var oTable = $('#listpage_datatable').dataTable(); 
                 oTable.fnDraw(false);
 
                 var notifData = {
                   status: 'warning',
-                  message: 'Successfully deleted a client.',
+                  message: 'Successfully deleted a company.',
                 };
 
                 generateNotif(notifData);
