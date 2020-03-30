@@ -180,21 +180,21 @@ class CompaniesController extends Controller
     if($company){
 
       //if(request()->ajax()){
-      
-        $company_count = Companies::where('client_id', $company->client_id)->get();
-        $client = Clients::find($company->client_id);
+        $total_clients = Clients::where('company_id', $id)->get(); 
+        //$cp_comp = Companies::where('client_id', $company->client_id)->get();
 
-        if((count($company_count)) == 1 && ($client->company_id == $company->id)){
-          $client->company_id = 1;
-          $client->update();
-        }elseif (count($company_count) >= 2){
-          foreach ($company_count as $company_row) {
-            if($company_row->id != $id){
-              $client->company_id = $company_row->id;
-              $client->update();
-            }
+        if (count($total_clients) > 1){
+          foreach ($total_clients as $client_row) {
+            $client = Clients::find($client_row->id);
+            $client_comp = Companies::where('client_id', $client->id)->get();
+            $this->deleteClientUpdater($client, $client_comp, $id);
           }
+        }else{
+          $client = Clients::find($company->client_id);
+          $client_comp = Companies::where('client_id', $client->id)->get();
+          $this->deleteClientUpdater($client, $client_comp, $id);
         }
+
 
         $row = Companies::where('id',$id)->delete();
         return Response::json($row);
@@ -212,6 +212,7 @@ class CompaniesController extends Controller
 
   public function massrem(Request $request)
   {
+
     if(request()->ajax()){
       
       $row_id_array = $request->input('id');
@@ -279,5 +280,22 @@ class CompaniesController extends Controller
   }
 
 
+  function deleteClientUpdater($client, $comp, $id)
+  {
+    if((count($comp)) == 1 && ($client->company_id == $id)){
+      $client->company_id = 1;
+      $client->update();
+    }elseif (count($comp) >= 2){
+      foreach ($comp as $compcheck) {
+        if($compcheck->id != $id){
+          $client->company_id = $compcheck->id;
+          $client->update();
+        }
+      }
+    }else{
+      $client->company_id = 1;
+      $client->update();
+    }
+  }
 
 }

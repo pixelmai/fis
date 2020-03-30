@@ -21,7 +21,7 @@ class CreateCompaniesTable extends Migration
       $table->text('address')->nullable();
       $table->text('url')->nullable();
       $table->tinyInteger('partner_id')->default(1);//partner in settings
-      $table->tinyInteger('client_id'); //contact_person
+      $table->unsignedBigInteger('client_id'); //contact_person
       $table->text('description')->nullable();
       $table->boolean('is_partner')->default(0);
       $table->boolean('is_imported')->default(0);
