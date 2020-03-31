@@ -157,27 +157,6 @@
                   <!-- TAB CONTENT -->
                 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                
- 
-
                   
 
 
@@ -230,27 +209,18 @@
         }
       });
 
+
       $('body').on('click', '#delete-row', function () {
-        var row_id = $(this).data("id");
+        
 
         if (confirm('Are you sure want to delete row?')) {
 
           $.ajax({
               type: "get",
-              url: "/clients/destroy/"+'{{ $company->id }}',
+              url: "/companies/destroy/"+ {{ $company->id }},
               success: function (data) {
-
-                if(data == 'deleted_no'){
-                  var notifData = {
-                    status: 'danger',
-                    message: 'Cannot delete a contact person of a company',
-                  };
-                  generateNotif(notifData);
-
-                }else{
-                  window.location.href = '{{ url('/clients') }}';
-                }
-              
+                console.log(data);
+                window.location.href = '{{ url('/companies') }}';
               },
               error: function (data) {
                   console.log('Error:', data);
