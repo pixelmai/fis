@@ -146,7 +146,7 @@ class CompaniesController extends Controller
       'address' => $request->address,
       'description' => $request->description,
       'url' => $request->url,
-      'client_id' => 0,
+      'client_id' => 1,
       'partner_id' => $partner_id,
       'is_imported' => 0,
       'is_partner' => $is_partner,
@@ -160,6 +160,10 @@ class CompaniesController extends Controller
   public function view($id)
   {
     $user = auth()->user();
+
+    if($id == 1){
+      return notifyRedirect($this->homeLink, 'Company not found', 'danger');
+    }
 
     $company = Companies::with('contactperson','partner','clients')->find($id);
     $employees = Clients::where('company_id',$id)->get();
@@ -206,6 +210,11 @@ class CompaniesController extends Controller
   public function edit($id)
   {
     $user = auth()->user();
+
+    if($id == 1){
+      return notifyRedirect($this->homeLink, 'Company not found', 'danger');
+    }
+
     $company = Companies::with('contactperson')->find($id);
 
     if($company){
@@ -292,6 +301,10 @@ class CompaniesController extends Controller
 
   public function destroy($id)
   {
+    if($id == 1){
+      return notifyRedirect($this->homeLink, 'Company not found', 'danger');
+    }
+
     $company = Companies::find($id);
     if($company){
 

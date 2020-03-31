@@ -49,7 +49,7 @@ class ClientsController extends Controller
             'clients.company_id',
             'clients.position',
             'companies.name as company_name')
-            ->where('clients.id', '!=' , 0)
+            ->where('clients.id', '!=' , 1)
             ->get();
 
 
@@ -152,7 +152,7 @@ class ClientsController extends Controller
 
     $company_check = Companies::find($company_id);
 
-    if($company_check->client_id == 0){
+    if($company_check->client_id == 1){
       $company_check->client_id = $query->id;
       $company_check->update();
     }
@@ -194,6 +194,11 @@ class ClientsController extends Controller
   public function view($id)
   {
     $user = auth()->user();
+
+    if($id == 1){
+      return notifyRedirect($this->homeLink, 'Client not found', 'danger');
+    }
+
     $client = Clients::with('sector','regtype')->find($id);
 
     if($client){
@@ -208,6 +213,11 @@ class ClientsController extends Controller
   public function edit($id)
   {
     $user = auth()->user();
+
+    if($id == 1){
+      return notifyRedirect($this->homeLink, 'Client not found', 'danger');
+    }
+
     $client = Clients::with('company')->find($id);
 
     if($client){
@@ -286,7 +296,7 @@ class ClientsController extends Controller
 
     $company_check = Companies::find($company_id);
 
-    if($company_check->client_id == 0){
+    if($company_check->client_id == 1){
       $company_check->client_id = $client->id;
       $company_check->update();
     }
@@ -300,6 +310,11 @@ class ClientsController extends Controller
 
   public function destroy($id)
   {
+    
+    if($id == 1){
+      return notifyRedirect($this->homeLink, 'Client not found', 'danger');
+    }
+
     $client = Clients::find($id);
     if($client){
       if(request()->ajax()){

@@ -76,7 +76,7 @@
                       { data: "contactperson.lname", render: function ( data, type, row ) {
                           // Combine the first and last names into a single table field
                           if ( type === 'display' || type === 'filter' ) {
-                            if (row.contactperson.id != 0){
+                            if (row.contactperson.id != 1){
                               return '<a href="/clients/view/'+row.contactperson.id+'">'+row.contactperson.fname+' '+row.contactperson.lname+'</a>';
                             }else{
                               return '-';

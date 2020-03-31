@@ -264,7 +264,7 @@
                 '<div class="list-group search-results-dropdown">'
             ],
             suggestion: function (data) {
-              $('#client_id').val(0);
+              $('#client_id').val(1);
               $('#contact_person_fname').val();
               return '<div class="list-group-item">' + data.lname + ' ' + data.fname +'</div>';
             }
@@ -278,7 +278,7 @@
     });
 
     $('#contact_person').on('input', function(){
-      $('#client_id').val(0);
+      $('#client_id').val(1);
       if($('#contact_person_fname').val()){
         $('#contact_person_fname').val('');
       }
