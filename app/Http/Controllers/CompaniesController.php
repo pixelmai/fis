@@ -157,10 +157,51 @@ class CompaniesController extends Controller
       return Response::json($query);
   }
 
-  public function show(Companies $companies)
+  public function view($id)
   {
-    
+    $user = auth()->user();
+
+    $company = Companies::with('contactperson','partner','clients')->find($id);
+    $employees = Clients::where('company_id',$id)->get();
+    $emp_list = array();
+    $found=FALSE;
+
+    foreach ($employees as $employee) {
+      $emp = array( 
+        "id" => $employee->id, 
+        "fname" => $employee->fname, 
+        "lname" => $employee->lname, 
+      );
+
+      if($company->contactperson->id == $employee->id){
+        $found = TRUE;
+      }
+
+      array_push($emp_list, $emp);
+    }
+
+
+    if($found == FALSE){
+      $emp = array( 
+        "id" => $company->contactperson->id, 
+        "fname" => $company->contactperson->fname, 
+        "lname" => $company->contactperson->lname, 
+      );
+
+      array_push($emp_list, $emp);
+    }
+
+
+
+    if($company){
+      $updater = User::find($company->updatedby_id);
+      return view('companies.view', ['user' => $user, 'company' => $company, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'employees'=> $emp_list]);
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Client not found', 'danger');
+    }
   }
+
 
   public function edit(Companies $companies)
   {
@@ -200,10 +241,10 @@ class CompaniesController extends Controller
 
       
       }else{
-        return notifyRedirect('/clients', 'Unauthorized to delete', 'danger');
+        return notifyRedirect($this->homeLink, 'Unauthorized to delete', 'danger');
       } 
     }else{
-      return notifyRedirect('/clients', 'Client not found', 'danger');
+      return notifyRedirect($this->homeLink, 'Client not found', 'danger');
     }
 
   }
@@ -271,8 +312,7 @@ class CompaniesController extends Controller
       */
 
       return Clients::where("lname","LIKE","%{$request->get('q')}%")->get();
-
-
+      
       //return response()->json($data);
   }
 

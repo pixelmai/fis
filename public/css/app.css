@@ -11273,6 +11273,33 @@ a[data-toggle=collapse] {
   background: #ffffe5;
 }
 
+#app .card-tabs a {
+  background: #f3f4e8;
+  border-color: #dee2e6 #dee2e6;
+  margin-right: 1px;
+}
+
+#app .card-tabs a.active {
+  background: #fff;
+  border-color: #dee2e6 #dee2e6 #fff;
+}
+
+#app .tab-pane h5 {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #999;
+  margin-bottom: 20px;
+}
+
+#app .tab-pane a {
+  color: #3490dc;
+}
+
+#app .tab-pane ul {
+  margin-left: 0;
+  padding-left: 15px;
+}
+
 /* CARDS */
 
 /* FORMS */

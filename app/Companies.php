@@ -18,7 +18,7 @@ class Companies extends Model
     return $this->belongsTo('App\Partners');
   }
 
-  public function client(){
+  public function clients(){
     return $this->hasMany('App\Clients','company_id');
   }
 

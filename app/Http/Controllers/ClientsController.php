@@ -201,11 +201,8 @@ class ClientsController extends Controller
       return view('clients.view', ['user' => $user, 'client' => $client, 'page_settings'=> $this->page_settings, 'updater' => $updater]);
 
     }else{
-      return notifyRedirect('/clients', 'Client not found', 'danger');
+      return notifyRedirect($this->homeLink, 'Client not found', 'danger');
     }
-
-  
-
   }
 
   public function edit($id)
@@ -225,7 +222,7 @@ class ClientsController extends Controller
       return view('clients.edit', ['user' => $user, 'page_settings'=> $this->page_settings,'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 'client'=> $client, 'partner_id' => $partner_id]);
 
     }else{
-      return notifyRedirect('/clients', 'Client not found', 'danger');
+      return notifyRedirect($this->homeLink, 'Client not found', 'danger');
     }
 
 
@@ -314,10 +311,10 @@ class ClientsController extends Controller
           return Response::json('deleted_yes');
         }
       }else{
-        return notifyRedirect('/clients', 'Unauthorized to delete', 'danger');
+        return notifyRedirect($this->homeLink, 'Unauthorized to delete', 'danger');
       }
     }else{
-      return notifyRedirect('/clients', 'Client not found', 'danger');
+      return notifyRedirect($this->homeLink, 'Client not found', 'danger');
     }
   }
 
