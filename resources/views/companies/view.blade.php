@@ -30,7 +30,7 @@
 
                 </div>
                 <div>
-                  <a href="/clients/edit/{{ $company->id }}" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-lg">
+                  <a href="/companies/edit/{{ $company->id }}" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-lg">
                     <i class="fas fa-edit"></i>
                   </a>
 

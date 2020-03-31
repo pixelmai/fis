@@ -164,7 +164,7 @@ class CompaniesController extends Controller
     $company = Companies::with('contactperson','partner','clients')->find($id);
     $employees = Clients::where('company_id',$id)->get();
     $emp_list = array();
-    $found=FALSE;
+    $found = FALSE;
 
     foreach ($employees as $employee) {
       $emp = array( 
@@ -203,15 +203,90 @@ class CompaniesController extends Controller
   }
 
 
-  public function edit(Companies $companies)
+  public function edit($id)
   {
-    
+    $user = auth()->user();
+    $company = Companies::with('contactperson')->find($id);
+
+    if($company){
+      $partner_id = Partners::where('is_active', '1')->where('id', '!=' , 1)->orderBy('id', 'ASC')->get();
+      $regtype_id = Regtypes::where('is_active', '1')->orderBy('id', 'ASC')->get();
+
+      $sector_id = Sectors::where('is_active', '1')->orderBy('id', 'ASC')->get();
+
+
+      return view('companies.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 
+        'partner_id' => $partner_id, 'company' => $company]);
+    }else{
+      return notifyRedirect($this->homeLink, 'Company not found', 'danger');
+    }
+
+
+
   }
 
 
-  public function update(Request $request, Companies $companies)
+  public function update($id)
   {
-    //
+    $user = auth()->user();
+    $company = Companies::find($id);
+
+    $data = request()->validate([
+      'name' => ['required', 'string', 'max:255'],
+      'email' => ['nullable', 'email', 'max:255'],
+      'number' => ['nullable', 'max:30', new PhoneNumber],
+      'url' => ['nullable', 'string', 'max:255', new Url],
+      'address' => ['nullable'],
+      'description' => ['nullable'],
+      'client_id' => ['required'],
+      'is_partner' => ['nullable'],
+      'partner_id' => ['required'],
+    ]);
+
+    if(isset($data['is_partner']) && $data['is_partner'] == 1){
+      $is_partner = TRUE;
+      $partner_id = $data['partner_id'];
+    }else{
+      $is_partner = FALSE;
+      $partner_id = 1;
+    }
+
+    if($company->name != $data['name']){
+      $name = request()->validate([
+        'name' => ['required', 'string', 'max:255', 'unique:companies']
+      ]);
+
+      $company->name = $data['name'];
+    }
+
+    
+    $company->email = $data['email'];
+    $company->number = $data['number'];
+    $company->address = $data['address'];
+    $company->client_id = $data['client_id'];
+    $company->partner_id = $partner_id;
+    $company->url = $data['url'];
+    $company->description = $data['description'];
+    $company->is_partner = $is_partner; 
+    $company->updatedby_id = $user->id;
+
+
+    $query = $company->update();
+
+    $client_check = Clients::find($data['client_id']);
+
+    if($client_check->company_id == 1){
+      $client_check->company_id = $id;
+      $client_check->update();
+    }
+
+
+    if($query){
+      return notifyRedirect('/companies/view/'.$id, 'Updated company '. $company->name .' successfully', 'success');
+    }
+
+
+
   }
 
 
