@@ -32,6 +32,12 @@ class CompaniesController extends Controller
   {
     $user = auth()->user();
 
+    $client_checker = Companies::where('client_id', 1)->get();
+
+    if(count($client_checker) > 0){
+      Companies::where('client_id', 1)->delete();
+    }
+
     if(request()->ajax()){
 
       //'id','name','email','number','partner_id','client_id'

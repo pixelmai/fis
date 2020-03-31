@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Appsettings;
+use App\Clients;
 use App\Partners;
 use App\Sectors;
 use App\Servcats;
@@ -110,6 +111,27 @@ class BootappController extends Controller
       Companies::create(['is_partner' => 0, 'updatedby_id' => 1, 'name' => '-','client_id'=> 0 ]);
       $s = TRUE;
     }
+
+
+    // CLIENT LIST
+    $clients = Clients::find(1);
+    if(!$clients){
+      Clients::create([
+      'fname' => '-',
+      'lname' => '-',
+      'gender' => 'm',
+      'sector_id' => 1,
+      'regtype_id' => 1,
+      'company_id' => 1,
+      'is_imported' => 0,
+      'is_freelancer' => 0,
+      'is_food' => 0,
+      'is_pwd' => 0,
+      'updatedby_id' => 1,
+      ]);
+      $s = TRUE;
+    }
+
 
 
     if($s){
