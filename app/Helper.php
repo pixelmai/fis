@@ -39,3 +39,7 @@ function dateDatabase($d) {
 function datetoDpicker($d) {
   return date('m/d/Y',strtotime($d));
 }
+
+function dateTimeFormat($d) {
+  return date('M d, Y h:i A', strtotime($d));
+}

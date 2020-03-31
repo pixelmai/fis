@@ -137,6 +137,20 @@ Route::get('/home', 'HomeController@index')->name('home');
 /* Companies */
 
 
+/* Projects */
+  Route::get('/projects', 'ProjectsController@index'); Route::get('/projects/create', 'ProjectsController@create');
+  Route::post('/projects/create', 'ProjectsController@store');
+  Route::post('/projects/modalStore', 'ProjectsController@modalStore');
+  Route::get('/projects/edit/{id}', 'ProjectsController@edit');
+  Route::patch('/projects/edit/{id}', 'ProjectsController@update');
+  Route::get('/projects/view/{id}', 'ProjectsController@view');
+  Route::get('/projects/destroy/{id}', 'ProjectsController@destroy');
+  Route::get('/projects/massrem', 'ProjectsController@massrem');
+  Route::get('/projects/autocomplete', 'ProjectsController@autocomplete')->name('companiesauto');
+/* Projects */
+
+
+
 
   Route::get('/clientsList', 'ClientsController@dblist');
   Route::get('/companiesList', 'CompaniesController@dblist');
