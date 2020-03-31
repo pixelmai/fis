@@ -213,7 +213,7 @@
       $('body').on('click', '#delete-row', function () {
         
 
-        if (confirm('Are you sure want to delete row?')) {
+        if (confirm('Are you sure want to delete company?')) {
 
           $.ajax({
               type: "get",
