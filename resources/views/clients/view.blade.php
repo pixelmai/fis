@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="container pt-5">
+<div class="container pt-3">
 
   <div class="row justify-content-center">
     <div class="col-lg-8">
@@ -25,17 +25,11 @@
                     </div>
 
                     @if ($client->is_freelancer == 1)
-                      <div class="chip mb-2">
+                      <div class="chip mb-2 chip-freelancer">
                         Freelancer
                       </div>
                     @endif
 
-
-                    @if ($client->regtype->name == 'Student')
-                      <div class="chip mb-2 chip-student">
-                        Student
-                      </div>
-                    @endif
 
                     @if ($client->is_pwd == 1)
                       <div class="chip mb-2 chip-pwd">
@@ -50,9 +44,7 @@
                       <i class="fas fa-edit"></i>
                     </a>
 
-                    <a href="/clients/destroy/{{ $client->id }}" data-toggle="tooltip" data-placement="top" data-original-title="Delete" class="edit btn btn-outline-danger btn-lg" onclick="return confirm('Are you sure you want to delete this client?');">
-                      <i class="fas fa-trash"></i>
-                    </a>
+                    <a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn btn-outline-danger btn-lg"><i class="fas fa-trash"></i></a>
 
                   </div>
                 </div>
@@ -108,10 +100,10 @@
 
                 <div class="row">
                   <div class="col-md-6">
-                    @if ($client->company_id)
+                    @if ($client->company_id && $client->company_id != 1)
                       <div class="info-item">
-                        <strong>Company</strong>
-                        {{ $client->company_id }}
+                        <strong>Company/Institution</strong>
+                        <a href="/companies/view/{{ $client->company_id }}">{{ $client->company->name }}</a>
                       </div>
                     @endif
 
@@ -198,7 +190,17 @@
                   @endif
 
 
-       
+                  <div class="updatedby text-right">
+                    Last updated by
+                    <b>
+                      <a href="/team/profile/{{ $updater->id }}">
+                        {{ $updater->fname }}
+                        {{ $updater->lname }}
+                      </a>
+                    </b>
+                    on
+                    {{ dateOnly($client->updated_at) }}
+                  </div>
 
 
                 </div>
@@ -221,8 +223,55 @@
 
 
 
-@endsection
+@stop
+
+
+
+@push('scripts')
+
+  <script>
+    $(document).ready( function () {
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+
+      $('body').on('click', '#delete-row', function () {
+        var row_id = $(this).data("id");
+
+        if (confirm('Are you sure want to delete row?')) {
+
+          $.ajax({
+              type: "get",
+              url: "/clients/destroy/"+'{{ $client->id }}',
+              success: function (data) {
+
+                if(data == 'deleted_no'){
+                  var notifData = {
+                    status: 'danger',
+                    message: 'Cannot delete a contact person of a company',
+                  };
+                  generateNotif(notifData);
+
+                }else{
+                  window.location.href = '{{ url('/clients') }}';
+                }
+              
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+      });   
+
+    
+
+    }); //end document ready
 
 
 
 
+  </script>
+@endpush

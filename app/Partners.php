@@ -12,4 +12,8 @@ class Partners extends Model
 	'name', 'description', 'updatedby_id', 
 	];
 
+	public function companies(){
+		return $this->hasMany('App\Companies');
+	}
+
 }

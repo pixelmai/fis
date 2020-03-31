@@ -117,6 +117,28 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/clients/view/{id}', 'ClientsController@view');
   Route::get('/clients/destroy/{id}', 'ClientsController@destroy');
   Route::get('/clients/massrem', 'ClientsController@massrem');
+  Route::get('/clients/autocomplete', 'ClientsController@autocomplete')->name('clientsauto');
 
-
+  Route::post('/clients/modalStore', 'ClientsController@modalStore');
 /* Clients */
+
+
+/* Companies */
+  Route::get('/companies', 'CompaniesController@index');
+  Route::get('/companies/create', 'CompaniesController@create');
+  Route::post('/companies/create', 'CompaniesController@store');
+  Route::post('/companies/modalStore', 'CompaniesController@modalStore');
+  Route::get('/companies/edit/{id}', 'CompaniesController@edit');
+  Route::patch('/companies/edit/{id}', 'CompaniesController@update');
+  Route::get('/companies/view/{id}', 'CompaniesController@view');
+  Route::get('/companies/destroy/{id}', 'CompaniesController@destroy');
+  Route::get('/companies/massrem', 'CompaniesController@massrem');
+  Route::get('/companies/autocomplete', 'CompaniesController@autocomplete')->name('companiesauto');
+/* Companies */
+
+
+
+  Route::get('/clientsList', 'ClientsController@dblist');
+  Route::get('/companiesList', 'CompaniesController@dblist');
+
+

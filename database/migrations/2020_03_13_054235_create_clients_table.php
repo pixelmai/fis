@@ -22,7 +22,7 @@ class CreateClientsTable extends Migration
             $table->string('email')->nullable(); 
             $table->string('number')->nullable();
             $table->text('address')->nullable();
-            $table->tinyInteger('company_id')->nullable();
+            $table->unsignedBigInteger('company_id')->default(1);
             $table->string('position')->nullable();
             $table->tinyInteger('regtype_id');
             $table->tinyInteger('sector_id');

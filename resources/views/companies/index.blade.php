@@ -8,10 +8,10 @@
   <div class="row pb-3">
     <div class="col-lg-12 d-flex justify-content-between">
       <div>
-        <h1 class="pt-1 pb-0">Clients</h1>
+        <h1 class="pt-1 pb-0">Companies</h1>
       </div>
       <div>
-        <a href="clients/create" class="btn btn-lg btn-success">Add Client</a>
+        <a href="companies/create" class="btn btn-lg btn-success">Add Company</a>
       </div>
     </div>
   </div>
@@ -21,14 +21,14 @@
         <table id="listpage_datatable" class="table table-responsive-md" data-page-length="25">
           <thead class="thead-dark">
             <tr>
-              <th scope="col">ID</th>
+              <th scope="col">&nbsp;</th>
+              <th scope="cold">&nbsp;</th>
               <th scope="col" class="col_checkbox">&nbsp;</th>
-              <th scope="col">First Name</th>
-              <th scope="col">Last Name</th>
+              <th scope="col">Name</th>
               <th scope="col">Email</th>
               <th scope="col">Contact</th>
-              <th scope="col">Company</th>
-              <th scope="col">Position</th>
+              <th scope="col">Partner Type</th>
+              <th scope="col">Contact Person</th>
               <th scope="col" class="col_actions"/>
                 <button type="button" name="bulk_delete" id="bulk_delete" class="btn btn-danger btn-sm d-none">Delete All</i></button>
               </th>
@@ -62,30 +62,30 @@
              processing: true,
              serverSide: true,
              ajax: {
-              url: "/clients",
+              url: "/companies",
               type: 'GET',
              },
              columns: [
                       { data: 'id', name: 'id', 'visible': false},
+                      { data: "contactperson.fname", 'visible': false},
                       { data: 'checkbox', orderable:false, searchable:false},
-                      { data: 'fname', name: 'fname' },
-                      { data: 'lname', name: 'lname' },
+                      { data: 'name', name: 'name' },
                       { data: 'email', name: 'email', orderable: false  },
                       { data: 'number', name: 'number', orderable: false, searchable: false },
-                      { data: 'company_name', name: 'company_name', render: function ( data, type, row ) {
+                      { data: 'partner.name', orderable: false},
+                      { data: "contactperson.lname", render: function ( data, type, row ) {
                           // Combine the first and last names into a single table field
                           if ( type === 'display' || type === 'filter' ) {
-                            if (row.company_id != 1){
-                              return '<a href="/companies/view/'+row.company_id+'">'+row.company_name+'</a>';
+                            if (row.contactperson.id != 0){
+                              return '<a href="/clients/view/'+row.contactperson.id+'">'+row.contactperson.fname+' '+row.contactperson.lname+'</a>';
                             }else{
                               return '-';
                             }
                           } else {
-                            return row.company_name;
+                            return row.contactperson.lname;
                           }
-                      } },
-                      { data: 'position', name: 'position'},
-                      {data: 'action', name: 'action', orderable: false},
+                      }, orderable: false },
+                      {data: 'action', name: 'action', orderable: false,  searchable:false},
                    ],
             order: [[0, 'desc']]
       });
@@ -109,30 +109,18 @@
 
           $.ajax({
               type: "get",
-              url: "/clients/destroy/"+row_id,
+              url: "/companies/destroy/"+row_id,
               success: function (data) {
-                if(data == 'deleted_yes'){
-                  var oTable = $('#listpage_datatable').dataTable(); 
-                  oTable.fnDraw(false);
+                var oTable = $('#listpage_datatable').dataTable(); 
+                oTable.fnDraw(false);
 
-                  var notifData = {
-                    status: 'warning',
-                    message: 'Successfully deleted a client.',
-                  };
+                var notifData = {
+                  status: 'warning',
+                  message: 'Successfully deleted a company.',
+                };
 
-                  generateNotif(notifData);
-                  $('#bulk_delete').addClass('d-none');
-                }else{
-
-                  var notifData = {
-                    status: 'danger',
-                    message: 'Cannot delete a contact person of a company',
-                  };
-
-                  generateNotif(notifData);
-                  $('#bulk_delete').addClass('d-none');
-
-                }
+                generateNotif(notifData);
+                $('#bulk_delete').addClass('d-none');
 
               },
               error: function (data) {
@@ -145,7 +133,6 @@
 
       $(document).on('click', '#bulk_delete', function(){
           var id = [];
-
           if(confirm("Are you sure you want to Delete this data?"))
           {
               $('.tbl_row_checkbox:checked').each(function(){
@@ -157,29 +144,15 @@
                 $.ajax({
                   type: "get",
                   data:{id:id},
-                  url: "/clients/massrem",
+                  url: "/companies/massrem",
                   success: function (data) {
-                    var notifData = [];
+                    $('#listpage_datatable').DataTable().ajax.reload();
 
-                    if(data == 0){
-                      notifData = {
-                        status: 'danger',
-                        message: 'Main Contacts of Companies cannot be deleted.',
-                      };
-                    }else if(data < id.length){
-                      $('#listpage_datatable').DataTable().ajax.reload();
-                      notifData = {
-                        status: 'danger',
-                        message: 'Successfully deleted '+ data +' out of ' + id.length + ' selected clients. Main Contacts of Companies cannot be deleted.',
-                      };
-                    }else {
-                      $('#listpage_datatable').DataTable().ajax.reload();
-                      notifData = {
-                        status: 'danger',
-                        message: 'Successfully deleted all '+ data +' selected clients.',
-                      };
-                    }
-
+                    var notifData = {
+                      status: 'danger',
+                      message: 'Successfully deleted '+ data +' selected companies.',
+                    };
+                    
                     generateNotif(notifData);
 
                     $('#bulk_delete').addClass('d-none');

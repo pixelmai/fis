@@ -10,9 +10,6 @@
   <title>FABLAB UP Cebu</title>
 
 
-
-
-
   <!-- Fonts -->
   <link rel="dns-prefetch" href="//fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -46,22 +43,29 @@
 
 
     <main>
-      @if(session('status'))
-        <div class="alert alert-{{ session('status') }}  alert-dismissible fade show" role="alert">
-          <span>{{ session('message') }}</span>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      @endif
-      
 
       <div class="content-area">
         @yield('content')
       </div>
     </main>
   </div>
+
+  @if(session('status'))
+    <div class="alert alert-{{ session('status') }}  alert-dismissible fade show" role="alert">
+      <span>{{ session('message') }}</span>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  @endif
+
 </div>
+
+
+
+
+
+@stack('modals')
 
 <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
 <script src="{{ asset('js/popper.min.js') }}"></script>

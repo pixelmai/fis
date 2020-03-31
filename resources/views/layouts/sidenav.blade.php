@@ -18,7 +18,7 @@
                   <a href="/clients">Clients</a>
               </li>
               <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'companies')) class="active" @endif>
-                  <a href="#">Companies</a>
+                  <a href="/companies">Companies</a>
               </li>
               <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'projects')) class="active" @endif>
                   <a href="#">Projects</a>
@@ -39,19 +39,19 @@
               </li>
           </ul>
       </li>
-      <li @if(!empty($page_settings['seltab']) && ($page_settings['seltab'] == 'inventory')) class="active" @endif>
+      <li @if(!empty($page_settings['seltab']) && ($page_settings['seltab'] == 'equipment')) class="active" @endif>
 
-          <a href="#submenuInventory" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Inventory</a>
+          <a href="#submenuEquipment" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Equipment</a>
 
-          <ul class="@if(!empty($page_settings['seltab']) && ($page_settings['seltab'] == 'inventory')) active @else collapse @endif list-unstyled" id="submenuInventory">
-              <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'consumables')) class="active" @endif>
+          <ul class="@if(!empty($page_settings['seltab']) && ($page_settings['seltab'] == 'equipment')) active @else collapse @endif list-unstyled" id="submenuEquipment">
+              <!-- li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'consumables')) class="active" @endif>
                   <a href="#">Consumables</a>
+              </li -->
+              <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'machines')) class="active" @endif>
+                  <a href="#">Machines</a>
               </li>
               <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'tools')) class="active" @endif>
                   <a href="#">Tools</a>
-              </li>
-              <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'machines')) class="active" @endif>
-                  <a href="#">Machines</a>
               </li>
           </ul>
       </li>
