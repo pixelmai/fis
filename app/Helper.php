@@ -28,6 +28,10 @@ function dateOnly($d) {
   return date("F jS, Y", strtotime($d));
 }
 
+function dateShortOnly($d) {
+  return date("M j, Y", strtotime($d));
+}
+
 function notifyRedirect($link, $message, $status){
   return redirect($link)->with(['status' => $status, 'message' => $message]);
 }

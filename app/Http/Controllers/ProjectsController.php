@@ -54,7 +54,7 @@ class ProjectsController extends Controller
         }
         return $s;
       })
-      ->addColumn('created',  '{{ dateTimeFormat($created_at) }}')
+      ->addColumn('created',  '{{ dateShortOnly($created_at) }}')
       ->addColumn('updated',  '{{ dateTimeFormat($updated_at) }}')
       ->addColumn('checkbox', '<input type="checkbox" name="tbl_row_checkbox[]" class="tbl_row_checkbox" value="{{$id}}" />')
 
