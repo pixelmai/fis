@@ -83,8 +83,8 @@
                           } else {
                             return row.company_name;
                           }
-                      }, orderable: false },
-                      { data: 'position', name: 'position' },
+                      } },
+                      { data: 'position', name: 'position'},
                       {data: 'action', name: 'action', orderable: false},
                    ],
             order: [[0, 'desc']]
