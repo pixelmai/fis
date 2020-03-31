@@ -72,7 +72,18 @@
                       { data: 'lname', name: 'lname' },
                       { data: 'email', name: 'email', orderable: false  },
                       { data: 'number', name: 'number', orderable: false, searchable: false },
-                      { data: 'company_name', name: 'company_name' },
+                      { data: 'company_name', name: 'company_name', render: function ( data, type, row ) {
+                          // Combine the first and last names into a single table field
+                          if ( type === 'display' || type === 'filter' ) {
+                            if (row.company_id != 1){
+                              return '<a href="/companies/view/'+row.company_id+'">'+row.company_name+'</a>';
+                            }else{
+                              return '-';
+                            }
+                          } else {
+                            return row.company_name;
+                          }
+                      }, orderable: false },
                       { data: 'position', name: 'position' },
                       {data: 'action', name: 'action', orderable: false},
                    ],
