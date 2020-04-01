@@ -32,7 +32,7 @@
               <th scope="col">Created</th>
               <th scope="col">Last Updated</th>
               <th scope="col" class="col_actions"/>
-                <button type="button" name="bulk_delete" id="bulk_delete" class="btn btn-danger btn-sm d-none">Delete All</i></button>
+                <button type="button" name="bulk_status" id="bulk_status" class="btn btn-primary btn-sm d-none">Set Status</i></button>
               </th>
             </tr>
           </thead>
@@ -45,10 +45,14 @@
 
 @stop
 
+@push('modals')
+  @include('projects.modalSetStatus')
+@endpush
 
 
 @push('scripts')
   <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 
   <script>
     $(document).ready( function () {
@@ -97,9 +101,9 @@
           $(this).parent().parent().toggleClass('rowselected');
 
           if ( document.querySelector('.rowselected') !== null ) {
-            $('#bulk_delete').removeClass('d-none');
+            $('#bulk_status').removeClass('d-none');
           }else{
-            $('#bulk_delete').addClass('d-none');
+            $('#bulk_status').addClass('d-none');
           }
 
       } );
@@ -134,45 +138,139 @@
       });   
 
 
-      $(document).on('click', '#bulk_delete', function(){
+      $(document).on('click', '#bulk_status', function(){
+
           var id = [];
-          if(confirm("Are you sure you want to Delete this data?"))
+
+          $('.tbl_row_checkbox:checked').each(function(){
+             id.push($(this).val());
+          });
+
+
+          if(id.length > 0)
           {
-              $('.tbl_row_checkbox:checked').each(function(){
-                 id.push($(this).val());
-              });
-
-              if(id.length > 0)
-              {
-                $.ajax({
-                  type: "get",
-                  data:{id:id},
-                  url: "/companies/massrem",
-                  success: function (data) {
-                    $('#listpage_datatable').DataTable().ajax.reload();
-
-                    var notifData = {
-                      status: 'danger',
-                      message: 'Successfully deleted '+ data +' selected companies.',
-                    };
-                    
-                    generateNotif(notifData);
-
-                    $('#bulk_delete').addClass('d-none');
-
-                  },
-                  error: function (data) {
-                    console.log('Error:', data);
-                  }
-                });
-              }
-              else
-              {
-                  alert("Please select atleast one checkbox");
-              }
+            $('#ajax-crud-modal').trigger("reset");
+            $('#ajax-crud-modal').modal('show');
           }
+          else
+          {
+              alert("Please select atleast one checkbox");
+          }
+      
       });
 
+
+
+      var validator = $("#ajaxForm").validate({
+        errorPlacement: function(error, element) {
+          // Append error within linked label
+          $( element )
+            .closest( "form" )
+              .find( "label[for='" + element.attr( "id" ) + "']" )
+                .append( error );
+        },
+        errorElement: "span",
+        rules: {
+          status: {
+            required: true
+          }
+        },
+        messages: {
+          status: " (required)",
+        },
+        submitHandler: function(form) {
+          
+          $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+              }
+          });
+
+          //form.preventDefault();
+          var id = [];
+
+          $('.tbl_row_checkbox:checked').each(function(){
+             id.push($(this).val());
+          });
+
+      
+          var formData = {
+            status: $('#status').children("option:selected").val(),
+            updatedby_id: jQuery('#updatedby_id').val(),
+          };
+
+          var state = jQuery('#btn-save').val();
+          var type = "POST";
+
+          $.ajax({
+              type: type,
+              url: "/projects/status",
+              data: { "formData" : formData, "id": id } ,
+              dataType: 'json',
+              success: function (data) {
+                $('#ajax-crud-modal').modal('hide');
+                var oTable = $('#listpage_datatable').dataTable(); 
+                oTable.fnDraw(false);
+
+                var notifData = {
+                  status: 'success',
+                  message: 'Successfully updated status of the selected ' + data + ' companies.',
+                };
+
+                generateNotif(notifData);
+                $('#bulk_status').addClass('d-none');
+              },
+              error: function (data) {
+                console.log('Error:', data);
+              }
+          });
+
+        },
+      });
+
+
+/*
+
+      $(document).on('click', '#btn-save-status', function(){
+
+          var id = [];
+
+          $('.tbl_row_checkbox:checked').each(function(){
+             id.push($(this).val());
+          });
+
+          if(id.length > 0)
+          {
+            $.ajax({
+              type: "get",
+              data:{id:id},
+              url: "/companies/status",
+              success: function (data) {
+                $('#listpage_datatable').DataTable().ajax.reload();
+
+                var notifData = {
+                  status: 'danger',
+                  message: 'Successfully deleted '+ data +' selected companies.',
+                };
+                
+                generateNotif(notifData);
+
+                $('#bulk_status').addClass('d-none');
+
+              },
+              error: function (data) {
+                console.log('Error:', data);
+              }
+            });
+            
+          }
+          else
+          {
+              alert("Please select atleast one checkbox");
+          }
+      
+      });
+*/
 
     
 

@@ -203,7 +203,32 @@ class ProjectsController extends Controller
     }else{
       return notifyRedirect($this->homeLink, 'Project not found', 'danger');
     }
+  }
 
+
+
+  public function status(Request $request)
+  {
+    if(request()->ajax()){
+      
+      $row_id_array = $request->input('id');
+      $form = $request->input('formData');
+
+      $count_updated = 0;
+
+      foreach ($row_id_array as $row) {
+          $row = Projects::find($row); 
+          $row->status = $form['status'];
+          $row->updatedby_id = $form['updatedby_id'];
+          $query = $row->update();
+          $count_updated++;
+      }
+
+      return Response::json($count_updated);
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Deletion action not permitted', 'danger');
+    }
   }
 
 

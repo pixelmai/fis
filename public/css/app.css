@@ -11489,7 +11489,8 @@ form label #compExists {
   border-bottom: 1px solid #dee2e6;
 }
 
-#app #listpage_datatable #bulk_delete {
+#app #listpage_datatable #bulk_delete,
+#app #listpage_datatable #bulk_status {
   padding: 1px 10px;
 }
 
