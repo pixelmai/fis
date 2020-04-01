@@ -33,6 +33,7 @@ class CreateClientsTable extends Migration
             $table->boolean('is_freelancer')->default(0);
             $table->boolean('is_food')->default(0);
             $table->boolean('is_imported')->default(0);
+            $table->boolean('is_deactivated')->default(0);
             $table->unsignedBigInteger('updatedby_id');
             $table->timestamps();
         });

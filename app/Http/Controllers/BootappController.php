@@ -125,14 +125,13 @@ class BootappController extends Controller
       'company_id' => 1,
       'is_imported' => 0,
       'is_freelancer' => 0,
+      'is_deactivated' => 0,
       'is_food' => 0,
       'is_pwd' => 0,
       'updatedby_id' => 1,
       ]);
       $s = TRUE;
     }
-
-
 
     if($s){
       dd('Successfully setup primary database items');

@@ -10,7 +10,7 @@ class Projects extends Model
 
   protected $fillable = [
     'name','description', 'url', 'status', 
-    'url','client_id','updatedby_id', 
+    'url','client_id', 'is_categorized', 'updatedby_id',
   ];
 
 

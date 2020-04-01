@@ -25,7 +25,7 @@
               <th scope="cold">&nbsp;</th>
               <th scope="col" class="col_checkbox">&nbsp;</th>
               <th scope="col">Name</th>
-              <th scope="col">Client</th>
+              <th scope="col">Owner</th>
               <th scope="col">Status</th>
               <th scope="col">URL</th>
               <th scope="col">No. of Jobs</th>

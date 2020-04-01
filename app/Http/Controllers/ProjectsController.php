@@ -30,8 +30,7 @@ class ProjectsController extends Controller
 
     if(request()->ajax()){
 
-      //'id','name','email','number','partner_id','client_id'
-      $dbtable = Projects::with('client:id,fname,lname')->orderBy('updated_at', 'DESC')->select();
+      $dbtable = Projects::with('client:id,fname,lname')->where('is_categorized', 1)->orderBy('updated_at', 'DESC')->select();
 
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){
@@ -57,9 +56,7 @@ class ProjectsController extends Controller
       ->addColumn('created',  '{{ dateShortOnly($created_at) }}')
       ->addColumn('updated',  '{{ dateTimeFormat($updated_at) }}')
       ->addColumn('checkbox', '<input type="checkbox" name="tbl_row_checkbox[]" class="tbl_row_checkbox" value="{{$id}}" />')
-
         ->rawColumns(['checkbox','action','created','updated','status'])
-
       ->make(true);
       
     }
@@ -68,25 +65,47 @@ class ProjectsController extends Controller
 
   }
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return \Illuminate\Http\Response
-   */
+
   public function create()
   {
-    //
+    $user = auth()->user();
+    return view('projects.create', ['user' => $user, 'page_settings'=> $this->page_settings]);
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
+
   public function store(Request $request)
   {
-    //
+
+    $user = auth()->user();
+
+    $data = request()->validate([
+      'name' => ['required', 'string', 'max:255', 'unique:projects'],
+      'url' => ['nullable', 'string', 'max:255', new Url],
+      'description' => ['nullable'],
+      'client_id' => ['required'],
+      'status' => ['required'],
+    ]);
+
+    $client_check = Clients::find($data['client_id']);
+
+    if(!isset($client_check)){
+      return notifyRedirect($this->homeLink, 'Client non-existent', 'danger');
+    }
+
+    $query = Projects::create([
+      'name' => $data['name'],
+      'url' => $data['url'],
+      'description' => $data['description'],
+      'client_id' => $data['client_id'],
+      'status' => $data['status'],
+      'is_categorized' => 1, 
+      'updatedby_id' => $user->id,
+    ]);
+
+    if($query){
+      return notifyRedirect($this->homeLink, 'Added Project Successfully!', 'success');
+    }
+
   }
 
   /**
