@@ -108,38 +108,68 @@ class ProjectsController extends Controller
 
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  \App\Projects  $projects
-   * @return \Illuminate\Http\Response
-   */
+
   public function show(Projects $projects)
   {
     //
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  \App\Projects  $projects
-   * @return \Illuminate\Http\Response
-   */
-  public function edit(Projects $projects)
+
+  public function edit($id)
   {
-    //
+    $user = auth()->user();
+    $project = Projects::with('client')->find($id);
+
+    if(isset($project)){
+
+      if($project->is_categorized == FALSE ){
+        return notifyRedirect($this->homeLink, 'Project not found', 'danger');
+      }
+
+      return view('projects.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'project' => $project]);
+    }else{
+      return notifyRedirect($this->homeLink, 'Company not found', 'danger');
+    }
+
+
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  \App\Projects  $projects
-   * @return \Illuminate\Http\Response
-   */
-  public function update(Request $request, Projects $projects)
+
+  public function update($id)
   {
-    //
+    $user = auth()->user();
+    $project = Projects::find($id);
+
+    $data = request()->validate([
+      'name' => ['required', 'string', 'max:255'],
+      'url' => ['nullable', 'string', 'max:255', new Url],
+      'description' => ['nullable'],
+      'client_id' => ['required'],
+      'status' => ['required'],
+    ]);
+
+
+    if($project->name != $data['name']){
+      $name = request()->validate([
+        'name' => ['required', 'string', 'max:255', 'unique:projects']
+      ]);
+
+      $project->name = $data['name'];
+    }
+
+    $project->url = $data['url'];
+    $project->description = $data['description'];
+    $project->client_id = $data['client_id'];
+    $project->status = $data['status'];
+    $project->updatedby_id = $user->id;
+
+    $query = $project->update();
+
+    if($query){
+      //return notifyRedirect('/projects/view/'.$id, 'Updated project '. $project->name .' successfully', 'success');
+      return notifyRedirect('/projects', 'Updated project '. $project->name .' successfully', 'success');
+    }
+
   }
 
   /**
@@ -152,4 +182,6 @@ class ProjectsController extends Controller
   {
     //
   }
+
+
 }

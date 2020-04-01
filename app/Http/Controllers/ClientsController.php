@@ -396,22 +396,20 @@ class ClientsController extends Controller
         ->make(true);
   }
 
-
   public function autocomplete(Request $request)
   {
-
       /*
       $data = Companies::select("name")
               ->where("name","LIKE","%{$request->input('query')}%")
               ->get();
       */
 
-      return Companies::where("name","LIKE","%{$request->get('q')}%")->get();
-
-      //return response()->json($data);
-
+      return Clients::where("lname","LIKE","%{$request->get('q')}%")->get();
       
+      //return response()->json($data);
   }
+
+
 
 
 }

@@ -7,19 +7,20 @@
     <div class="col-lg-8">
       <div class="card">
         <div class="card-header">
-          <div class="bh">Create New Project</div>
+          <div class="bh">Edit Project</div>
         </div>
 
           <div class="card-body">
 
-            <form action="/projects/create" enctype="multipart/form-data" method="POST">
+            <form action="/projects/edit/{{ $project->id }}" enctype="multipart/form-data" method="POST">
               @csrf
+              @method('PATCH')
 
               <div class="form-group row">
                 <div class="col-md-12">
                   <label for="name" class="col-form-label">Project Name <span class="required">*</span></label>
                 
-                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autofocus autocomplete="off">
+                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') ?? $project->name }}" required autofocus autocomplete="off">
 
                     @error('name')
                       <span class="invalid-feedback" role="alert">
@@ -40,14 +41,14 @@
                       
                       <div class="d-flex">
                         <div class="w-50">
-                          <input id="contact_person" type="text" class="form-control @error('contact_person') is-invalid @enderror" name="contact_person" value="{{ old('contact_person') }}" required autofocus autocomplete="off" placeholder="Search last name">
+                          <input id="contact_person" type="text" class="form-control @error('contact_person') is-invalid @enderror" name="contact_person" value="{{ old('contact_person') ?? $project->client->lname  }}" required autofocus autocomplete="off" placeholder="Search last name">
                         </div>
                         <div class="w-50">
-                          <input id="contact_person_fname" class="form-control ml-2" type="text" disabled>
+                          <input id="contact_person_fname" class="form-control ml-2" type="text" disabled value="{{ $project->client->fname  }}">
                         </div>
                       </div>
 
-                      <input id="client_id" type="hidden" name="client_id" value="{{ old('client_id') }}" required>
+                      <input id="client_id" type="hidden" name="client_id" value="{{ old('client_id') ?? $project->client_id }}" required>
 
                       @error('contact_person')
                         <span class="invalid-feedback" role="alert">
@@ -64,7 +65,7 @@
                 <div class="col-md-12">
                   <label for="url" class="col-form-label">URL</label>
                 
-                    <input id="url" type="text" class="form-control @error('url') is-invalid @enderror" name="url" value="{{ old('url') }}" autofocus autocomplete="off">
+                    <input id="url" type="text" class="form-control @error('url') is-invalid @enderror" name="url" value="{{ old('url') ?? $project->url  }}" autofocus autocomplete="off">
 
                     @error('url')
                       <span class="invalid-feedback" role="alert">
@@ -82,7 +83,7 @@
 
                     <textarea id="description" 
                       type="text" 
-                      class="form-control @error('description') is-invalid @enderror" name="description" autofocus>{{ old('description') }}</textarea>
+                      class="form-control @error('description') is-invalid @enderror" name="description" autofocus>{{ old('description') ?? $project->description }}</textarea>
 
                     @error('description')
                         <span class="invalid-feedback" role="alert">
@@ -97,10 +98,12 @@
                 <div class="col-3">
                   <label for="status" class="col-form-label">Status</label>
 
+
+
                     <select id="status" name="status" class="form-control @error('$status') is-invalid @enderror" autofocus>
-                      <option value="1">Open</option>
-                      <option value="2">Completed</option>
-                      <option value="3">Dropped</option>
+                      <option value="1" @if($project->status == 1) selected @endif >Open</option>
+                      <option value="2" @if($project->status == 2) selected @endif >Completed</option>
+                      <option value="3" @if($project->status == 3) selected @endif >Dropped</option>
                     </select>
 
                     @error('$status')
@@ -116,7 +119,7 @@
 
             <div class="row py-2">
               <div class="col-12">
-                <button id="big-add-button" class="btn btn-primary btn-lg">Add Project</button>
+                <button id="big-add-button" class="btn btn-primary btn-lg">Edit Project</button>
               </div>
             </div>
 

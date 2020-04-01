@@ -242,7 +242,7 @@
   /* Type Ahead */
     var engine = new Bloodhound({
         remote: {
-            url: '{{ route('companiesauto') }}?q=%QUERY%',
+            url: '{{ route('clientsauto') }}?q=%QUERY%',
             wildcard: '%QUERY%'
         },
         datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
