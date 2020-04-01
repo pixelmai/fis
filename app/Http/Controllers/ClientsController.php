@@ -141,7 +141,7 @@ class ClientsController extends Controller
       'skillset' => $data['skillset'],
       'hobbies' => $data['hobbies'],
       'is_imported' => 0,
-    
+      'is_deactivated' => 0,
       'is_freelancer' => $is_freelancer,
       'is_food' => $is_food,
       'is_pwd' => $is_pwd, 
@@ -181,6 +181,7 @@ class ClientsController extends Controller
       'is_freelancer' => $request->is_freelancer,
       'is_food' => $request->is_food,
       'is_pwd' => $request->is_pwd,
+      'is_deactivated' => 0,
       'updatedby_id' => $request->updatedby_id,
       ]);
 
@@ -395,22 +396,20 @@ class ClientsController extends Controller
         ->make(true);
   }
 
-
   public function autocomplete(Request $request)
   {
-
       /*
       $data = Companies::select("name")
               ->where("name","LIKE","%{$request->input('query')}%")
               ->get();
       */
 
-
-      return Companies::where("name","LIKE","%{$request->get('q')}%")->get();
-
-
+      return Clients::where("lname","LIKE","%{$request->get('q')}%")->get();
+      
       //return response()->json($data);
   }
+
+
 
 
 }

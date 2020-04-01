@@ -36,7 +36,7 @@ class Url implements Rule
      */
     public function message()
     {
-        return 'Phone number format incorrect';
+        return 'URL format incorrect';
     }
 
 }

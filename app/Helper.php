@@ -28,6 +28,10 @@ function dateOnly($d) {
   return date("F jS, Y", strtotime($d));
 }
 
+function dateShortOnly($d) {
+  return date("M j, Y", strtotime($d));
+}
+
 function notifyRedirect($link, $message, $status){
   return redirect($link)->with(['status' => $status, 'message' => $message]);
 }
@@ -38,4 +42,8 @@ function dateDatabase($d) {
 
 function datetoDpicker($d) {
   return date('m/d/Y',strtotime($d));
+}
+
+function dateTimeFormat($d) {
+  return date('M d, Y h:i A', strtotime($d));
 }

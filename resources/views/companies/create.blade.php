@@ -197,7 +197,7 @@
 
             <div class="row py-2">
               <div class="col-12">
-                <button class="btn btn-primary btn-lg">Create Company</button>
+                <button id="big-add-button" class="btn btn-primary btn-lg">Create Company</button>
               </div>
             </div>
 
@@ -238,7 +238,7 @@
   /* Type Ahead */
     var engine = new Bloodhound({
         remote: {
-            url: '{{ route('companiesauto') }}?q=%QUERY%',
+            url: '{{ route('clientsauto') }}?q=%QUERY%',
             wildcard: '%QUERY%'
         },
         datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
@@ -264,7 +264,7 @@
                 '<div class="list-group search-results-dropdown">'
             ],
             suggestion: function (data) {
-              $('#client_id').val(1);
+              $('#client_id').val('');
               $('#contact_person_fname').val();
               return '<div class="list-group-item">' + data.lname + ' ' + data.fname +'</div>';
             }
@@ -278,7 +278,7 @@
     });
 
     $('#contact_person').on('input', function(){
-      $('#client_id').val(1);
+      $('#client_id').val('');
       if($('#contact_person_fname').val()){
         $('#contact_person_fname').val('');
       }
@@ -386,7 +386,16 @@
 
 
 
+    $(document).on('click', '#big-add-button', function(){
+      if($('#client_id').val() == ''){
+        var notifData = {
+          status: 'danger',
+          message: 'Client not found, cannot create Company',
+        };
 
+        generateNotif(notifData);
+      }
+    });
 
 
 

@@ -119,6 +119,10 @@ class CompaniesController extends Controller
 
     $client_check = Clients::find($data['client_id']);
 
+    if(!isset($client_check)){
+      return notifyRedirect($this->homeLink, 'Client non-existent', 'danger');
+    }
+
     if($client_check->company_id == 1){
       $client_check->company_id = $query->id;
       $client_check->update();
@@ -290,6 +294,10 @@ class CompaniesController extends Controller
 
     $client_check = Clients::find($data['client_id']);
 
+    if(!isset($client_check)){
+      return notifyRedirect($this->homeLink, 'Client non-existent', 'danger');
+    }
+    
     if($client_check->company_id == 1){
       $client_check->company_id = $id;
       $client_check->update();
@@ -396,18 +404,20 @@ class CompaniesController extends Controller
   }
 
 
-
   public function autocomplete(Request $request)
   {
+
       /*
       $data = Companies::select("name")
               ->where("name","LIKE","%{$request->input('query')}%")
               ->get();
       */
 
-      return Clients::where("lname","LIKE","%{$request->get('q')}%")->get();
-      
+      return Companies::where("name","LIKE","%{$request->get('q')}%")->get();
+
       //return response()->json($data);
+
+      
   }
 
 
