@@ -21,6 +21,7 @@ class CreateProjectsTable extends Migration
             $table->tinyInteger('status')->default(1); 
             $table->unsignedBigInteger('client_id'); 
             $table->boolean('is_categorized')->default(0);
+            $table->boolean('is_deactivated')->default(0);
             $table->unsignedBigInteger('updatedby_id');
             $table->timestamps();
         });

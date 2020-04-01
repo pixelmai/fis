@@ -9,8 +9,8 @@ class Projects extends Model
   protected $guarded = [];
 
   protected $fillable = [
-    'name','description', 'url', 'status', 
-    'url','client_id', 'is_categorized', 'updatedby_id',
+    'name','description', 'url', 'status', 'url','client_id', 
+    'is_categorized', 'updatedby_id', 'is_deactivated'
   ];
 
 

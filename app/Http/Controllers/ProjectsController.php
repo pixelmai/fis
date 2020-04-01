@@ -99,6 +99,7 @@ class ProjectsController extends Controller
       'client_id' => $data['client_id'],
       'status' => $data['status'],
       'is_categorized' => 1, 
+      'is_deactivated' => 0, 
       'updatedby_id' => $user->id,
     ]);
 
@@ -149,7 +150,6 @@ class ProjectsController extends Controller
       return notifyRedirect($this->homeLink, 'Company not found', 'danger');
     }
 
-
   }
 
 
@@ -189,15 +189,21 @@ class ProjectsController extends Controller
 
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  \App\Projects  $projects
-   * @return \Illuminate\Http\Response
-   */
-  public function destroy(Projects $projects)
+  public function destroy($id)
   {
-    //
+
+    $project = Projects::find($id);
+    if($project){
+      if(request()->ajax()){
+        $row = Projects::where('id',$id)->delete();
+        return Response::json($row);
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to delete', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Project not found', 'danger');
+    }
+
   }
 
 

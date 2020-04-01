@@ -23,7 +23,8 @@ class Clients extends Model
         'name' => 'Uncategorized C'. $client->id,
         'status' => '1',
         'updatedby_id' => 1,
-        'is_categorized' => 0
+        'is_categorized' => 0,
+        'is_deactivated' => 0
       ]);
       
     });

@@ -30,7 +30,7 @@
               <th scope="col">URL</th>
               <th scope="col">No. of Jobs</th>
               <th scope="col">Created</th>
-              <th scope="col">Last Update</th>
+              <th scope="col">Last Updated</th>
               <th scope="col" class="col_actions"/>
                 <button type="button" name="bulk_delete" id="bulk_delete" class="btn btn-danger btn-sm d-none">Delete All</i></button>
               </th>
@@ -112,14 +112,14 @@
 
           $.ajax({
               type: "get",
-              url: "/companies/destroy/"+row_id,
+              url: "/projects/destroy/"+row_id,
               success: function (data) {
                 var oTable = $('#listpage_datatable').dataTable(); 
                 oTable.fnDraw(false);
 
                 var notifData = {
                   status: 'warning',
-                  message: 'Successfully deleted a company.',
+                  message: 'Successfully deleted a project.',
                 };
 
                 generateNotif(notifData);
