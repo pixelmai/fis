@@ -109,9 +109,27 @@ class ProjectsController extends Controller
   }
 
 
-  public function show(Projects $projects)
+  public function view($id)
   {
-    //
+    $user = auth()->user();
+    $project = Projects::with('client')->find($id);
+    $updater = User::find($project->updatedby_id);
+
+    switch ($project->status) {
+      case 1:
+        $s = 'Open';
+        break;
+      case 2:
+        $s = 'Completed';
+        break;
+      case 3:
+        $s = 'Dropped';
+        break;
+    }
+
+
+
+    return view('projects.view', ['user' => $user, 'project' => $project, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s]);
   }
 
 
@@ -166,8 +184,7 @@ class ProjectsController extends Controller
     $query = $project->update();
 
     if($query){
-      //return notifyRedirect('/projects/view/'.$id, 'Updated project '. $project->name .' successfully', 'success');
-      return notifyRedirect('/projects', 'Updated project '. $project->name .' successfully', 'success');
+      return notifyRedirect('/projects/view/'.$id, 'Updated project '. $project->name .' successfully', 'success');
     }
 
   }
