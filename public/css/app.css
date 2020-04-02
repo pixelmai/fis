@@ -11550,6 +11550,11 @@ form label #compExists {
   opacity: 1;
 }
 
+#app #listpage_datatable tr.deactivated {
+  background: #f7f7f7;
+  color: #999;
+}
+
 #app #listpage_datatable tr.rowselected,
 #app #listpage_datatable tr.rowselected:hover {
   background: #fff3f3;

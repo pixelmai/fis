@@ -721,6 +721,11 @@
       }
     }
 
+    tr.deactivated{
+      background: #f7f7f7;
+      color: #999;
+    }
+
     tr.rowselected, tr.rowselected:hover{
       background: #fff3f3;
 

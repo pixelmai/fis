@@ -31,7 +31,8 @@ class SuppliersController extends Controller
 
     if(request()->ajax()){
 
-      $dbtable = Suppliers::where('is_deactivated', 0)->orderBy('updated_at', 'DESC')->select();
+      //$dbtable = Suppliers::where('is_deactivated', 0)->orderBy('updated_at', 'DESC')->select();
+      $dbtable = Suppliers::orderBy('is_deactivated', 'ASC')->orderBy('updated_at', 'DESC')->select();
 
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){
@@ -191,17 +192,21 @@ class SuppliersController extends Controller
       return notifyRedirect($this->homeLink.'/view/'.$id, 'Updated supplier '. $supplier->name .' successfully', 'success');
     }
 
-
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  \App\Suppliers  $suppliers
-   * @return \Illuminate\Http\Response
-   */
-  public function destroy(Suppliers $suppliers)
+
+  public function destroy($id)
   {
-    //
+    $supplier = Suppliers::find($id);
+    if($supplier){
+      if(request()->ajax()){
+        $row = Suppliers::where('id',$id)->delete();
+        return Response::json($row);
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to delete', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Supplier not found', 'danger');
+    }
   }
 }

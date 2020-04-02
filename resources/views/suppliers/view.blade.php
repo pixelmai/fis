@@ -166,24 +166,22 @@
       $('body').on('click', '#delete-row', function () {
         var row_id = $(this).data("id");
 
-        if (confirm('Are you sure want to delete row?')) {
+        if (confirm('Are you sure want to delete supplier?')) {
 
           $.ajax({
               type: "get",
-              url: "/clients/destroy/"+'{{ $supplier->id }}',
+              url: "/suppliers/destroy/"+{{ $supplier->id }},
               success: function (data) {
 
-                if(data == 'deleted_no'){
-                  var notifData = {
-                    status: 'danger',
-                    message: 'Cannot delete a contact person of a company',
-                  };
-                  generateNotif(notifData);
+                window.location.href = '{{ url('/suppliers') }}';
 
-                }else{
-                  window.location.href = '{{ url('/clients') }}';
-                }
-              
+                var notifData = {
+                  status: 'warning',
+                  message: 'Successfully deleted a supplier.',
+                };
+                
+                generateNotif(notifData);
+
               },
               error: function (data) {
                   console.log('Error:', data);
@@ -191,7 +189,6 @@
           });
         } 
       });   
-
     
 
     }); //end document ready

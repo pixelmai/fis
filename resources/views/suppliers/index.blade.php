@@ -67,6 +67,12 @@
               url: "/suppliers",
               type: 'GET',
              },
+              createdRow: function( row, data, dataIndex ) {
+                  // Set the data-status attribute, and add a class
+                  if(data.is_deactivated == 1){
+                    $( row ).addClass('deactivated');
+                  }
+              },
              columns: [
                       { data: 'id', name: 'id', 'visible': false},
                       { data: 'checkbox', orderable:false, searchable:false},
@@ -107,7 +113,7 @@
 
                 var notifData = {
                   status: 'warning',
-                  message: 'Successfully deleted a project.',
+                  message: 'Successfully deleted a supplier.',
                 };
 
                 generateNotif(notifData);
