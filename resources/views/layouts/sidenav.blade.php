@@ -51,7 +51,10 @@
                   <a href="#">Machines</a>
               </li>
               <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'tools')) class="active" @endif>
-                  <a href="#">Tools</a>
+                  <a href="/tools">Tools</a>
+              </li>
+              <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'suppliers')) class="active" @endif>
+                  <a href="/suppliers">Suppliers</a>
               </li>
           </ul>
       </li>

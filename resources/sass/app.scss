@@ -419,12 +419,22 @@
       }
     }
 
-
-
     input[type=email], input[type=password]{
       &:focus{
         background: #ffffe5;
       }
+    }
+
+    .form-note{
+      font-size: .8em;
+      color: #999;
+      padding: 5px 0 0;
+      margin: 0;
+    }
+
+    ul.list-items{
+      margin-left: 0;
+      padding-left: 20px;
     }
 
     .card-tabs{
@@ -452,10 +462,7 @@
         color: $blue;
       }
 
-      ul{
-        margin-left: 0;
-        padding-left: 15px;
-      }
+
 
     }
 
@@ -712,6 +719,11 @@
           opacity: 1;
         }
       }
+    }
+
+    tr.deactivated{
+      background: #f7f7f7;
+      color: #999;
     }
 
     tr.rowselected, tr.rowselected:hover{

@@ -11273,6 +11273,18 @@ a[data-toggle=collapse] {
   background: #ffffe5;
 }
 
+#app .form-note {
+  font-size: 0.8em;
+  color: #999;
+  padding: 5px 0 0;
+  margin: 0;
+}
+
+#app ul.list-items {
+  margin-left: 0;
+  padding-left: 20px;
+}
+
 #app .card-tabs a {
   background: #f3f4e8;
   border-color: #dee2e6 #dee2e6;
@@ -11293,11 +11305,6 @@ a[data-toggle=collapse] {
 
 #app .tab-pane a {
   color: #3490dc;
-}
-
-#app .tab-pane ul {
-  margin-left: 0;
-  padding-left: 15px;
 }
 
 /* CARDS */
@@ -11541,6 +11548,11 @@ form label #compExists {
 
 #app #listpage_datatable tr:hover .hover_buttons {
   opacity: 1;
+}
+
+#app #listpage_datatable tr.deactivated {
+  background: #f7f7f7;
+  color: #999;
 }
 
 #app #listpage_datatable tr.rowselected,

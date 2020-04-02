@@ -149,6 +149,23 @@ Route::get('/home', 'HomeController@index')->name('home');
 /* Projects */
 
 
+/* Suppliers */
+  Route::get('/suppliers', 'SuppliersController@index'); Route::get('/suppliers/create', 'SuppliersController@create');
+  Route::post('/suppliers/create', 'SuppliersController@store');
+  Route::get('/suppliers/edit/{id}', 'SuppliersController@edit');
+  Route::patch('/suppliers/edit/{id}', 'SuppliersController@update');
+  Route::get('/suppliers/view/{id}', 'SuppliersController@view');
+  Route::get('/suppliers/destroy/{id}', 'SuppliersController@destroy');
+/* Suppliers */
+
+/* Tools */
+  Route::get('/tools', 'ToolsController@index'); Route::get('/tools/create', 'ToolsController@create');
+  Route::post('/tools/create', 'ToolsController@store');
+  Route::get('/tools/edit/{id}', 'ToolsController@edit');
+  Route::patch('/tools/edit/{id}', 'ToolsController@update');
+  Route::get('/tools/view/{id}', 'ToolsController@view');
+  Route::get('/tools/destroy/{id}', 'ToolsController@destroy');
+/* Tools */
 
 
   Route::get('/clientsList', 'ClientsController@dblist');

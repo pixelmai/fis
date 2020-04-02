@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Servcats;
 use Illuminate\Http\Request;
 
