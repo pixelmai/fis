@@ -142,7 +142,7 @@
                       <div class="info-block pt-1">
                         <h5>Employees</h5>
 
-                        <ul class="tab-content-list">
+                        <ul class="tab-content-list list-items">
                         @foreach($employees as $employee)
                           <li>
                             <a href="/clients/view/{{ $employee['id'] }}">

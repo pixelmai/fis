@@ -147,6 +147,10 @@
                       class="form-control @error('supplies') is-invalid @enderror" 
                       name="supplies" autofocus>{{ old('supplies') }}</textarea>
 
+                    <p class="form-note">
+                      Use semicolon ( <strong>;</strong> ) to separate the items
+                    </p>
+
                     @error('supplies')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
