@@ -113,7 +113,6 @@ class SuppliersController extends Controller
 
   public function view($id)
   {
-
     $user = auth()->user();
     $supplier = Suppliers::find($id);
     $supplies = '';
@@ -131,15 +130,18 @@ class SuppliersController extends Controller
     }
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  \App\Suppliers  $suppliers
-   * @return \Illuminate\Http\Response
-   */
-  public function edit(Suppliers $suppliers)
+  public function edit($id)
   {
-    //
+    $user = auth()->user();
+    $supplier = Suppliers::find($id);
+
+    if(isset($supplier)){
+      return view('suppliers.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'supplier' => $supplier]);
+    }else{
+      return notifyRedirect($this->homeLink, 'Supplier not found', 'danger');
+    }
+
+
   }
 
   /**
@@ -149,9 +151,47 @@ class SuppliersController extends Controller
    * @param  \App\Suppliers  $suppliers
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, Suppliers $suppliers)
+  public function update($id)
   {
-    //
+
+    $user = auth()->user();
+    $supplier = Suppliers::find($id);
+
+    $data = request()->validate([
+      'name' => ['string'],
+      'contact_person' => ['string'],
+      'email' => ['nullable', 'email', 'max:255'],
+      'number' => ['nullable', 'max:30', new PhoneNumber],
+      'url' => ['nullable', 'string', 'max:255', new Url],
+      'address' => ['nullable'],
+      'specialty' => ['nullable'],
+      'supplies' => ['nullable'],
+    ]);
+
+
+    if($supplier->name != $data['name']){
+      request()->validate([
+        'name' => ['required', 'string', 'max:255', 'unique:suppliers'],
+      ]);
+
+      $supplier->name = $data['name'];
+    }
+    $supplier->contact_person = $data['contact_person'];
+    $supplier->email = $data['email'];
+    $supplier->url = $data['url'];
+    $supplier->number = $data['number'];
+    $supplier->address = $data['address'];
+    $supplier->specialty = $data['specialty'];
+    $supplier->supplies = $data['supplies'];
+    $supplier->updatedby_id = $user->id;
+
+    $query = $supplier->update();
+
+    if($query){
+      return notifyRedirect($this->homeLink.'/view/'.$id, 'Updated supplier '. $supplier->name .' successfully', 'success');
+    }
+
+
   }
 
   /**
