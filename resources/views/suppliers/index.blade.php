@@ -11,7 +11,7 @@
         <h1 class="pt-1 pb-0">Suppliers</h1>
       </div>
       <div>
-        <a href="projects/create" class="btn btn-lg btn-success">Add Supplier</a>
+        <a href="suppliers/create" class="btn btn-lg btn-success">Add Supplier</a>
       </div>
     </div>
   </div>

@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Suppliers;
+use App\Rules\Url;
+use App\Rules\PhoneNumber;
 use Illuminate\Http\Request;
+use Redirect,Response,DB,Config;
+use Datatables;
 
 class SuppliersController extends Controller
 {
@@ -44,7 +49,20 @@ class SuppliersController extends Controller
       return $button;
       })
       ->addColumn('checkbox', '<input type="checkbox" name="tbl_row_checkbox[]" class="tbl_row_checkbox" value="{{$id}}" />')
-        ->rawColumns(['checkbox','action'])
+        ->addColumn('url', function($data){
+          if($data->url){
+            if(strlen($data->url)>30){
+              $link = '<a href="'.$data->url.'">Click here</a>';
+            }else{
+              $link = '<a href="'.$data->url.'">'.$data->url.'</a>';
+            }
+          }else{
+            $link = '';
+          }
+        return $link;
+      })
+
+        ->rawColumns(['checkbox','action','url'])
       ->make(true);
       
     }
@@ -57,7 +75,8 @@ class SuppliersController extends Controller
 
   public function create()
   {
-    //
+    $user = auth()->user();
+    return view('suppliers.create', ['user' => $user, 'page_settings'=> $this->page_settings]);
   }
 
   /**
@@ -68,7 +87,40 @@ class SuppliersController extends Controller
    */
   public function store(Request $request)
   {
-    //
+
+
+    $user = auth()->user();
+
+    $data = request()->validate([
+      'name' => ['required', 'string', 'max:255', 'unique:suppliers'],
+      'contact_person' => ['string'],
+      'email' => ['nullable', 'email', 'max:255'],
+      'number' => ['nullable', 'max:30', new PhoneNumber],
+      'url' => ['nullable', 'string', 'max:255', new Url],
+      'address' => ['nullable'],
+      'specialty' => ['nullable'],
+      'supplies' => ['nullable'],
+    ]);
+
+
+    $query = Suppliers::create([
+      'name' => $data['name'],
+      'contact_person' => $data['contact_person'],
+      'email' => $data['email'],
+      'number' => $data['number'],
+      'address' => $data['address'],
+      'url' => $data['url'],
+      'specialty' => $data['specialty'],
+      'supplies' => $data['supplies'],
+      'is_deactivated' => 0,
+      'updatedby_id' => $user->id,
+    ]);
+
+    if($query){
+      return notifyRedirect($this->homeLink, 'Added a Supplier successfully', 'success');
+    }
+
+
   }
 
   /**
