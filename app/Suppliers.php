@@ -14,4 +14,9 @@ class Suppliers extends Model
     'is_deactivated','updatedby_id', 
   ];
 
+  public function tools()
+  {
+    return $this->belongsToMany('App\Tools');
+  }
+
 }
