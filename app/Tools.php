@@ -9,8 +9,8 @@ class Tools extends Model
   protected $guarded = [];
 
   protected $fillable = [
-    'name','status', 'notes',
-    'is_available','is_deactivated',
+    'name','status', 'model','brand', 'notes',
+    'is_deactivated',
     'updatedby_id', 
   ];
 
