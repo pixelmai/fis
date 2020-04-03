@@ -30,7 +30,7 @@ class ProjectsController extends Controller
 
     if(request()->ajax()){
 
-      $dbtable = Projects::with('client:id,fname,lname')->where('is_categorized', 1)->orderBy('updated_at', 'DESC')->select();
+      $dbtable = Projects::with('client:id,fname,lname')->where('is_categorized', 1)->orderBy('updated_at', 'DESC')->get();
 
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){

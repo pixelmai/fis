@@ -32,7 +32,7 @@ class SuppliersController extends Controller
     if(request()->ajax()){
 
       //$dbtable = Suppliers::where('is_deactivated', 0)->orderBy('updated_at', 'DESC')->select();
-      $dbtable = Suppliers::orderBy('is_deactivated', 'ASC')->orderBy('updated_at', 'DESC')->select();
+      $dbtable = Suppliers::orderBy('is_deactivated', 'ASC')->orderBy('updated_at', 'DESC')->get();
 
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){
@@ -54,8 +54,7 @@ class SuppliersController extends Controller
           }
         return $link;
       })
-
-        ->rawColumns(['checkbox','action','url'])
+      ->rawColumns(['checkbox','action','url'])
       ->make(true);
       
     }

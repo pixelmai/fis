@@ -16,9 +16,10 @@ class CreateToolsTable extends Migration
         Schema::create('tools', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('status')->nullable(); 
-            $table->string('notes')->nullable();
-            $table->boolean('is_available')->default(0);
+            $table->tinyInteger('status')->default(1); 
+            $table->string('brand')->nullable();
+            $table->string('model')->nullable();
+            $table->text('notes')->nullable();
             $table->boolean('is_deactivated')->default(0);
             $table->unsignedBigInteger('updatedby_id');
             $table->timestamps();
