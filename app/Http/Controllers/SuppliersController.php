@@ -208,4 +208,10 @@ class SuppliersController extends Controller
       return notifyRedirect($this->homeLink, 'Supplier not found', 'danger');
     }
   }
+
+  public function autocomplete(Request $request)
+  {
+    return Suppliers::where("name","LIKE","%{$request->get('q')}%")->get();
+  }
+
 }
