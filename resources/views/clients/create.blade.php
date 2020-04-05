@@ -409,7 +409,7 @@
                 '<div class="list-group search-results-dropdown">'
             ],
             suggestion: function (data) {
-              $('#company_id').val(1);
+              //$('#company_id').val(1);
               return '<div class="list-group-item">' + data.name + '</div>';
             }
         }
@@ -417,8 +417,15 @@
     }).on('typeahead:select', function(ev, suggestion) {
       if(suggestion.id){
         $('#company_id').val(suggestion.id);
+        $('#position').focus();
+      }
+    }).on('typeahead:autocomplete', function(ev, suggestion) {
+      if(suggestion.id){
+        $('#company_id').val(suggestion.id);
+        $('#position').focus();
       }
     });
+
 
     /* Type Ahead */
 

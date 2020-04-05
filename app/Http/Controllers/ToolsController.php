@@ -96,8 +96,11 @@ class ToolsController extends Controller
       'model' => ['nullable'],
       'brand' => ['nullable'],
       'notes' => ['nullable'],
+      'supplier_id' => ['nullable'],
     ]);
 
+    $sid_array = array_unique($data['supplier_id']);
+    
 
     $query = Tools::create([
       'name' => $data['name'],
@@ -108,6 +111,16 @@ class ToolsController extends Controller
       'is_deactivated' => 0,
       'updatedby_id' => $user->id,
     ]);
+
+    if(count($sid_array)>=1){
+      foreach ($sid_array as $sid){
+        $supplier = Suppliers::find([$sid]); 
+        if($supplier){
+          $query->suppliers()->attach($supplier);
+        }
+      }
+    }
+
 
     if($query){
       return notifyRedirect($this->homeLink, 'Added a Tool successfully', 'success');

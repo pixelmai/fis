@@ -173,7 +173,7 @@
       $(addButton).click(function(){
           //Check maximum number of input fields
 
-        var fieldHTML = '<div class="generated_inputs row" data-rowid="'+x+'"><div class="col-6 pt-2"><div class="input_holder"><input type="text" name="supplier_name[]" value="" class="form-control supplier_name" placeholder="Search by Supplier Name" /><input type="hidden" name="supplier_id[]" value="" class="supplier_id" /></div></div><div><a href="javascript:void(0);" class="remove_button" data-delid="'+x+'"><img src="/images/remove-icon.png" /></a></div></div>'; //New input field html 
+        var fieldHTML = '<div class="generated_inputs row" data-rowid="' + x + '"><div class="col-6 pt-2"><div class="input_holder"><input type="text" name="supplier_name[]" value="" class="form-control supplier_name" placeholder="Search by Supplier Name" /><input type="hidden" name="supplier_id[]" value="" class="supplier_id" /></div></div><div><a href="javascript:void(0);" class="remove_button" data-delid="' + x + '"><img src="/images/remove-icon.png" /></a></div></div>'; //New input field html 
 
           if(x < maxField){ 
               x++; //Increment field counter
@@ -182,7 +182,7 @@
 
         $('.supplier_name').typeahead('destroy');
 
-        initTypeAhead(".supplier_name",".name");
+        initTypeAhead(".supplier_name");
 
       });
       
@@ -190,30 +190,30 @@
       $(wrapper).on('click', '.remove_button', function(e){
           e.preventDefault();
           var toDelete = $(this).data("delid"); //Remove field html
-          $("[data-rowid="+toDelete+"]").remove();
+          $("[data-rowid=" + toDelete + "]").remove();
 
           x--; //Decrement field counter
       });
 
 
 
-      /* Type Ahead */
+      /* Bloodhound Type Ahead */
 
-      var engine = new Bloodhound({
-          remote: {
-              url: '{{ route('suppliersauto') }}?q=%QUERY%',
-              wildcard: '%QUERY%'
-          },
-          datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
-          queryTokenizer: Bloodhound.tokenizers.whitespace
-      });
+        var engine = new Bloodhound({
+            remote: {
+                url: '{{ route('suppliersauto') }}?q=%QUERY%',
+                wildcard: '%QUERY%'
+            },
+            datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace
+        });
 
-      initTypeAhead(".supplier_name",".name");
+        initTypeAhead(".supplier_name");
 
-    /* Type Ahead */
+      /* Bloodhound Type Ahead */
 
 
-      function initTypeAhead(className, idName){
+      function initTypeAhead(className){
 
         $(className).typeahead({
             hint: true,
@@ -228,7 +228,7 @@
             display: 'name',
             templates: {
                 empty: [
-                    '<div class="list-group search-results-dropdown"><div class="list-group-item"><a id="sugg_create_comp" data-toggle="modal" href="#ajax-crud-modal">Nothing found. <br> Create New Client?</a></div></div>'
+                    '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
                 ],
                 header: [
                     '<div class="list-group search-results-dropdown">'
@@ -241,8 +241,11 @@
 
         }).on('typeahead:select', function(ev, suggestion) {
           if(suggestion.id){
-            //$('#client_id').val(suggestion.id);
-            //$('#contact_person_fname').val(suggestion.fname);
+            console.log(suggestion.id);
+            $(this).parent().siblings('.supplier_id').val(suggestion.id);
+          }
+        }).on('typeahead:autocomplete', function(ev, suggestion) {
+          if(suggestion.id){
             console.log(suggestion.id);
             $(this).parent().siblings('.supplier_id').val(suggestion.id);
           }

@@ -264,7 +264,7 @@
                 '<div class="list-group search-results-dropdown">'
             ],
             suggestion: function (data) {
-              $('#client_id').val('');
+              //$('#client_id').val('');
               $('#contact_person_fname').val();
               return '<div class="list-group-item">' + data.lname + ' ' + data.fname +'</div>';
             }
@@ -274,6 +274,13 @@
       if(suggestion.id){
         $('#client_id').val(suggestion.id);
         $('#contact_person_fname').val(suggestion.fname);
+        $('#email').focus();
+      }
+    }).on('typeahead:autocomplete', function(ev, suggestion) {
+      if(suggestion.id){
+        $('#client_id').val(suggestion.id);
+        $('#contact_person_fname').val(suggestion.fname);
+        $('#email').focus();
       }
     });
 
