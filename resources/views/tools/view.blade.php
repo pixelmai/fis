@@ -38,71 +38,136 @@
                 </div>
               
 
-                <hr />
 
-                <div class="info-block pt-1">
+              @if (count($tools->logs) == 0 )
+                <hr class="mb-0"> 
+              @endif
+            </div>
+          </div>
+        </div>
+              
 
-                  <h3>Specifications</h3>
+        @if (count($tools->logs) != 0 )
+          <ul class="nav nav-tabs card-tabs" id="myTab" role="tablist">
 
-                  @if ($status)
-                  <div class="info-item">
-                    <strong>Status</strong>
-                    {{ $status }}
-                  </div>
-                  @endif
+            <li class="nav-item ml-3">
+              <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Information</a>
+            </li>
 
             
-                  @if ($tools->model)
-                  <div class="info-item">
-                    <strong>Model</strong>
-                    {{ $tools->model }}
-                  </div>
-                  @endif
-
-                  @if ($tools->brand)
-                  <div class="info-item">
-                    <strong>Brand</strong>
-                    {{ $tools->brand }}
-                  </div>
-                  @endif
+              <li class="nav-item">
+                <a class="nav-link" id="logs-tab" data-toggle="tab" href="#logs" role="tab" aria-controls="logs" aria-selected="false">Logs</a>
+              </li>
+           
+          </ul>
+        @endif
 
 
-                  @if ($tools->notes)
-                  <div class="info-item">
-                    <strong>Notes</strong>
-                    {{ $tools->notes }}
-                  </div>
-                  @endif
+        <div class="card-body @if(count($tools->logs) == 0 ) pt-0 @endif">
 
-                  @if (count($tools->suppliers)!=0)
-                    <hr class="dotted" />
+          <div class="row">
+            <div class="col-md-12">
 
-                    <h3>Suppliers List</h3>
-
-                    <ul class="list-items">
-                      @foreach($tools->suppliers as $supplier)
-                        <li><a href="/suppliers/view/{{ $supplier->id }}">{{ $supplier->name }}</a></li>
-                      @endforeach
-                    </ul>
-
-                  @endif
+                <div class="tab-content" id="myTabContent">
+                  <!-- TAB CONTENT -->
+                    
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 
 
 
+                      <div class="info-block pt-1">
+
+                        <h5>Specifications</h5>
+
+                        @if ($status)
+                        <div class="info-item">
+                          <strong>Status</strong>
+                          {{ $status }}
+                        </div>
+                        @endif
+
+                  
+                        @if ($tools->model)
+                        <div class="info-item">
+                          <strong>Model</strong>
+                          {{ $tools->model }}
+                        </div>
+                        @endif
+
+                        @if ($tools->brand)
+                        <div class="info-item">
+                          <strong>Brand</strong>
+                          {{ $tools->brand }}
+                        </div>
+                        @endif
+
+
+                        @if ($tools->notes)
+                        <div class="info-item">
+                          <strong>Notes</strong>
+                          {{ $tools->notes }}
+                        </div>
+                        @endif
+
+                        @if (count($tools->suppliers)!=0)
+
+                          <h5 class="pt-4">Suppliers List</h5>
+
+                          <ul class="list-items">
+                            @foreach($tools->suppliers as $supplier)
+                              <li><a href="/suppliers/view/{{ $supplier->id }}">{{ $supplier->name }}</a></li>
+                            @endforeach
+                          </ul>
+
+                        @endif
+                      </div>
+
+                      <div class="updatedby text-right">
+                        Last updated by
+                        <b>
+                          <a href="/team/profile/{{ $updater->id }}">
+                            {{ $updater->fname }}
+                            {{ $updater->lname }}
+                          </a>
+                        </b>
+                        on
+                        {{ dateOnly($tools->updated_at) }}
+                      </div>
+
+
+                    </div>
+
+
+                  <!-- TAB CONTENT -->
+
+                  <!-- TAB CONTENT -->
+                    <div class="tab-pane fade" id="logs" role="tabpanel" aria-labelledby="logs-tab">
+
+                      <div class="info-block pt-1">
+                        <h5>Status Logs</h5>
+
+                        
+                        @foreach($tools->logs as $log)
+                          <div class="status_log @if ($loop->iteration % 2 == 0) even @endif">
+                            <div class="schip schip-{{ strtolower($status_list[$log['status']]) }}">
+                              {{ $status_list[$log['status']] }}
+                            </div> 
+                            <p>{{ $log['notes'] }}</p>
+
+                            
+                            <div class="updatedby">Updated by 
+                              <a href="/team/profile/{{ $log['updater']['id'] }}">{{ $log['updater']['fname'] }} {{ $log['updater']['lname'] }}</a> on {{ dateTimeFormat($log['updated_at']) }}</div>
+                          </div>
+
+                        @endforeach
+                        
+
+                    </div>
+                  <!-- TAB CONTENT -->
+                </div>
 
 
 
-                  <div class="updatedby text-right">
-                    Last updated by
-                    <b>
-                      <a href="/team/profile/{{ $updater->id }}">
-                        {{ $updater->fname }}
-                        {{ $updater->lname }}
-                      </a>
-                    </b>
-                    on
-                    {{ dateOnly($tools->updated_at) }}
-                  </div>
 
 
                 </div>

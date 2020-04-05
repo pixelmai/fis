@@ -11268,6 +11268,11 @@ a[data-toggle=collapse] {
   color: #888;
 }
 
+#app .card-body .updatedby a {
+  color: #888;
+  font-weight: bold;
+}
+
 #app input[type=email]:focus,
 #app input[type=password]:focus {
   background: #ffffe5;
@@ -11305,6 +11310,51 @@ a[data-toggle=collapse] {
 
 #app .tab-pane a {
   color: #3490dc;
+}
+
+#app .tab-pane .status_log {
+  border-top: 1px dotted #ddd;
+  padding: 10px;
+}
+
+#app .tab-pane .status_log .schip {
+  display: inline-block;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: #ddd;
+  padding: 3px 5px;
+  margin-bottom: 10px;
+}
+
+#app .tab-pane .status_log .schip-available {
+  background: #38c172;
+  color: #fff;
+  border: 1px solid #32ad66;
+}
+
+#app .tab-pane .status_log .schip-damaged {
+  background: #e3342f;
+  color: #fff;
+  border: 1px solid #db231d;
+}
+
+#app .tab-pane .status_log .schip-borrowed {
+  background: #ffed4a;
+  color: #000;
+  border: 1px solid #ffea31;
+}
+
+#app .tab-pane .status_log p {
+  margin-bottom: 0;
+}
+
+#app .tab-pane .status_log:last-child {
+  border-bottom: 1px dotted #ddd;
+}
+
+#app .tab-pane .status_log.even {
+  background: #f9f9f9;
 }
 
 /* CARDS */

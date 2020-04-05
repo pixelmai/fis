@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Logs;
 use App\User;
 use App\Suppliers;
 use App\Tools;
@@ -134,7 +135,8 @@ class ToolsController extends Controller
   public function view($id)
   {
     $user = auth()->user();
-    $tool = Tools::find($id);
+    $tool = Tools::with('logs')->find($id);
+
 
     if($tool){
       $updater = User::find($tool->updatedby_id);
@@ -142,7 +144,7 @@ class ToolsController extends Controller
         $s = $this->status[$tool->status];
       }
 
-      return view('tools.view', ['user' => $user, 'tools' => $tool, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'status'=> $s]);
+      return view('tools.view', ['user' => $user, 'tools' => $tool, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'status'=> $s, 'status_list'=> $this->status]);
 
     }else{
       return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
@@ -241,7 +243,7 @@ class ToolsController extends Controller
         return notifyRedirect($this->homeLink, 'Unauthorized to delete', 'danger');
       }
     }else{
-      return notifyRedirect($this->homeLink, 'Project not found', 'danger');
+      return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
     }
   }
 }

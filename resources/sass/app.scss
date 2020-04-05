@@ -416,6 +416,11 @@
         padding-top: 20px;
         font-size: .8em;
         color: #888;
+
+        a{
+          color: #888;
+          font-weight: bold;
+        }
       }
     }
 
@@ -463,6 +468,51 @@
       }
 
 
+      .status_log{
+        border-top: 1px dotted #ddd;
+        padding: 10px;
+
+        .schip{
+          display: inline-block;
+          font-size: .8em;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          background: #ddd;
+          padding: 3px 5px;
+          margin-bottom: 10px;
+        }
+
+        .schip-available{
+          background: $green;
+          color: #fff;
+          border: 1px solid darken($green, 5%);
+        }
+
+        .schip-damaged{
+          background: $red;
+          color: #fff;
+          border: 1px solid darken($red, 5%);
+        }
+
+        .schip-borrowed{
+          background: $yellow;
+          color: #000;
+          border: 1px solid darken($yellow, 5%);
+        }
+
+
+        p{
+          margin-bottom: 0;
+        }
+
+        &:last-child{
+          border-bottom: 1px dotted #ddd;
+        }
+      }
+
+      .status_log.even{
+        background: #f9f9f9;
+      }
 
     }
 
