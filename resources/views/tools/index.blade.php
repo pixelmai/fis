@@ -11,7 +11,7 @@
         <h1 class="pt-1 pb-0">Tools</h1>
       </div>
       <div>
-        <a href="suppliers/create" class="btn btn-lg btn-success">Add Tool</a>
+        <a href="/tools/create" class="btn btn-lg btn-success">Add Tool</a>
       </div>
     </div>
   </div>

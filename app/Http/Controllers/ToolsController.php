@@ -68,42 +68,53 @@ class ToolsController extends Controller
 
   }
 
-
-
-
-
-  /* SIMPLE ADD 
-    $user = auth()->user();
-    $tool = new Tools;
-    $tool->name = 'God of War';
-    $tool->updatedby_id = $user->id;
-    $tool->save();
-    $supplier = Suppliers::find([2, 3]); //suppliers 2 and 3
-    $tool->suppliers()->attach($supplier);
-    return 'Success';
-  */
   public function create()
   {
-    //
+    $user = auth()->user();
+
+    return view('tools.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status]);
   }
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @return \Illuminate\Http\Response
-   */
   public function store(Request $request)
   {
-    //
+    /* SIMPLE ADD 
+      $user = auth()->user();
+      $tool = new Tools;
+      $tool->name = 'God of War';
+      $tool->updatedby_id = $user->id;
+      $tool->save();
+      $supplier = Suppliers::find([2, 3]); //suppliers 2 and 3
+      $tool->suppliers()->attach($supplier);
+      return 'Success';
+    */
+
+    $user = auth()->user();
+
+    $data = request()->validate([
+      'name' => ['required', 'string', 'max:255'],
+      'status' => ['required'],
+      'model' => ['nullable'],
+      'brand' => ['nullable'],
+      'notes' => ['nullable'],
+    ]);
+
+
+    $query = Tools::create([
+      'name' => $data['name'],
+      'status' => $data['status'],
+      'model' => $data['model'],
+      'brand' => $data['brand'],
+      'notes' => $data['notes'],
+      'is_deactivated' => 0,
+      'updatedby_id' => $user->id,
+    ]);
+
+    if($query){
+      return notifyRedirect($this->homeLink, 'Added a Tool successfully', 'success');
+    }
+
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  \App\Tools  $tools
-   * @return \Illuminate\Http\Response
-   */
   public function view($id)
   {
     $user = auth()->user();
@@ -121,15 +132,9 @@ class ToolsController extends Controller
       return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
     }
 
-
   }
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  \App\Tools  $tools
-   * @return \Illuminate\Http\Response
-   */
+
   public function edit(Tools $tools)
   {
     //
