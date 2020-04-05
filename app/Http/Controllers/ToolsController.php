@@ -39,8 +39,8 @@ class ToolsController extends Controller
 
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){
-      $button = '<div class="hover_buttons"><a href="/suppliers/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
-      $button .= '<a href="/suppliers/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
+      $button = '<div class="hover_buttons"><a href="/tools/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
+      $button .= '<a href="/tools/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
       $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
       return $button;
       })
@@ -106,8 +106,22 @@ class ToolsController extends Controller
    */
   public function view($id)
   {
-    $tools = Tools::find($id);
-    return view('tools.view', compact('tools'));
+    $user = auth()->user();
+    $tool = Tools::find($id);
+
+    if($tool){
+      $updater = User::find($tool->updatedby_id);
+      if($tool->status){
+        $s = $this->status[$tool->status];
+      }
+
+      return view('tools.view', ['user' => $user, 'tools' => $tool, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'status'=> $s]);
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
+    }
+
+
   }
 
   /**
