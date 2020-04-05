@@ -303,7 +303,6 @@
 
     /* Type Ahead */
 
-
     //Validator and the Submit Form codes on success
 
     var validator = $("#ajaxForm").validate({

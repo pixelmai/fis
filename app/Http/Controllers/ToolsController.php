@@ -5,6 +5,9 @@ use App\User;
 use App\Suppliers;
 use App\Tools;
 use Illuminate\Http\Request;
+use Redirect,Response,DB,Config;
+use Datatables;
+
 
 class ToolsController extends Controller
 {
@@ -148,31 +151,97 @@ class ToolsController extends Controller
   }
 
 
-  public function edit(Tools $tools)
+  public function edit($id)
   {
-    //
+    $user = auth()->user();
+    $tool = Tools::with('suppliers')->find($id);
+
+    if(isset($tool)){
+
+      return view('tools.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'tool' => $tool, 'status' => $this->status]);
+    }else{
+      return notifyRedirect($this->homeLink, 'Company not found', 'danger');
+    }
+    
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  \App\Tools  $tools
-   * @return \Illuminate\Http\Response
-   */
-  public function update(Request $request, Tools $tools)
+
+  public function update($id)
   {
-    //
+
+    $user = auth()->user();
+    $tool = Tools::find($id);
+
+    $data = request()->validate([
+      'name' => ['required', 'string', 'max:255'],
+      'status' => ['required'],
+      'model' => ['nullable'],
+      'brand' => ['nullable'],
+      'notes' => ['nullable'],
+      'supplier_id' => ['nullable'],
+    ]);
+
+    $tool->name = $data['name'];
+    $tool->status = $data['status'];
+    $tool->model = $data['model'];
+    $tool->brand = $data['brand'];
+    $tool->notes = $data['notes'];
+    $tool->updatedby_id = $user->id;
+
+    $query = $tool->update();
+
+    if($data['supplier_id']){
+      $old_suppliers = $tool->suppliers->pluck('id')->toArray();
+      $sid_array = array_map('intval', array_unique($data['supplier_id']));
+
+      $add = array_diff($sid_array,$old_suppliers);
+      $remove = array_diff($old_suppliers,$sid_array);
+
+      if(count($add)>=1){
+        foreach ($add as $sid){
+          $supplier = Suppliers::find([$sid]); 
+          if($supplier){
+            $tool->suppliers()->attach($supplier);
+          }
+        }
+      }
+
+      if(count($remove)>=1){
+        foreach ($remove as $sid){
+          $supplier = Suppliers::find([$sid]); 
+          if($supplier){
+            $tool->suppliers()->detach($supplier);
+          }
+        }
+      }
+
+
+    }
+
+
+    if($query){
+      return notifyRedirect($this->homeLink.'/view/'.$id, 'Updated Tool '. $tool->name .' successfully', 'success');
+    }
+
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  \App\Tools  $tools
-   * @return \Illuminate\Http\Response
-   */
-  public function destroy(Tools $tools)
+  public function destroy($id)
   {
-    //
+    $tool = Tools::with('suppliers')->find($id);
+    if($tool){
+      if(request()->ajax()){
+
+        if(count($tool->suppliers)!=0 ){
+          $tool->suppliers()->detach();
+        }
+
+        $row = Tools::where('id',$id)->delete();
+        return Response::json($row);
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to delete', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Project not found', 'danger');
+    }
   }
 }

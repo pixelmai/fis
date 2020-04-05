@@ -7,19 +7,19 @@
     <div class="col-lg-8">
       <div class="card">
         <div class="card-header">
-          <div class="bh">Create New Tool</div>
+          <div class="bh">Edit Tool</div>
         </div>
 
           <div class="card-body">
 
-            <form action="/tools/create" enctype="multipart/form-data" method="POST">
+            <form action="/tools/edit/{{ $tool->id }}" enctype="multipart/form-data" method="POST">
               @csrf
-
+              @method('PATCH')
               <div class="form-group row">
                 <div class="col-md-12">
                   <label for="name" class="col-form-label">Tool Name <span class="required">*</span></label>
                 
-                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autofocus autocomplete="off">
+                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') ?? $tool->name }}" required autofocus autocomplete="off">
 
                     @error('name')
                       <span class="invalid-feedback" role="alert">
@@ -40,7 +40,9 @@
 
 
                     @foreach($status as $statnum => $statdesc) 
-                      <option value="{{ $statnum }}">{{ $statdesc }}</option>
+                      <option value="{{ $statnum }}" @if($tool->status == $statnum) selected @endif>{{ $statdesc }}</option>
+
+
                     @endforeach
 
                     </select>
@@ -63,7 +65,7 @@
                       type="text" 
                       class="form-control @error('model') is-invalid @enderror" 
                       name="model" 
-                      value="{{ old('model') }}"  
+                      value="{{ old('model') ?? $tool->model }}"  
                       autofocus autocomplete="off">
 
                     @error('model')
@@ -80,7 +82,7 @@
                       type="text" 
                       class="form-control @error('brand') is-invalid @enderror" 
                       name="brand" 
-                      value="{{ old('brand') }}"  
+                      value="{{ old('brand') ?? $tool->brand }}"  
                       autofocus autocomplete="off">
 
                     @error('brand')
@@ -98,7 +100,7 @@
                     <textarea id="notes" 
                       type="text" 
                       class="form-control @error('notes') is-invalid @enderror" 
-                      name="notes" autofocus>{{ old('notes') }}</textarea>
+                      name="notes" autofocus>{{ old('notes') ?? $tool->notes }}</textarea>
 
                     @error('notes')
                         <span class="invalid-feedback" role="alert">
@@ -114,27 +116,49 @@
               <div class="form-group">
                 <label for="name" class="col-form-label">Suppliers</label>
       
-                  
                   <div class="field_wrapper">
-                    <div class="generated_inputs row">
-                      <div class="col-6">
-                        <div class="input_holder"><input type="text" name="supplier_name[]" value="" class="form-control supplier_name" placeholder="Search by Supplier Name" /><input type="hidden" name="supplier_id[]" value="" class="supplier_id" /></div>
+
+                    @if(count($tool->suppliers) == 0)
+                      <div class="generated_inputs row">
+                        <div class="col-6">
+                          <div class="input_holder"><input type="text" name="supplier_name[]" value="" class="form-control supplier_name" placeholder="Search by Supplier Name" /><input type="hidden" name="supplier_id[]" value="" class="supplier_id" /></div>
+                        </div>
+                        <div>
+                          <a href="javascript:void(0);" class="add_button" title="Add field"><img src="/images/add-icon.png"/></a>
+                        </div>
                       </div>
-                      <div>
-                        <a href="javascript:void(0);" class="add_button" title="Add field"><img src="/images/add-icon.png"/></a>
-                      </div>
-                    </div>
+                      <?php $key = 1; ?>
+                    @else
+                      @foreach($tool->suppliers as $key => $supplier)
+                        @if($key == 0)
+                          <div class="generated_inputs row">
+                            <div class="col-6">
+                              <div class="input_holder"><input type="text" name="supplier_name[]" value="{{ $supplier->name }}" class="form-control supplier_name" placeholder="Search by Supplier Name" /><input type="hidden" name="supplier_id[]" value="{{ $supplier->id }}" class="supplier_id" /></div>
+                            </div>
+                            <div>
+                              <a href="javascript:void(0);" class="add_button" title="Add field"><img src="/images/add-icon.png"/></a>
+                            </div>
+                          </div>
+                        @else
+                          <div class="generated_inputs row" data-rowid="{{ $key }}"><div class="col-6 pt-2"><div class="input_holder"><input type="text" name="supplier_name[]" value="{{ $supplier->name }}" class="form-control supplier_name" placeholder="Search by Supplier Name" /><input type="hidden" name="supplier_id[]" value="{{ $supplier->id }}" class="supplier_id" /></div></div><div><a href="javascript:void(0);" class="remove_button" data-delid="{{ $key }}"><img src="/images/remove-icon.png" /></a></div></div>
+                        @endif
+                        <?php $key++; ?>
+                      @endforeach
+            
+                    @endif
+
+
+
+
                   </div>
              
 
               </div>
 
 
-
-
             <div class="row py-2">
               <div class="col-12">
-                <button id="big-add-button" class="btn btn-primary btn-lg">Create Tool</button>
+                <button id="big-add-button" class="btn btn-primary btn-lg">Edit Tool</button>
               </div>
             </div>
 
@@ -167,7 +191,8 @@
       var maxField = 5; //Input fields increment limitation
       var addButton = $('.add_button'); //Add button selector
       var wrapper = $('.field_wrapper'); //Input field wrapper
-      var x = 1; //Initial field counter is 1
+      //var x = 1; //Initial field counter is 1
+      var x = {{ $key }};
       
       //Once add button is clicked
       $(addButton).click(function(){

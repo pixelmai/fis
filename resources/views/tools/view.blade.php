@@ -54,14 +54,14 @@
             
                   @if ($tools->model)
                   <div class="info-item">
-                    <strong>Status</strong>
+                    <strong>Model</strong>
                     {{ $tools->model }}
                   </div>
                   @endif
 
                   @if ($tools->brand)
                   <div class="info-item">
-                    <strong>Status</strong>
+                    <strong>Brand</strong>
                     {{ $tools->brand }}
                   </div>
                   @endif
@@ -69,7 +69,7 @@
 
                   @if ($tools->notes)
                   <div class="info-item">
-                    <strong>Status</strong>
+                    <strong>Notes</strong>
                     {{ $tools->notes }}
                   </div>
                   @endif

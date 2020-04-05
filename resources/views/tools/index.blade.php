@@ -110,11 +110,11 @@
 
                 var notifData = {
                   status: 'warning',
-                  message: 'Successfully deleted a supplier.',
+                  message: 'Successfully deleted a tool.',
                 };
 
                 generateNotif(notifData);
-                $('#bulk_delete').addClass('d-none');
+                //$('#bulk_delete').addClass('d-none');
 
               },
               error: function (data) {
