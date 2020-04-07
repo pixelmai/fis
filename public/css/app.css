@@ -11615,6 +11615,12 @@ form label #compExists {
   padding-right: 10px;
 }
 
+#app #listpage_datatable.four_actions tr td:last-child {
+  text-align: right;
+  width: 150px !important;
+  min-width: 150px !important;
+}
+
 #app .dataTables_wrapper {
   border-top: 1px dotted #ccc;
 }

@@ -778,15 +778,22 @@
 
     tr.rowselected, tr.rowselected:hover{
       background: #fff3f3;
-
     }
 
     .col_actions{
       text-align: right;
       padding-right: 10px;
     }
-
   }
+
+  #listpage_datatable.four_actions{
+    tr td:last-child{
+      text-align: right;
+      width: 150px !important;
+      min-width: 150px !important;
+    }
+  }
+
 
   .dataTables_wrapper{
     border-top: 1px dotted #ccc;

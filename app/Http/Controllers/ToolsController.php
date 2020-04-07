@@ -44,6 +44,7 @@ class ToolsController extends Controller
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){
       $button = '<div class="hover_buttons"><a href="/tools/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
+      $button .= '<a href="/tools/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Add Log" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-history"></i></a>';
       $button .= '<a href="/tools/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
       $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
       return $button;

@@ -18,7 +18,7 @@
 
   <div class="row justify-content-center">
     <div class="col-lg-12">
-        <table id="listpage_datatable" class="table table-responsive-md" data-page-length="25">
+        <table id="listpage_datatable" class="table table-responsive-md four_actions" data-page-length="25">
           <thead class="thead-dark">
             <tr>
               <th scope="col">&nbsp;</th>
