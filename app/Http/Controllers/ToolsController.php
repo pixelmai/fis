@@ -127,6 +127,8 @@ class ToolsController extends Controller
   {
     $user = auth()->user();
     $tool = Tools::with('logs')->find($id);
+    $logs = Logs::where('tool_id', $id)->orderBy('updated_at', 'DESC')->get();
+
 
 
     if($tool){
@@ -135,7 +137,7 @@ class ToolsController extends Controller
         $s = $this->status[$tool->status];
       }
 
-      return view('tools.view', ['user' => $user, 'tools' => $tool, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'status'=> $s, 'status_list'=> $this->status]);
+      return view('tools.view', ['user' => $user, 'tools' => $tool, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'logs' => $logs]);
 
     }else{
       return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
@@ -287,6 +289,44 @@ class ToolsController extends Controller
           return Response::json(1);
         }
       }
+
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Action not permitted', 'danger');
+    }
+  }
+
+
+  public function statusedit(Request $request)
+  {
+    if(request()->ajax()){
+      $tool_id = $request->input('id');
+      $log_id = $request->input('logid');
+      $form = $request->input('formData');
+
+      $row = Tools::find($tool_id); 
+      if($row){
+        $row->status = $form['status'];
+        $row->updatedby_id = $form['updatedby_id'];
+        $row->update();
+
+        $log = Logs::find($log_id); 
+
+        if($log){
+
+          $log->status = $form['status'];
+          $log->notes = $form['notes'];
+          $log->updatedby_id = $form['updatedby_id'];
+
+          $log->update();
+
+          return Response::json(1);
+
+        }
+
+        
+      }
+      
 
 
     }else{

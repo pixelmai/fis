@@ -7,14 +7,12 @@
     </div>
     <div class="modal-body">
         <form id="ajaxForm" name="ajaxForm" class="form-horizontal">
-
+          <input id="log_id" name="log_id" type="hidden" value="">
           <input id="tool_id" name="tool_id" type="hidden" value="">
           <input id="updatedby_id" type="hidden" value="{{ $user->id }}">
 
           <div class="form-group row">
             <div class="col-12">
-              <p id="afParagraph">Please set status the selected tools</p>
-
 
               <div class="form-group row">
                 <div class="col-md-5">
@@ -71,7 +69,10 @@
              <button type="submit" class="btn btn-primary btn-lg d-none" id="btn-single-save-status" value="create">Set Status
              </button>
 
-             <button type="submit" class="btn btn-primary btn-lg" id="btn-multiple-save-status" value="create">Set Status
+             <button type="submit" class="btn btn-primary btn-lg d-none" id="btn-edit-status" value="create">Edit Status
+             </button>
+
+             <button type="submit" class="btn btn-primary btn-lg" id="btn-multiple-save-status" value="create">Set Multiple Status
              </button>
 
              <button type="button" class="btn btn-outline-secondary btn-lg" data-dismiss="modal">Cancel</button>

@@ -20,14 +20,19 @@
                   <div>
                     <h1>{{ $tools->name }}</h1>
 
-                    @if (isset($status))
+                    @if (isset($s))
                       <div class="chip mb-2">
-                        {{ $status }}
+                        {{ $s }}
                       </div>
                     @endif
 
                   </div>
                   <div>
+
+                    <a href="javascript:void(0);" id="add-log-row" data-toggle="tooltip" data-placement="top" data-original-title="Add Log" data-id="'.$data->id.'" class="edit btn btn-outline-secondary btn-lg">
+                      <i class="fas fa-history"></i>
+                    </a>
+
                     <a href="/tools/edit/{{ $tools->id }}" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-lg">
                       <i class="fas fa-edit"></i>
                     </a>
@@ -79,10 +84,10 @@
 
                         <h5>Specifications</h5>
 
-                        @if ($status)
+                        @if ($s)
                         <div class="info-item">
                           <strong>Status</strong>
-                          {{ $status }}
+                          {{ $s }}
                         </div>
                         @endif
 
@@ -147,12 +152,21 @@
                         <h5>Status Logs</h5>
 
                         
-                        @foreach($tools->logs as $log)
+                        @foreach($logs as $log)
                           <div class="status_log @if ($loop->iteration % 2 == 0) even @endif">
-                            <div class="schip schip-{{ strtolower($status_list[$log['status']]) }}">
-                              {{ $status_list[$log['status']] }}
-                            </div> 
-                            <p>{{ $log['notes'] }}</p>
+                            <div class="d-flex justify-content-between">
+                              <div id="status-{{ $log['id'] }}" class="schip schip-{{ strtolower($status[$log['status']]) }}">{{ $status[$log['status']] }}</div> 
+                              <div>
+
+                                @if(($user->superadmin) || $user->id == $log['updater']['id'])
+                                  <a href="javascript:void(0);" id="edit-log-row" data-id="{{ $log['id'] }}">Edit</a>
+                                  <a href="">Delete</a>
+                                @endif
+
+                              </div>
+                            </div>
+
+                            <p id="notes-{{ $log['id'] }}">{{ $log['notes'] }}</p>
 
                             
                             <div class="updatedby">Updated by 
@@ -192,9 +206,14 @@
 
 @stop
 
+@push('modals')
+  @include('tools.modalAddLogs')
+@endpush
+
 
 
 @push('scripts')
+  <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 
   <script>
     $(document).ready( function () {
@@ -232,10 +251,124 @@
       });   
     
 
+
+      $('body').on('click', '#add-log-row', function () {
+        $('#ajaxForm #tool_id').val({{ $tools->id }});
+        $('#ajax-crud-modal').trigger("reset");
+        $('#ajax-crud-modal').modal('show');
+        $('#btn-edit-status').addClass('d-none');
+        $('#btn-multiple-save-status').addClass('d-none');
+        $('#btn-single-save-status').removeClass('d-none');
+      });   
+
+      $('body').on('click', '#edit-log-row', function () {
+        var note_id = $(this).data("id");
+        var note_class = '#notes-'+ note_id;
+        var status_note = $('#status-'+ note_id).text();
+
+
+        $('#ajaxForm #log_id').val(note_id);
+        $('#ajaxForm #tool_id').val({{ $tools->id }});
+        $('#ajaxForm #notes').val($(note_class).text());
+
+
+        $('#ajaxForm #status option:contains('+status_note+
+          ')').prop('selected', true);
+
+        $("#ajaxForm #status").dropkick('refresh');
+
+        $('#ajax-crud-modal').trigger("reset");
+        $('#ajax-crud-modal').modal('show');
+
+        $('#btn-multiple-save-status').addClass('d-none');
+        $('#btn-single-save-status').addClass('d-none');
+        $('#btn-edit-status').removeClass('d-none');
+      });   
+
+
+
+      $('body').on('click', '#btn-single-save-status', function () {
+        initvalidator($('#tool_id').val(), "/tools/status");
+      });   
+
+      $('body').on('click', '#btn-edit-status', function () {
+        initvalidator($('#tool_id').val(), "/tools/status/edit");
+      });   
+
+
+
+      function initvalidator(ids, ajaxUrl){
+        var validator = $("#ajaxForm").validate({
+          errorPlacement: function(error, element) {
+            // Append error within linked label
+            $( element )
+              .closest( "form" )
+                .find( "label[for='" + element.attr( "id" ) + "']" )
+                  .append( error );
+          },
+          errorElement: "span",
+          rules: {
+            status: {
+              required: true
+            },
+            notes: {
+              required: true
+            }
+          },
+          messages: {
+            status: " (required)",
+            notes: " (required)",
+          },
+          submitHandler: function(form) {
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+        
+            var formData = {
+              status: $('#status').children("option:selected").val(),
+              notes: $('#notes').val(),
+              updatedby_id: $('#updatedby_id').val(),
+            };
+
+            var state = jQuery('#btn-save').val();
+            var type = "POST";
+
+
+            $.ajax({
+                type: type,
+                url: ajaxUrl,
+                data: { "formData" : formData, "id": ids, "logid": $('#ajaxForm #log_id').val() } ,
+                dataType: 'json',
+                success: function (data) {
+                  location.reload(true);
+                  var notifData = {
+                    status: 'success',
+                    message: 'Successfully updated status of the ' + data + ' tool.',
+                  };
+
+                  generateNotif(notifData);
+                },
+                error: function (data) {
+                  console.log('Error:', data);
+                }
+            });
+
+          },
+        });
+
+      }
+
+
+
+
+
+
+
     }); //end document ready
-
-
-
 
   </script>
 @endpush

@@ -167,6 +167,7 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/tools/view/{id}', 'ToolsController@view');
   Route::get('/tools/destroy/{id}', 'ToolsController@destroy');
   Route::post('/tools/status', 'ToolsController@status');
+  Route::post('/tools/status/edit', 'ToolsController@statusedit');
 /* Tools */
 
 
