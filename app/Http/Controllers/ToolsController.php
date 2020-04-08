@@ -77,7 +77,7 @@ class ToolsController extends Controller
   {
     $user = auth()->user();
 
-    return view('tools.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status]);
+    return view('tools.create', ['user' => $user, 'page_settings'=> $this->page_settings]);
   }
 
   public function store(Request $request)
@@ -87,7 +87,6 @@ class ToolsController extends Controller
 
     $data = request()->validate([
       'name' => ['required', 'string', 'max:255'],
-      'status' => ['required'],
       'model' => ['nullable'],
       'brand' => ['nullable'],
       'notes' => ['nullable'],
@@ -99,7 +98,7 @@ class ToolsController extends Controller
 
     $query = Tools::create([
       'name' => $data['name'],
-      'status' => $data['status'],
+      'status' => 1,
       'model' => $data['model'],
       'brand' => $data['brand'],
       'notes' => $data['notes'],
@@ -153,7 +152,7 @@ class ToolsController extends Controller
 
     if(isset($tool)){
 
-      return view('tools.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'tool' => $tool, 'status' => $this->status]);
+      return view('tools.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'tool' => $tool]);
     }else{
       return notifyRedirect($this->homeLink, 'Company not found', 'danger');
     }
@@ -169,7 +168,6 @@ class ToolsController extends Controller
 
     $data = request()->validate([
       'name' => ['required', 'string', 'max:255'],
-      'status' => ['required'],
       'model' => ['nullable'],
       'brand' => ['nullable'],
       'notes' => ['nullable'],
@@ -177,7 +175,6 @@ class ToolsController extends Controller
     ]);
 
     $tool->name = $data['name'];
-    $tool->status = $data['status'];
     $tool->model = $data['model'];
     $tool->brand = $data['brand'];
     $tool->notes = $data['notes'];

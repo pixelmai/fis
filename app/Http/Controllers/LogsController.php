@@ -89,12 +89,13 @@ class LogsController extends Controller
       if(request()->ajax()){
         $row = Logs::where('id',$id)->delete();
 
-
         $latest_update = Logs::where('tool_id', $log->tool_id)->orderBy('updated_at', 'DESC')->first();
 
-        $tool = Tools::find($latest_update->tool_id);
-        $tool->status = $latest_update->status;
-        $tool->update();
+        if($latest_update){
+          $tool = Tools::find($latest_update->tool_id);
+          $tool->status = $latest_update->status;
+          $tool->update();
+        }
 
         return Response::json($row);
       }else{
