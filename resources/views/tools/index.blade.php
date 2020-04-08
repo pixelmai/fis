@@ -18,7 +18,7 @@
 
   <div class="row justify-content-center">
     <div class="col-lg-12">
-        <table id="listpage_datatable" class="table table-responsive-md four_actions" data-page-length="25">
+        <table id="listpage_datatable" class="table table-responsive-md" data-page-length="25">
           <thead class="thead-dark">
             <tr>
               <th scope="col">&nbsp;</th>
@@ -43,6 +43,7 @@
 @stop
 
 @push('modals')
+  @include('tools.modalAddLogs')
 @endpush
 
 
@@ -125,15 +126,27 @@
       });   
 
 
+
+      $('body').on('click', '#add-log-row', function () {
+        var row_id = $(this).data("id");
+        $('#ajaxForm #tool_id').val(row_id);
+        $('#ajax-crud-modal').trigger("reset");
+        $('#ajax-crud-modal').modal('show');
+      });   
+
+
+      $('body').on('click', '#btn-single-save-status', function () {
+        initvalidator($('#tool_id').val());
+      });   
+
+
+
+
       $(document).on('click', '#bulk_status', function(){
-
           var id = [];
-
           $('.tbl_row_checkbox:checked').each(function(){
              id.push($(this).val());
           });
-
-
           if(id.length > 0)
           {
             $('#ajax-crud-modal').trigger("reset");
@@ -148,6 +161,73 @@
 
 
 
+      function initvalidator(ids){
+        var validator = $("#ajaxForm").validate({
+          errorPlacement: function(error, element) {
+            // Append error within linked label
+            $( element )
+              .closest( "form" )
+                .find( "label[for='" + element.attr( "id" ) + "']" )
+                  .append( error );
+          },
+          errorElement: "span",
+          rules: {
+            status: {
+              required: true
+            },
+            notes: {
+              required: true
+            }
+          },
+          messages: {
+            status: " (required)",
+            notes: " (required)",
+          },
+          submitHandler: function(form) {
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+        
+            var formData = {
+              status: $('#status').children("option:selected").val(),
+              notes: $('#notes').val(),
+              updatedby_id: $('#updatedby_id').val(),
+            };
+
+            var state = jQuery('#btn-save').val();
+            var type = "POST";
+
+            $.ajax({
+                type: type,
+                url: "/tools/status",
+                data: { "formData" : formData, "id": ids } ,
+                dataType: 'json',
+                success: function (data) {
+                  $('#ajax-crud-modal').modal('hide');
+                  var oTable = $('#listpage_datatable').dataTable(); 
+                  oTable.fnDraw(false);
+
+                  var notifData = {
+                    status: 'success',
+                    message: 'Successfully updated status of the selected ' + data + ' companies.',
+                  };
+
+                  generateNotif(notifData);
+                  $('#bulk_status').addClass('d-none');
+                },
+                error: function (data) {
+                  console.log('Error:', data);
+                }
+            });
+
+          },
+        });
+
+      }
 
     
 

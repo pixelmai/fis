@@ -44,7 +44,7 @@ class ToolsController extends Controller
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){
       $button = '<div class="hover_buttons"><a href="/tools/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
-      $button .= '<a href="/tools/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Add Log" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-history"></i></a>';
+      $button .= '<a href="javascript:void(0);" id="add-log-row" data-toggle="tooltip" data-placement="top" data-original-title="Add Log" data-id="'.$data->id.'"  class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-history"></i></a>';
       $button .= '<a href="/tools/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
       $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
       return $button;
@@ -68,7 +68,7 @@ class ToolsController extends Controller
       ->make(true);
     }
         
-    return view('tools.index', ['user' => $user, 'page_settings'=> $this->page_settings]);
+    return view('tools.index', ['user' => $user, 'page_settings'=> $this->page_settings,  'status' => $this->status]);
 
 
   }
@@ -82,16 +82,6 @@ class ToolsController extends Controller
 
   public function store(Request $request)
   {
-    /* SIMPLE ADD 
-      $user = auth()->user();
-      $tool = new Tools;
-      $tool->name = 'God of War';
-      $tool->updatedby_id = $user->id;
-      $tool->save();
-      $supplier = Suppliers::find([2, 3]); //suppliers 2 and 3
-      $tool->suppliers()->attach($supplier);
-      return 'Success';
-    */
 
     $user = auth()->user();
 
@@ -247,4 +237,61 @@ class ToolsController extends Controller
       return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
     }
   }
+
+
+
+  public function status(Request $request)
+  {
+    if(request()->ajax()){
+      $req_id = $request->input('id');
+      $form = $request->input('formData');
+
+      if(is_array($req_id)){
+        $count_updated = 0;
+
+        foreach ($req_id as $row) {
+            $row = Tools::find($row); 
+            if($row){
+              $row->status = $form['status'];
+              $row->updatedby_id = $form['updatedby_id'];
+              $row->update();
+
+              $query = Logs::create([
+                'tool_id' => $row,
+                'status' => $form['status'],
+                'notes' => $form['notes'],
+                'updatedby_id' => $form['updatedby_id']
+              ]);
+
+              $count_updated++;
+            }
+        }
+        return Response::json($count_updated);
+      }else{
+
+        $row = Tools::find($req_id); 
+        if($row){
+          $row->status = $form['status'];
+          $row->updatedby_id = $form['updatedby_id'];
+          $row->update();
+
+          $query = Logs::create([
+            'tool_id' => $req_id,
+            'status' => $form['status'],
+            'notes' => $form['notes'],
+            'updatedby_id' => $form['updatedby_id']
+          ]);
+
+          return Response::json(1);
+        }
+      }
+
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Action not permitted', 'danger');
+    }
+  }
+
+
+
 }
