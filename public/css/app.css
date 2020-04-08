@@ -11584,8 +11584,8 @@ form label #compExists {
 
 #app #listpage_datatable tr td:last-child {
   text-align: right;
-  width: 120px !important;
-  min-width: 120px !important;
+  width: 150px !important;
+  min-width: 150px !important;
 }
 
 #app #listpage_datatable tr .hover_buttons {

@@ -132,6 +132,8 @@
         $('#ajaxForm #tool_id').val(row_id);
         $('#ajax-crud-modal').trigger("reset");
         $('#ajax-crud-modal').modal('show');
+        $('#btn-multiple-save-status').addClass('d-none');
+        $('#btn-single-save-status').removeClass('d-none');
       });   
 
 
@@ -139,6 +141,15 @@
         initvalidator($('#tool_id').val());
       });   
 
+
+      $('body').on('click', '#btn-multiple-save-status', function () {
+        var id = [];
+        $('.tbl_row_checkbox:checked').each(function(){
+           id.push($(this).val());
+        });
+
+        initvalidator(id);
+      });   
 
 
 
@@ -151,6 +162,8 @@
           {
             $('#ajax-crud-modal').trigger("reset");
             $('#ajax-crud-modal').modal('show');
+            $('#btn-single-save-status').addClass('d-none');
+            $('#btn-multiple-save-status').removeClass('d-none');
           }
           else
           {
@@ -207,13 +220,14 @@
                 data: { "formData" : formData, "id": ids } ,
                 dataType: 'json',
                 success: function (data) {
+                  $('#ajax-crud-modal').trigger("reset");
                   $('#ajax-crud-modal').modal('hide');
                   var oTable = $('#listpage_datatable').dataTable(); 
                   oTable.fnDraw(false);
 
                   var notifData = {
                     status: 'success',
-                    message: 'Successfully updated status of the selected ' + data + ' companies.',
+                    message: 'Successfully updated status of the selected ' + data + ' tools.',
                   };
 
                   generateNotif(notifData);

@@ -249,15 +249,17 @@ class ToolsController extends Controller
       if(is_array($req_id)){
         $count_updated = 0;
 
-        foreach ($req_id as $row) {
-            $row = Tools::find($row); 
+        foreach ($req_id as $row_id) {
+
+            $row = Tools::find($row_id); 
             if($row){
               $row->status = $form['status'];
               $row->updatedby_id = $form['updatedby_id'];
               $row->update();
 
+
               $query = Logs::create([
-                'tool_id' => $row,
+                'tool_id' => $row_id,
                 'status' => $form['status'],
                 'notes' => $form['notes'],
                 'updatedby_id' => $form['updatedby_id']

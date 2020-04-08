@@ -68,8 +68,12 @@
 
           <div class="form-group row">
             <div class="col-12">
-             <button type="submit" class="btn btn-primary btn-lg" id="btn-single-save-status" value="create">Set Status
+             <button type="submit" class="btn btn-primary btn-lg d-none" id="btn-single-save-status" value="create">Set Status
              </button>
+
+             <button type="submit" class="btn btn-primary btn-lg" id="btn-multiple-save-status" value="create">Set Status
+             </button>
+
              <button type="button" class="btn btn-outline-secondary btn-lg" data-dismiss="modal">Cancel</button>
 
 
