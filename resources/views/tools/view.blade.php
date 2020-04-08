@@ -160,7 +160,7 @@
 
                                 @if(($user->superadmin) || $user->id == $log['updater']['id'])
                                   <a href="javascript:void(0);" id="edit-log-row" data-id="{{ $log['id'] }}">Edit</a>
-                                  <a href="">Delete</a>
+                                  <a href="javascript:void(0);" id="delete-log-row" data-id="{{ $log['id'] }}">Delete</a>
                                 @endif
 
                               </div>
@@ -285,8 +285,6 @@
         $('#btn-edit-status').removeClass('d-none');
       });   
 
-
-
       $('body').on('click', '#btn-single-save-status', function () {
         initvalidator($('#tool_id').val(), "/tools/status");
       });   
@@ -295,6 +293,35 @@
         initvalidator($('#tool_id').val(), "/tools/status/edit");
       });   
 
+
+      $('body').on('click', '#delete-log-row', function () {
+        var note_id = $(this).data("id");
+
+        if (confirm('Are you sure want to delete log?')) {
+
+          $.ajax({
+              type: "get",
+              url: "/logs/destroy/"+ note_id,
+              success: function (data) {
+
+                location.reload(true);
+
+                var notifData = {
+                  status: 'warning',
+                  message: 'Successfully deleted a supplier.',
+                };
+                
+                generateNotif(notifData);
+
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+
+
+      });   
 
 
       function initvalidator(ids, ajaxUrl){

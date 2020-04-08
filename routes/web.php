@@ -170,6 +170,10 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::post('/tools/status/edit', 'ToolsController@statusedit');
 /* Tools */
 
+/* Logs */
+  Route::get('/logs/destroy/{id}', 'LogsController@destroy');
+/* Logs */
+
 
   Route::get('/clientsList', 'ClientsController@dblist');
   Route::get('/companiesList', 'CompaniesController@dblist');
