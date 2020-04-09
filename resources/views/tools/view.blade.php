@@ -37,7 +37,15 @@
                       <i class="fas fa-edit"></i>
                     </a>
 
-                    <a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn btn-outline-danger btn-lg"><i class="fas fa-trash"></i></a>
+                    @if(count($logs) == 0)
+                      <a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="{{ $tools->id }}" class="delete btn btn-outline-danger btn-lg"><i class="fas fa-trash"></i></a>
+                    @else
+                      @if($tools->is_deactivated == 0)
+                        <a href="javascript:void(0);" id="deactivate-row" data-toggle="tooltip" data-placement="top" data-original-title="Deactivate" data-id="{{ $tools->id }}" class="delete btn btn-outline-danger btn-lg"><i class="fas fa-ban"></i></a>
+                      @else
+                        <a href="javascript:void(0);" id="activate-row" data-toggle="tooltip" data-placement="top" data-original-title="Activate" data-id="{{ $tools->id }}" class="delete btn btn-outline-success btn-lg"><i class="fas fa-check"></i></a>
+                      @endif
+                    @endif
 
                   </div>
                 </div>
@@ -223,24 +231,25 @@
         }
       });
 
+
       $('body').on('click', '#delete-row', function () {
         var row_id = $(this).data("id");
 
-        if (confirm('Are you sure want to delete supplier?')) {
+        if (confirm('Are you sure want to delete row?')) {
 
           $.ajax({
               type: "get",
-              url: "/suppliers/destroy/"+{{ $tools->id }},
+              url: "/tools/destroy/"+row_id,
               success: function (data) {
-
-                window.location.href = '{{ url('/suppliers') }}';
+                window.location.href = '{{ url('/tools') }}';
 
                 var notifData = {
                   status: 'warning',
-                  message: 'Successfully deleted a supplier.',
+                  message: 'Successfully deleted a tool.',
                 };
-                
+
                 generateNotif(notifData);
+                //$('#bulk_delete').addClass('d-none');
 
               },
               error: function (data) {
@@ -249,7 +258,62 @@
           });
         } 
       });   
-    
+
+
+      $('body').on('click', '#deactivate-row', function () {
+        var row_id = $(this).data("id");
+
+        if (confirm('Are you sure want to deactivate row?')) {
+
+          $.ajax({
+              type: "get",
+              url: "/tools/deactivate/"+row_id,
+              success: function (data) {
+                window.location.href = '{{ url('/tools') }}';
+
+
+                var notifData = {
+                  status: 'warning',
+                  message: 'Successfully deactivated a tool.',
+                };
+
+                generateNotif(notifData);
+                //$('#bulk_delete').addClass('d-none');
+
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+      });   
+
+      $('body').on('click', '#activate-row', function () {
+        var row_id = $(this).data("id");
+
+        if (confirm('Are you sure want to activate row?')) {
+
+          $.ajax({
+              type: "get",
+              url: "/tools/activate/"+row_id,
+              success: function (data) {
+                window.location.href = '{{ url('/tools') }}';
+                
+                var notifData = {
+                  status: 'success',
+                  message: 'Successfully activated a tool.',
+                };
+
+                generateNotif(notifData);
+                //$('#bulk_delete').addClass('d-none');
+
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+      });  
 
 
       $('body').on('click', '#add-log-row', function () {
@@ -320,8 +384,9 @@
           });
         } 
 
-
       });   
+
+
 
 
       function initvalidator(ids, ajaxUrl){

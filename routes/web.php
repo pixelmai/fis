@@ -168,6 +168,10 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/tools/destroy/{id}', 'ToolsController@destroy');
   Route::post('/tools/status', 'ToolsController@status');
   Route::post('/tools/status/edit', 'ToolsController@statusedit');
+
+  Route::get('/tools/deactivate/{id}', 'ToolsController@deactivate');
+  Route::get('/tools/activate/{id}', 'ToolsController@activate');
+
 /* Tools */
 
 /* Logs */

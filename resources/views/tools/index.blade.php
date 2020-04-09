@@ -22,6 +22,7 @@
           <thead class="thead-dark">
             <tr>
               <th scope="col">&nbsp;</th>
+              <th scope="col">&nbsp;</th>
               <th scope="col" class="col_checkbox">&nbsp;</th>
               <th scope="col">Name</th>
               <th scope="col">Brand</th>
@@ -74,6 +75,7 @@
         },
         columns: [
                 { data: 'id', name: 'id', 'visible': false},
+                { data: 'updated', name: 'updated', 'visible': false},
                 { data: 'checkbox', orderable:false, searchable:false},
                 { data: 'name', name: 'name' },
                 { data: 'brand', name: 'brand' },
@@ -82,7 +84,7 @@
                 { data: 'number', name: 'number', orderable: false, searchable:false },
                 {data: 'action', name: 'action', orderable: false,  searchable:false},
              ],
-        order: [[0, 'desc']]
+        order: [[1, 'desc']]
               });
 
       $('#listpage_datatable tbody').on('click', '.tbl_row_checkbox', function () {
@@ -125,6 +127,62 @@
         } 
       });   
 
+
+      $('body').on('click', '#deactivate-row', function () {
+        var row_id = $(this).data("id");
+
+        if (confirm('Are you sure want to deactivate row?')) {
+
+          $.ajax({
+              type: "get",
+              url: "/tools/deactivate/"+row_id,
+              success: function (data) {
+                var oTable = $('#listpage_datatable').dataTable(); 
+                oTable.fnDraw(false);
+
+                var notifData = {
+                  status: 'warning',
+                  message: 'Successfully deactivated a tool.',
+                };
+
+                generateNotif(notifData);
+                //$('#bulk_delete').addClass('d-none');
+
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+      });   
+
+      $('body').on('click', '#activate-row', function () {
+        var row_id = $(this).data("id");
+
+        if (confirm('Are you sure want to activate row?')) {
+
+          $.ajax({
+              type: "get",
+              url: "/tools/activate/"+row_id,
+              success: function (data) {
+                var oTable = $('#listpage_datatable').dataTable(); 
+                oTable.fnDraw(false);
+
+                var notifData = {
+                  status: 'success',
+                  message: 'Successfully activated a tool.',
+                };
+
+                generateNotif(notifData);
+                //$('#bulk_delete').addClass('d-none');
+
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+      });  
 
 
       $('body').on('click', '#add-log-row', function () {

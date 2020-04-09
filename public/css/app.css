@@ -11560,7 +11560,8 @@ form label #compExists {
 }
 
 #app #listpage_datatable tr td .btn-outline-secondary,
-#app #listpage_datatable tr td .btn-outline-danger {
+#app #listpage_datatable tr td .btn-outline-danger,
+#app #listpage_datatable tr td .btn-outline-success {
   border: 1px solid #eee;
 }
 
@@ -11575,6 +11576,15 @@ form label #compExists {
 #app #listpage_datatable tr td .btn-outline-danger:hover {
   color: #fff;
   border: 1px solid #e3342f;
+}
+
+#app #listpage_datatable tr td .btn-outline-success {
+  color: #6c757d;
+}
+
+#app #listpage_datatable tr td .btn-outline-success:hover {
+  color: #fff;
+  border: 1px solid #38c172;
 }
 
 #app #listpage_datatable tr td:first-child {

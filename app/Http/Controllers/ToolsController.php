@@ -38,16 +38,26 @@ class ToolsController extends Controller
 
     if(request()->ajax()){
 
-      //$dbtable = Suppliers::where('is_deactivated', 0)->orderBy('updated_at', 'DESC')->select();
-      $dbtable = Tools::orderBy('is_deactivated', 'ASC')->orderBy('updated_at', 'DESC')->get();
+      $dbtable = Tools::with('logs')->where('is_deactivated', '0')->get();
+      //currently hides the inactive items
 
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){
       $button = '<div class="hover_buttons"><a href="/tools/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
       $button .= '<a href="javascript:void(0);" id="add-log-row" data-toggle="tooltip" data-placement="top" data-original-title="Add Log" data-id="'.$data->id.'"  class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-history"></i></a>';
       $button .= '<a href="/tools/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
-      $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
+
+      if(count($data->logs) == 0){
+        $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
+      }else{
+        if($data->is_deactivated == 0){
+          $button .= '<a href="javascript:void(0);" id="deactivate-row" data-toggle="tooltip" data-placement="top" data-original-title="Deactivate" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-ban"></i></a></div>';
+        }else{
+          $button .= '<a href="javascript:void(0);" id="activate-row" data-toggle="tooltip" data-placement="top" data-original-title="Activate" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-success"><i class="fas fa-check"></i></a></div>';
+        }
+      }
       return $button;
+
       })
       ->addColumn('checkbox', '<input type="checkbox" name="tbl_row_checkbox[]" class="tbl_row_checkbox" value="{{$id}}" />')
       ->addColumn('number', function($data){
@@ -64,6 +74,10 @@ class ToolsController extends Controller
         }
         return $s;
       })
+      ->addColumn('updated', function($data){
+        return $data->updated_at;
+      })
+
       ->rawColumns(['checkbox','action'])
       ->make(true);
     }
@@ -221,7 +235,11 @@ class ToolsController extends Controller
   {
     $tool = Tools::with('suppliers')->find($id);
     if($tool){
+
       if(request()->ajax()){
+        if(count($tool->logs)!=0 ){
+          return notifyRedirect($this->homeLink, 'Unauthorized to delete', 'danger');
+        }
 
         if(count($tool->suppliers)!=0 ){
           $tool->suppliers()->detach();
@@ -231,6 +249,44 @@ class ToolsController extends Controller
         return Response::json($row);
       }else{
         return notifyRedirect($this->homeLink, 'Unauthorized to delete', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
+    }
+  }
+
+  public function deactivate($id)
+  {
+    $tool = Tools::find($id);
+    if($tool){
+
+      if(request()->ajax()){
+
+        $tool->is_deactivated = 1;
+        $tool->update();
+
+        return Response::json('1');
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to deactivate', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
+    }
+  }
+
+  public function activate($id)
+  {
+    $tool = Tools::find($id);
+    if($tool){
+
+      if(request()->ajax()){
+
+        $tool->is_deactivated = 0;
+        $tool->update();
+
+        return Response::json('1');
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to activate', 'danger');
       }
     }else{
       return notifyRedirect($this->homeLink, 'Tool not found', 'danger');

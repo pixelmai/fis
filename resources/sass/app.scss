@@ -729,7 +729,7 @@
 
 
 
-        .btn-outline-secondary, .btn-outline-danger{
+        .btn-outline-secondary, .btn-outline-danger, .btn-outline-success{
           border: 1px solid #eee;
         }
 
@@ -744,6 +744,14 @@
           &:hover{
             color: #fff;
             border: 1px solid #e3342f;
+          }
+        }
+
+        .btn-outline-success{
+          color: #6c757d;
+          &:hover{
+            color: #fff;
+            border: 1px solid $green;
           }
         }
 
