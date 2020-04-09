@@ -268,7 +268,7 @@
                 '<div class="list-group search-results-dropdown">'
             ],
             suggestion: function (data) {
-              $('#client_id').val(1);
+              //$('#client_id').val(1);
               $('#contact_person_fname').val();
               return '<div class="list-group-item">' + data.lname + ' ' + data.fname +'</div>';
             }
@@ -278,6 +278,13 @@
       if(suggestion.id){
         $('#client_id').val(suggestion.id);
         $('#contact_person_fname').val(suggestion.fname);
+        $('#email').focus();
+      }
+    }).on('typeahead:autocomplete', function(ev, suggestion) {
+      if(suggestion.id){
+        $('#client_id').val(suggestion.id);
+        $('#contact_person_fname').val(suggestion.fname);
+        $('#email').focus();
       }
     });
 
@@ -295,7 +302,6 @@
     });
 
     /* Type Ahead */
-
 
     //Validator and the Submit Form codes on success
 

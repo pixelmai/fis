@@ -11,7 +11,7 @@
         <h1 class="pt-1 pb-0">Tools</h1>
       </div>
       <div>
-        <a href="suppliers/create" class="btn btn-lg btn-success">Add Tool</a>
+        <a href="/tools/create" class="btn btn-lg btn-success">Add Tool</a>
       </div>
     </div>
   </div>
@@ -21,6 +21,7 @@
         <table id="listpage_datatable" class="table table-responsive-md" data-page-length="25">
           <thead class="thead-dark">
             <tr>
+              <th scope="col">&nbsp;</th>
               <th scope="col">&nbsp;</th>
               <th scope="col" class="col_checkbox">&nbsp;</th>
               <th scope="col">Name</th>
@@ -43,6 +44,7 @@
 @stop
 
 @push('modals')
+  @include('tools.modalAddLogs')
 @endpush
 
 
@@ -73,6 +75,7 @@
         },
         columns: [
                 { data: 'id', name: 'id', 'visible': false},
+                { data: 'updated', name: 'updated', 'visible': false},
                 { data: 'checkbox', orderable:false, searchable:false},
                 { data: 'name', name: 'name' },
                 { data: 'brand', name: 'brand' },
@@ -81,7 +84,7 @@
                 { data: 'number', name: 'number', orderable: false, searchable:false },
                 {data: 'action', name: 'action', orderable: false,  searchable:false},
              ],
-        order: [[0, 'desc']]
+        order: [[1, 'desc']]
               });
 
       $('#listpage_datatable tbody').on('click', '.tbl_row_checkbox', function () {
@@ -110,11 +113,11 @@
 
                 var notifData = {
                   status: 'warning',
-                  message: 'Successfully deleted a supplier.',
+                  message: 'Successfully deleted a tool.',
                 };
 
                 generateNotif(notifData);
-                $('#bulk_delete').addClass('d-none');
+                //$('#bulk_delete').addClass('d-none');
 
               },
               error: function (data) {
@@ -125,19 +128,100 @@
       });   
 
 
+      $('body').on('click', '#deactivate-row', function () {
+        var row_id = $(this).data("id");
+
+        if (confirm('Are you sure want to deactivate row?')) {
+
+          $.ajax({
+              type: "get",
+              url: "/tools/deactivate/"+row_id,
+              success: function (data) {
+                var oTable = $('#listpage_datatable').dataTable(); 
+                oTable.fnDraw(false);
+
+                var notifData = {
+                  status: 'warning',
+                  message: 'Successfully deactivated a tool.',
+                };
+
+                generateNotif(notifData);
+                //$('#bulk_delete').addClass('d-none');
+
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+      });   
+
+      $('body').on('click', '#activate-row', function () {
+        var row_id = $(this).data("id");
+
+        if (confirm('Are you sure want to activate row?')) {
+
+          $.ajax({
+              type: "get",
+              url: "/tools/activate/"+row_id,
+              success: function (data) {
+                var oTable = $('#listpage_datatable').dataTable(); 
+                oTable.fnDraw(false);
+
+                var notifData = {
+                  status: 'success',
+                  message: 'Successfully activated a tool.',
+                };
+
+                generateNotif(notifData);
+                //$('#bulk_delete').addClass('d-none');
+
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+      });  
+
+
+      $('body').on('click', '#add-log-row', function () {
+        var row_id = $(this).data("id");
+        $('#ajaxForm #tool_id').val(row_id);
+        $('#ajax-crud-modal').trigger("reset");
+        $('#ajax-crud-modal').modal('show');
+        $('#btn-multiple-save-status').addClass('d-none');
+        $('#btn-single-save-status').removeClass('d-none');
+      });   
+
+
+      $('body').on('click', '#btn-single-save-status', function () {
+        initvalidator($('#tool_id').val());
+      });   
+
+
+      $('body').on('click', '#btn-multiple-save-status', function () {
+        var id = [];
+        $('.tbl_row_checkbox:checked').each(function(){
+           id.push($(this).val());
+        });
+
+        initvalidator(id);
+      });   
+
+
+
       $(document).on('click', '#bulk_status', function(){
-
           var id = [];
-
           $('.tbl_row_checkbox:checked').each(function(){
              id.push($(this).val());
           });
-
-
           if(id.length > 0)
           {
             $('#ajax-crud-modal').trigger("reset");
             $('#ajax-crud-modal').modal('show');
+            $('#btn-single-save-status').addClass('d-none');
+            $('#btn-multiple-save-status').removeClass('d-none');
           }
           else
           {
@@ -148,6 +232,74 @@
 
 
 
+      function initvalidator(ids){
+        var validator = $("#ajaxForm").validate({
+          errorPlacement: function(error, element) {
+            // Append error within linked label
+            $( element )
+              .closest( "form" )
+                .find( "label[for='" + element.attr( "id" ) + "']" )
+                  .append( error );
+          },
+          errorElement: "span",
+          rules: {
+            status: {
+              required: true
+            },
+            notes: {
+              required: true
+            }
+          },
+          messages: {
+            status: " (required)",
+            notes: " (required)",
+          },
+          submitHandler: function(form) {
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+        
+            var formData = {
+              status: $('#status').children("option:selected").val(),
+              notes: $('#notes').val(),
+              updatedby_id: $('#updatedby_id').val(),
+            };
+
+            var state = jQuery('#btn-save').val();
+            var type = "POST";
+
+            $.ajax({
+                type: type,
+                url: "/tools/status",
+                data: { "formData" : formData, "id": ids } ,
+                dataType: 'json',
+                success: function (data) {
+                  $('#ajax-crud-modal').trigger("reset");
+                  $('#ajax-crud-modal').modal('hide');
+                  var oTable = $('#listpage_datatable').dataTable(); 
+                  oTable.fnDraw(false);
+
+                  var notifData = {
+                    status: 'success',
+                    message: 'Successfully updated status of the selected ' + data + ' tools.',
+                  };
+
+                  generateNotif(notifData);
+                  $('#bulk_status').addClass('d-none');
+                },
+                error: function (data) {
+                  console.log('Error:', data);
+                }
+            });
+
+          },
+        });
+
+      }
 
     
 

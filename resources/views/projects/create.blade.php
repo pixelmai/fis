@@ -167,13 +167,13 @@
         display: 'lname',
         templates: {
             empty: [
-                '<div class="list-group search-results-dropdown"><div class="list-group-item"><a id="sugg_create_comp" data-toggle="modal" href="#ajax-crud-modal">Nothing found. <br> Create New Client?</a></div></div>'
+                '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
             ],
             header: [
                 '<div class="list-group search-results-dropdown">'
             ],
             suggestion: function (data) {
-              $('#client_id').val('');
+              //$('#client_id').val('');
               $('#contact_person_fname').val();
               return '<div class="list-group-item">' + data.lname + ' ' + data.fname +'</div>';
             }
@@ -183,6 +183,13 @@
       if(suggestion.id){
         $('#client_id').val(suggestion.id);
         $('#contact_person_fname').val(suggestion.fname);
+        $('#url').focus();
+      }
+    }).on('typeahead:autocomplete', function(ev, suggestion) {
+      if(suggestion.id){
+        $('#client_id').val(suggestion.id);
+        $('#contact_person_fname').val(suggestion.fname);
+        $('#url').focus();
       }
     });
 

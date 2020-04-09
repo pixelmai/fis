@@ -57,7 +57,6 @@
       });
 
 
-
       $('#listpage_datatable').DataTable({
              processing: true,
              serverSide: true,

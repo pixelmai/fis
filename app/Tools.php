@@ -18,4 +18,8 @@ class Tools extends Model
   {
     return $this->belongsToMany('App\Suppliers');
   }
+
+  public function logs(){
+    return $this->hasMany('App\Logs','tool_id','id');
+  }
 }

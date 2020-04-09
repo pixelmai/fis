@@ -149,7 +149,7 @@ class ProjectsController extends Controller
     }else{
       return notifyRedirect($this->homeLink, 'Company not found', 'danger');
     }
-
+    
   }
 
 

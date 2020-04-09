@@ -156,6 +156,7 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::patch('/suppliers/edit/{id}', 'SuppliersController@update');
   Route::get('/suppliers/view/{id}', 'SuppliersController@view');
   Route::get('/suppliers/destroy/{id}', 'SuppliersController@destroy');
+ Route::get('/suppliers/autocomplete', 'SuppliersController@autocomplete')->name('suppliersauto');
 /* Suppliers */
 
 /* Tools */
@@ -165,7 +166,17 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::patch('/tools/edit/{id}', 'ToolsController@update');
   Route::get('/tools/view/{id}', 'ToolsController@view');
   Route::get('/tools/destroy/{id}', 'ToolsController@destroy');
+  Route::post('/tools/status', 'ToolsController@status');
+  Route::post('/tools/status/edit', 'ToolsController@statusedit');
+
+  Route::get('/tools/deactivate/{id}', 'ToolsController@deactivate');
+  Route::get('/tools/activate/{id}', 'ToolsController@activate');
+
 /* Tools */
+
+/* Logs */
+  Route::get('/logs/destroy/{id}', 'LogsController@destroy');
+/* Logs */
 
 
   Route::get('/clientsList', 'ClientsController@dblist');
