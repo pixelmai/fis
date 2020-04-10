@@ -252,7 +252,7 @@
 
                 var notifData = {
                   status: 'warning',
-                  message: 'Successfully deleted a tool.',
+                  message: 'Successfully deleted a machine.',
                 };
 
                 generateNotif(notifData);
@@ -446,7 +446,7 @@
                   location.reload(true);
                   var notifData = {
                     status: 'success',
-                    message: 'Successfully updated status of the ' + data + ' tool.',
+                    message: 'Successfully updated status of the ' + data + ' machine.',
                   };
 
                   generateNotif(notifData);

@@ -266,10 +266,44 @@ class MachinesController extends Controller
     }
   }
 
+  public function deactivate($id)
+  {
+    $machine = Machines::find($id);
+    if($machine){
 
-  // PUT DISABLE ENABLE HERE
+      if(request()->ajax()){
 
+        $machine->is_deactivated = 1;
+        $machine->update();
 
+        return Response::json('1');
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to deactivate', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Machine not found', 'danger');
+    }
+  }
+
+  public function activate($id)
+  {
+    $machine = Machines::find($id);
+    if($machine){
+
+      if(request()->ajax()){
+
+        $machine->is_deactivated = 0;
+        $machine->update();
+
+        return Response::json('1');
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to activate', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Machine not found', 'danger');
+    }
+  }
+  
 
   public function status(Request $request)
   {
@@ -301,7 +335,7 @@ class MachinesController extends Controller
         }
         return Response::json($count_updated);
       }else{
-        
+
         $row = Machines::find($req_id); 
         if($row){
           $row->status = $form['status'];

@@ -153,7 +153,7 @@
 
                 var notifData = {
                   status: 'warning',
-                  message: 'Successfully deactivated a tool.',
+                  message: 'Successfully deactivated a machine.',
                 };
 
                 generateNotif(notifData);
@@ -174,14 +174,14 @@
 
           $.ajax({
               type: "get",
-              url: "/tools/activate/"+row_id,
+              url: "/machines/activate/"+row_id,
               success: function (data) {
                 var oTable = $('#listpage_datatable').dataTable(); 
                 oTable.fnDraw(false);
 
                 var notifData = {
                   status: 'success',
-                  message: 'Successfully activated a tool.',
+                  message: 'Successfully activated a machine.',
                 };
 
                 generateNotif(notifData);
