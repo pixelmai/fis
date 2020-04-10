@@ -36,10 +36,16 @@ class ToolsController extends Controller
   {
     $user = auth()->user();
 
-    if(request()->ajax()){
 
-      $dbtable = Tools::with('logs')->where('is_deactivated', '0')->get();
-      //currently hides the inactive items
+
+    if(request()->ajax()){
+    $active_status = $_GET['active_status'];
+      if($active_status == 2){
+        $dbtable = Tools::with('logs')->get();
+      }else{
+        $dbtable = Tools::with('logs')->where('is_deactivated', $active_status)->get();
+      }
+
 
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){

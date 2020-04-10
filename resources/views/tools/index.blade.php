@@ -18,6 +18,26 @@
 
   <div class="row justify-content-center">
     <div class="col-lg-12">
+
+
+
+        <div class="form-group">
+          <label for="status" class="col-form-label">Showing </label>
+
+            <select id="active_status" name="active_status" class="w-30">
+              <option value="0">Active</option>
+              <option value="1">Inactive</option>
+              <option value="2">All</option>
+            </select>
+
+            @error('$status')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+
+
         <table id="listpage_datatable" class="table table-responsive-md" data-page-length="25">
           <thead class="thead-dark">
             <tr>
@@ -59,13 +79,16 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
       });
-
+      
       $('#listpage_datatable').DataTable({
         processing: true,
         serverSide: true,
         ajax: {
           url: "/tools",
           type: 'GET',
+          data: function (d) {
+            d.active_status = $('#active_status').children("option:selected").val();
+          }
         },
         createdRow: function( row, data, dataIndex ) {
           // Set the data-status attribute, and add a class
@@ -86,6 +109,14 @@
              ],
         order: [[1, 'desc']]
               });
+
+
+        $( "#active_status" ).change(function() {
+          var oTable = $('#listpage_datatable').dataTable(); 
+          oTable.fnDraw(false);
+        });
+
+
 
       $('#listpage_datatable tbody').on('click', '.tbl_row_checkbox', function () {
           $(this).parent().parent().toggleClass('rowselected');
