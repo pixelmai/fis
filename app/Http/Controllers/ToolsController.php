@@ -175,7 +175,7 @@ class ToolsController extends Controller
 
       return view('tools.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'tool' => $tool]);
     }else{
-      return notifyRedirect($this->homeLink, 'Company not found', 'danger');
+      return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
     }
     
   }

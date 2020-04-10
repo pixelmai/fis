@@ -168,25 +168,96 @@ class MachinesController extends Controller
   }
 
 
+  public function edit($id)
+  {
+    $user = auth()->user();
+    $machine = Machines::with('suppliers')->find($id);
+
+    if(isset($machine)){
+
+      return view('machines.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'machine' => $machine]);
+    }else{
+      return notifyRedirect($this->homeLink, 'Machine not found', 'danger');
+    }
+    
+  }
 
 
+  public function update($id)
+  {
 
-    public function edit(Machines $machines)
-    {
-        //
+    $user = auth()->user();
+    $machine = Machines::find($id);
+
+    $data = request()->validate([
+      'name' => ['required', 'string', 'max:255'],
+      'model' => ['nullable'],
+      'brand' => ['nullable'],
+      'dimensions' => ['nullable'],
+      'notes' => ['nullable'],
+      'supplier_id' => ['nullable'],
+    ]);
+
+    $machine->name = $data['name'];
+    $machine->model = $data['model'];
+    $machine->brand = $data['brand'];
+    $machine->dimensions = $data['dimensions'];
+    $machine->notes = $data['notes'];
+    $machine->updatedby_id = $user->id;
+
+    $query = $machine->update();
+
+    if($data['supplier_id']){
+      $old_suppliers = $machine->suppliers->pluck('id')->toArray();
+      $sid_array = array_map('intval', array_unique($data['supplier_id']));
+
+      $add = array_diff($sid_array,$old_suppliers);
+      $remove = array_diff($old_suppliers,$sid_array);
+
+      if(count($add)>=1){
+        foreach ($add as $sid){
+          $supplier = Suppliers::find([$sid]); 
+          if($supplier){
+            $machine->suppliers()->attach($supplier);
+          }
+        }
+      }
+
+      if(count($remove)>=1){
+        foreach ($remove as $sid){
+          $supplier = Suppliers::find([$sid]); 
+          if($supplier){
+            $machine->suppliers()->detach($supplier);
+          }
+        }
+      }
+
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Machines  $machines
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Machines $machines)
-    {
-        //
+
+    if($query){
+      return notifyRedirect($this->homeLink.'/view/'.$id, 'Updated Machine '. $machine->name .' successfully', 'success');
     }
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Remove the specified resource from storage.

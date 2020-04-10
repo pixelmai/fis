@@ -7,19 +7,20 @@
     <div class="col-lg-8">
       <div class="card">
         <div class="card-header">
-          <div class="bh">Edit Tool</div>
+          <div class="bh">Edit Machine</div>
         </div>
 
           <div class="card-body">
 
-            <form action="/tools/edit/{{ $tool->id }}" enctype="multipart/form-data" method="POST">
+            <form action="/machines/edit/{{ $machine->id }}" enctype="multipart/form-data" method="POST">
               @csrf
               @method('PATCH')
+
               <div class="form-group row">
                 <div class="col-md-12">
-                  <label for="name" class="col-form-label">Tool Name <span class="required">*</span></label>
+                  <label for="name" class="col-form-label">Machine Name <span class="required">*</span></label>
                 
-                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') ?? $tool->name }}" required autofocus autocomplete="off">
+                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') ?? $machine->name }}" required autofocus autocomplete="off">
 
                     @error('name')
                       <span class="invalid-feedback" role="alert">
@@ -27,9 +28,27 @@
                       </span>
                     @enderror
                 </div>
-
               </div>
 
+
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <label for="brand" class="col-form-label">Brand</label>
+                    <input id="brand" 
+                      type="text" 
+                      class="form-control @error('brand') is-invalid @enderror" 
+                      name="brand" 
+                      value="{{ old('brand') ?? $machine->brand }}"  
+                      autofocus autocomplete="off">
+
+                    @error('brand')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+
+              </div>
 
 
               <div class="form-group row d-flex">
@@ -41,7 +60,7 @@
                       type="text" 
                       class="form-control @error('model') is-invalid @enderror" 
                       name="model" 
-                      value="{{ old('model') ?? $tool->model }}"  
+                      value="{{ old('model') ?? $machine->model }}"  
                       autofocus autocomplete="off">
 
                     @error('model')
@@ -53,15 +72,15 @@
 
 
                 <div class="col-md-6">
-                  <label for="brand" class="col-form-label">Brand</label>
-                    <input id="brand" 
+                  <label for="dimensions" class="col-form-label">Dimensions</label>
+                    <input id="dimensions" 
                       type="text" 
-                      class="form-control @error('brand') is-invalid @enderror" 
-                      name="brand" 
-                      value="{{ old('brand') ?? $tool->brand }}"  
+                      class="form-control @error('dimensions') is-invalid @enderror" 
+                      name="dimensions" 
+                      value="{{ old('dimensions') ?? $machine->dimensions }}"  
                       autofocus autocomplete="off">
 
-                    @error('brand')
+                    @error('dimensions')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -76,7 +95,7 @@
                     <textarea id="notes" 
                       type="text" 
                       class="form-control @error('notes') is-invalid @enderror" 
-                      name="notes" autofocus>{{ old('notes') ?? $tool->notes }}</textarea>
+                      name="notes" autofocus>{{ old('notes') ?? $machine->notes }}</textarea>
 
                     @error('notes')
                         <span class="invalid-feedback" role="alert">
@@ -94,7 +113,7 @@
       
                   <div class="field_wrapper">
 
-                    @if(count($tool->suppliers) == 0)
+                    @if(count($machine->suppliers) == 0)
                       <div class="generated_inputs row">
                         <div class="col-6">
                           <div class="input_holder"><input type="text" name="supplier_name[]" value="" class="form-control supplier_name" placeholder="Search by Supplier Name" /><input type="hidden" name="supplier_id[]" value="" class="supplier_id" /></div>
@@ -105,7 +124,7 @@
                       </div>
                       <?php $key = 1; ?>
                     @else
-                      @foreach($tool->suppliers as $key => $supplier)
+                      @foreach($machine->suppliers as $key => $supplier)
                         @if($key == 0)
                           <div class="generated_inputs row">
                             <div class="col-6">
