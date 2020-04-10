@@ -30,7 +30,8 @@
               <th scope="col">Company</th>
               <th scope="col">Position</th>
               <th scope="col" class="col_actions"/>
-                <button type="button" name="bulk_delete" id="bulk_delete" class="btn btn-danger btn-sm d-none">Delete All</i></button>
+                <button type="button" name="bulk_deac" id="bulk_deac" class="btn btn-danger btn-sm d-none">Deactivate All</i></button>
+                <button type="button" name="bulk_acti" id="bulk_acti" class="btn btn-success btn-sm d-none">Activate All</i></button>
               </th>
             </tr>
           </thead>
@@ -56,15 +57,22 @@
         }
       });
 
-
-
       $('#listpage_datatable').DataTable({
              processing: true,
              serverSide: true,
              ajax: {
               url: "/clients",
               type: 'GET',
+              data: function (d) {
+                d.active_status = $('#active_status').children("option:selected").val();
+              }
              },
+              createdRow: function( row, data, dataIndex ) {
+                // Set the data-status attribute, and add a class
+                if(data.is_deactivated == 1){
+                  $( row ).addClass('deactivated');
+                }
+              },
              columns: [
                       { data: 'id', name: 'id', 'visible': false},
                       { data: 'checkbox', orderable:false, searchable:false},
@@ -92,11 +100,20 @@
 
       $('#listpage_datatable tbody').on('click', '.tbl_row_checkbox', function () {
           $(this).parent().parent().toggleClass('rowselected');
+          var as = $('#active_status').children("option:selected").val();
+            
 
           if ( document.querySelector('.rowselected') !== null ) {
-            $('#bulk_delete').removeClass('d-none');
+            if(as == 0){
+              $('#bulk_deac').removeClass('d-none');
+              $('#bulk_acti').addClass('d-none');
+            }else if(as == 1){
+              $('#bulk_deac').addClass('d-none');
+              $('#bulk_acti').removeClass('d-none');
+            }
           }else{
-            $('#bulk_delete').addClass('d-none');
+            $('#bulk_deac').addClass('d-none');
+            $('#bulk_acti').addClass('d-none');
           }
 
       } );
@@ -121,7 +138,7 @@
                   };
 
                   generateNotif(notifData);
-                  $('#bulk_delete').addClass('d-none');
+                  $('#bulk_deac').addClass('d-none');
                 }else{
 
                   var notifData = {
@@ -130,7 +147,7 @@
                   };
 
                   generateNotif(notifData);
-                  $('#bulk_delete').addClass('d-none');
+                  $('#bulk_deac').addClass('d-none');
 
                 }
 
@@ -143,10 +160,10 @@
       });   
 
 
-      $(document).on('click', '#bulk_delete', function(){
+      $(document).on('click', '#bulk_deac', function(){
           var id = [];
 
-          if(confirm("Are you sure you want to Delete this data?"))
+          if(confirm("Are you sure you want to deactivate these rows?"))
           {
               $('.tbl_row_checkbox:checked').each(function(){
                  id.push($(this).val());
@@ -157,32 +174,23 @@
                 $.ajax({
                   type: "get",
                   data:{id:id},
-                  url: "/clients/massrem",
+                  url: "/clients/massdeac",
                   success: function (data) {
                     var notifData = [];
-
-                    if(data == 0){
-                      notifData = {
-                        status: 'danger',
-                        message: 'Main Contacts of Companies cannot be deleted.',
-                      };
-                    }else if(data < id.length){
-                      $('#listpage_datatable').DataTable().ajax.reload();
-                      notifData = {
-                        status: 'danger',
-                        message: 'Successfully deleted '+ data +' out of ' + id.length + ' selected clients. Main Contacts of Companies cannot be deleted.',
-                      };
-                    }else {
-                      $('#listpage_datatable').DataTable().ajax.reload();
-                      notifData = {
-                        status: 'danger',
-                        message: 'Successfully deleted all '+ data +' selected clients.',
-                      };
-                    }
+                    var oTable = $('#listpage_datatable').dataTable(); 
+                    oTable.fnDraw(false);
+                   
+                    $('#listpage_datatable').DataTable().ajax.reload();
+                    notifData = {
+                      status: 'danger',
+                      message: 'Successfully deactivated '+ data +' clients.',
+                    };
+                   
 
                     generateNotif(notifData);
 
-                    $('#bulk_delete').addClass('d-none');
+                    $('#bulk_deac').addClass('d-none');
+                    $('#bulk_acti').addClass('d-none');
 
                   },
                   error: function (data) {
@@ -197,6 +205,119 @@
           }
       });
 
+
+      $(document).on('click', '#bulk_acti', function(){
+          var id = [];
+
+          if(confirm("Are you sure you want to activate these rows?"))
+          {
+              $('.tbl_row_checkbox:checked').each(function(){
+                 id.push($(this).val());
+              });
+
+              if(id.length > 0)
+              {
+                $.ajax({
+                  type: "get",
+                  data:{id:id},
+                  url: "/clients/massacti",
+                  success: function (data) {
+                    var notifData = [];
+                    var oTable = $('#listpage_datatable').dataTable(); 
+                    oTable.fnDraw(false);
+                   
+                    $('#listpage_datatable').DataTable().ajax.reload();
+                    notifData = {
+                      status: 'success',
+                      message: 'Successfully activated '+ data +' clients.',
+                    };
+                   
+
+                    generateNotif(notifData);
+
+                    $('#bulk_deac').addClass('d-none');
+                    $('#bulk_acti').addClass('d-none');
+
+                  },
+                  error: function (data) {
+                    console.log('Error:', data);
+                  }
+                });
+              }
+              else
+              {
+                  alert("Please select atleast one checkbox");
+              }
+          }
+      });
+
+
+      $('body').on('click', '#deactivate-row', function () {
+        var row_id = $(this).data("id");
+
+        if (confirm('Are you sure want to deactivate row?')) {
+
+          $.ajax({
+              type: "get",
+              url: "/clients/deactivate/"+row_id,
+              success: function (data) {
+                var oTable = $('#listpage_datatable').dataTable(); 
+                oTable.fnDraw(false);
+
+                var notifData = {
+                  status: 'warning',
+                  message: 'Successfully deactivated a client.',
+                };
+
+                generateNotif(notifData);
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+      });   
+
+      $('body').on('click', '#activate-row', function () {
+        var row_id = $(this).data("id");
+
+        if (confirm('Are you sure want to activate row?')) {
+
+          $.ajax({
+              type: "get",
+              url: "/clients/activate/"+row_id,
+              success: function (data) {
+                var oTable = $('#listpage_datatable').dataTable(); 
+                oTable.fnDraw(false);
+
+                var notifData = {
+                  status: 'success',
+                  message: 'Successfully activated a client.',
+                };
+
+                generateNotif(notifData);
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+      });  
+
+
+
+
+
+      /* Append Status Select Box */
+        var activeStatusHTML = '<div id="active_status_container"><label for="status" class="col-form-label">Showing</label><select id="active_status" name="active_status"><option value="0">Active</option><option value="1">Inactive</option><option value="2">All</option></select><span class="divider d-none d-sm-inline">|</span></div>'; 
+
+        $('#listpage_datatable_filter').prepend(activeStatusHTML); //Add field html
+
+        $( "#active_status" ).change(function() {
+          var oTable = $('#listpage_datatable').dataTable(); 
+          oTable.fnDraw(false);
+        });
+      /* Append Status Select Box */
 
     
 

@@ -116,9 +116,12 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::patch('/clients/edit/{id}', 'ClientsController@update');
   Route::get('/clients/view/{id}', 'ClientsController@view');
   Route::get('/clients/destroy/{id}', 'ClientsController@destroy');
-  Route::get('/clients/massrem', 'ClientsController@massrem');
+  Route::get('/clients/massdeac', 'ClientsController@massdeac');
+    Route::get('/clients/massacti', 'ClientsController@massacti');
   Route::get('/clients/autocomplete', 'ClientsController@autocomplete')->name('clientsauto');
 
+  Route::get('/clients/deactivate/{id}', 'ClientsController@deactivate');
+  Route::get('/clients/activate/{id}', 'ClientsController@activate');
   Route::post('/clients/modalStore', 'ClientsController@modalStore');
 /* Clients */
 

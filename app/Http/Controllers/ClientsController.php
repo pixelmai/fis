@@ -8,6 +8,7 @@ use App\Companies;
 use App\Regtypes;
 use App\Partners;
 use App\Sectors;
+use App\Projects;
 use App\Rules\Url;
 use App\Rules\PhoneNumber;
 use Illuminate\Http\Request;
@@ -35,30 +36,74 @@ class ClientsController extends Controller
 
     if(request()->ajax()){
 
-      // $clients = DB::table('clients')->with('companies')->select('id','fname','lname','email','number','company_id','position');
+      $active_status = (isset($_GET['active_status']) ? $_GET['active_status'] : 0);
 
 
-      $clients = DB::table('clients')
-            ->leftJoin('companies', 'clients.company_id', '=', 'companies.id')
-            ->select(
-            'clients.id',
-            'clients.fname',
-            'clients.lname',
-            'clients.email',
-            'clients.number',
-            'clients.company_id',
-            'clients.position',
-            'companies.name as company_name')
-            ->where('clients.id', '!=' , 1)
-            ->get();
+      if($active_status == 2){
+        $clients = DB::table('clients')
+              ->leftJoin('companies', 'clients.company_id', '=', 'companies.id')
+              ->select(
+              'clients.id',
+              'clients.fname',
+              'clients.lname',
+              'clients.email',
+              'clients.number',
+              'clients.company_id',
+              'clients.position',
+              'clients.is_deactivated',
+              'companies.name as company_name')
+              ->where('clients.id', '!=' , 1)
+              ->get();
+      }else{
+        $clients = DB::table('clients')
+              ->leftJoin('companies', 'clients.company_id', '=', 'companies.id')
+              ->select(
+              'clients.id',
+              'clients.fname',
+              'clients.lname',
+              'clients.email',
+              'clients.number',
+              'clients.company_id',
+              'clients.position',
+              'clients.is_deactivated',
+              'companies.name as company_name')
+              ->where('is_deactivated', $active_status)
+              ->where('clients.id', '!=' , 1)
+              ->get();
 
-
+      }
 
       return datatables()->of($clients)
-        ->addColumn('action', function($data){
-      $button = '<div class="hover_buttons"><a href="/clients/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
-      $button .= '<a href="/clients/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
-      $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
+        ->addColumn('action', function($data){     
+
+        $button = '<div class="hover_buttons"><a href="/clients/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
+        $button .= '<a href="/clients/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
+
+        //now checks only for company and project, soon must include invoices
+
+        $company = Companies::where('client_id', $data->id)->get();        
+        $projects = Projects::where('client_id', $data->id)->where('is_categorized', 1)->get();   
+
+        $dcompany = (count($company) != 0 ? 1 : 0);
+        $dproject = (count($projects) != 0 ? 1 : 0);
+        $sum = $dcompany + $dproject;
+
+        $activate_button = '<a href="javascript:void(0);" id="activate-row" data-toggle="tooltip" data-placement="top" data-original-title="Activate" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-success"><i class="fas fa-check"></i></a></div>';
+
+        if($sum == 0){
+          if($data->is_deactivated == 1){
+            $button .= $activate_button;
+          }else{
+            $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
+          }
+        }else{
+          if($data->is_deactivated == 0){
+            $button .= '<a href="javascript:void(0);" id="deactivate-row" data-toggle="tooltip" data-placement="top" data-original-title="Deactivate" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-ban"></i></a></div>';
+          }else{
+            $button .= $activate_button;
+          }
+        }
+
       return $button;
       })
       ->addColumn('checkbox', '<input type="checkbox" name="tbl_row_checkbox[]" class="tbl_row_checkbox" value="{{$id}}" />')
@@ -69,9 +114,8 @@ class ClientsController extends Controller
     }
         
 
-    return view('clients.index', ['user' => $user, 'page_settings'=> $this->page_settings]);
 
-    //return view('clients.index', ['user' => $user, 'clients' => $clients, 'page_settings'=> $this->page_settings]);
+    return view('clients.index', ['user' => $user, 'page_settings'=> $this->page_settings]);
 
   }
 
@@ -204,7 +248,17 @@ class ClientsController extends Controller
 
     if($client){
       $updater = User::find($client->updatedby_id);
-      return view('clients.view', ['user' => $user, 'client' => $client, 'page_settings'=> $this->page_settings, 'updater' => $updater]);
+
+      //now checks only for company and project, soon must include invoices
+      $company = Companies::where('client_id', $id)->get();        
+      $projects = Projects::where('client_id', $id)->where('is_categorized', 1)->get();   
+      
+      $dcompany = (count($company) != 0 ? 1 : 0);
+      $dproject = (count($projects) != 0 ? 1 : 0);
+      $sum = $dcompany + $dproject;
+
+
+      return view('clients.view', ['user' => $user, 'client' => $client, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'sum' => $sum]);
 
     }else{
       return notifyRedirect($this->homeLink, 'Client not found', 'danger');
@@ -311,7 +365,6 @@ class ClientsController extends Controller
 
   public function destroy($id)
   {
-    
     if($id == 1){
       return notifyRedirect($this->homeLink, 'Client not found', 'danger');
     }
@@ -334,19 +387,59 @@ class ClientsController extends Controller
     }
   }
 
+
+  public function deactivate($id)
+  {
+    $client = Clients::find($id);
+    if($client){
+
+      if(request()->ajax()){
+
+        $client->is_deactivated = 1;
+        $client->update();
+
+        return Response::json('1');
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to deactivate', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Client not found', 'danger');
+    }
+  }
+
+  public function activate($id)
+  {
+    $client = Clients::find($id);
+    if($client){
+
+      if(request()->ajax()){
+
+        $client->is_deactivated = 0;
+        $client->update();
+
+        return Response::json('1');
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to activate', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Client not found', 'danger');
+    }
+  }
+
+  /*
   public function massrem(Request $request)
   {
     if(request()->ajax()){
       
       $row_id_array = $request->input('id');
 
-      /* This is quick delete without dependencies
-        $row = Clients::whereIn('id', $row_id_array);
-        if($row->delete())
-        {
-            echo 'Data Deleted';
-        }
-      */
+        // This is quick delete without dependencies
+        // $row = Clients::whereIn('id', $row_id_array);
+        // if($row->delete())
+        // {
+        //   echo 'Data Deleted';
+        // }
+        
 
       $count_deleted = 0;
 
@@ -364,7 +457,51 @@ class ClientsController extends Controller
       return notifyRedirect($this->homeLink, 'Deletion action not permitted', 'danger');
     }
   }
+  */
 
+  public function massdeac(Request $request)
+  {
+    if(request()->ajax()){
+      
+      $row_id_array = $request->input('id');
+
+      $count = 0;
+
+      foreach ($row_id_array as $client_row) {
+        $client = Clients::find($client_row);
+        $client->is_deactivated = 1;
+        $client->update();
+        $count++;
+      }
+
+      return Response::json($count);
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Action not permitted', 'danger');
+    }
+  }
+
+  public function massacti(Request $request)
+  {
+    if(request()->ajax()){
+      
+      $row_id_array = $request->input('id');
+
+      $count = 0;
+
+      foreach ($row_id_array as $client_row) {
+        $client = Clients::find($client_row);
+        $client->is_deactivated = 0;
+        $client->update();
+        $count++;
+      }
+
+      return Response::json($count);
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Action not permitted', 'danger');
+    }
+  }
 
 
   public function dblist()

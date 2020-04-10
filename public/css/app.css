@@ -11546,8 +11546,9 @@ form label #compExists {
   border-bottom: 1px solid #dee2e6;
 }
 
-#app #listpage_datatable #bulk_delete,
-#app #listpage_datatable #bulk_status {
+#app #listpage_datatable #bulk_deac,
+#app #listpage_datatable #bulk_status,
+#app #listpage_datatable #bulk_acti {
   padding: 1px 10px;
 }
 
@@ -11638,7 +11639,7 @@ form label #compExists {
 }
 
 #app .dataTables_wrapper .dataTables_filter {
-  padding: 10px 0;
+  padding: 13px 0 0;
 }
 
 #app .dataTables_wrapper .dataTables_filter label {
@@ -11653,6 +11654,11 @@ form label #compExists {
 
 #app .dataTables_wrapper .dataTables_filter #active_status_container {
   display: inline-block;
+}
+
+#app .dataTables_wrapper .dataTables_filter #active_status_container .divider {
+  padding-left: 10px;
+  color: #ccc;
 }
 
 #app .dataTables_wrapper .dataTables_filter #active_status_container .dk-select {
