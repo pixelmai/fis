@@ -8,7 +8,7 @@
       <div class="card">
         <div class="card-header">
           <div class="d-flex justify-content-between align-items-center">
-            <div class="sh">Tool Information</div>
+            <div class="sh">Machine Information</div>
           </div>
         </div>
 
@@ -18,7 +18,7 @@
               <div class="col-md-12">
                 <div class="d-flex justify-content-between">
                   <div>
-                    <h1>{{ $tools->name }}</h1>
+                    <h1>{{ $machine->name }}</h1>
 
                     @if (isset($s))
                       <div class="chip mb-2">
@@ -33,17 +33,17 @@
                       <i class="fas fa-history"></i>
                     </a>
 
-                    <a href="/tools/edit/{{ $tools->id }}" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-lg">
+                    <a href="/machines/edit/{{ $machine->id }}" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-lg">
                       <i class="fas fa-edit"></i>
                     </a>
 
                     @if(count($logs) == 0)
-                      <a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="{{ $tools->id }}" class="delete btn btn-outline-danger btn-lg"><i class="fas fa-trash"></i></a>
+                      <a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="{{ $machine->id }}" class="delete btn btn-outline-danger btn-lg"><i class="fas fa-trash"></i></a>
                     @else
-                      @if($tools->is_deactivated == 0)
-                        <a href="javascript:void(0);" id="deactivate-row" data-toggle="tooltip" data-placement="top" data-original-title="Deactivate" data-id="{{ $tools->id }}" class="delete btn btn-outline-danger btn-lg"><i class="fas fa-ban"></i></a>
+                      @if($machine->is_deactivated == 0)
+                        <a href="javascript:void(0);" id="deactivate-row" data-toggle="tooltip" data-placement="top" data-original-title="Deactivate" data-id="{{ $machine->id }}" class="delete btn btn-outline-danger btn-lg"><i class="fas fa-ban"></i></a>
                       @else
-                        <a href="javascript:void(0);" id="activate-row" data-toggle="tooltip" data-placement="top" data-original-title="Activate" data-id="{{ $tools->id }}" class="delete btn btn-outline-success btn-lg"><i class="fas fa-check"></i></a>
+                        <a href="javascript:void(0);" id="activate-row" data-toggle="tooltip" data-placement="top" data-original-title="Activate" data-id="{{ $machine->id }}" class="delete btn btn-outline-success btn-lg"><i class="fas fa-check"></i></a>
                       @endif
                     @endif
 
@@ -52,7 +52,7 @@
               
 
 
-              @if (count($tools->logs) == 0 )
+              @if (count($machine->logs) == 0 )
                 <hr class="mb-0"> 
               @endif
             </div>
@@ -60,7 +60,7 @@
         </div>
               
 
-        @if (count($tools->logs) != 0 )
+        @if (count($machine->logs) != 0 )
           <ul class="nav nav-tabs card-tabs" id="myTab" role="tablist">
 
             <li class="nav-item ml-3">
@@ -76,7 +76,7 @@
         @endif
 
 
-        <div class="card-body @if(count($tools->logs) == 0 ) pt-0 @endif">
+        <div class="card-body @if(count($machine->logs) == 0 ) pt-0 @endif">
 
           <div class="row">
             <div class="col-md-12">
@@ -99,35 +99,42 @@
                         </div>
                         @endif
 
-                  
-                        @if ($tools->model)
-                        <div class="info-item">
-                          <strong>Model</strong>
-                          {{ $tools->model }}
-                        </div>
-                        @endif
-
-                        @if ($tools->brand)
+                        @if ($machine->brand)
                         <div class="info-item">
                           <strong>Brand</strong>
-                          {{ $tools->brand }}
+                          {{ $machine->brand }}
+                        </div>
+                        @endif
+                  
+                        @if ($machine->model)
+                        <div class="info-item">
+                          <strong>Model</strong>
+                          {{ $machine->model }}
                         </div>
                         @endif
 
 
-                        @if ($tools->notes)
+                        @if ($machine->dimensions)
+                        <div class="info-item">
+                          <strong>Dimensions</strong>
+                          {{ $machine->dimensions }}
+                        </div>
+                        @endif
+
+
+                        @if ($machine->notes)
                         <div class="info-item">
                           <strong>Notes</strong>
-                          {{ $tools->notes }}
+                          {{ $machine->notes }}
                         </div>
                         @endif
 
-                        @if (count($tools->suppliers)!=0)
+                        @if (count($machine->suppliers)!=0)
 
                           <h5 class="pt-4">Suppliers List</h5>
 
                           <ul class="list-items">
-                            @foreach($tools->suppliers as $supplier)
+                            @foreach($machine->suppliers as $supplier)
                               <li><a href="/suppliers/view/{{ $supplier->id }}">{{ $supplier->name }}</a></li>
                             @endforeach
                           </ul>
@@ -144,7 +151,7 @@
                           </a>
                         </b>
                         on
-                        {{ dateOnly($tools->updated_at) }}
+                        {{ dateOnly($machine->updated_at) }}
                       </div>
 
 
@@ -215,7 +222,7 @@
 @stop
 
 @push('modals')
-  @include('tools.modalAddLogs')
+  @include('machines.modalAddLogs')
 @endpush
 
 
@@ -239,13 +246,13 @@
 
           $.ajax({
               type: "get",
-              url: "/tools/destroy/"+row_id,
+              url: "/machines/destroy/"+row_id,
               success: function (data) {
-                window.location.href = '{{ url('/tools') }}';
+                window.location.href = '{{ url('/machines') }}';
 
                 var notifData = {
                   status: 'warning',
-                  message: 'Successfully deleted a tool.',
+                  message: 'Successfully deleted a machine.',
                 };
 
                 generateNotif(notifData);
@@ -267,9 +274,9 @@
 
           $.ajax({
               type: "get",
-              url: "/tools/deactivate/"+row_id,
+              url: "/machines/deactivate/"+row_id,
               success: function (data) {
-                window.location.href = '{{ url('/tools') }}';
+                window.location.href = '{{ url('/machines') }}';
 
 
                 var notifData = {
@@ -295,9 +302,9 @@
 
           $.ajax({
               type: "get",
-              url: "/tools/activate/"+row_id,
+              url: "/machines/activate/"+row_id,
               success: function (data) {
-                window.location.href = '{{ url('/tools') }}';
+                window.location.href = '{{ url('/machines') }}';
                 
                 var notifData = {
                   status: 'success',
@@ -317,7 +324,7 @@
 
 
       $('body').on('click', '#add-log-row', function () {
-        $('#ajaxForm #tool_id').val({{ $tools->id }});
+        $('#ajaxForm #tool_id').val({{ $machine->id }});
         $('#ajax-crud-modal').trigger("reset");
         $('#ajax-crud-modal').modal('show');
         $('#btn-edit-status').addClass('d-none');
@@ -332,7 +339,7 @@
 
 
         $('#ajaxForm #log_id').val(note_id);
-        $('#ajaxForm #tool_id').val({{ $tools->id }});
+        $('#ajaxForm #tool_id').val({{ $machine->id }});
         $('#ajaxForm #notes').val($(note_class).text());
 
 
@@ -350,11 +357,11 @@
       });   
 
       $('body').on('click', '#btn-single-save-status', function () {
-        initvalidator($('#tool_id').val(), "/tools/status");
+        initvalidator($('#tool_id').val(), "/machines/status");
       });   
 
       $('body').on('click', '#btn-edit-status', function () {
-        initvalidator($('#tool_id').val(), "/tools/status/edit");
+        initvalidator($('#tool_id').val(), "/machines/status/edit");
       });   
 
 
@@ -365,7 +372,7 @@
 
           $.ajax({
               type: "get",
-              url: "/tools/status/destroy/"+ note_id,
+              url: "/machines/status/destroy/"+ note_id,
               success: function (data) {
 
                 location.reload(true);
@@ -439,7 +446,7 @@
                   location.reload(true);
                   var notifData = {
                     status: 'success',
-                    message: 'Successfully updated status of the ' + data + ' tool.',
+                    message: 'Successfully updated status of the ' + data + ' machine.',
                   };
 
                   generateNotif(notifData);

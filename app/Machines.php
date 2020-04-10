@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tools extends Model
+class Machines extends Model
 {
   protected $guarded = [];
 
   protected $fillable = [
-    'name','status', 'model','brand', 'notes',
+    'name','status', 'model','brand', 'dimensions', 'notes',
     'is_deactivated', 'updatedby_id', 
   ];
 
@@ -19,6 +19,6 @@ class Tools extends Model
   }
 
   public function logs(){
-    return $this->hasMany('App\Logs','tool_id','id');
+    return $this->hasMany('App\Logs','machine_id','id');
   }
 }

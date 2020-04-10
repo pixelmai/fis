@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 use App\Logs;
 use App\User;
+use App\Machines;
 use App\Suppliers;
-use App\Tools;
 use Illuminate\Http\Request;
 use Redirect,Response,DB,Config;
 use Datatables;
 
 
-class ToolsController extends Controller
+class MachinesController extends Controller
 {
 
   private $page_settings;
@@ -21,13 +21,13 @@ class ToolsController extends Controller
 
     //Page repeated defaults
     $this->page_settings['seltab'] = 'equipment';
-    $this->page_settings['seltab2'] = 'tools';
-    $this->homeLink = '/tools';
+    $this->page_settings['seltab2'] = 'machines';
+    $this->homeLink = '/machines';
 
     $this->status = array( 
       '1' => 'Available', 
       '2' => 'Damaged',
-      '3' => 'Borrowed'
+      '3' => 'Under Maintenance'
     );
   }
 
@@ -42,17 +42,16 @@ class ToolsController extends Controller
 
 
       if($active_status == 2){
-        $dbtable = Tools::with('logs')->get();
+        $dbtable = Machines::with('logs')->get();
       }else{
-        $dbtable = Tools::with('logs')->where('is_deactivated', $active_status)->get();
+        $dbtable = Machines::with('logs')->where('is_deactivated', $active_status)->get();
       }
-
 
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){
-      $button = '<div class="hover_buttons"><a href="/tools/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
+      $button = '<div class="hover_buttons"><a href="/machines/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
       $button .= '<a href="javascript:void(0);" id="add-log-row" data-toggle="tooltip" data-placement="top" data-original-title="Add Log" data-id="'.$data->id.'"  class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-history"></i></a>';
-      $button .= '<a href="/tools/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
+      $button .= '<a href="/machines/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
 
       if(count($data->logs) == 0){
         $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
@@ -89,17 +88,17 @@ class ToolsController extends Controller
       ->make(true);
     }
         
-    return view('tools.index', ['user' => $user, 'page_settings'=> $this->page_settings,  'status' => $this->status]);
-
-
+    return view('machines.index', ['user' => $user, 'page_settings'=> $this->page_settings,  'status' => $this->status]);
   }
+
 
   public function create()
   {
     $user = auth()->user();
 
-    return view('tools.create', ['user' => $user, 'page_settings'=> $this->page_settings]);
+    return view('machines.create', ['user' => $user, 'page_settings'=> $this->page_settings]);
   }
+
 
   public function store(Request $request)
   {
@@ -110,6 +109,7 @@ class ToolsController extends Controller
       'name' => ['required', 'string', 'max:255'],
       'model' => ['nullable'],
       'brand' => ['nullable'],
+      'dimensions' => ['nullable'],
       'notes' => ['nullable'],
       'supplier_id' => ['nullable'],
     ]);
@@ -117,11 +117,12 @@ class ToolsController extends Controller
     $sid_array = array_unique($data['supplier_id']);
     
 
-    $query = Tools::create([
+    $query = Machines::create([
       'name' => $data['name'],
       'status' => 1,
       'model' => $data['model'],
       'brand' => $data['brand'],
+      'dimensions' => $data['dimensions'],
       'notes' => $data['notes'],
       'is_deactivated' => 0,
       'updatedby_id' => $user->id,
@@ -138,29 +139,30 @@ class ToolsController extends Controller
 
 
     if($query){
-      return notifyRedirect($this->homeLink, 'Added a Tool successfully', 'success');
+      return notifyRedirect($this->homeLink, 'Added a Machine successfully', 'success');
     }
 
   }
 
+
   public function view($id)
   {
     $user = auth()->user();
-    $tool = Tools::with('logs')->find($id);
-    $logs = Logs::where('tool_id', $id)->orderBy('updated_at', 'DESC')->get();
+    $machine = Machines::with('logs')->find($id);
+    $logs = Logs::where('machine_id', $id)->orderBy('updated_at', 'DESC')->get();
 
 
 
-    if($tool){
-      $updater = User::find($tool->updatedby_id);
-      if($tool->status){
-        $s = $this->status[$tool->status];
+    if($machine){
+      $updater = User::find($machine->updatedby_id);
+      if($machine->status){
+        $s = $this->status[$machine->status];
       }
 
-      return view('tools.view', ['user' => $user, 'tools' => $tool, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'logs' => $logs]);
+      return view('machines.view', ['user' => $user, 'machine' => $machine, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'logs' => $logs]);
 
     }else{
-      return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
+      return notifyRedirect($this->homeLink, 'Machine not found', 'danger');
     }
 
   }
@@ -169,13 +171,13 @@ class ToolsController extends Controller
   public function edit($id)
   {
     $user = auth()->user();
-    $tool = Tools::with('suppliers')->find($id);
+    $machine = Machines::with('suppliers')->find($id);
 
-    if(isset($tool)){
+    if(isset($machine)){
 
-      return view('tools.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'tool' => $tool]);
+      return view('machines.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'machine' => $machine]);
     }else{
-      return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
+      return notifyRedirect($this->homeLink, 'Machine not found', 'danger');
     }
     
   }
@@ -183,27 +185,30 @@ class ToolsController extends Controller
 
   public function update($id)
   {
+
     $user = auth()->user();
-    $tool = Tools::find($id);
+    $machine = Machines::find($id);
 
     $data = request()->validate([
       'name' => ['required', 'string', 'max:255'],
       'model' => ['nullable'],
       'brand' => ['nullable'],
+      'dimensions' => ['nullable'],
       'notes' => ['nullable'],
       'supplier_id' => ['nullable'],
     ]);
 
-    $tool->name = $data['name'];
-    $tool->model = $data['model'];
-    $tool->brand = $data['brand'];
-    $tool->notes = $data['notes'];
-    $tool->updatedby_id = $user->id;
+    $machine->name = $data['name'];
+    $machine->model = $data['model'];
+    $machine->brand = $data['brand'];
+    $machine->dimensions = $data['dimensions'];
+    $machine->notes = $data['notes'];
+    $machine->updatedby_id = $user->id;
 
-    $query = $tool->update();
+    $query = $machine->update();
 
     if($data['supplier_id']){
-      $old_suppliers = $tool->suppliers->pluck('id')->toArray();
+      $old_suppliers = $machine->suppliers->pluck('id')->toArray();
       $sid_array = array_map('intval', array_unique($data['supplier_id']));
 
       $add = array_diff($sid_array,$old_suppliers);
@@ -213,7 +218,7 @@ class ToolsController extends Controller
         foreach ($add as $sid){
           $supplier = Suppliers::find([$sid]); 
           if($supplier){
-            $tool->suppliers()->attach($supplier);
+            $machine->suppliers()->attach($supplier);
           }
         }
       }
@@ -222,7 +227,7 @@ class ToolsController extends Controller
         foreach ($remove as $sid){
           $supplier = Suppliers::find([$sid]); 
           if($supplier){
-            $tool->suppliers()->detach($supplier);
+            $machine->suppliers()->detach($supplier);
           }
         }
       }
@@ -232,73 +237,72 @@ class ToolsController extends Controller
 
 
     if($query){
-      return notifyRedirect($this->homeLink.'/view/'.$id, 'Updated Tool '. $tool->name .' successfully', 'success');
+      return notifyRedirect($this->homeLink.'/view/'.$id, 'Updated Machine '. $machine->name .' successfully', 'success');
     }
 
   }
 
   public function destroy($id)
   {
-    $tool = Tools::with('suppliers')->find($id);
-    if($tool){
+    $machine = Machines::with('suppliers')->find($id);
+    if($machine){
 
       if(request()->ajax()){
-        if(count($tool->logs)!=0 ){
+        if(count($machine->logs)!=0 ){
           return notifyRedirect($this->homeLink, 'Unauthorized to delete', 'danger');
         }
 
-        if(count($tool->suppliers)!=0 ){
-          $tool->suppliers()->detach();
+        if(count($machine->suppliers)!=0 ){
+          $machine->suppliers()->detach();
         }
 
-        $row = Tools::where('id',$id)->delete();
+        $row = Machines::where('id',$id)->delete();
         return Response::json($row);
       }else{
         return notifyRedirect($this->homeLink, 'Unauthorized to delete', 'danger');
       }
     }else{
-      return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
+      return notifyRedirect($this->homeLink, 'Machine not found', 'danger');
     }
   }
 
   public function deactivate($id)
   {
-    $tool = Tools::find($id);
-    if($tool){
+    $machine = Machines::find($id);
+    if($machine){
 
       if(request()->ajax()){
 
-        $tool->is_deactivated = 1;
-        $tool->update();
+        $machine->is_deactivated = 1;
+        $machine->update();
 
         return Response::json('1');
       }else{
         return notifyRedirect($this->homeLink, 'Unauthorized to deactivate', 'danger');
       }
     }else{
-      return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
+      return notifyRedirect($this->homeLink, 'Machine not found', 'danger');
     }
   }
 
   public function activate($id)
   {
-    $tool = Tools::find($id);
-    if($tool){
+    $machine = Machines::find($id);
+    if($machine){
 
       if(request()->ajax()){
 
-        $tool->is_deactivated = 0;
-        $tool->update();
+        $machine->is_deactivated = 0;
+        $machine->update();
 
         return Response::json('1');
       }else{
         return notifyRedirect($this->homeLink, 'Unauthorized to activate', 'danger');
       }
     }else{
-      return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
+      return notifyRedirect($this->homeLink, 'Machine not found', 'danger');
     }
   }
-
 
 
   public function status(Request $request)
@@ -312,7 +316,7 @@ class ToolsController extends Controller
 
         foreach ($req_id as $row_id) {
 
-            $row = Tools::find($row_id); 
+            $row = Machines::find($row_id); 
             if($row){
               $row->status = $form['status'];
               $row->updatedby_id = $form['updatedby_id'];
@@ -320,7 +324,7 @@ class ToolsController extends Controller
 
 
               $query = Logs::create([
-                'tool_id' => $row_id,
+                'machine_id' => $row_id,
                 'status' => $form['status'],
                 'notes' => $form['notes'],
                 'updatedby_id' => $form['updatedby_id']
@@ -332,14 +336,14 @@ class ToolsController extends Controller
         return Response::json($count_updated);
       }else{
 
-        $row = Tools::find($req_id); 
+        $row = Machines::find($req_id); 
         if($row){
           $row->status = $form['status'];
           $row->updatedby_id = $form['updatedby_id'];
           $row->update();
 
           $query = Logs::create([
-            'tool_id' => $req_id,
+            'machine_id' => $req_id,
             'status' => $form['status'],
             'notes' => $form['notes'],
             'updatedby_id' => $form['updatedby_id']
@@ -359,11 +363,11 @@ class ToolsController extends Controller
   public function statusedit(Request $request)
   {
     if(request()->ajax()){
-      $tool_id = $request->input('id');
+      $machine_id = $request->input('id');
       $log_id = $request->input('logid');
       $form = $request->input('formData');
 
-      $row = Tools::find($tool_id); 
+      $row = Machines::find($machine_id); 
       if($row){
         $row->status = $form['status'];
         $row->updatedby_id = $form['updatedby_id'];
@@ -372,19 +376,14 @@ class ToolsController extends Controller
         $log = Logs::find($log_id); 
 
         if($log){
-
           $log->status = $form['status'];
           $log->notes = $form['notes'];
           $log->updatedby_id = $form['updatedby_id'];
-
           $log->update();
-
           return Response::json(1);
         }
 
       }
-      
-
     }else{
       return notifyRedirect($this->homeLink, 'Action not permitted', 'danger');
     }
@@ -394,14 +393,15 @@ class ToolsController extends Controller
   public function statusdestroy($id)
   {
     $log = Logs::find($id);
+
     if($log){
       if(request()->ajax()){
         $row = Logs::where('id',$id)->delete();
 
-        $latest_update = Logs::where('tool_id', $log->tool_id)->orderBy('updated_at', 'DESC')->first();
+        $latest_update = Logs::where('machine_id', $log->machine_id)->orderBy('updated_at', 'DESC')->first();
 
         if($latest_update){
-          $tool = Tools::find($latest_update->tool_id);
+          $tool = Machines::find($latest_update->machine_id);
           $tool->status = $latest_update->status;
           $tool->update();
         }
@@ -414,4 +414,9 @@ class ToolsController extends Controller
       return notifyRedirect($this->homeLink, 'Log not found', 'danger');
     }
   }
+
+
+
+
+
 }
