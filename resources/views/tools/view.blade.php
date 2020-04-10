@@ -365,7 +365,7 @@
 
           $.ajax({
               type: "get",
-              url: "/logs/destroy/"+ note_id,
+              url: "/tools/status/destroy/"+ note_id,
               success: function (data) {
 
                 location.reload(true);

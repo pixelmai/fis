@@ -380,13 +380,10 @@ class ToolsController extends Controller
           $log->update();
 
           return Response::json(1);
-
         }
 
-        
       }
       
-
 
     }else{
       return notifyRedirect($this->homeLink, 'Action not permitted', 'danger');
@@ -394,5 +391,27 @@ class ToolsController extends Controller
   }
 
 
+  public function statusdestroy($id)
+  {
+    $log = Logs::find($id);
+    if($log){
+      if(request()->ajax()){
+        $row = Logs::where('id',$id)->delete();
 
+        $latest_update = Logs::where('tool_id', $log->tool_id)->orderBy('updated_at', 'DESC')->first();
+
+        if($latest_update){
+          $tool = Tools::find($latest_update->tool_id);
+          $tool->status = $latest_update->status;
+          $tool->update();
+        }
+
+        return Response::json($row);
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to delete', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Log not found', 'danger');
+    }
+  }
 }
