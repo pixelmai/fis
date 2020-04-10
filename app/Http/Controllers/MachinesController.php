@@ -267,6 +267,68 @@ class MachinesController extends Controller
   }
 
 
+  // PUT DISABLE ENABLE HERE
+
+
+
+  public function status(Request $request)
+  {
+    if(request()->ajax()){
+      $req_id = $request->input('id');
+      $form = $request->input('formData');
+
+      if(is_array($req_id)){
+        $count_updated = 0;
+
+        foreach ($req_id as $row_id) {
+
+            $row = Machines::find($row_id); 
+            if($row){
+              $row->status = $form['status'];
+              $row->updatedby_id = $form['updatedby_id'];
+              $row->update();
+
+
+              $query = Logs::create([
+                'machine_id' => $row_id,
+                'status' => $form['status'],
+                'notes' => $form['notes'],
+                'updatedby_id' => $form['updatedby_id']
+              ]);
+
+              $count_updated++;
+            }
+        }
+        return Response::json($count_updated);
+      }else{
+        
+        $row = Machines::find($req_id); 
+        if($row){
+          $row->status = $form['status'];
+          $row->updatedby_id = $form['updatedby_id'];
+          $row->update();
+
+          $query = Logs::create([
+            'machine_id' => $req_id,
+            'status' => $form['status'],
+            'notes' => $form['notes'],
+            'updatedby_id' => $form['updatedby_id']
+          ]);
+
+          return Response::json(1);
+        }
+      }
+
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Action not permitted', 'danger');
+    }
+  }
+
+
+
+
+
 
 
 }

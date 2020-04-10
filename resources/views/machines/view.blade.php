@@ -357,11 +357,11 @@
       });   
 
       $('body').on('click', '#btn-single-save-status', function () {
-        initvalidator($('#tool_id').val(), "/tools/status");
+        initvalidator($('#tool_id').val(), "/machines/status");
       });   
 
       $('body').on('click', '#btn-edit-status', function () {
-        initvalidator($('#tool_id').val(), "/tools/status/edit");
+        initvalidator($('#tool_id').val(), "/machines/status/edit");
       });   
 
 

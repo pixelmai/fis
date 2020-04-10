@@ -285,7 +285,7 @@
 
             $.ajax({
                 type: type,
-                url: "/tools/status",
+                url: "/machines/status",
                 data: { "formData" : formData, "id": ids } ,
                 dataType: 'json',
                 success: function (data) {
@@ -296,7 +296,7 @@
 
                   var notifData = {
                     status: 'success',
-                    message: 'Successfully updated status of the selected ' + data + ' tools.',
+                    message: 'Successfully updated status of the selected ' + data + ' machines.',
                   };
 
                   generateNotif(notifData);
