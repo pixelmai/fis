@@ -372,7 +372,7 @@
 
                 var notifData = {
                   status: 'warning',
-                  message: 'Successfully deleted a supplier.',
+                  message: 'Successfully deleted a status log.',
                 };
                 
                 generateNotif(notifData);

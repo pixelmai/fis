@@ -49,9 +49,9 @@ class MachinesController extends Controller
 
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){
-      $button = '<div class="hover_buttons"><a href="/tools/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
+      $button = '<div class="hover_buttons"><a href="/machines/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
       $button .= '<a href="javascript:void(0);" id="add-log-row" data-toggle="tooltip" data-placement="top" data-original-title="Add Log" data-id="'.$data->id.'"  class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-history"></i></a>';
-      $button .= '<a href="/tools/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
+      $button .= '<a href="/machines/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
 
       if(count($data->logs) == 0){
         $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
@@ -145,21 +145,32 @@ class MachinesController extends Controller
   }
 
 
+  public function view($id)
+  {
+    $user = auth()->user();
+    $machine = Machines::with('logs')->find($id);
+    $logs = Logs::where('machine_id', $id)->orderBy('updated_at', 'DESC')->get();
 
 
 
+    if($machine){
+      $updater = User::find($machine->updatedby_id);
+      if($machine->status){
+        $s = $this->status[$machine->status];
+      }
 
-    public function show(Machines $machines)
-    {
-        //
+      return view('machines.view', ['user' => $user, 'machine' => $machine, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'logs' => $logs]);
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Machine not found', 'danger');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Machines  $machines
-     * @return \Illuminate\Http\Response
-     */
+  }
+
+
+
+
+
     public function edit(Machines $machines)
     {
         //
