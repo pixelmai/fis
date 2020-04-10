@@ -36,8 +36,6 @@ class ToolsController extends Controller
   {
     $user = auth()->user();
 
-
-
     if(request()->ajax()){
 
       $active_status = (isset($_GET['active_status']) ? $_GET['active_status'] : 0);

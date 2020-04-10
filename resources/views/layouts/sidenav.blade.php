@@ -48,7 +48,7 @@
                   <a href="#">Consumables</a>
               </li -->
               <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'machines')) class="active" @endif>
-                  <a href="#">Machines</a>
+                  <a href="/machines">Machines</a>
               </li>
               <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'tools')) class="active" @endif>
                   <a href="/tools">Tools</a>

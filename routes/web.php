@@ -174,6 +174,25 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 /* Tools */
 
+
+/* Machines */
+  Route::get('/machines', 'MachinesController@index'); Route::get('/machines/create', 'MachinesController@create');
+  Route::post('/machines/create', 'MachinesController@store');
+  Route::get('/machines/edit/{id}', 'MachinesController@edit');
+  Route::patch('/machines/edit/{id}', 'MachinesController@update');
+  Route::get('/machines/view/{id}', 'MachinesController@view');
+  Route::get('/machines/destroy/{id}', 'MachinesController@destroy');
+  Route::post('/machines/status', 'MachinesController@status');
+  Route::post('/machines/status/edit', 'MachinesController@statusedit');
+
+  Route::get('/machines/deactivate/{id}', 'MachinesController@deactivate');
+  Route::get('/machines/activate/{id}', 'MachinesController@activate');
+
+/* Machines */
+
+
+
+
 /* Logs */
   Route::get('/logs/destroy/{id}', 'LogsController@destroy');
 /* Logs */

@@ -19,4 +19,10 @@ class Suppliers extends Model
     return $this->belongsToMany('App\Tools');
   }
 
+
+  public function machines()
+  {
+    return $this->belongsToMany('App\Machines');
+  }
+
 }
