@@ -21,21 +21,6 @@
 
 
 
-        <div class="form-group">
-          <label for="status" class="col-form-label">Showing </label>
-
-            <select id="active_status" name="active_status" class="w-30">
-              <option value="0">Active</option>
-              <option value="1">Inactive</option>
-              <option value="2">All</option>
-            </select>
-
-            @error('$status')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
-        </div>
 
 
         <table id="listpage_datatable" class="table table-responsive-md" data-page-length="25">
@@ -80,6 +65,8 @@
         }
       });
       
+
+
       $('#listpage_datatable').DataTable({
         processing: true,
         serverSide: true,
@@ -111,10 +98,6 @@
               });
 
 
-        $( "#active_status" ).change(function() {
-          var oTable = $('#listpage_datatable').dataTable(); 
-          oTable.fnDraw(false);
-        });
 
 
 
@@ -332,7 +315,15 @@
 
       }
 
-    
+      var activeStatusHTML = '<div id="active_status_container"><label for="status" class="col-form-label">Showing</label><select id="active_status" name="active_status"><option value="0">Active</option><option value="1">Inactive</option><option value="2">All</option></select></div>'; 
+
+      $('#listpage_datatable_filter').prepend(activeStatusHTML); //Add field html
+
+        $( "#active_status" ).change(function() {
+          var oTable = $('#listpage_datatable').dataTable(); 
+          oTable.fnDraw(false);
+        });
+
 
     }); //end document ready
 

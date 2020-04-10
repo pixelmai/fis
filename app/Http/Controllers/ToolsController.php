@@ -39,7 +39,10 @@ class ToolsController extends Controller
 
 
     if(request()->ajax()){
-    $active_status = $_GET['active_status'];
+
+      $active_status = (isset($_GET['active_status']) ? $_GET['active_status'] : 0);
+
+
       if($active_status == 2){
         $dbtable = Tools::with('logs')->get();
       }else{

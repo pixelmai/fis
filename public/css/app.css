@@ -11629,20 +11629,36 @@ form label #compExists {
   border-top: 1px dotted #ccc;
 }
 
-#app .dataTables_wrapper .dataTables_length,
-#app .dataTables_wrapper .dataTables_filter {
+#app .dataTables_wrapper .dataTables_length {
   padding: 20px 0 10px;
 }
 
-#app .dataTables_wrapper .dataTables_length .dk-select,
-#app .dataTables_wrapper .dataTables_filter .dk-select {
+#app .dataTables_wrapper .dataTables_length .dk-select {
   width: 70px;
+}
+
+#app .dataTables_wrapper .dataTables_filter {
+  padding: 10px 0;
+}
+
+#app .dataTables_wrapper .dataTables_filter label {
+  margin-left: 10px;
 }
 
 #app .dataTables_wrapper .dataTables_filter input {
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
-  min-width: 250px;
+  min-width: 200px;
+}
+
+#app .dataTables_wrapper .dataTables_filter #active_status_container {
+  display: inline-block;
+}
+
+#app .dataTables_wrapper .dataTables_filter #active_status_container .dk-select {
+  width: 80px;
+  text-align: left;
+  margin-left: 10px;
 }
 
 /* ---------------------------------------------------

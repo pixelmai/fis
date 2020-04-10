@@ -709,6 +709,9 @@
     }
   }
 
+
+
+
   #listpage_datatable{
     width: 100% !important;
     border-bottom: 1px solid #dee2e6;
@@ -716,7 +719,6 @@
     #bulk_delete, #bulk_status{
       padding: 1px 10px;
     }
-
 
     tr{
       td{
@@ -798,7 +800,7 @@
 
   .dataTables_wrapper{
     border-top: 1px dotted #ccc;
-    .dataTables_length, .dataTables_filter{
+    .dataTables_length{
       padding: 20px 0 10px;
       .dk-select{
         width: 70px;
@@ -806,11 +808,29 @@
     }
 
     .dataTables_filter{
+      padding: 10px 0;
+      label{
+        
+        margin-left: 10px;
+      }
+
       input{
         border: 1px solid #ced4da;
         border-radius: 0.25rem;
-        min-width: 250px;
+        min-width: 200px;
       }
+
+      #active_status_container{
+        display: inline-block;
+
+        .dk-select{
+          width: 80px;
+          text-align: left;
+          margin-left: 10px;
+        }
+
+      }
+
     }
   }
 
