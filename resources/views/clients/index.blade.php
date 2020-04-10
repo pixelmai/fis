@@ -139,6 +139,7 @@
 
                   generateNotif(notifData);
                   $('#bulk_deac').addClass('d-none');
+                  $('#bulk_acti').addClass('d-none');
                 }else{
 
                   var notifData = {
@@ -148,6 +149,7 @@
 
                   generateNotif(notifData);
                   $('#bulk_deac').addClass('d-none');
+                  $('#bulk_acti').addClass('d-none');
 
                 }
 
