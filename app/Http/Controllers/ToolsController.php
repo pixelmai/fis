@@ -183,7 +183,6 @@ class ToolsController extends Controller
 
   public function update($id)
   {
-
     $user = auth()->user();
     $tool = Tools::find($id);
 

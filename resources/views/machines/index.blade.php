@@ -117,14 +117,14 @@
 
           $.ajax({
               type: "get",
-              url: "/tools/destroy/"+row_id,
+              url: "/machines/destroy/"+row_id,
               success: function (data) {
                 var oTable = $('#listpage_datatable').dataTable(); 
                 oTable.fnDraw(false);
 
                 var notifData = {
                   status: 'warning',
-                  message: 'Successfully deleted a tool.',
+                  message: 'Successfully deleted a machine.',
                 };
 
                 generateNotif(notifData);
@@ -146,7 +146,7 @@
 
           $.ajax({
               type: "get",
-              url: "/tools/deactivate/"+row_id,
+              url: "/machines/deactivate/"+row_id,
               success: function (data) {
                 var oTable = $('#listpage_datatable').dataTable(); 
                 oTable.fnDraw(false);

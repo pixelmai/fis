@@ -242,31 +242,31 @@ class MachinesController extends Controller
 
   }
 
+  public function destroy($id)
+  {
+    $machine = Machines::with('suppliers')->find($id);
+    if($machine){
 
+      if(request()->ajax()){
+        if(count($machine->logs)!=0 ){
+          return notifyRedirect($this->homeLink, 'Unauthorized to delete', 'danger');
+        }
 
+        if(count($machine->suppliers)!=0 ){
+          $machine->suppliers()->detach();
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Machines  $machines
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Machines $machines)
-    {
-        //
+        $row = Machines::where('id',$id)->delete();
+        return Response::json($row);
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to delete', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Machine not found', 'danger');
     }
+  }
+
+
+
+
 }

@@ -248,7 +248,7 @@
               type: "get",
               url: "/machines/destroy/"+row_id,
               success: function (data) {
-                window.location.href = '{{ url('/tools') }}';
+                window.location.href = '{{ url('/machines') }}';
 
                 var notifData = {
                   status: 'warning',
