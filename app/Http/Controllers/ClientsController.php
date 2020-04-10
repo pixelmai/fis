@@ -33,6 +33,10 @@ class ClientsController extends Controller
   {
     $user = auth()->user();
 
+      $active_status = (isset($_GET['active_status']) ? $_GET['active_status'] : 0);
+
+
+
 
     if(request()->ajax()){
 
@@ -50,7 +54,7 @@ class ClientsController extends Controller
               'clients.number',
               'clients.company_id',
               'clients.position',
-              'clients.is_deactivated',
+              'clients.is_deactivated as client_deactivated',
               'companies.name as company_name')
               ->where('clients.id', '!=' , 1)
               ->get();
@@ -65,9 +69,9 @@ class ClientsController extends Controller
               'clients.number',
               'clients.company_id',
               'clients.position',
-              'clients.is_deactivated',
+              'clients.is_deactivated as client_deactivated',
               'companies.name as company_name')
-              ->where('is_deactivated', $active_status)
+              ->where('clients.is_deactivated', $active_status)
               ->where('clients.id', '!=' , 1)
               ->get();
 
@@ -91,13 +95,13 @@ class ClientsController extends Controller
         $activate_button = '<a href="javascript:void(0);" id="activate-row" data-toggle="tooltip" data-placement="top" data-original-title="Activate" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-success"><i class="fas fa-check"></i></a></div>';
 
         if($sum == 0){
-          if($data->is_deactivated == 1){
+          if($data->client_deactivated == 1){
             $button .= $activate_button;
           }else{
             $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
           }
         }else{
-          if($data->is_deactivated == 0){
+          if($data->client_deactivated == 0){
             $button .= '<a href="javascript:void(0);" id="deactivate-row" data-toggle="tooltip" data-placement="top" data-original-title="Deactivate" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-ban"></i></a></div>';
           }else{
             $button .= $activate_button;
@@ -527,7 +531,20 @@ class ClientsController extends Controller
               ->get();
     */
 
-    $clients = Clients::with('maincompany')->get();
+        $clients = DB::table('clients')
+              ->leftJoin('companies', 'clients.company_id', '=', 'companies.id')
+              ->select(
+              'clients.id',
+              'clients.fname',
+              'clients.lname',
+              'clients.email',
+              'clients.number',
+              'clients.company_id',
+              'clients.position',
+              'clients.is_deactivated as client_deactivated',
+              'companies.name as company_name')
+              ->where('clients.id', '!=' , 1)
+              ->get();
 
     return datatables()->of($clients)
         ->make(true);
@@ -541,7 +558,7 @@ class ClientsController extends Controller
               ->get();
       */
 
-      return Clients::where("lname","LIKE","%{$request->get('q')}%")->get();
+      return Clients::where("lname","LIKE","%{$request->get('q')}%")->where('is_deactivated', 0)->get();
       
       //return response()->json($data);
   }

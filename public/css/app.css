@@ -11548,7 +11548,8 @@ form label #compExists {
 
 #app #listpage_datatable #bulk_deac,
 #app #listpage_datatable #bulk_status,
-#app #listpage_datatable #bulk_acti {
+#app #listpage_datatable #bulk_acti,
+#app #listpage_datatable #bulk_delete {
   padding: 1px 10px;
 }
 

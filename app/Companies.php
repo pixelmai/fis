@@ -11,7 +11,7 @@ class Companies extends Model
   protected $fillable = [
     'name','email', 'number', 'address', 'url',
     'description', 'partner_id', 'client_id',
-    'is_partner','updatedby_id', 
+    'is_deactivated','is_partner','updatedby_id', 
   ];
 
   public function partner(){

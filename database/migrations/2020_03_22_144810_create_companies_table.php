@@ -25,6 +25,7 @@ class CreateCompaniesTable extends Migration
       $table->text('description')->nullable();
       $table->boolean('is_partner')->default(0);
       $table->boolean('is_imported')->default(0);
+      $table->boolean('is_deactivated')->default(0);
       $table->unsignedBigInteger('updatedby_id');
       $table->timestamps();
     });

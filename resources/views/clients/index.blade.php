@@ -69,7 +69,7 @@
              },
               createdRow: function( row, data, dataIndex ) {
                 // Set the data-status attribute, and add a class
-                if(data.is_deactivated == 1){
+                if(data.client_deactivated == 1){
                   $( row ).addClass('deactivated');
                 }
               },
