@@ -204,6 +204,19 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 
+/* Services */
+  Route::get('/services', 'ServicesController@index'); Route::get('/services/create', 'ServicesController@create');
+  Route::post('/services/create', 'ServicesController@store');
+  Route::get('/services/edit/{id}', 'ServicesController@edit');
+  Route::patch('/services/edit/{id}', 'ServicesController@update');
+  Route::get('/services/view/{id}', 'ServicesController@view');
+  Route::get('/services/destroy/{id}', 'ServicesController@destroy');
+
+  Route::get('/services/deactivate/{id}', 'ServicesController@deactivate');
+  Route::get('/services/activate/{id}', 'ServicesController@activate');
+
+/* Services */
+
 
   Route::get('/clientsList', 'ClientsController@dblist');
   Route::get('/companiesList', 'CompaniesController@dblist');

@@ -35,7 +35,7 @@
                   <a href="#">Official Billing</a>
               </li>
               <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'services')) class="active" @endif>
-                  <a href="#">Services</a>
+                  <a href="/services">Services</a>
               </li>
           </ul>
       </li>
