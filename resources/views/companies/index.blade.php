@@ -185,6 +185,8 @@
         $('#listpage_datatable_filter').prepend(activeStatusHTML); //Add field html
 
         $( "#active_status" ).change(function() {
+          $('#bulk_deac').addClass('d-none');
+          $('#bulk_acti').addClass('d-none');
           var oTable = $('#listpage_datatable').dataTable(); 
           oTable.fnDraw(false);
         });

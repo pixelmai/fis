@@ -317,6 +317,7 @@
       $('#listpage_datatable_filter').prepend(activeStatusHTML); //Add field html
 
         $( "#active_status" ).change(function() {
+          $('#bulk_status').addClass('d-none');
           var oTable = $('#listpage_datatable').dataTable(); 
           oTable.fnDraw(false);
         });

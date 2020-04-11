@@ -1,5 +1,7 @@
 <?php
 
+// TODO: Delete and Deactivate swaps
+
 namespace App\Http\Controllers;
 
 use App\User;
