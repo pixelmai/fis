@@ -30,7 +30,8 @@
               <th scope="col">URL</th>
               <th scope="col">Specialty</th>
               <th scope="col" class="col_actions"/>
-                <button type="button" name="bulk_status" id="bulk_status" class="btn btn-primary btn-sm d-none">Set Status</i></button>
+                <button type="button" name="bulk_deac" id="bulk_deac" class="btn btn-danger btn-sm d-none">Deactivate All</i></button>
+                <button type="button" name="bulk_acti" id="bulk_acti" class="btn btn-success btn-sm d-none">Activate All</i></button>
               </th>
             </tr>
           </thead>
@@ -44,13 +45,11 @@
 @stop
 
 @push('modals')
-  @include('projects.modalSetStatus')
 @endpush
 
 
 @push('scripts')
   <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
-  <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 
   <script>
     $(document).ready( function () {
@@ -92,11 +91,19 @@
 
       $('#listpage_datatable tbody').on('click', '.tbl_row_checkbox', function () {
           $(this).parent().parent().toggleClass('rowselected');
+          var as = $('#active_status').children("option:selected").val();
 
           if ( document.querySelector('.rowselected') !== null ) {
-            $('#bulk_status').removeClass('d-none');
+            if(as == 0){
+              $('#bulk_deac').removeClass('d-none');
+              $('#bulk_acti').addClass('d-none');
+            }else if(as == 1){
+              $('#bulk_deac').addClass('d-none');
+              $('#bulk_acti').removeClass('d-none');
+            }
           }else{
-            $('#bulk_status').addClass('d-none');
+            $('#bulk_deac').addClass('d-none');
+            $('#bulk_acti').addClass('d-none');
           }
 
       } );
@@ -120,7 +127,8 @@
                 };
 
                 generateNotif(notifData);
-                $('#bulk_delete').addClass('d-none');
+                  $('#bulk_deac').addClass('d-none');
+                  $('#bulk_acti').addClass('d-none');
 
               },
               error: function (data) {
@@ -131,95 +139,150 @@
       });   
 
 
-      $(document).on('click', '#bulk_status', function(){
 
+      $(document).on('click', '#bulk_deac', function(){
           var id = [];
 
-          $('.tbl_row_checkbox:checked').each(function(){
-             id.push($(this).val());
-          });
-
-
-          if(id.length > 0)
+          if(confirm("Are you sure you want to deactivate these rows?"))
           {
-            $('#ajax-crud-modal').trigger("reset");
-            $('#ajax-crud-modal').modal('show');
+              $('.tbl_row_checkbox:checked').each(function(){
+                 id.push($(this).val());
+              });
+
+              if(id.length > 0)
+              {
+                $.ajax({
+                  type: "get",
+                  data:{id:id},
+                  url: "/suppliers/massdeac",
+                  success: function (data) {
+                    var notifData = [];
+                    var oTable = $('#listpage_datatable').dataTable(); 
+                    oTable.fnDraw(false);
+                   
+                    $('#listpage_datatable').DataTable().ajax.reload();
+                    notifData = {
+                      status: 'danger',
+                      message: 'Successfully deactivated '+ data +' suppliers.',
+                    };
+                   
+
+                    generateNotif(notifData);
+
+                    $('#bulk_deac').addClass('d-none');
+                    $('#bulk_acti').addClass('d-none');
+
+                  },
+                  error: function (data) {
+                    console.log('Error:', data);
+                  }
+                });
+              }
+              else
+              {
+                  alert("Please select atleast one checkbox");
+              }
           }
-          else
-          {
-              alert("Please select atleast one checkbox");
-          }
-      
       });
 
 
-
-      var validator = $("#ajaxForm").validate({
-        errorPlacement: function(error, element) {
-          // Append error within linked label
-          $( element )
-            .closest( "form" )
-              .find( "label[for='" + element.attr( "id" ) + "']" )
-                .append( error );
-        },
-        errorElement: "span",
-        rules: {
-          status: {
-            required: true
-          }
-        },
-        messages: {
-          status: " (required)",
-        },
-        submitHandler: function(form) {
-          
-          $.ajaxSetup({
-              headers: {
-                  'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-              }
-          });
-
-          //form.preventDefault();
+      $(document).on('click', '#bulk_acti', function(){
           var id = [];
 
-          $('.tbl_row_checkbox:checked').each(function(){
-             id.push($(this).val());
-          });
+          if(confirm("Are you sure you want to activate these rows?"))
+          {
+              $('.tbl_row_checkbox:checked').each(function(){
+                 id.push($(this).val());
+              });
 
-      
-          var formData = {
-            status: $('#status').children("option:selected").val(),
-            updatedby_id: jQuery('#updatedby_id').val(),
-          };
+              if(id.length > 0)
+              {
+                $.ajax({
+                  type: "get",
+                  data:{id:id},
+                  url: "/suppliers/massacti",
+                  success: function (data) {
+                    var notifData = [];
+                    var oTable = $('#listpage_datatable').dataTable(); 
+                    oTable.fnDraw(false);
+                   
+                    $('#listpage_datatable').DataTable().ajax.reload();
+                    notifData = {
+                      status: 'success',
+                      message: 'Successfully activated '+ data +' suppliers.',
+                    };
+                   
 
-          var state = jQuery('#btn-save').val();
-          var type = "POST";
+                    generateNotif(notifData);
+
+                    $('#bulk_deac').addClass('d-none');
+                    $('#bulk_acti').addClass('d-none');
+
+                  },
+                  error: function (data) {
+                    console.log('Error:', data);
+                  }
+                });
+              }
+              else
+              {
+                  alert("Please select atleast one checkbox");
+              }
+          }
+      });
+
+
+      $('body').on('click', '#deactivate-row', function () {
+        var row_id = $(this).data("id");
+
+        if (confirm('Are you sure want to deactivate row?')) {
 
           $.ajax({
-              type: type,
-              url: "/suppliers/status",
-              data: { "formData" : formData, "id": id } ,
-              dataType: 'json',
+              type: "get",
+              url: "/suppliers/deactivate/"+row_id,
               success: function (data) {
-                $('#ajax-crud-modal').modal('hide');
+                var oTable = $('#listpage_datatable').dataTable(); 
+                oTable.fnDraw(false);
+
+                var notifData = {
+                  status: 'warning',
+                  message: 'Successfully deactivated a supplier.',
+                };
+
+                generateNotif(notifData);
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+      });   
+
+      $('body').on('click', '#activate-row', function () {
+        var row_id = $(this).data("id");
+
+        if (confirm('Are you sure want to activate row?')) {
+
+          $.ajax({
+              type: "get",
+              url: "/suppliers/activate/"+row_id,
+              success: function (data) {
                 var oTable = $('#listpage_datatable').dataTable(); 
                 oTable.fnDraw(false);
 
                 var notifData = {
                   status: 'success',
-                  message: 'Successfully updated status of the selected ' + data + ' companies.',
+                  message: 'Successfully activated a supplier.',
                 };
 
                 generateNotif(notifData);
-                $('#bulk_status').addClass('d-none');
               },
               error: function (data) {
-                console.log('Error:', data);
+                  console.log('Error:', data);
               }
           });
-
-        },
-      });
+        } 
+      });  
 
 
       /* Append Status Select Box */
@@ -233,6 +296,12 @@
         });
       /* Append Status Select Box */
       
+
+
+
+
+
+
 
     }); //end document ready
 

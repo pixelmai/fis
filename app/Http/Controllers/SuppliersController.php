@@ -46,7 +46,31 @@ class SuppliersController extends Controller
         ->addColumn('action', function($data){
       $button = '<div class="hover_buttons"><a href="/suppliers/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
       $button .= '<a href="/suppliers/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
-      $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
+
+
+      $dtools = (count($data->tools->pluck('id')->toArray()) != 0 ? 1 : 0);
+      $dmachines = (count($data->machines->pluck('id')->toArray()) != 0 ? 1 : 0);
+
+      $sum = $dtools + $dmachines;
+
+      $activate_button = '<a href="javascript:void(0);" id="activate-row" data-toggle="tooltip" data-placement="top" data-original-title="Activate" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-success"><i class="fas fa-check"></i></a></div>';
+
+
+      if($sum == 0){
+        if($data->is_deactivated == 1){
+            $button .= $activate_button;
+        }else{
+            $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
+        }
+      }else{
+        if($data->is_deactivated == 0){
+          $button .= '<a href="javascript:void(0);" id="deactivate-row" data-toggle="tooltip" data-placement="top" data-original-title="Deactivate" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-ban"></i></a></div>';
+        }else{
+          $button .= $activate_button;
+        }      
+      }
+
+
       return $button;
       })
       ->addColumn('checkbox', '<input type="checkbox" name="tbl_row_checkbox[]" class="tbl_row_checkbox" value="{{$id}}" />')
@@ -132,7 +156,14 @@ class SuppliersController extends Controller
         $supplies = array_map('trim', explode(';', $supplier->supplies));
       }
 
-      return view('suppliers.view', ['user' => $user, 'supplier' => $supplier, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'supplies' => $supplies]);
+
+      $dtools = (count($supplier->tools->pluck('id')->toArray()) != 0 ? 1 : 0);
+      $dmachines = (count($supplier->machines->pluck('id')->toArray()) != 0 ? 1 : 0);
+
+      $sum = $dtools + $dmachines;
+
+
+      return view('suppliers.view', ['user' => $user, 'supplier' => $supplier, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'supplies' => $supplies, 'sum' => $sum]);
     }else{
       return notifyRedirect($this->homeLink, 'Supplier not found', 'danger');
     }
@@ -152,13 +183,7 @@ class SuppliersController extends Controller
 
   }
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  \Illuminate\Http\Request  $request
-   * @param  \App\Suppliers  $suppliers
-   * @return \Illuminate\Http\Response
-   */
+
   public function update($id)
   {
 
@@ -219,7 +244,96 @@ class SuppliersController extends Controller
 
   public function autocomplete(Request $request)
   {
-    return Suppliers::where("name","LIKE","%{$request->get('q')}%")->get();
+    return Suppliers::where("name","LIKE","%{$request->get('q')}%")->where('is_deactivated', 0)->get();
   }
+
+
+
+  public function deactivate($id)
+  {
+    $supplier = Suppliers::find($id);
+    if($supplier){
+
+      if(request()->ajax()){
+
+        $supplier->is_deactivated = 1;
+        $supplier->update();
+
+        return Response::json('1');
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to deactivate', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Supplier not found', 'danger');
+    }
+  }
+
+  public function activate($id)
+  {
+    $supplier = Suppliers::find($id);
+    if($supplier){
+
+      if(request()->ajax()){
+
+        $supplier->is_deactivated = 0;
+        $supplier->update();
+
+        return Response::json('1');
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to activate', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Supplier not found', 'danger');
+    }
+  }
+
+
+  public function massdeac(Request $request)
+  {
+    if(request()->ajax()){
+      
+      $row_id_array = $request->input('id');
+
+      $count = 0;
+
+      foreach ($row_id_array as $supplier_row) {
+        $supplier = Suppliers::find($supplier_row);
+        $supplier->is_deactivated = 1;
+        $supplier->update();
+        $count++;
+      }
+
+      return Response::json($count);
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Action not permitted', 'danger');
+    }
+  }
+
+  public function massacti(Request $request)
+  {
+    if(request()->ajax()){
+      
+      $row_id_array = $request->input('id');
+
+      $count = 0;
+
+      foreach ($row_id_array as $supplier_row) {
+        $supplier = Suppliers::find($supplier_row);
+        $supplier->is_deactivated = 0;
+        $supplier->update();
+        $count++;
+      }
+
+
+      return Response::json($count);
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Action not permitted', 'danger');
+    }
+  }
+
+
+
 
 }
