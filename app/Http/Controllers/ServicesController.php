@@ -33,6 +33,12 @@ class ServicesController extends Controller
   
     $user = auth()->user();
 
+    $rateschecker = Services::where('servicesrates_id', 0)->get();
+
+    if(count($rateschecker) > 0){
+      Services::where('servicesrates_id', 0)->delete();
+    }
+
 
     if(request()->ajax()){
 
@@ -86,9 +92,61 @@ class ServicesController extends Controller
     }
         
     return view('services.index', ['user' => $user, 'page_settings'=> $this->page_settings]);
-
-
   }
+
+
+  public function create()
+  {
+    $user = auth()->user();
+    $servcats_id = Servcats::where('is_active', '1')->orderBy('id', 'ASC')->get();
+
+    return view('services.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'servcats_id'=>$servcats_id]);
+  }
+
+
+  public function store(Request $request)
+  {
+
+
+    $user = auth()->user();
+
+    $data = request()->validate([
+      'name' => ['required', 'string', 'max:255', 'unique:services'],
+      'servcats_id' => ['required'],
+      'unit' => ['required'],
+      'def_price' => ['required'],
+      'up_price' => ['required'],
+    ]);
+
+
+    $query = Services::create([
+      'name' => $data['name'],
+      'servcats_id' => $data['servcats_id'],
+      'unit' => $data['unit'],
+      'is_deactivated' => 0,
+      'servicesrates_id' => 0,
+      'updatedby_id' => $user->id,
+    ]);
+
+
+
+    if($query){
+      $query_prices = Servicesrates::create([
+        'services_id' => $query->id,
+        'def_price' => $data['def_price'],
+        'up_price' => $data['up_price'],
+        'updatedby_id' => $user->id,
+      ]);
+    }
+
+    if($query_prices){
+      $query->servicesrates_id = $query_prices->id;
+      $query->update();
+
+      return notifyRedirect($this->homeLink, 'Added a Service successfully', 'success');
+    }
+  }
+
 
 
 } //end

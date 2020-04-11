@@ -16,8 +16,8 @@ class CreateServicesratesTable extends Migration
         Schema::create('servicesrates', function (Blueprint $table) {
             $table->id();
             $table->tinyInteger('services_id');
-            $table->decimal('def_price',10, 6);
-            $table->decimal('up_price',10, 6);
+            $table->decimal('def_price',15, 6);
+            $table->decimal('up_price',15, 6);
             $table->unsignedBigInteger('updatedby_id');
             $table->timestamps();
         });
