@@ -1,5 +1,7 @@
 <?php
 
+// TODO: Must implement Disable/Delete swaps when invoices are ready
+
 namespace App\Http\Controllers;
 
 use App\User;
@@ -30,7 +32,13 @@ class ProjectsController extends Controller
 
     if(request()->ajax()){
 
-      $dbtable = Projects::with('client:id,fname,lname')->where('is_categorized', 1)->orderBy('updated_at', 'DESC')->get();
+      $active_status = (isset($_GET['active_status']) ? $_GET['active_status'] : 0);
+
+      if($active_status == 2){
+        $dbtable = Projects::with('client:id,fname,lname')->where('is_categorized', 1)->orderBy('updated_at', 'DESC')->get();
+      }else{
+        $dbtable = Projects::with('client:id,fname,lname')->where('is_deactivated', $active_status)->where('is_categorized', 1)->orderBy('updated_at', 'DESC')->get();
+      }
 
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){

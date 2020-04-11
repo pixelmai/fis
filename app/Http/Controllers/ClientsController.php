@@ -33,8 +33,6 @@ class ClientsController extends Controller
   {
     $user = auth()->user();
 
-      $active_status = (isset($_GET['active_status']) ? $_GET['active_status'] : 0);
-
 
 
 

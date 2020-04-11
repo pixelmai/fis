@@ -66,12 +66,15 @@
              ajax: {
               url: "/suppliers",
               type: 'GET',
+              data: function (d) {
+                d.active_status = $('#active_status').children("option:selected").val();
+              }
              },
               createdRow: function( row, data, dataIndex ) {
-                  // Set the data-status attribute, and add a class
-                  if(data.is_deactivated == 1){
-                    $( row ).addClass('deactivated');
-                  }
+                // Set the data-status attribute, and add a class
+                if(data.is_deactivated == 1){
+                  $( row ).addClass('deactivated');
+                }
               },
              columns: [
                       { data: 'id', name: 'id', 'visible': false},
@@ -219,50 +222,17 @@
       });
 
 
-/*
+      /* Append Status Select Box */
+        var activeStatusHTML = '<div id="active_status_container"><label for="status" class="col-form-label">Showing</label><select id="active_status" name="active_status"><option value="0">Active</option><option value="1">Inactive</option><option value="2">All</option></select><span class="divider d-none d-sm-inline">|</span></div>'; 
 
-      $(document).on('click', '#btn-save-status', function(){
+        $('#listpage_datatable_filter').prepend(activeStatusHTML); //Add field html
 
-          var id = [];
-
-          $('.tbl_row_checkbox:checked').each(function(){
-             id.push($(this).val());
-          });
-
-          if(id.length > 0)
-          {
-            $.ajax({
-              type: "get",
-              data:{id:id},
-              url: "/companies/status",
-              success: function (data) {
-                $('#listpage_datatable').DataTable().ajax.reload();
-
-                var notifData = {
-                  status: 'danger',
-                  message: 'Successfully deleted '+ data +' selected companies.',
-                };
-                
-                generateNotif(notifData);
-
-                $('#bulk_status').addClass('d-none');
-
-              },
-              error: function (data) {
-                console.log('Error:', data);
-              }
-            });
-            
-          }
-          else
-          {
-              alert("Please select atleast one checkbox");
-          }
+        $( "#active_status" ).change(function() {
+          var oTable = $('#listpage_datatable').dataTable(); 
+          oTable.fnDraw(false);
+        });
+      /* Append Status Select Box */
       
-      });
-*/
-
-    
 
     }); //end document ready
 

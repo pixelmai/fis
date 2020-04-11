@@ -31,8 +31,14 @@ class SuppliersController extends Controller
 
     if(request()->ajax()){
 
-      //$dbtable = Suppliers::where('is_deactivated', 0)->orderBy('updated_at', 'DESC')->select();
-      $dbtable = Suppliers::orderBy('is_deactivated', 'ASC')->orderBy('updated_at', 'DESC')->get();
+      $active_status = (isset($_GET['active_status']) ? $_GET['active_status'] : 0);
+
+
+      if($active_status == 2){
+        $dbtable = Suppliers::orderBy('is_deactivated', 'ASC')->orderBy('updated_at', 'DESC')->get();
+      }else{
+        $dbtable = Suppliers::orderBy('is_deactivated', 'ASC')->where('is_deactivated', $active_status)->orderBy('updated_at', 'DESC')->get();
+      }
 
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){
