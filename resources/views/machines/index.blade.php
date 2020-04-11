@@ -312,11 +312,12 @@
 
       }
 
-      var activeStatusHTML = '<div id="active_status_container"><label for="status" class="col-form-label">Showing</label><select id="active_status" name="active_status"><option value="0">Active</option><option value="1">Inactive</option><option value="2">All</option></select></div>'; 
+      var activeStatusHTML = '<div id="active_status_container"><label for="status" class="col-form-label">Showing</label><select id="active_status" name="active_status"><option value="0">Active</option><option value="1">Inactive</option><option value="2">All</option></select><span class="divider d-none d-sm-inline">|</span></div>';  
 
       $('#listpage_datatable_filter').prepend(activeStatusHTML); //Add field html
 
         $( "#active_status" ).change(function() {
+          $('#bulk_status').addClass('d-none');
           var oTable = $('#listpage_datatable').dataTable(); 
           oTable.fnDraw(false);
         });

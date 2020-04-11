@@ -1,5 +1,7 @@
 <?php
 
+// TODO: Must implement Disable/Delete swaps when invoices are ready
+
 namespace App\Http\Controllers;
 
 use App\User;
@@ -40,8 +42,13 @@ class CompaniesController extends Controller
 
     if(request()->ajax()){
 
-      //'id','name','email','number','partner_id','client_id'
-      $dbtable = Companies::with('partner:id,name', 'contactperson:id,fname,lname')->where('id', '!=' , 1)->select();
+      $active_status = (isset($_GET['active_status']) ? $_GET['active_status'] : 0);
+
+      if($active_status == 2){
+        $dbtable = Companies::with('partner:id,name', 'contactperson:id,fname,lname')->where('id', '!=' , 1)->select();
+      }else{
+        $dbtable = Companies::with('partner:id,name', 'contactperson:id,fname,lname')->where('is_deactivated', $active_status)->where('id', '!=' , 1)->select();
+      }
 
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){
@@ -413,7 +420,7 @@ class CompaniesController extends Controller
               ->get();
       */
 
-      return Companies::where("name","LIKE","%{$request->get('q')}%")->get();
+      return Companies::where("name","LIKE","%{$request->get('q')}%")->where('is_deactivated', 0)->get();
 
       //return response()->json($data);
 

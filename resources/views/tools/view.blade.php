@@ -278,7 +278,6 @@
                 };
 
                 generateNotif(notifData);
-                //$('#bulk_delete').addClass('d-none');
 
               },
               error: function (data) {
@@ -305,7 +304,6 @@
                 };
 
                 generateNotif(notifData);
-                //$('#bulk_delete').addClass('d-none');
 
               },
               error: function (data) {

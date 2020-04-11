@@ -716,7 +716,7 @@
     width: 100% !important;
     border-bottom: 1px solid #dee2e6;
 
-    #bulk_delete, #bulk_status{
+    #bulk_deac, #bulk_status, #bulk_acti, #bulk_delete{
       padding: 1px 10px;
     }
 
@@ -808,9 +808,8 @@
     }
 
     .dataTables_filter{
-      padding: 10px 0;
+      padding: 13px 0 0;
       label{
-        
         margin-left: 10px;
       }
 
@@ -822,6 +821,11 @@
 
       #active_status_container{
         display: inline-block;
+
+        .divider{
+          padding-left: 10px;
+          color: #ccc;
+        }
 
         .dk-select{
           width: 80px;

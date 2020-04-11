@@ -116,8 +116,12 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::patch('/clients/edit/{id}', 'ClientsController@update');
   Route::get('/clients/view/{id}', 'ClientsController@view');
   Route::get('/clients/destroy/{id}', 'ClientsController@destroy');
-  Route::get('/clients/massrem', 'ClientsController@massrem');
   Route::get('/clients/autocomplete', 'ClientsController@autocomplete')->name('clientsauto');
+
+  Route::get('/clients/deactivate/{id}', 'ClientsController@deactivate');
+  Route::get('/clients/activate/{id}', 'ClientsController@activate');
+  Route::get('/clients/massdeac', 'ClientsController@massdeac');
+  Route::get('/clients/massacti', 'ClientsController@massacti');
 
   Route::post('/clients/modalStore', 'ClientsController@modalStore');
 /* Clients */
@@ -156,7 +160,13 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::patch('/suppliers/edit/{id}', 'SuppliersController@update');
   Route::get('/suppliers/view/{id}', 'SuppliersController@view');
   Route::get('/suppliers/destroy/{id}', 'SuppliersController@destroy');
- Route::get('/suppliers/autocomplete', 'SuppliersController@autocomplete')->name('suppliersauto');
+  Route::get('/suppliers/autocomplete', 'SuppliersController@autocomplete')->name('suppliersauto');
+
+  Route::get('/suppliers/deactivate/{id}', 'SuppliersController@deactivate');
+  Route::get('/suppliers/activate/{id}', 'SuppliersController@activate');
+  Route::get('/suppliers/massdeac', 'SuppliersController@massdeac');
+  Route::get('/suppliers/massacti', 'SuppliersController@massacti');
+  
 /* Suppliers */
 
 /* Tools */
