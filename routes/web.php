@@ -142,7 +142,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 /* Projects */
-  Route::get('/projects', 'ProjectsController@index'); Route::get('/projects/create', 'ProjectsController@create');
+  Route::get('/projects', 'ProjectsController@index'); 
+  Route::get('/projects/create', 'ProjectsController@create');
   Route::post('/projects/create', 'ProjectsController@store');
   Route::post('/projects/modalStore', 'ProjectsController@modalStore');
   Route::get('/projects/edit/{id}', 'ProjectsController@edit');
@@ -154,7 +155,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 /* Suppliers */
-  Route::get('/suppliers', 'SuppliersController@index'); Route::get('/suppliers/create', 'SuppliersController@create');
+  Route::get('/suppliers', 'SuppliersController@index'); 
+  Route::get('/suppliers/create', 'SuppliersController@create');
   Route::post('/suppliers/create', 'SuppliersController@store');
   Route::get('/suppliers/edit/{id}', 'SuppliersController@edit');
   Route::patch('/suppliers/edit/{id}', 'SuppliersController@update');
@@ -170,7 +172,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 /* Suppliers */
 
 /* Tools */
-  Route::get('/tools', 'ToolsController@index'); Route::get('/tools/create', 'ToolsController@create');
+  Route::get('/tools', 'ToolsController@index'); 
+  Route::get('/tools/create', 'ToolsController@create');
   Route::post('/tools/create', 'ToolsController@store');
   Route::get('/tools/edit/{id}', 'ToolsController@edit');
   Route::patch('/tools/edit/{id}', 'ToolsController@update');
@@ -187,7 +190,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 /* Machines */
-  Route::get('/machines', 'MachinesController@index'); Route::get('/machines/create', 'MachinesController@create');
+  Route::get('/machines', 'MachinesController@index');
+  Route::get('/machines/create', 'MachinesController@create');
   Route::post('/machines/create', 'MachinesController@store');
   Route::get('/machines/edit/{id}', 'MachinesController@edit');
   Route::patch('/machines/edit/{id}', 'MachinesController@update');
@@ -206,7 +210,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 /* Services */
-  Route::get('/services', 'ServicesController@index'); Route::get('/services/create', 'ServicesController@create');
+  Route::get('/services', 'ServicesController@index'); 
+  Route::get('/services/create', 'ServicesController@create');
   Route::post('/services/create', 'ServicesController@store');
   Route::get('/services/edit/{id}', 'ServicesController@edit');
   Route::patch('/services/edit/{id}', 'ServicesController@update');
@@ -216,8 +221,22 @@ Route::get('/home', 'HomeController@index')->name('home');
 
   Route::get('/services/deactivate/{id}', 'ServicesController@deactivate');
   Route::get('/services/activate/{id}', 'ServicesController@activate');
-
 /* Services */
+
+
+/* Invoices */
+  Route::get('/invoices', 'InvoicesController@index'); 
+  Route::get('/invoices/create', 'InvoicesController@create');
+  Route::post('/invoices/create', 'InvoicesController@store');
+  Route::get('/invoices/edit/{id}', 'InvoicesController@edit');
+  Route::patch('/invoices/edit/{id}', 'InvoicesController@update');
+  Route::get('/invoices/view/{id}', 'InvoicesController@view');
+  Route::get('/invoices/destroy/{id}', 'InvoicesController@destroy');
+
+
+  Route::get('/invoices/deactivate/{id}', 'InvoicesController@deactivate');
+  Route::get('/invoices/activate/{id}', 'InvoicesController@activate');
+/* Invoices */
 
 
   Route::get('/clientsList', 'ClientsController@dblist');

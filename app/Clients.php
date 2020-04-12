@@ -51,7 +51,9 @@ class Clients extends Model
     return $this->hasMany('App\Projects','client_id','id');
   }
 
-
+  public function invoices(){
+    return $this->hasMany('App\Invoices','clients_id','id');
+  }
 
 }
 
