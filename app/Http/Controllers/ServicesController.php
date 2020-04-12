@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Machines;
 use App\Servcats;
 use App\Services;
 use App\Servicesrates;
@@ -85,7 +86,26 @@ class ServicesController extends Controller
         $p = number_format(round($data->current->up_price,2), 2);
         return $p;
       })
-      
+      ->addColumn('machines', function($data){
+        if(count($data->machines) != 0){
+          $m = '';
+          $x = 0;
+          foreach($data->machines as $machine){
+            $m .= $machine->name;
+            $x++;
+            if($x < count($data->machines)){
+              $m .= ', ';
+            }
+
+          }
+
+
+          return $m;
+        }else{
+          return '-';
+        }
+      })
+
       ->rawColumns(['checkbox','action'])
       ->make(true);
       
@@ -116,6 +136,7 @@ class ServicesController extends Controller
       'unit' => ['required'],
       'def_price' => ['required'],
       'up_price' => ['required'],
+      'machine_id' => ['nullable'],
     ]);
 
 
@@ -143,9 +164,26 @@ class ServicesController extends Controller
       $query->servicesrates_id = $query_prices->id;
       $query->update();
 
+      $mid_array = array_unique($data['machine_id']);
+
+      if(count($mid_array)>=1){
+        foreach ($mid_array as $mid){
+          $machine = Machines::find([$mid]); 
+          if($machine){
+            $query->machines()->attach($machine);
+          }
+        }
+      }
+
       return notifyRedirect($this->homeLink, 'Added a Service successfully', 'success');
     }
+
+
   }
+
+
+
+
 
 
 

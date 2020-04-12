@@ -24,4 +24,11 @@ class Services extends Model
 	public function current(){
 		return $this->hasOne('App\Servicesrates','id','servicesrates_id');
 	}
+
+	public function machines()
+	{
+	return $this->belongsToMany('App\Machines');
+	}
+
+
 }

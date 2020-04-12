@@ -415,8 +415,10 @@ class MachinesController extends Controller
     }
   }
 
-
-
+  public function autocomplete(Request $request)
+  {
+    return Machines::where("name","LIKE","%{$request->get('q')}%")->where('is_deactivated', 0)->get();
+  }
 
 
 }

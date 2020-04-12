@@ -199,6 +199,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
   Route::get('/machines/deactivate/{id}', 'MachinesController@deactivate');
   Route::get('/machines/activate/{id}', 'MachinesController@activate');
+  Route::get('/machines/autocomplete', 'MachinesController@autocomplete')->name('machinesauto');
 
 /* Machines */
 
@@ -211,6 +212,7 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::patch('/services/edit/{id}', 'ServicesController@update');
   Route::get('/services/view/{id}', 'ServicesController@view');
   Route::get('/services/destroy/{id}', 'ServicesController@destroy');
+
 
   Route::get('/services/deactivate/{id}', 'ServicesController@deactivate');
   Route::get('/services/activate/{id}', 'ServicesController@activate');

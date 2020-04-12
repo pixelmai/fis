@@ -21,4 +21,10 @@ class Machines extends Model
   public function logs(){
     return $this->hasMany('App\Logs','machine_id','id');
   }
+
+  public function services()
+  {
+    return $this->belongsToMany('App\Services');
+  }
+
 }
