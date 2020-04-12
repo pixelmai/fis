@@ -177,7 +177,6 @@ class ToolsController extends Controller
     }else{
       return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
     }
-    
   }
 
 

@@ -11,4 +11,9 @@ class Servcats extends Model
 	protected $fillable = [
 	'name', 'description', 'updatedby_id', 
 	];
+
+	public function rates(){
+		return $this->hasMany('App\Services');
+	}
+
 }

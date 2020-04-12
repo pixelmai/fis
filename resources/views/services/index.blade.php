@@ -8,10 +8,10 @@
   <div class="row pb-3">
     <div class="col-lg-12 d-flex justify-content-between">
       <div>
-        <h1 class="pt-1 pb-0">Suppliers</h1>
+        <h1 class="pt-1 pb-0">Services</h1>
       </div>
       <div>
-        <a href="/suppliers/create" class="btn btn-lg btn-success">Add Supplier</a>
+        <a href="/services/create" class="btn btn-lg btn-success">Add Services</a>
       </div>
     </div>
   </div>
@@ -24,11 +24,11 @@
               <th scope="col">&nbsp;</th>
               <th scope="col" class="col_checkbox">&nbsp;</th>
               <th scope="col">Name</th>
-              <th scope="col">Contact Person</th>
-              <th scope="col">Email</th>
-              <th scope="col">Number</th>
-              <th scope="col">URL</th>
-              <th scope="col">Specialty</th>
+              <th scope="col">Type</th>
+              <th scope="col">Unit</th>
+              <th scope="col"><div class="price">Price</div></th>
+              <th scope="col"><div class="price">UP Price</div></th>
+              <th scope="col">Machines</th>
               <th scope="col" class="col_actions"/>
                 <button type="button" name="bulk_deac" id="bulk_deac" class="btn btn-danger btn-sm d-none">Deactivate All</i></button>
                 <button type="button" name="bulk_acti" id="bulk_acti" class="btn btn-success btn-sm d-none">Activate All</i></button>
@@ -63,7 +63,7 @@
              processing: true,
              serverSide: true,
              ajax: {
-              url: "/suppliers",
+              url: "/services",
               type: 'GET',
               data: function (d) {
                 d.active_status = $('#active_status').children("option:selected").val();
@@ -79,14 +79,14 @@
                       { data: 'id', name: 'id', 'visible': false},
                       { data: 'checkbox', orderable:false, searchable:false},
                       { data: 'name', name: 'name' },
-                      { data: 'contact_person', name: 'contact_person' },
-                      { data: 'email', name: 'email', orderable: false },
-                      { data: 'number', name: 'number', orderable: false, searchable:false },
-                      { data: 'url', name: 'jobs', orderable: false, searchable:false },
-                      { data: 'specialty', name: 'specialty', orderable: false},
+                      { data: 'category.name', name: 'category.name' },
+                      { data: 'unit', name: 'unit' },
+                      { data: 'dprice', name: 'dprice', orderable: false, searchable: false },
+                      { data: 'uprice', name: 'uprice', orderable: false, searchable:false },
+                      { data: 'machines', name: 'machines', orderable: false, searchable:false },
                       {data: 'action', name: 'action', orderable: false,  searchable:false},
                    ],
-            order: [[0, 'desc']]
+            order: [[2, 'asc']]
       });
 
       $('#listpage_datatable tbody').on('click', '.tbl_row_checkbox', function () {
@@ -116,14 +116,14 @@
 
           $.ajax({
               type: "get",
-              url: "/suppliers/destroy/"+row_id,
+              url: "/services/destroy/"+row_id,
               success: function (data) {
                 var oTable = $('#listpage_datatable').dataTable(); 
                 oTable.fnDraw(false);
 
                 var notifData = {
                   status: 'warning',
-                  message: 'Successfully deleted a supplier.',
+                  message: 'Successfully deleted a service.',
                 };
 
                 generateNotif(notifData);

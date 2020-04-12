@@ -47,3 +47,11 @@ function datetoDpicker($d) {
 function dateTimeFormat($d) {
   return date('M d, Y h:i A', strtotime($d));
 }
+
+function priceFormat($p){
+  return number_format(round($p, 2), 2);
+}
+
+function priceFormatSaving($p){
+  return number_format($p, 6);
+}
