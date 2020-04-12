@@ -81,10 +81,10 @@ class ServicesController extends Controller
       ->addColumn('checkbox', '<input type="checkbox" name="tbl_row_checkbox[]" class="tbl_row_checkbox" value="{{$id}}" />')
       ->addColumn('dprice', function($data){
 
-        return '<div class="price">'. priceFormat($data->current->def_price) .'</div>';
+        return '<div class="price">'. priceFormatFancy($data->current->def_price) .'</div>';
       })
       ->addColumn('uprice', function($data){
-        return '<div class="price">'. priceFormat($data->current->up_price) .'</div>';
+        return '<div class="price">'. priceFormatFancy($data->current->up_price) .'</div>';
       })
       ->addColumn('machines', function($data){
         if(count($data->machines) != 0){
@@ -133,8 +133,8 @@ class ServicesController extends Controller
       'name' => ['required', 'string', 'unique:services'],
       'servcats_id' => ['required'],
       'unit' => ['required'],
-      'def_price' => ['required'],
-      'up_price' => ['required'],
+      'def_price' => ['required','numeric'],
+      'up_price' => ['required', 'numeric'],
       'machine_id' => ['nullable'],
       'default' => ['nullable']
     ]);
@@ -237,8 +237,8 @@ class ServicesController extends Controller
       'name' => ['required'],
       'servcats_id' => ['required'],
       'unit' => ['required'],
-      'def_price' => ['required'],
-      'up_price' => ['required'],
+      'def_price' => ['required', 'numeric'],
+      'up_price' => ['required', 'numeric'],
       'machine_id' => ['nullable'],
       'default' => ['required'],
     ]);

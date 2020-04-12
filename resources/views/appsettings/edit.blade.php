@@ -94,7 +94,6 @@
                   @enderror
               </div>
 
-
             </div>
 
 
@@ -116,6 +115,44 @@
               </div>
             </div>
 
+
+            <div class="form-group row d-flex">
+              <div class="col-lg-6">
+                <label for="dpwd" class="col-form-label">PWD Discount % <span class="required">*</span></label>
+
+              
+                  <input id="dpwd" 
+                    type="text" 
+                    class="form-control @error('dpwd') is-invalid @enderror" 
+                    name="dpwd" 
+                    value="{{ old('dpwd') ?? $appsettings->dpwd }}"  
+                    autocomplete="dpwd" required autofocus>
+
+                  @error('dpwd')
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $message }}</strong>
+                      </span>
+                  @enderror
+              </div>
+
+              <div class="col-lg-6">
+                <label for="dsc" class="col-form-label">SC Discount % <span class="required">*</span></label>
+              
+                  <input id="dsc" 
+                    type="text" 
+                    class="form-control @error('dsc') is-invalid @enderror" 
+                    name="dsc" 
+                    value="{{ old('dsc') ?? $appsettings->dsc }}" 
+                    autocomplete="dsc" required autofocus>
+
+                  @error('dsc')
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $message }}</strong>
+                      </span>
+                  @enderror
+              </div>
+
+            </div>
 
 
 

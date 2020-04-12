@@ -49,9 +49,13 @@ function dateTimeFormat($d) {
 }
 
 function priceFormat($p){
+  return round($p, 2);
+}
+
+function priceFormatFancy($p){
   return number_format(round($p, 2), 2);
 }
 
 function priceFormatSaving($p){
-  return number_format($p, 6);
+  return round($p, 4);
 }

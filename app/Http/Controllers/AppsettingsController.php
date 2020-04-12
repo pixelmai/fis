@@ -48,6 +48,8 @@ class AppsettingsController extends Controller
         'email' => 'email',
         'number' => ['required', new PhoneNumber],
         'address' => 'required',
+        'dsc' => ['required','numeric'],
+        'dpwd' => ['required','numeric'],
       ]);
 
       $appsettings->name = $data['name'];
@@ -55,6 +57,8 @@ class AppsettingsController extends Controller
       $appsettings->email = $data['email'];
       $appsettings->number = $data['number'];
       $appsettings->address = $data['address'];
+      $appsettings->dpwd = $data['dpwd'];
+      $appsettings->dsc = $data['dsc'];
       $appsettings->user_id = $user->id;
 
       $query = $appsettings->update();

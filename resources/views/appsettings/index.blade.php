@@ -45,27 +45,28 @@
                     {{ $appsettings->address }}
                   </div>
 
-
+       
                   <div class="info-item">
-                    <strong>Last Updated by</strong>
-                    {{ $settings_updater->fname }}
-                    {{ $settings_updater->lname }}
-                    on
-                    {{ dateOnly($settings_updater->updated_at) }}
+                    <strong>Discounts</strong>
+                    
+                    Senior Citizens (SC): {{ $appsettings->dsc }}%<br >
+                    Persons with Disabilities (PWD): {{ $appsettings->dpwd }}%<br >
                   </div>
+
+
+
+                  @if($user->superadmin)
+                    <div class="row py-2">
+                      <div class="col-12">
+                        <a href="/appsettings/edit" class="btn btn-outline-primary btn-lg">
+                          Edit Information
+                        </a>
+                      </div>
+                    </div>
+                  @endif
 
                 </div>
 
-
-                @if($user->superadmin)
-                  <div class="row py-2">
-                    <div class="col-12">
-                      <a href="/appsettings/edit" class="btn btn-outline-primary btn-lg">
-                        Edit Information
-                      </a>
-                    </div>
-                  </div>
-                @endif
 
               </div>
 
@@ -74,11 +75,22 @@
               </div>
             </div>
 
-            
+            <div class="info-block pt-1">
+              <hr class="dotted" />
+              <div class="updatedby text-right">
+                Last updated by
+                <b>
+                  <a href="/team/profile/{{ $settings_updater->id }}">
+                    {{ $settings_updater->fname }}
+                    {{ $settings_updater->lname }}
+                  </a>
+                </b>
+                on
+               {{ dateOnly($settings_updater->updated_at) }}
+              </div>
+            </div>
 
 
-
-          </form>
 
         </div>
 

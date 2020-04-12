@@ -20,6 +20,8 @@ class CreateAppsettingsTable extends Migration
             $table->string('number');
             $table->string('email');
             $table->string('manager');
+            $table->string('dpwd');
+            $table->string('dsc');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });

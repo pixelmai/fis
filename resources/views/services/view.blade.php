@@ -71,14 +71,14 @@
                   @if ($services->current->def_price)
                     <div class="info-item">
                       <strong>Default Price</strong>
-                      {{ number_format(round($services->current->def_price,2), 2) }}
+                      {{ priceFormatFancy($services->current->def_price) }}
                     </div>
                   @endif
 
                   @if ($services->current->up_price)
                   <div class="info-item">
                     <strong>UP Price</strong>
-                    {{ number_format(round($services->current->up_price,2), 2) }}
+                    {{ priceFormatFancy($services->current->up_price) }}
                   </div>
                   @endif
 

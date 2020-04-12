@@ -44,6 +44,8 @@ class BootappController extends Controller
       'number' => '(032) 232 8187',
       'email' => 'fablab.upcebu@up.edu.ph',
       'manager' => 'Fidel Ricafranca',
+      'dpwd' => 20,
+      'dsc' => 20,
       'user_id' => 1,
       ]);
 
