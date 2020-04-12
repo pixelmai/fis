@@ -160,7 +160,7 @@
 
                 var notifData = {
                   status: 'warning',
-                  message: 'Successfully deleted a tool.',
+                  message: 'Successfully deleted a service.',
                 };
 
                 generateNotif(notifData);

@@ -26,8 +26,8 @@
               <th scope="col">Name</th>
               <th scope="col">Type</th>
               <th scope="col">Unit</th>
-              <th scope="col">Price</th>
-              <th scope="col">UP Price</th>
+              <th scope="col"><div class="price">Price</div></th>
+              <th scope="col"><div class="price">UP Price</div></th>
               <th scope="col">Machines</th>
               <th scope="col" class="col_actions"/>
                 <button type="button" name="bulk_deac" id="bulk_deac" class="btn btn-danger btn-sm d-none">Deactivate All</i></button>
@@ -81,12 +81,12 @@
                       { data: 'name', name: 'name' },
                       { data: 'category.name', name: 'category.name' },
                       { data: 'unit', name: 'unit' },
-                      { data: 'dprice', name: 'dprice', searchable: false },
-                      { data: 'uprice', name: 'uprice', searchable:false },
-                      { data: 'machines', name: 'machines', searchable:false },
+                      { data: 'dprice', name: 'dprice', orderable: false, searchable: false },
+                      { data: 'uprice', name: 'uprice', orderable: false, searchable:false },
+                      { data: 'machines', name: 'machines', orderable: false, searchable:false },
                       {data: 'action', name: 'action', orderable: false,  searchable:false},
                    ],
-            order: [[0, 'desc']]
+            order: [[2, 'asc']]
       });
 
       $('#listpage_datatable tbody').on('click', '.tbl_row_checkbox', function () {
@@ -116,14 +116,14 @@
 
           $.ajax({
               type: "get",
-              url: "/suppliers/destroy/"+row_id,
+              url: "/services/destroy/"+row_id,
               success: function (data) {
                 var oTable = $('#listpage_datatable').dataTable(); 
                 oTable.fnDraw(false);
 
                 var notifData = {
                   status: 'warning',
-                  message: 'Successfully deleted a supplier.',
+                  message: 'Successfully deleted a service.',
                 };
 
                 generateNotif(notifData);

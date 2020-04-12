@@ -47,9 +47,9 @@ class ServicesController extends Controller
 
 
       if($active_status == 2){
-        $dbtable = Services::with('current','category')->orderBy('name', 'ASC')->get();
+        $dbtable = Services::with('current','category')->get();
       }else{
-        $dbtable = Services::with('current','category')->orderBy('name', 'ASC')->where('is_deactivated', $active_status)->get();
+        $dbtable = Services::with('current','category')->where('is_deactivated', $active_status)->get();
       }
 
       return datatables()->of($dbtable)
@@ -80,11 +80,11 @@ class ServicesController extends Controller
       ->addColumn('checkbox', '<input type="checkbox" name="tbl_row_checkbox[]" class="tbl_row_checkbox" value="{{$id}}" />')
       ->addColumn('dprice', function($data){
         $p = number_format(round($data->current->def_price,2), 2);
-        return $p;
+        return '<div class="price">'.$p.'</div>';
       })
       ->addColumn('uprice', function($data){
         $p = number_format(round($data->current->up_price,2), 2);
-        return $p;
+        return '<div class="price">'.$p.'</div>';
       })
       ->addColumn('machines', function($data){
         if(count($data->machines) != 0){
@@ -106,7 +106,7 @@ class ServicesController extends Controller
         }
       })
 
-      ->rawColumns(['checkbox','action'])
+      ->rawColumns(['checkbox','action','uprice','dprice'])
       ->make(true);
       
     }
@@ -131,7 +131,7 @@ class ServicesController extends Controller
     $user = auth()->user();
 
     $data = request()->validate([
-      'name' => ['required', 'string', 'max:255', 'unique:services'],
+      'name' => ['required', 'string', 'unique:services'],
       'servcats_id' => ['required'],
       'unit' => ['required'],
       'def_price' => ['required'],
@@ -180,8 +180,6 @@ class ServicesController extends Controller
 
   }
 
-
-
   public function view($id)
   {
     $user = auth()->user();
@@ -199,6 +197,115 @@ class ServicesController extends Controller
 
   }
 
+
+  public function edit($id)
+  {
+    $user = auth()->user();
+    $service = Services::with('machines','current','category')->find($id);
+    $servcats_id = Servcats::where('is_active', '1')->orderBy('id', 'ASC')->get();
+
+    if(isset($service)){
+
+      return view('services.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'service' => $service, 'servcats_id' => $servcats_id]);
+    }else{
+      return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
+    }
+  }
+
+
+
+  public function update($id)
+  {
+    $user = auth()->user();
+    $service = Services::with('machines','current','category')->find($id);
+
+    $data = request()->validate([
+      'name' => ['required'],
+      'servcats_id' => ['required'],
+      'unit' => ['required'],
+      'def_price' => ['required'],
+      'up_price' => ['required'],
+      'machine_id' => ['nullable'],
+    ]);
+
+
+    if($service->name != $data['name']){
+      $name = request()->validate([
+        'name' => ['required', 'string', 'unique:services'],
+      ]);
+
+      $service->name = $data['name'];
+    }
+
+
+    $service->servcats_id = $data['servcats_id'];
+    $service->unit = $data['unit'];
+    $service->current->def_price = $data['def_price'];
+    $service->current->up_price = $data['up_price'];
+    $service->updatedby_id = $user->id;
+
+    $query = $service->update();
+
+    if($data['machine_id']){
+      $old_machines = $service->machines->pluck('id')->toArray();
+      $sid_array = array_map('intval', array_unique($data['machine_id']));
+
+      $add = array_diff($sid_array,$old_machines);
+      $remove = array_diff($old_machines,$sid_array);
+
+      if(count($add)>=1){
+        foreach ($add as $sid){
+          $machine = Machines::find([$sid]); 
+          if($machine){
+            $service->machines()->attach($machine);
+          }
+        }
+      }
+
+      if(count($remove)>=1){
+        foreach ($remove as $sid){
+          $machine = Machines::find([$sid]); 
+          if($machine){
+            $service->machines()->detach($machine);
+          }
+        }
+      }
+
+    }
+
+
+    if($query){
+      return notifyRedirect($this->homeLink.'/view/'.$id, 'Updated Service '. $service->name .' successfully', 'success');
+    }
+
+  }
+
+
+
+  public function destroy($id)
+  {
+    $service = Services::with('machines')->find($id);
+    if($service){
+
+      if(request()->ajax()){
+        /*
+        if(count($service->logs)!=0 ){
+          return notifyRedirect($this->homeLink, 'Unauthorized to delete', 'danger');
+        }*/
+
+        if(count($service->machines)!=0 ){
+          $service->machines()->detach();
+        }
+
+        $row = Services::where('id',$id)->delete();
+        return Response::json($row);
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to delete', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Service not found', 'danger');
+    }
+  }
 
 
 
