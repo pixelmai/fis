@@ -87,7 +87,7 @@
                       type="text" 
                       class="form-control @error('def_price') is-invalid @enderror" 
                       name="def_price" 
-                      value="{{ old('def_price') ?? $service->current->def_price  }}"  
+                      value="{{ old('def_price') ?? priceFormat($service->current->def_price)  }}"  
                       autofocus required autocomplete="off">
 
                     @error('def_price')
@@ -105,7 +105,7 @@
                       type="text" 
                       class="form-control @error('up_price') is-invalid @enderror" 
                       name="up_price" 
-                      value="{{ old('up_price') ?? $service->current->up_price }}"  
+                      value="{{ old('up_price') ?? priceFormat($service->current->up_price) }}"  
                       autofocus required autocomplete="off">
 
                     @error('up_price')
@@ -146,7 +146,6 @@
                             <div>
                               <a href="javascript:void(0);" class="add_button" title="Add field"><img src="/images/add-icon.png"/></a>
                               <input type="radio" id="def1" name="default" class="def" value="{{ $machine->id }}" @if($machine->id == $service->machines_id) checked @endif><label for="def1">default</label>
-
                             </div>
                           </div>
                         @else
@@ -290,17 +289,14 @@
 
       initValResetters();
 
-
-
       function initValResetters(){
         $('.machine_name').on('input', function(){
           $(this).parent().siblings('.machine_id').val('');
           var p = $(this).parent().parent().parent().parent();
           p.find('.def').val(0);
+          $('#def1').prop("checked", true);
         });
       }
-
-
 
   }); //end document ready
 

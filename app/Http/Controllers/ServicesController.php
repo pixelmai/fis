@@ -63,7 +63,6 @@ class ServicesController extends Controller
 
       $activate_button = '<a href="javascript:void(0);" id="activate-row" data-toggle="tooltip" data-placement="top" data-original-title="Activate" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-success"><i class="fas fa-check"></i></a></div>';
 
-
       if($sum == 0){
         if($data->is_deactivated == 1){
             $button .= $activate_button;
@@ -81,12 +80,11 @@ class ServicesController extends Controller
       })
       ->addColumn('checkbox', '<input type="checkbox" name="tbl_row_checkbox[]" class="tbl_row_checkbox" value="{{$id}}" />')
       ->addColumn('dprice', function($data){
-        $p = number_format(round($data->current->def_price,2), 2);
-        return '<div class="price">'.$p.'</div>';
+
+        return '<div class="price">'. priceFormat($data->current->def_price) .'</div>';
       })
       ->addColumn('uprice', function($data){
-        $p = number_format(round($data->current->up_price,2), 2);
-        return '<div class="price">'.$p.'</div>';
+        return '<div class="price">'. priceFormat($data->current->up_price) .'</div>';
       })
       ->addColumn('machines', function($data){
         if(count($data->machines) != 0){
@@ -98,7 +96,6 @@ class ServicesController extends Controller
             if($x < count($data->machines)){
               $m .= ', ';
             }
-
           }
 
 
@@ -159,8 +156,8 @@ class ServicesController extends Controller
     if($query){
       $query_prices = Servicesrates::create([
         'services_id' => $query->id,
-        'def_price' => $data['def_price'],
-        'up_price' => $data['up_price'],
+        'def_price' => priceFormatSaving($data['def_price']),
+        'up_price' => priceFormatSaving($data['up_price']),
         'updatedby_id' => $user->id,
       ]);
     }
@@ -257,10 +254,32 @@ class ServicesController extends Controller
 
     $service->servcats_id = $data['servcats_id'];
     $service->unit = $data['unit'];
-    $service->current->def_price = $data['def_price'];
-    $service->current->up_price = $data['up_price'];
     $service->updatedby_id = $user->id;
 
+
+
+
+    if(priceFormat($data['def_price']) != $service->current->def_price  || priceFormat($data['up_price']) != $service->current->up_price){
+      /*
+        $service->current->def_price = $data['def_price'];
+        $service->current->up_price = $data['up_price']; 
+      */
+
+
+      $query_prices = Servicesrates::create([
+        'services_id' => $service->id,
+        'def_price' => priceFormatSaving($data['def_price']),
+        'up_price' => priceFormatSaving($data['up_price']),
+        'updatedby_id' => $user->id,
+      ]);
+      
+
+      if($query_prices){
+        $service->servicesrates_id = $query_prices->id;
+      }
+
+
+    }
 
     $query = $service->update();
 
@@ -279,7 +298,7 @@ class ServicesController extends Controller
           $service->machines_id = $default;
         }
       }
-      
+
       if(count($add)>=1){
         foreach ($add as $mid){
           $machine = Machines::find([$mid]); 
@@ -305,8 +324,6 @@ class ServicesController extends Controller
           }
         }
       }
-
-
 
 
       $service->update();
@@ -336,6 +353,7 @@ class ServicesController extends Controller
           $service->machines()->detach();
         }
 
+        Servicesrates::where('services_id',$id)->delete();
         $row = Services::where('id',$id)->delete();
         return Response::json($row);
       }else{

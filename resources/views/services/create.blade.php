@@ -185,6 +185,8 @@
 
         initTypeAhead(".machine_name");
 
+        initValResetters();
+
       });
       
       //Once remove button is clicked
@@ -258,16 +260,16 @@
         });
       }
 
-      $('.machine_name').on('input', function(){
-        $(this).parent().siblings('.machine_id').val('');
-        var p = $(this).parent().parent().parent().parent();
-        p.find('.def').val(0);
-      });
+      initValResetters();
 
-
-
-
-
+      function initValResetters(){
+        $('.machine_name').on('input', function(){
+          $(this).parent().siblings('.machine_id').val('');
+          var p = $(this).parent().parent().parent().parent();
+          p.find('.def').val(0);
+          $('#def1').prop("checked", true);
+        });
+      }
 
 
 
