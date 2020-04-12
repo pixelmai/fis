@@ -86,7 +86,7 @@
                       { data: 'machines', name: 'machines', orderable: false, searchable:false },
                       {data: 'action', name: 'action', orderable: false,  searchable:false},
                    ],
-            order: [[2, 'asc']]
+            order: [[3, 'asc'], [2, 'asc']],
       });
 
       $('#listpage_datatable tbody').on('click', '.tbl_row_checkbox', function () {

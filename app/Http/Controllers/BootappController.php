@@ -81,6 +81,7 @@ class BootappController extends Controller
       Servcats::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Machine Use']);
       Servcats::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Tour']);
       Servcats::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Consultation']);
+      Servcats::create(['is_active' => 1, 'updatedby_id' => 1, 'name' => 'Room Rentals']);
       $s = TRUE;
     }
 
