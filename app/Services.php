@@ -10,7 +10,7 @@ class Services extends Model
 
 	protected $fillable = [
 		'name', 'unit', 'servcats_id', 'servicesrates_id',
-		'is_deactivated', 'updatedby_id',
+		'machines_id', 'is_deactivated', 'updatedby_id',
 	];
 
 	public function category(){

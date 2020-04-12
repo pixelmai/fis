@@ -15,9 +15,8 @@ class CreateMachinesServicesTable extends Migration
     {
         Schema::create('machines_services', function (Blueprint $table) {
             $table->id();
-            $table->integer('machines_id')->unsigned();
-            $table->integer('services_id')->unsigned();
-            $table->boolean('is_default')->default(0);
+            $table->unsignedBigInteger('machines_id')->unsigned();
+            $table->unsignedBigInteger('services_id')->unsigned();
         });
     }
 

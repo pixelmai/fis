@@ -1,5 +1,7 @@
 <?php
 
+// TODO: Must implement Disable/Delete swaps when invoices are ready
+
 namespace App\Http\Controllers;
 
 use App\User;
@@ -137,15 +139,18 @@ class ServicesController extends Controller
       'def_price' => ['required'],
       'up_price' => ['required'],
       'machine_id' => ['nullable'],
+      'default' => ['nullable']
     ]);
+  
 
-
+    
     $query = Services::create([
       'name' => $data['name'],
       'servcats_id' => $data['servcats_id'],
       'unit' => $data['unit'],
       'is_deactivated' => 0,
       'servicesrates_id' => 0,
+      'machines_id' => 0,
       'updatedby_id' => $user->id,
     ]);
 
@@ -161,22 +166,34 @@ class ServicesController extends Controller
     }
 
     if($query_prices){
-      $query->servicesrates_id = $query_prices->id;
-      $query->update();
 
       $mid_array = array_unique($data['machine_id']);
 
       if(count($mid_array)>=1){
         foreach ($mid_array as $mid){
           $machine = Machines::find([$mid]); 
-          if($machine){
+          $default = (isset($data['default']) ? $data['default'] : 0);
+
+          if(count($machine) != 0){
+            if(count($mid_array) == 1 && $default == 0){
+              $query->machines_id = $mid;
+            }elseif($default != 0 && $default == $mid){
+              $query->machines_id = $default;
+            }
             $query->machines()->attach($machine);
           }
         }
+
       }
+
+      $query->servicesrates_id = $query_prices->id;
+      $query->update();
+
 
       return notifyRedirect($this->homeLink, 'Added a Service successfully', 'success');
     }
+
+    
 
   }
 
@@ -226,6 +243,7 @@ class ServicesController extends Controller
       'def_price' => ['required'],
       'up_price' => ['required'],
       'machine_id' => ['nullable'],
+      'default' => ['required'],
     ]);
 
 
@@ -237,40 +255,61 @@ class ServicesController extends Controller
       $service->name = $data['name'];
     }
 
-
     $service->servcats_id = $data['servcats_id'];
     $service->unit = $data['unit'];
     $service->current->def_price = $data['def_price'];
     $service->current->up_price = $data['up_price'];
     $service->updatedby_id = $user->id;
 
+
     $query = $service->update();
 
     if($data['machine_id']){
       $old_machines = $service->machines->pluck('id')->toArray();
-      $sid_array = array_map('intval', array_unique($data['machine_id']));
+      $mid_array = array_map('intval', array_unique($data['machine_id']));
+      $old_dmachine = $service->machines_id;
+      $default = $data['default'];
 
-      $add = array_diff($sid_array,$old_machines);
-      $remove = array_diff($old_machines,$sid_array);
+      $add = array_diff($mid_array,$old_machines);
+      $remove = array_diff($old_machines,$mid_array);
 
+
+      if(count($add) == 0 && count($remove)==0){
+        if($default != $old_dmachine){
+          $service->machines_id = $default;
+        }
+      }
+      
       if(count($add)>=1){
-        foreach ($add as $sid){
-          $machine = Machines::find([$sid]); 
-          if($machine){
+        foreach ($add as $mid){
+          $machine = Machines::find([$mid]); 
+
+          if(count($machine) != 0){
+            if(count($add) == 1 && $default == 0){
+              $service->machines_id = $mid;
+            }elseif($default != 0 && $default == $mid){
+              $service->machines_id = $default;
+            }
             $service->machines()->attach($machine);
           }
         }
       }
 
       if(count($remove)>=1){
-        foreach ($remove as $sid){
-          $machine = Machines::find([$sid]); 
-          if($machine){
+        foreach ($remove as $mid){
+          $machine = Machines::find([$mid]); 
+
+          if(count($machine) != 0){
+            $service->machines_id = $default;
             $service->machines()->detach($machine);
           }
         }
       }
 
+
+
+
+      $service->update();
     }
 
 
