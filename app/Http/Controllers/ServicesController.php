@@ -178,9 +178,26 @@ class ServicesController extends Controller
       return notifyRedirect($this->homeLink, 'Added a Service successfully', 'success');
     }
 
-
   }
 
+
+
+  public function view($id)
+  {
+    $user = auth()->user();
+    $services = Services::with('machines','category','current')->find($id);
+
+
+    if($services){
+      $updater = User::find($services->updatedby_id);
+
+      return view('services.view', ['user' => $user, 'services' => $services, 'page_settings'=> $this->page_settings, 'updater' => $updater]);
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
+    }
+
+  }
 
 
 
