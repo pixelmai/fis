@@ -18,7 +18,6 @@ class CreateInvoicesTable extends Migration
             $table->unsignedBigInteger('clients_id')->default(1);
             $table->unsignedBigInteger('companies_id')->default(1);
             $table->unsignedBigInteger('projects_id')->default(0);
-            $table->tinyInteger('bill_type')->default(1); //client company
             $table->unsignedBigInteger('status')->default(1); //draft, etc
             $table->boolean('is_up')->default(0);
             $table->decimal('discount',3, 2);

@@ -105,11 +105,14 @@ class InvoicesController extends Controller
     }
         
     return view('invoices.index', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status]);
-
   }
 
 
-
+  public function create()
+  {
+    $user = auth()->user();
+    return view('invoices.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status]);
+  }
 
 
 
