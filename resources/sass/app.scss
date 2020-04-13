@@ -422,6 +422,7 @@
           font-weight: bold;
         }
       }
+
     }
 
     input[type=email], input[type=password]{
@@ -888,6 +889,10 @@ hr.dotted{ border-top: 1px dotted #ddd; }
 
 .tt-dataset-client{
   width: 315px;
+}
+      
+.datepicker{
+  z-index: 9000 !important;
 }
       
 /* ---------------------------------------------------

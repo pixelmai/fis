@@ -111,7 +111,11 @@ class InvoicesController extends Controller
   public function create()
   {
     $user = auth()->user();
-    return view('invoices.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status]);
+    $latest_invoice = Invoices::orderBy('created_at', 'desc')->select('id')->first();
+    $id_num = $latest_invoice->id + 1;
+
+
+    return view('invoices.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'id_num'=> $id_num]);
   }
 
 

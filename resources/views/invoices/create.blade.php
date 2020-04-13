@@ -10,7 +10,7 @@
       type="text" 
       class="form-control @error('invoice_id') is-invalid @enderror" 
       name="invoice_id" 
-      value="{{ old('invoice_id') }}"  
+      value="{{ old('invoice_id') ?? $id_num }}"  
       autofocus autocomplete="off">
 
       @error('invoice_id')
@@ -29,145 +29,164 @@
             <form action="/machines/create" enctype="multipart/form-data" method="POST">
               @csrf
 
-              <div class="form-group row">
+              
+              <div class="row">
+                <div class="col-md-9">
 
-                <div class="col-md-5">
-                  <div>
+                  <div class="form-group row">
+                    <div class="col-md-6">
+                      <div>
 
-                    <label for="contact_person" class="col-form-label">Client Name <span class="required">*</span></label>
-                      
-                      <div class="d-flex">
-                        <div class="w-50">
-                          <input id="contact_person" type="text" class="form-control @error('contact_person') is-invalid @enderror" name="contact_person" value="{{ old('contact_person') }}" required autofocus autocomplete="off" placeholder="Search last name">
+                        <label for="contact_person" class="col-form-label">Client Name <span class="required">*</span></label>
+                          
+                          <div class="d-flex">
+                            <div class="w-50">
+                              <input id="contact_person" type="text" class="form-control @error('contact_person') is-invalid @enderror" name="contact_person" value="{{ old('contact_person') }}" required autofocus autocomplete="off" placeholder="Search last name">
+                            </div>
+                            <div class="w-50">
+                              <input id="contact_person_fname" class="form-control ml-2" type="text" disabled>
+                            </div>
+                          </div>
+
+                          <input id="client_id" type="hidden" name="client_id" value="{{ old('client_id') }}" required>
+
+                          @error('contact_person')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                          @enderror
+                      </div>
+                    </div>
+
+                    <div class="d-flex col-md-3">
+                      <div class="align-self-end">
+                        <input type="checkbox" id="is_pwd" name="is_pwd" value="1">
+                        <label for="is_pwd" class="pl-2 col-form-label">is UP?</label>
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                      <label for="status" class="col-form-label">Status <span class="required">*</span></label>
+
+                        <select id="status" name="status" class="form-control @error('$status') is-invalid @enderror" autofocus>
+
+
+                        @foreach($status as $statnum => $statdesc) 
+                          <option value="{{ $statnum }}">{{ $statdesc }}</option>
+                        @endforeach
+
+                        </select>
+
+                        @error('$status')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+
+                  </div>
+
+
+                  <div class="form-group row">
+
+                    <div class="col-md-6">
+                      <label for="company_name" class="col-form-label">Company/Institution</label>
+                        <div>
+                          <input id="company_name" 
+                            type="text" 
+                            class="w-100 form-control @error('company_name') is-invalid @enderror" 
+                            name="company_name" 
+                            value="{{ old('company_name') }}"  
+                            autocomplete="off" autofocus placeholder="Search company name">
+
+                          <input id="company_id" 
+                            type="hidden" 
+                            name="company_id" 
+                            value="{{ old('company_id') }}">
+
+                          @error('company_id')
+                              <span class="invalid-feedback" role="alert">
+                                  <strong>{{ $message }}</strong>
+                              </span>
+                          @enderror
                         </div>
-                        <div class="w-50">
-                          <input id="contact_person_fname" class="form-control ml-2" type="text" disabled>
+                    </div>
+
+                    <div class="col-md-6">
+                      <label for="project_name" class="col-form-label">Project</label>
+                        <div>
+                          <input id="project_name" 
+                            type="text" 
+                            class="w-100 form-control @error('project_name') is-invalid @enderror" 
+                            name="project_name" 
+                            value="{{ old('project_name') }}"  
+                            autocomplete="off" autofocus placeholder="Search Project name">
+
+                          <input id="project_id" 
+                            type="hidden" 
+                            name="project_id" 
+                            value="{{ old('project_id') }}">
+
+                          @error('project_id')
+                              <span class="invalid-feedback" role="alert">
+                                  <strong>{{ $message }}</strong>
+                              </span>
+                          @enderror
                         </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label for="created_at" class="col-form-label">Date Created <span class="required">*</span></label>
+
+                      <div id="created_at" class="input-group date @error('created_at') is-invalid @enderror" data-provide="datepicker">
+                          <input name="created_at" type="text" class="form-control" value="{{ old('created_at') ?? date('m/d/Y') }}" required autocomplete="off" placeholder="mm/dd/yyyy">
+
+                          <div class="input-group-addon">
+                            <span><i class="fa fa-calendar"></i></span>
+                          </div>
                       </div>
 
-                      <input id="client_id" type="hidden" name="client_id" value="{{ old('client_id') }}" required>
 
-                      @error('contact_person')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
+                      @error('created_at')
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                          </span>
                       @enderror
                   </div>
-                </div>
 
-                <div class="d-flex col-md-3">
-                  <div class="align-self-end">
-                    <input type="checkbox" id="is_pwd" name="is_pwd" value="1">
-                    <label for="is_pwd" class="pl-2 col-form-label">is UP?</label>
+
+                  <div class="form-group">
+                    <label for="due_date" class="col-form-label">Due Date </label>
+
+                      <div id="due_date" class="input-group date @error('due_date') is-invalid @enderror" data-provide="datepicker">
+                          <input name="due_date" type="text" class="form-control" value="{{ old('due_date') }}" required autocomplete="off" placeholder="mm/dd/yyyy">
+
+                          <div class="input-group-addon">
+                            <span><i class="fa fa-calendar"></i></span>
+                          </div>
+                      </div>
+
+
+                      @error('due_date')
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                          </span>
+                      @enderror
                   </div>
+
+
                 </div>
-                
-                <div class="col-md-2">
-                  <label for="status" class="col-form-label">Status <span class="required">*</span></label>
-
-                    <select id="status" name="status" class="form-control @error('$status') is-invalid @enderror" autofocus>
-
-
-                    @foreach($status as $statnum => $statdesc) 
-                      <option value="{{ $statnum }}">{{ $statdesc }}</option>
-                    @endforeach
-
-                    </select>
-
-                    @error('$status')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-
-                <div class="col-md-2">
-                  <label for="created_at" class="col-form-label">Date Created <span class="required">*</span></label>
-                    <input id="created_at" 
-                      type="text" 
-                      class="form-control @error('created_at') is-invalid @enderror" 
-                      name="created_at" 
-                      value="{{ old('created_at') }}"  
-                      autofocus required autocomplete="off">
-
-                    @error('created_at')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-
-
               </div>
 
 
 
 
-              <div class="form-group row">
 
-                <div class="col-md-5">
-                  <label for="company_name" class="col-form-label">Company/Institution</label>
-                    <div>
-                      <input id="company_name" 
-                        type="text" 
-                        class="w-100 form-control @error('company_name') is-invalid @enderror" 
-                        name="company_name" 
-                        value="{{ old('company_name') }}"  
-                        autocomplete="off" autofocus placeholder="Search company name">
-
-                      <input id="company_id" 
-                        type="hidden" 
-                        name="company_id" 
-                        value="{{ old('company_id') }}">
-
-                      @error('company_id')
-                          <span class="invalid-feedback" role="alert">
-                              <strong>{{ $message }}</strong>
-                          </span>
-                      @enderror
-                    </div>
-                </div>
-
-                <div class="col-md-5">
-                  <label for="project_name" class="col-form-label">Project</label>
-                    <div>
-                      <input id="project_name" 
-                        type="text" 
-                        class="w-100 form-control @error('project_name') is-invalid @enderror" 
-                        name="project_name" 
-                        value="{{ old('project_name') }}"  
-                        autocomplete="off" autofocus placeholder="Search Project name">
-
-                      <input id="project_id" 
-                        type="hidden" 
-                        name="project_id" 
-                        value="{{ old('project_id') }}">
-
-                      @error('project_id')
-                          <span class="invalid-feedback" role="alert">
-                              <strong>{{ $message }}</strong>
-                          </span>
-                      @enderror
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                  <label for="due_date" class="col-form-label">Due Date </label>
-                    <input id="due_date" 
-                      type="text" 
-                      class="form-control @error('due_date') is-invalid @enderror" 
-                      name="due_date" 
-                      value="{{ old('due_date') }}"  
-                      autofocus autocomplete="off">
-
-                    @error('due_date')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-
-              </div>
 
 
               <hr> 
@@ -200,7 +219,7 @@
 
             <div class="row py-2">
               <div class="col-12">
-                <button id="big-add-button" class="btn btn-primary btn-lg">Create Invoice</button>
+                <button id="big-add-button" class="btn btn-primary btn-lg">Save Invoice</button>
               </div>
             </div>
 
@@ -225,11 +244,30 @@
 
 
 @push('scripts')
-
+<script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
 <script src="{{ asset('js/typeahead.bundle.min.js') }}"></script>
 
 <script type="text/javascript">
   $(document).ready(function(){
+
+      $('#created_at').datepicker({
+        maxViewMode: 2,
+        todayBtn: true,
+        orientation: "bottom auto",
+        startDate: '01/01/2016',
+        endDate: '+3m',
+      });
+
+      $('#due_date').datepicker({
+        maxViewMode: 2,
+        todayBtn: true,
+        orientation: "bottom auto",
+        orientation: "bottom auto",
+        startDate: '-1m',
+        endDate: '+3m',
+      });
+
+
       var maxField = 5; //Input fields increment limitation
       var addButton = $('.add_button'); //Add button selector
       var wrapper = $('.field_wrapper'); //Input field wrapper
