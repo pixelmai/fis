@@ -252,16 +252,13 @@
 
       $('#created_at').datepicker({
         maxViewMode: 2,
-        todayBtn: true,
         orientation: "bottom auto",
         startDate: '01/01/2016',
-        endDate: '+3m',
+        endDate: '+1m',
       });
 
       $('#due_date').datepicker({
-        maxViewMode: 2,
-        todayBtn: true,
-        orientation: "bottom auto",
+        maxViewMode: 1,
         orientation: "bottom auto",
         startDate: '-1m',
         endDate: '+3m',
