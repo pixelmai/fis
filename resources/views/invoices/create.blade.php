@@ -2,31 +2,21 @@
 @section('content')
 
 <div class="container">
-<div class="d-flex justify-content-between">
-  <div class="bh">Create New Invoice</div>
-  <div class="col-md-2">
-    <span class="d-inline">ID #</span>
-    <input id="invoice_id" 
-      type="text" 
-      class="form-control @error('invoice_id') is-invalid @enderror" 
-      name="invoice_id" 
-      value="{{ old('invoice_id') ?? $id_num }}"  
-      autofocus autocomplete="off">
-
-      @error('invoice_id')
-          <span class="invalid-feedback" role="alert">
-              <strong>{{ $message }}</strong>
-          </span>
-      @enderror
+  <div id="invoice_heading" class="d-flex justify-content-between align-self-center">
+    <h1>Create New Invoice</h1>
+    <div id="invoice_id" class="col-md-4">
+      <span>ID #</span> 
+        {{ str_pad($id_num, 6, '0', STR_PAD_LEFT) }}
+      <input type="hidden" name="id" value="{{ $id_num }}"> 
+    </div>
   </div>
-</div>
 
   <div class="row justify-content-center">
     <div class="col-lg-12">
       <div class="card">
           <div class="card-body">
 
-            <form action="/machines/create" enctype="multipart/form-data" method="POST">
+            <form action="/invoices/create" enctype="multipart/form-data" method="POST">
               @csrf
 
               
@@ -48,7 +38,7 @@
                             </div>
                           </div>
 
-                          <input id="client_id" type="hidden" name="client_id" value="{{ old('client_id') }}" required>
+                          <input id="client_id" type="text" name="client_id" value="{{ old('client_id') }}" required>
 
                           @error('contact_person')
                             <span class="invalid-feedback" role="alert">
@@ -101,7 +91,7 @@
                             autocomplete="off" autofocus placeholder="Search company name">
 
                           <input id="company_id" 
-                            type="hidden" 
+                            type="text" 
                             name="company_id" 
                             value="{{ old('company_id') }}">
 
@@ -124,7 +114,7 @@
                             autocomplete="off" autofocus placeholder="Search Project name">
 
                           <input id="project_id" 
-                            type="hidden" 
+                            type="text" 
                             name="project_id" 
                             value="{{ old('project_id') }}">
 
@@ -164,7 +154,7 @@
                     <label for="due_date" class="col-form-label">Due Date </label>
 
                       <div id="due_date" class="input-group date @error('due_date') is-invalid @enderror" data-provide="datepicker">
-                          <input name="due_date" type="text" class="form-control" value="{{ old('due_date') }}" required autocomplete="off" placeholder="mm/dd/yyyy">
+                          <input name="due_date" type="text" class="form-control" value="{{ old('due_date') }}" autocomplete="off" placeholder="mm/dd/yyyy">
 
                           <div class="input-group-addon">
                             <span><i class="fa fa-calendar"></i></span>
@@ -193,6 +183,22 @@
              
 
               <div class="form-group row">
+
+                <div class="col-md-2">
+                  <label for="discount" class="col-form-label">Discount </label>
+                    <input id="discount" 
+                      type="text" 
+                      class="form-control @error('discount') is-invalid @enderror" 
+                      name="discount" 
+                      value="{{ old('discount') }}"  
+                      autofocus autocomplete="off">
+
+                    @error('discount')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
 
                 <div class="col-md-2">
                   <label for="total" class="col-form-label">Total </label>

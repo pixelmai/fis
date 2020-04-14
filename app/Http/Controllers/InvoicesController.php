@@ -74,8 +74,8 @@ class InvoicesController extends Controller
         return '<a href="/clients/view/'.$data->client->id.'">'.$data->client->fname.' '.$data->client->lname.'</a>';
       })
       ->addColumn('company_name', function($data){
-        if($data->client->company){
-          return '<a href="/companies/view/'.$data->client->company->id.'">'.$data->client->company->name.'</a>';
+        if(isset($data->company) && $data->company->id != 1){
+          return '<a href="/companies/view/'.$data->company->id.'">'.$data->company->name.'</a>';
         }else{
           return '-';
         }
@@ -116,6 +116,65 @@ class InvoicesController extends Controller
 
 
     return view('invoices.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'id_num'=> $id_num]);
+  }
+
+
+  public function store()
+  {
+
+    $user = auth()->user();
+
+
+    $data = request()->validate([
+      'client_id' => ['required'],
+      'company_id' => ['nullable'],
+      'project_id' => ['nullable'],
+      'status' => ['required'],
+      'discount' => ['nullable'],
+      'total' => ['required'],
+      'created_at' => ['required'],
+      'due_date' => ['nullable'],
+      'is_up' => ['nullable'],
+    ]);
+
+
+    $is_up = (isset($data['is_up']) && $data['is_up'] == 1 ? 1 : 0); 
+
+    if(validateDate($data['created_at'])){
+      if($data['created_at'] == date('m/d/Y')){
+        $created_at = date("Y-m-d H:i:s");
+      }else{
+        $created_at = $data['created_at'];
+      }
+    }
+
+
+
+    $due_date = (isset($data['due_date']) ? dateDatabase($data['due_date']) : $data['due_date']);
+
+    $company_id = ($data['company_id'] == '' ? 1 : $data['company_id']); 
+
+
+    $query = Invoices::create([
+      'clients_id' => $data['client_id'],
+      'companies_id' => $company_id,
+      'projects_id' => $data['project_id'],
+      'status' => $data['status'],
+      'created_at' => $created_at,
+      'due_date' => $due_date,
+      'discount' => $data['discount'],
+      'total' => $data['total'],
+      'is_saved' => 0,
+      'is_up' => $is_up,
+
+      'updatedby_id' => $user->id,
+    ]);
+
+
+    if($query){
+      return notifyRedirect($this->homeLink, 'Added an Invoice successfully', 'success');
+    }
+
   }
 
 

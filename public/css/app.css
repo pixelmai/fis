@@ -11218,6 +11218,30 @@ a[data-toggle=collapse] {
   padding: 20px;
 }
 
+#content main #invoice_heading {
+  padding: 10px 0 15px;
+}
+
+#content main #invoice_heading h1 {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 2em;
+  color: #666;
+  line-height: 1;
+}
+
+#content main #invoice_heading #invoice_id {
+  font-size: 1.7em;
+  color: #666;
+  text-align: right;
+  padding: 0;
+  line-height: 1;
+}
+
+#content main #invoice_heading #invoice_id span {
+  color: #999;
+}
+
 .push-margin {
   margin-left: 0 !important;
   transition: all 0.3s;

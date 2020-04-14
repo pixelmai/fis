@@ -8,7 +8,7 @@ class Invoiceitems extends Model
 {
 
   protected $fillable = [
-    'invoices_id','quantity', 'services_id', 'servicesrates_id'
+    'invoices_id','quantity', 'services_id', 'servicesrates_id', 'machines_id',
   ];
 
   public function invoice(){

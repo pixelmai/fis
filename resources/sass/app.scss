@@ -358,6 +358,30 @@
       .content-area{
         padding: 20px;
       }
+
+      #invoice_heading{
+        padding: 10px 0 15px; 
+
+        h1{
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          font-size: 2em;
+          color: #666;
+          line-height: 1;
+        }
+
+        #invoice_id{
+          font-size: 1.7em;
+          color: #666;
+          text-align: right;
+          padding: 0;
+          line-height: 1;
+
+          span{
+            color: #999;
+          }
+        }
+      }
     }
   }
 
@@ -894,7 +918,7 @@ hr.dotted{ border-top: 1px dotted #ddd; }
 .datepicker{
   z-index: 9000 !important;
 }
-      
+
 /* ---------------------------------------------------
   MEDIAQUERIES
 ----------------------------------------------------- */
