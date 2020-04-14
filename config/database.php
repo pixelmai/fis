@@ -68,11 +68,11 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', 'db4free.net'),
+            'host' => env('DB_HOST', 'mysql.pixelmai.com'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'fablabupcebu'),
-            'username' => env('DB_USERNAME', 'fablab'),
-            'password' => env('DB_PASSWORD', 'fablabupcebu1'),
+            'database' => env('DB_DATABASE', 'fablabupcebu_test'),
+            'username' => env('DB_USERNAME', 'pxmai_test'),
+            'password' => env('DB_PASSWORD', 'fablabupcebu_test'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
