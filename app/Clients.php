@@ -51,6 +51,10 @@ class Clients extends Model
     return $this->hasMany('App\Projects','client_id','id');
   }
 
+  public function mainproject(){
+    return $this->hasone('App\Projects','client_id','id')->where('is_categorized', 0);
+  }
+
   public function invoices(){
     return $this->hasMany('App\Invoices','clients_id','id');
   }

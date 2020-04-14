@@ -428,6 +428,14 @@ class CompaniesController extends Controller
   }
 
 
+  public function invoiceautocomplete(Request $request)
+  {
+    return Companies::where("client_id","=","{$request->get('c')}")->where("name","LIKE","%{$request->get('q')}%")->where('is_deactivated', 0)->get();
+
+
+  }
+
+
   function deleteClientUpdater($client, $comp, $id)
   {
     if((count($comp)) == 1 && ($client->company_id == $id)){

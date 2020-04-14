@@ -11302,6 +11302,10 @@ a[data-toggle=collapse] {
   background: #ffffe5;
 }
 
+#app input.disabled {
+  background-color: #e9ecef !important;
+}
+
 #app .form-note {
   font-size: 0.8em;
   color: #999;

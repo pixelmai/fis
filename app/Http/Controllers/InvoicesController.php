@@ -103,7 +103,7 @@ class InvoicesController extends Controller
       ->make(true);
       
     }
-        
+
     return view('invoices.index', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status]);
   }
 
@@ -123,7 +123,6 @@ class InvoicesController extends Controller
   {
 
     $user = auth()->user();
-
 
     $data = request()->validate([
       'client_id' => ['required'],

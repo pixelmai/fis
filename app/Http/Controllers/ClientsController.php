@@ -557,6 +557,19 @@ class ClientsController extends Controller
       //return response()->json($data);
   }
 
+  public function invoiceautocomplete(Request $request)
+  {
+      /*
+      $data = Companies::select("name")
+              ->where("name","LIKE","%{$request->input('query')}%")
+              ->get();
+      */
+
+      return Clients::with('company','mainproject')->where("lname","LIKE","%{$request->get('q')}%")->where('is_deactivated', 0)->get();
+      
+      //return response()->json($data);
+  }
+
 
 
 

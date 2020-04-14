@@ -88,7 +88,7 @@
                             class="w-100 form-control @error('company_name') is-invalid @enderror" 
                             name="company_name" 
                             value="{{ old('company_name') }}"  
-                            autocomplete="off" autofocus placeholder="Search company name">
+                            autocomplete="off" autofocus placeholder="Search company name" disabled="disabled">
 
                           <input id="company_id" 
                             type="text" 
@@ -111,7 +111,7 @@
                             class="w-100 form-control @error('project_name') is-invalid @enderror" 
                             name="project_name" 
                             value="{{ old('project_name') }}"  
-                            autocomplete="off" autofocus placeholder="Search Project name">
+                            autocomplete="off" autofocus placeholder="Search Project name" disabled="disabled">
 
                           <input id="project_id" 
                             type="text" 
@@ -270,68 +270,34 @@
         endDate: '+3m',
       });
 
-
-      var maxField = 5; //Input fields increment limitation
-      var addButton = $('.add_button'); //Add button selector
-      var wrapper = $('.field_wrapper'); //Input field wrapper
-      var x = 1; //Initial field counter is 1
-      
-      //Once add button is clicked
-      $(addButton).click(function(){
-          //Check maximum number of input fields
-
-        var fieldHTML = '<div class="generated_inputs row" data-rowid="' + x + '"><div class="col-6 pt-2"><div class="input_holder"><input type="text" name="supplier_name[]" value="" class="form-control supplier_name" placeholder="Search by Supplier Name" /><input type="hidden" name="supplier_id[]" value="" class="supplier_id" /></div></div><div><a href="javascript:void(0);" class="remove_button" data-delid="' + x + '"><img src="/images/remove-icon.png" /></a></div></div>'; //New input field html 
-
-          if(x < maxField){ 
-              x++; //Increment field counter
-              $(wrapper).append(fieldHTML); //Add field html
-          }
-
-        $('.supplier_name').typeahead('destroy');
-
-        initTypeAhead(".supplier_name");
-
-      });
-      
-      //Once remove button is clicked
-      $(wrapper).on('click', '.remove_button', function(e){
-          e.preventDefault();
-          var toDelete = $(this).data("delid"); //Remove field html
-          $("[data-rowid=" + toDelete + "]").remove();
-
-          x--; //Decrement field counter
-      });
+    /* CLIENTS Typeahead */
 
 
+      function initClients(){
 
-      /* Bloodhound Type Ahead */
-
-        var engine = new Bloodhound({
+      var clients = new Bloodhound({
             remote: {
-                url: '{{ route('suppliersauto') }}?q=%QUERY%',
+                url: '{{ route('clientinvoiceauto') }}?q=%QUERY%',
                 wildcard: '%QUERY%'
             },
             datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
             queryTokenizer: Bloodhound.tokenizers.whitespace
         });
 
-        initTypeAhead(".supplier_name");
 
-      /* Bloodhound Type Ahead */
+        var proj_id = 0;
 
-
-      function initTypeAhead(className){
-        $(className).typeahead({
+        $("input#contact_person").typeahead({
             hint: true,
             highlight: true,
             minLength: 2
         }, {
-            source: engine.ttAdapter(),
+            source: clients.ttAdapter(),
             // This will be appended to "tt-dataset-" to form the class name of the suggestion menu.
-            name: 'supplier',
+            name: 'client',
             // the key from the array we want to display (name,id,email,etc...)
             //display: function(cname){return cname.fname+' '+cname.lname},
-            display: 'name',
+            display: 'lname',
             templates: {
                 empty: [
                     '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found.</div></div>'
@@ -340,27 +306,127 @@
                     '<div class="list-group search-results-dropdown">'
                 ],
                 suggestion: function (data) {
-                  $(this).parent().siblings('.supplier_id').val('');
-                  return '<div class="list-group-item">' + data.name +'</div>';
+                  //$('#client_id').val('');
+                  $('#contact_person_fname').val();
+                  return '<div class="list-group-item">' + data.lname + ' ' + data.fname +'</div>';
                 }
             }
 
         }).on('typeahead:select', function(ev, suggestion) {
           if(suggestion.id){
-            console.log(suggestion.id);
-            $(this).parent().siblings('.supplier_id').val(suggestion.id);
+            $('#client_id').val(suggestion.id);
+            $('#contact_person_fname').val(suggestion.fname);
+            if(suggestion.company.name != '-'){
+              $('#company_name').val(suggestion.company.name);
+            }else{
+              $('#company_name').val('');
+            }
+            $('#company_id').val(suggestion.company.id);
+            $('#project_id').val(suggestion.mainproject.id);
+            proj_id = suggestion.mainproject.id;
+            $("#company_name").removeClass("disabled");
+            $("#project_name").removeClass("disabled");
+            initCompany(suggestion.id);
           }
         }).on('typeahead:autocomplete', function(ev, suggestion) {
           if(suggestion.id){
-            console.log(suggestion.id);
-            $(this).parent().siblings('.supplier_id').val(suggestion.id);
+            $('#client_id').val(suggestion.id);
+            $('#contact_person_fname').val(suggestion.fname);
+            if(suggestion.company.name != '-'){
+              $('#company_name').val(suggestion.company.name);
+            }else{
+              $('#company_name').val('');
+            }
+            $('#company_id').val(suggestion.company.id);
+            $('#project_id').val(suggestion.mainproject.id);
+            $("#company_name").removeClass("disabled");
+            initCompany(suggestion.id);
           }
         });
-      }
+      
+        $('#contact_person').on('input', function(){
+          $("#company_name").prop( "disabled", true );
+          $("#company_name").addClass("disabled");
+          $('#client_id').val('');
+          $('#company_id').val('');
+          $('#company_name').val('');
+          $('#project_id').val('');
+          if($('#contact_person_fname').val()){
+            $('#contact_person_fname').val('');
+          }
+        });
 
-      $('.supplier_name').on('input', function(){
-        $(this).parent().siblings('.supplier_id').val('');
-      });
+        $( "#contact_person" ).change(function() {
+          if($('#client_id').val() == ''){
+            initCompany(0);
+          }
+        });
+
+      }
+    /* CLIENTS Typeahead */
+
+
+
+    /* COMPANIES Typeahead */
+
+
+      function initCompany(cid){
+
+        var comp_url = "{{ route('companyinvoiceauto') }}?c=" + cid + "&q=%QUERY%";
+
+        $( "#company_name" ).prop( "disabled", false );
+
+        var companies = new Bloodhound({
+            remote: {
+                url: comp_url,
+                wildcard: '%QUERY%'
+            },
+            datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace
+        });
+
+        $("input#company_name").typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 2
+        }, {
+            source: companies.ttAdapter(),
+            // This will be appended to "tt-dataset-" to form the class name of the suggestion menu.
+            name: 'companies',
+            // the key from the array we want to display (name,id,email,etc...)
+            display: 'name',
+            templates: {
+                empty: [
+                    '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found</div></div>'
+                ],
+                header: [
+                    '<div class="list-group search-results-dropdown">'
+                ],
+                suggestion: function (data) {
+                  //$('#company_id').val(1);
+                  return '<div class="list-group-item">' + data.name + '</div>';
+
+                }
+            }
+
+        }).on('typeahead:select', function(ev, suggestion) {
+          if(suggestion.id){
+            $('#company_id').val(suggestion.id);
+          }
+        }).on('typeahead:autocomplete', function(ev, suggestion) {
+          if(suggestion.id){
+            $('#company_id').val(suggestion.id);
+          }
+        });
+
+
+      }
+    /* COMPANIES Typeahead */
+
+
+    initClients();
+    //initCompany();
+
 
 
   }); //Document Ready end
