@@ -154,6 +154,7 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/projects/view/{id}', 'ProjectsController@view');
   Route::get('/projects/destroy/{id}', 'ProjectsController@destroy');
   Route::post('/projects/status', 'ProjectsController@status');
+  Route::get('/projects/invoiceautocomplete', 'ProjectsController@invoiceautocomplete')->name('projectinvoiceauto');
 /* Projects */
 
 

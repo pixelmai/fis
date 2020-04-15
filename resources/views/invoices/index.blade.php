@@ -88,7 +88,7 @@
                       { data: 'total', name: 'total', orderable: false, searchable: false},
                       {data: 'action', name: 'action', orderable: false,  searchable:false},
                    ],
-            order: [[2, 'asc'], [3, 'asc']],
+            order: [[1, 'desc']],
       });
 
 

@@ -237,7 +237,12 @@ class ProjectsController extends Controller
     }else{
       return notifyRedirect($this->homeLink, 'Deletion action not permitted', 'danger');
     }
+
   }
 
+  public function invoiceautocomplete(Request $request)
+  {
+    return Projects::where("client_id","=","{$request->get('c')}")->where("name","LIKE","%{$request->get('q')}%")->where('is_categorized', 1)->where('is_deactivated', 0)->get();
+  }
 
 }

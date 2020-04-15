@@ -75,23 +75,43 @@ class InvoicesController extends Controller
       })
       ->addColumn('company_name', function($data){
         if(isset($data->company) && $data->company->id != 1){
-          return '<a href="/companies/view/'.$data->company->id.'">'.$data->company->name.'</a>';
+
+          $name = $data->company->name;
+          if (strlen($name) >= 30) {
+            $n = shortenText($name, 30);
+          }
+          else {
+            $n = $name;
+          }
+
+          return '<a href="/companies/view/'.$data->company->id.'">'.$n.'</a>';
         }else{
           return '-';
         }
       })
       ->addColumn('project_name', function($data){
         if(isset($data->project) && $data->project->is_categorized == 1) {
-          return '<a href="/projects/view/'.$data->project->id.'">'.$data->project->name.'</a>';
+          $name = $data->project->name;
+          if (strlen($name) >= 20) {
+            $n = shortenText($name, 20);
+          }
+          else {
+            $n = $name;
+          }
+
+          return '<a href="/projects/view/'.$data->project->id.'">'.$n.'</a>';
         }else{
-          return ' '.$data->project->name.' ';
+          return '-';
         }
       })
       ->addColumn('created', function($data){
-          return dateOnly($data->created_at);
+          return dateTimeFormatSimple($data->created_at);
       })
       ->addColumn('due_date', function($data){
-          return dateOnly($data->due_date);
+          return datetoDpicker($data->due_date);
+      })
+      ->addColumn('id', function($data){
+          return str_pad($data->id, 6, '0', STR_PAD_LEFT);
       })
       ->rawColumns(['checkbox','action','total','client_name','company_name','project_name'])
       ->addColumn('status', function($data){
@@ -162,7 +182,7 @@ class InvoicesController extends Controller
       'created_at' => $created_at,
       'due_date' => $due_date,
       'discount' => $data['discount'],
-      'total' => $data['total'],
+      'total' => priceFormatSaving($data['total']),
       'is_saved' => 0,
       'is_up' => $is_up,
 

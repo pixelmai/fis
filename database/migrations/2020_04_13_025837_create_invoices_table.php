@@ -20,7 +20,7 @@ class CreateInvoicesTable extends Migration
             $table->unsignedBigInteger('projects_id')->default(0);
             $table->unsignedBigInteger('status')->default(1); //draft, etc
             $table->boolean('is_up')->default(0);
-            $table->decimal('discount',3, 2);
+            $table->decimal('discount', 5, 2);
             $table->decimal('total',15, 4);
             $table->date('due_date')->nullable(); 
             $table->unsignedBigInteger('updatedby_id');

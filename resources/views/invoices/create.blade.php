@@ -38,7 +38,7 @@
                             </div>
                           </div>
 
-                          <input id="client_id" type="text" name="client_id" value="{{ old('client_id') }}" required>
+                          <input id="client_id" type="hidden" name="client_id" value="{{ old('client_id') }}" required>
 
                           @error('contact_person')
                             <span class="invalid-feedback" role="alert">
@@ -91,7 +91,7 @@
                             autocomplete="off" autofocus placeholder="Search company name" disabled="disabled">
 
                           <input id="company_id" 
-                            type="text" 
+                            type="hidden" 
                             name="company_id" 
                             value="{{ old('company_id') }}">
 
@@ -114,7 +114,7 @@
                             autocomplete="off" autofocus placeholder="Search Project name" disabled="disabled">
 
                           <input id="project_id" 
-                            type="text" 
+                            type="hidden" 
                             name="project_id" 
                             value="{{ old('project_id') }}">
 
@@ -272,20 +272,21 @@
 
     /* CLIENTS Typeahead */
 
+      var proj_id = 0;
+
 
       function initClients(){
 
-      var clients = new Bloodhound({
-            remote: {
-                url: '{{ route('clientinvoiceauto') }}?q=%QUERY%',
-                wildcard: '%QUERY%'
-            },
-            datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace
+        var clients = new Bloodhound({
+          remote: {
+              url: '{{ route('clientinvoiceauto') }}?q=%QUERY%',
+              wildcard: '%QUERY%'
+          },
+          datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
+          queryTokenizer: Bloodhound.tokenizers.whitespace
         });
 
 
-        var proj_id = 0;
 
         $("input#contact_person").typeahead({
             hint: true,
@@ -326,7 +327,9 @@
             proj_id = suggestion.mainproject.id;
             $("#company_name").removeClass("disabled");
             $("#project_name").removeClass("disabled");
+
             initCompany(suggestion.id);
+            initProject(suggestion.id);
           }
         }).on('typeahead:autocomplete', function(ev, suggestion) {
           if(suggestion.id){
@@ -339,18 +342,25 @@
             }
             $('#company_id').val(suggestion.company.id);
             $('#project_id').val(suggestion.mainproject.id);
+            proj_id = suggestion.mainproject.id;
             $("#company_name").removeClass("disabled");
+            $("#project_name").removeClass("disabled");
+
             initCompany(suggestion.id);
+            initProject(suggestion.id);
           }
         });
       
         $('#contact_person').on('input', function(){
           $("#company_name").prop( "disabled", true );
           $("#company_name").addClass("disabled");
+          $("#project_name").prop( "disabled", true );
+          $("#project_name").addClass("disabled");
           $('#client_id').val('');
           $('#company_id').val('');
           $('#company_name').val('');
           $('#project_id').val('');
+          $('#project_name').val('');
           if($('#contact_person_fname').val()){
             $('#contact_person_fname').val('');
           }
@@ -359,6 +369,7 @@
         $( "#contact_person" ).change(function() {
           if($('#client_id').val() == ''){
             initCompany(0);
+            initProject(0);
           }
         });
 
@@ -366,11 +377,9 @@
     /* CLIENTS Typeahead */
 
 
-
     /* COMPANIES Typeahead */
-
-
       function initCompany(cid){
+        $('#company_name').typeahead('destroy');
 
         var comp_url = "{{ route('companyinvoiceauto') }}?c=" + cid + "&q=%QUERY%";
 
@@ -409,24 +418,85 @@
                 }
             }
 
+        }).on('typeahead:select', function(ev, csuggestion) {
+          if(csuggestion.id){
+            $('#company_id').val(csuggestion.id);
+          }
+        }).on('typeahead:autocomplete', function(ev, csuggestion) {
+          if(csuggestion.id){
+            $('#company_id').val(csuggestion.id);
+          }
+        });
+
+      }
+    /* COMPANIES Typeahead */
+
+    /* PROJECTS Typeahead */
+      function initProject(cid){
+        $('#project_name').typeahead('destroy');
+        var comp_url = "{{ route('projectinvoiceauto') }}?c=" + cid + "&q=%QUERY%";
+
+        $( "#project_name" ).prop( "disabled", false );
+
+        var projects = new Bloodhound({
+            remote: {
+                url: comp_url,
+                wildcard: '%QUERY%'
+            },
+            datumTokenizer: Bloodhound.tokenizers.whitespace('q'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace
+        });
+
+        $("input#project_name").typeahead({
+            hint: true,
+            highlight: true,
+            minLength: 2
+        }, {
+            source: projects.ttAdapter(),
+            // This will be appended to "tt-dataset-" to form the class name of the suggestion menu.
+            name: 'projects',
+            // the key from the array we want to display (name,id,email,etc...)
+            display: 'name',
+            templates: {
+                empty: [
+                    '<div class="list-group search-results-dropdown"><div class="list-group-item">Nothing found</div></div>'
+                ],
+                header: [
+                    '<div class="list-group search-results-dropdown">'
+                ],
+                suggestion: function (data) {
+                  //$('#company_id').val(1);
+                  return '<div class="list-group-item">' + data.name + '</div>';
+
+                }
+            }
+
         }).on('typeahead:select', function(ev, suggestion) {
           if(suggestion.id){
-            $('#company_id').val(suggestion.id);
+            $('#project_id').val(suggestion.id);
           }
         }).on('typeahead:autocomplete', function(ev, suggestion) {
           if(suggestion.id){
-            $('#company_id').val(suggestion.id);
+            $('#project_id').val(suggestion.id);
           }
         });
 
 
+
       }
-    /* COMPANIES Typeahead */
+    /* PROJECTS Typeahead */
 
 
     initClients();
     //initCompany();
 
+    $('#company_name').on('input', function(){
+      $('#company_id').val(1);
+    });
+
+    $('#project_name').on('input', function(){
+      $('#project_id').val(proj_id);
+    });
 
 
   }); //Document Ready end

@@ -48,6 +48,11 @@ function dateTimeFormat($d) {
   return date('M d, Y h:i A', strtotime($d));
 }
 
+function dateTimeFormatSimple($d) {
+  return date('m/d/Y h:i A',strtotime($d));
+}
+
+
 function priceFormat($p){
   return round($p, 2);
 }
@@ -66,3 +71,9 @@ function validateDate($date, $format = 'm/d/Y')
     // The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
     return $d && $d->format($format) === $date;
 }
+
+
+function shortenText($t, $n){
+  return substr($t, 0, $n). " ... ";
+}
+
