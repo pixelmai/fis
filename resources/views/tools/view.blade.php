@@ -337,7 +337,9 @@
         $('#ajaxForm #status option:contains('+status_note+
           ')').prop('selected', true);
 
-        $("#ajaxForm #status").dropkick('refresh');
+        //$("#ajaxForm #status").dropkick('refresh');
+        $('#ajaxForm #status').selectpicker('refresh');
+
 
         $('#ajax-crud-modal').trigger("reset");
         $('#ajax-crud-modal').modal('show');

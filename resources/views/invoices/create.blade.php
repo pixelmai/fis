@@ -173,14 +173,26 @@
                 </div>
               </div>
 
-
-
-
-
-
-
               <hr> 
              
+
+              <div id="invoice_items_table">
+                <table class="w-100">
+                  <tr>
+                    <th>Service</th>
+                    <th>Qty</th>
+                    <th>Unit</th>
+                    <th>Machine</th>
+                    <th>Notes</th>
+                    <th>Amount</th>
+                  </tr>
+
+                </table>
+              </div>
+
+
+
+
 
               <div class="form-group row">
 

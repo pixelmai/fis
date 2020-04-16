@@ -23,7 +23,7 @@
 
   <link href="{{ asset('css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
   <link href="{{ asset('css/jquery.dataTables.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('css/dropkick.css') }}" rel="stylesheet">
+  <link href="{{ asset('css/bootstrap-select.min.css') }}" rel="stylesheet">
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
 
@@ -70,7 +70,7 @@
 <script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
 <script src="{{ asset('js/popper.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('js/dropkick.js') }}"></script>
+<script src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 
 <script src="{{ asset('js/app.js') }}" defer></script>
   

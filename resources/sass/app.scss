@@ -834,9 +834,18 @@
 
   .dataTables_wrapper{
     border-top: 1px dotted #ccc;
+
+    .bootstrap-select{
+      .dropdown-toggle{
+        padding-top: 0;
+        padding-bottom: 0;
+        padding-right: 0;
+      }
+    }
+
     .dataTables_length{
       padding: 20px 0 10px;
-      .dk-select{
+      .bootstrap-select{
         width: 70px;
       }
     }
@@ -861,8 +870,8 @@
           color: #ccc;
         }
 
-        .dk-select{
-          width: 80px;
+        .bootstrap-select{
+          width: 100px;
           text-align: left;
           margin-left: 10px;
         }
@@ -923,6 +932,13 @@ hr.dotted{ border-top: 1px dotted #ddd; }
   z-index: 9000 !important;
 }
 
+
+.bootstrap-select{
+  .dropdown-toggle{
+    background-color: #fff;
+    border-color: #ced4da;
+  }
+}
 /* ---------------------------------------------------
   MEDIAQUERIES
 ----------------------------------------------------- */

@@ -11664,11 +11664,17 @@ form label #compExists {
   border-top: 1px dotted #ccc;
 }
 
+#app .dataTables_wrapper .bootstrap-select .dropdown-toggle {
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-right: 0;
+}
+
 #app .dataTables_wrapper .dataTables_length {
   padding: 20px 0 10px;
 }
 
-#app .dataTables_wrapper .dataTables_length .dk-select {
+#app .dataTables_wrapper .dataTables_length .bootstrap-select {
   width: 70px;
 }
 
@@ -11695,8 +11701,8 @@ form label #compExists {
   color: #ccc;
 }
 
-#app .dataTables_wrapper .dataTables_filter #active_status_container .dk-select {
-  width: 80px;
+#app .dataTables_wrapper .dataTables_filter #active_status_container .bootstrap-select {
+  width: 100px;
   text-align: left;
   margin-left: 10px;
 }
@@ -11746,6 +11752,11 @@ hr.dotted {
 
 .datepicker {
   z-index: 9000 !important;
+}
+
+.bootstrap-select .dropdown-toggle {
+  background-color: #fff;
+  border-color: #ced4da;
 }
 
 /* ---------------------------------------------------
