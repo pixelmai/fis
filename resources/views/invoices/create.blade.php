@@ -173,31 +173,58 @@
                 </div>
               </div>
 
-              <hr> 
+     
              
+              <?php $key = 1; ?>
 
               <div id="invoice_items_table">
                 <table class="w-100">
                   <tr>
                     <th>Service</th>
+                    <th>Machine</th>
                     <th>Qty</th>
                     <th>Unit</th>
-                    <th>Machine</th>
-                    <th>Notes</th>
                     <th>Amount</th>
+                    <th>&nbsp;</th>
                   </tr>
-
+                  <tbody>
+                    <tr id="itemrow{{$key}}" class="itemrow">
+                      <td class="services">
+                          <select id="services_id{{$key}}" name="services_id[]" class="form-control @error('$services_id') is-invalid @enderror" data-live-search="true" title="Select availed service"  data-width="100%" required>
+                            @foreach($services as $service) 
+                              <option value="{{ $service->id }}">{{ $service->name }}</option>
+                            @endforeach
+                          </select>
+                      </td>
+                      <td class="machines">
+                        <select id="machines_id{{$key}}" name="machines_id[]" class="form-control w-100 @error('$machines_id') is-invalid @enderror" disabled="disabled" required>
+                        </select>
+                      </td>
+                      <td class="quantity">
+                        <input type="text" id="quantity{{$key}}" name="quantity[]" value="" class="form-control w-100 quantity" required />
+                      </td>
+                      <td class="unit">
+                        <input type="text" id="unit{{$key}}" name="unit[]" value="" class="form-control w-100 quantity" disabled="disabled" />
+                      </td>
+                      <td class="amount">
+                        <input type="text" id="amount{{$key}}" name="amount[]" value="" class="form-control w-100 quantity" disabled="disabled" />
+                      </td>
+                      <td class="option">
+                        <a href="javascript:void(0);" class="add_button" title="Add field"><img src="/images/add-icon.png"/></a>
+                      </td>
+                    </tr>
+                  
+                    <tr id="itemrow{{$key}}" class="descrow">
+                      <td class="notes" colspan="4">
+                        <input type="text" id="notes{{$key}}" name="notes[]" value="" class="form-control w-100 quantity" placeholder="Description (optional)" />
+                      </td>
+                      <td class="amount">&nbsp;</td>
+                      <td class="option">&nbsp;</td>
+                    </tr>
+                  </tbody>
                 </table>
 
 
-                <select id="services_id" name="services_id" class="form-control @error('$services_id') is-invalid @enderror" data-live-search="true" autofocus>
-
-
-                @foreach($services as $service) 
-                  <option value="{{ $service->id }}">{{ $service->name }}</option>
-                @endforeach
-
-                </select>
 
 
               </div>
@@ -206,6 +233,14 @@
 
 
 
+
+
+
+
+
+
+
+              <br><br><br><br><br>
               <div class="form-group row">
 
                 <div class="col-md-2">

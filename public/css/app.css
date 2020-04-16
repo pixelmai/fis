@@ -11707,6 +11707,90 @@ form label #compExists {
   margin-left: 10px;
 }
 
+#app #invoice_items_table {
+  background: #fff;
+  min-width: 1030px !important;
+  margin-top: 10px;
+}
+
+#app #invoice_items_table th {
+  border-top: 2px solid #e1e1e1;
+  border-bottom: 2px solid #e1e1e1;
+  background: #f8f8f8;
+  color: #333;
+  padding: 10px 5px;
+}
+
+#app #invoice_items_table tr.itemrow td {
+  border-bottom: 1px dotted #e1e1e1;
+}
+
+#app #invoice_items_table tr.descrow {
+  border-bottom: 2px solid #e1e1e1;
+}
+
+#app #invoice_items_table td {
+  border-right: 1px dotted #e1e1e1;
+}
+
+#app #invoice_items_table td input,
+#app #invoice_items_table td select,
+#app #invoice_items_table td button {
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+}
+
+#app #invoice_items_table td input:focus,
+#app #invoice_items_table td select:focus,
+#app #invoice_items_table td button:focus {
+  outline: none;
+  background: #ffffe5;
+}
+
+#app #invoice_items_table td .form-control:focus {
+  border-color: inherit;
+  box-shadow: none;
+}
+
+#app #invoice_items_table td.services {
+  width: 35%;
+}
+
+#app #invoice_items_table td.machines {
+  width: 30%;
+}
+
+#app #invoice_items_table td.unit {
+  width: 8%;
+  background: #f0f4f8;
+}
+
+#app #invoice_items_table td.unit .form-control:disabled,
+#app #invoice_items_table td.unit .form-control[readonly] {
+  background-color: #fff;
+  border: 0;
+}
+
+#app #invoice_items_table td.quantity {
+  width: 6%;
+}
+
+#app #invoice_items_table td.amount {
+  border-bottom: 0 !important;
+  background: #f0f4f8;
+}
+
+#app #invoice_items_table td.amount .form-control:disabled,
+#app #invoice_items_table td.amount .form-control[readonly] {
+  background-color: #f0f4f8;
+}
+
+#app #invoice_items_table td.option {
+  border: 0 !important;
+  padding: 0 5px;
+}
+
 /* ---------------------------------------------------
   ADDITIONAL OOP
 ----------------------------------------------------- */

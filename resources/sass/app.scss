@@ -546,6 +546,7 @@
     }
 
 
+
   }
 
   
@@ -830,8 +831,6 @@
     }
   }
 
-
-
   .dataTables_wrapper{
     border-top: 1px dotted #ccc;
 
@@ -882,6 +881,73 @@
   }
 
 
+
+  #invoice_items_table{
+    background: #fff;
+    min-width: 1030px !important;
+    margin-top: 10px;
+
+    th{
+      border-top: 2px solid #e1e1e1;
+      border-bottom: 2px solid #e1e1e1;
+      background: #f8f8f8;
+      color: #333;
+      padding: 10px 5px;
+    }
+
+    tr.itemrow{
+      td{border-bottom: 1px dotted #e1e1e1;}
+    }
+
+    tr.descrow{
+      border-bottom: 2px solid #e1e1e1;
+    }
+
+    td{
+      border-right: 1px dotted #e1e1e1;
+      input, select, button{
+        border: 0;
+        border-radius: 0;
+        margin: 0;
+
+        &:focus{
+          outline: none;
+          background: #ffffe5;
+        }
+
+      }
+
+      .form-control:focus {
+        border-color: inherit;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+
+    }
+
+    td.services{ width: 35%; }
+    td.machines{ width: 30%; }
+    td.unit{ 
+      width: 8%;
+      background: #f0f4f8;
+
+      .form-control:disabled, .form-control[readonly] {
+        background-color: #fff;
+        border: 0;
+      }
+    }
+    td.quantity{ width: 6%;}
+    td.amount{
+      border-bottom: 0 !important; 
+      background: #f0f4f8;
+      .form-control:disabled, .form-control[readonly] {
+        background-color: #f0f4f8;
+      }
+    }
+    td.option{border: 0 !important; padding: 0 5px;}
+
+
+  }
 }
 
 
