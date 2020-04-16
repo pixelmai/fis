@@ -349,7 +349,6 @@
         //$("#ajaxForm #status").dropkick('refresh');
         $('#ajaxForm #status').selectpicker('refresh');
 
-
         $('#ajax-crud-modal').trigger("reset");
         $('#ajax-crud-modal').modal('show');
 

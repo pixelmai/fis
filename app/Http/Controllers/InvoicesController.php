@@ -134,8 +134,10 @@ class InvoicesController extends Controller
     $latest_invoice = Invoices::orderBy('created_at', 'desc')->select('id')->first();
     $id_num = $latest_invoice->id + 1;
 
+    $services = Services::with('current')->where('is_deactivated', 0)->get();
 
-    return view('invoices.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'id_num'=> $id_num]);
+
+    return view('invoices.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'id_num'=> $id_num, 'services' => $services]);
   }
 
 
@@ -155,6 +157,7 @@ class InvoicesController extends Controller
       'due_date' => ['nullable'],
       'is_up' => ['nullable'],
     ]);
+
 
 
     $is_up = (isset($data['is_up']) && $data['is_up'] == 1 ? 1 : 0); 

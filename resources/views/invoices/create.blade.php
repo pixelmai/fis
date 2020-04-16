@@ -188,6 +188,18 @@
                   </tr>
 
                 </table>
+
+
+                <select id="services_id" name="services_id" class="form-control @error('$services_id') is-invalid @enderror" data-live-search="true" autofocus>
+
+
+                @foreach($services as $service) 
+                  <option value="{{ $service->id }}">{{ $service->name }}</option>
+                @endforeach
+
+                </select>
+
+
               </div>
 
 
