@@ -184,6 +184,7 @@
                     <th>Machine</th>
                     <th>Qty</th>
                     <th>Unit</th>
+                    <th>Price</th>
                     <th>Amount</th>
                     <th>&nbsp;</th>
                   </tr>
@@ -206,6 +207,9 @@
                       <td class="unit">
                         <input type="text" id="unit{{$key}}" name="unit[]" value="" class="form-control unit w-100 quantity" disabled="disabled" />
                       </td>
+                      <td class="price">
+                        <input type="text" id="price{{$key}}" name="price[]" value="" class="form-control price w-100 quantity" disabled="disabled" />
+                      </td>
                       <td class="amount">
                         <input type="text" id="amount{{$key}}" name="amount[]" value="" class="form-control amount w-100 quantity" disabled="disabled" />
                       </td>
@@ -215,7 +219,7 @@
                     </tr>
                   
                     <tr id="itemrow{{$key}}" class="descrow">
-                      <td class="notes" colspan="4">
+                      <td class="notes" colspan="5">
                         <input type="text" id="notes{{$key}}" name="notes[]" value="" class="form-control w-100 quantity" placeholder="Description (optional)" />
                       </td>
                       <td class="amount">&nbsp;</td>
@@ -597,9 +601,10 @@
         dataType: 'json',
         success:function(response){
           console.table(response);
-          $('input.unit').val(response['price']);
+          $('input.unit').val(response['unit']);
+          $('input.price').val(response['price']);
 
-          var amount = $('input.unit').val() * $('input.quantity').val();
+          var amount = $('input.price').val() * $('input.quantity').val();
           $('input.amount').val(amount);
         }
       });
@@ -611,7 +616,7 @@
 
 
     $('.quantity').on('input', function(){
-      var amount = $('input.unit').val() * $('input.quantity').val();
+      var amount = $('input.price').val() * $('input.quantity').val();
       $('input.amount').val(amount);
     });
 

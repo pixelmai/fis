@@ -11761,13 +11761,16 @@ form label #compExists {
   width: 30%;
 }
 
-#app #invoice_items_table td.unit {
+#app #invoice_items_table td.unit,
+#app #invoice_items_table td.price {
   width: 8%;
   background: #f0f4f8;
 }
 
 #app #invoice_items_table td.unit .form-control:disabled,
-#app #invoice_items_table td.unit .form-control[readonly] {
+#app #invoice_items_table td.unit .form-control[readonly],
+#app #invoice_items_table td.price .form-control:disabled,
+#app #invoice_items_table td.price .form-control[readonly] {
   background-color: #fff;
   border: 0;
 }

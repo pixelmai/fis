@@ -381,7 +381,6 @@ class ServicesController extends Controller
 
         if($m->is_deactivated != 1) {
           $main = ($m->id == $main_id ? 1 : 0);
-
           $arr[] = array( "id" => $m->id, "name" => $m->name, 'main'=> $main);
         }
       }
@@ -402,9 +401,9 @@ class ServicesController extends Controller
     foreach($service_info as $s){
       if($is_up == 1){
 
-        $price = array( "price" => priceFormat($s->current->up_price));
+        $price = array( "price" => priceFormat($s->current->up_price), "unit" => $s->unit);
       }else{
-        $price = array( "price" => priceFormat($s->current->def_price));
+        $price = array( "price" => priceFormat($s->current->def_price), "unit" => $s->unit);
       }
     }
 
