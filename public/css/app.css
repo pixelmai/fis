@@ -11729,6 +11729,10 @@ form label #compExists {
   border-bottom: 2px solid #e1e1e1;
 }
 
+#app #invoice_items_table tr.descrow input {
+  background: #fbfbfb;
+}
+
 #app #invoice_items_table td {
   border-right: 1px dotted #e1e1e1;
 }
@@ -11758,7 +11762,7 @@ form label #compExists {
 }
 
 #app #invoice_items_table td.machines {
-  width: 30%;
+  width: 27%;
 }
 
 #app #invoice_items_table td.unit,

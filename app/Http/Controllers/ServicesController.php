@@ -396,18 +396,14 @@ class ServicesController extends Controller
   {
     $arr = array();
 
-    $is_up = $request->get('up');
-
     $service_info = Services::with('current')->where("id", "=","{$request->get('q')}")->get();
 
 
     foreach($service_info as $s){
-      if($is_up == 1){
 
-        $price = array( "price" => priceFormat($s->current->up_price), "unit" => $s->unit);
-      }else{
-        $price = array( "price" => priceFormat($s->current->def_price), "unit" => $s->unit);
-      }
+
+        $price = array( "up_price" => priceFormat($s->current->up_price), "def_price" => priceFormat($s->current->def_price), "unit" => $s->unit);
+  
     }
 
     return json_encode($price);

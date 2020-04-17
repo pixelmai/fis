@@ -179,20 +179,54 @@
 
               <div id="invoice_items_table">
                 <table class="w-100">
-                  <thead>
-                    <tr>
-                      <th>Service</th>
-                      <th>Machine</th>
-                      <th>Qty</th>
-                      <th>Unit</th>
-                      <th>Price</th>
-                      <th>Amount</th>
-                      <th>&nbsp;</th>
+                  <tr>
+                    <th>Service</th>
+                    <th>Machine</th>
+                    <th>Qty</th>
+                    <th>Unit</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                    <th>&nbsp;</th>
+                  </tr>
+                  <tbody>
+                    <tr id="itemrow{{$key}}" class="itemrow">
+                      <td class="services">
+                          <select id="services_id{{$key}}" name="services_id[]" class="services_id form-control @error('$services_id') is-invalid @enderror" data-live-search="true" title="Select availed service"  data-width="100%" required>
+                            @foreach($services as $service) 
+                              <option value="{{ $service->id }}">{{ $service->name }}</option>
+                            @endforeach
+                          </select>
+                      </td>
+                      <td class="machines">
+                        <select id="machines_id{{$key}}" name="machines_id[]" class=" machines_id form-control w-100 @error('$machines_id') is-invalid @enderror" disabled="disabled" required>
+                        </select>
+                      </td>
+                      <td class="quantity">
+                        <input type="text" id="quantity{{$key}}" name="quantity[]" value="" class="form-control w-100 quantity" required />
+                      </td>
+                      <td class="unit">
+                        <input type="text" id="unit{{$key}}" name="unit[]" value="" class="form-control unit w-100 quantity" disabled="disabled" />
+                      </td>
+                      <td class="price">
+                        <input type="hidden" id="up_price{{$key}}" name="up_price[]" value="" class="form-control up_price w-100 quantity" disabled="disabled" />
+                        <input type="hidden" id="def_price{{$key}}" name="def_price[]" value="" class="form-control def_price w-100 quantity" disabled="disabled" />
+                        <input type="text" id="price{{$key}}" name="price[]" value="" class="form-control price w-100 quantity" disabled="disabled" />
+                      </td>
+                      <td class="amount">
+                        <input type="text" id="amount{{$key}}" name="amount[]" value="" class="form-control amount w-100 quantity" disabled="disabled" />
+                      </td>
+                      <td class="option">
+                        <a href="javascript:void(0);" class="remove_button" data-delid="{{ $key }}"><img src="/images/remove-icon.png" /></a>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody data-rowid="{{$key}}">
-                      <tr id="itemrow{{$key}}" class="itemrow"> <td class="services"> <select id="services_id{{$key}}" name="services_id[]" class="services_id form-control @error('$services_id') is-invalid @enderror" data-live-search="true" title="Select availed service" data-width="100%" required> @foreach($services as $service) <option value="{{ $service->id }}">{{ $service->name }}</option> @endforeach </select> </td> <td class="machines"> <select id="machines_id{{$key}}" name="machines_id[]" class=" machines_id form-control w-100 @error('$machines_id') is-invalid @enderror" disabled="disabled" required> </select> </td> <td class="quantity"> <input type="text" id="quantity{{$key}}" name="quantity[]" value="" class="form-control w-100 quantity" required /> </td> <td class="unit"> <input type="text" id="unit{{$key}}" name="unit[]" value="" class="form-control unit w-100 quantity" disabled="disabled" /> </td> <td class="price"> <input type="hidden" id="up_price{{$key}}" name="up_price[]" value="" class="form-control up_price w-100 quantity" disabled="disabled" /> <input type="hidden" id="def_price{{$key}}" name="def_price[]" value="" class="form-control def_price w-100 quantity" disabled="disabled" /> <input type="text" id="price{{$key}}" name="price[]" value="" class="form-control price w-100 quantity" disabled="disabled" /> </td> <td class="amount"> <input type="text" id="amount{{$key}}" name="amount[]" value="" class="form-control amount w-100 quantity" disabled="disabled" /> </td> <td class="option"> <a href="javascript:void(0);" class="remove_button" data-delid="{{ $key }}"><img src="/images/remove-icon.png" /></a> </td> </tr> <tr id="itemrow{{$key}}" class="descrow"> <td class="notes" colspan="5"> <input type="text" id="notes{{$key}}" name="notes[]" value="" class="form-control w-100 quantity" placeholder="Description (optional)" /> </td> <td class="amount">&nbsp;</td> <td class="option">&nbsp;</td> </tr>
-
+                  
+                    <tr id="itemrow{{$key}}" class="descrow">
+                      <td class="notes" colspan="5">
+                        <input type="text" id="notes{{$key}}" name="notes[]" value="" class="form-control w-100 quantity" placeholder="Description (optional)" />
+                      </td>
+                      <td class="amount">&nbsp;</td>
+                      <td class="option">&nbsp;</td>
+                    </tr>
                   </tbody>
                 </table>
 
@@ -299,42 +333,6 @@
         startDate: '-1m',
         endDate: '+3m',
       });
-
-
-      var maxField = 10; //Input fields increment limitation
-      var addButton = $('.add_button'); //Add button selector
-      var wrapper = $('tbody'); //Input field wrapper
-      var x = 2; //Initial field counter is 1
-
-
-      //Once add button is clicked
-      $(addButton).click(function(){
-          //Check maximum number of input fields
-
-        var fieldHTML = '<tbody data-rowid="' + x + '"><tr id="itemrow' + x + '" class="itemrow"> <td class="services"> <select id="services_id' + x + '" name="services_id[]" class="services_id form-control @error('$services_id') is-invalid @enderror" data-live-search="true" title="Select availed service" data-width="100%" required> @foreach($services as $service) <option value="{{ $service->id }}">{{ $service->name }}</option> @endforeach </select> </td> <td class="machines"> <select id="machines_id' + x + '" name="machines_id[]" class=" machines_id form-control w-100 @error('$machines_id') is-invalid @enderror" disabled="disabled" required> </select> </td> <td class="quantity"> <input type="text" id="quantity' + x + '" name="quantity[]" value="" class="form-control w-100 quantity" required /> </td> <td class="unit"> <input type="text" id="unit' + x + '" name="unit[]" value="" class="form-control unit w-100 quantity" disabled="disabled" /> </td> <td class="price"> <input type="hidden" id="up_price' + x + '" name="up_price[]" value="" class="form-control up_price w-100 quantity" disabled="disabled" /> <input type="hidden" id="def_price' + x + '" name="def_price[]" value="" class="form-control def_price w-100 quantity" disabled="disabled" /> <input type="text" id="price' + x + '" name="price[]" value="" class="form-control price w-100 quantity" disabled="disabled" /> </td> <td class="amount"> <input type="text" id="amount' + x + '" name="amount[]" value="" class="form-control amount w-100 quantity" disabled="disabled" /> </td> <td class="option"> <a href="javascript:void(0);" class="remove_button" data-delid="' + x + '"><img src="/images/remove-icon.png" /></a> </td> </tr> <tr id="itemrow' + x + '" class="descrow"> <td class="notes" colspan="5"> <input type="text" id="notes' + x + '" name="notes[]" value="" class="form-control w-100 quantity" placeholder="Description (optional)" /> </td> <td class="amount">&nbsp;</td> <td class="option">&nbsp;</td> </tr></tbody>'; 
-        //New input field html 
-
-        if(x < maxField){ 
-            x++; //Increment field counter
-            var body = $('#invoice_items_table table');
-            body.append(fieldHTML); //Add field html
-            body.find('.services_id').selectpicker();
-            body.find('.machines_id').selectpicker();
-            initItemsTable();
-        }
-
-      });
-      
-      //Once remove button is clicked
-      $(wrapper).on('click', '.remove_button', function(e){
-          e.preventDefault();
-          var toDelete = $(this).data("delid"); //Remove field html
-          $("[data-rowid=" + toDelete + "]").remove();
-          x--; //Decrement field counter
-      });
-
-
-
 
     /* CLIENTS Typeahead */
 
@@ -552,6 +550,10 @@
       }
     /* PROJECTS Typeahead */
 
+
+    initClients();
+    //initCompany();
+
     $('#company_name').on('input', function(){
       $('#company_id').val(1);
     });
@@ -561,85 +563,80 @@
     });
 
 
-    function initItemsTable(){
-      $('.quantity').on('input', function(){
-        var parent = $(this).parents('td');
-        var a = parent.siblings('.amount').find('input');
-        var p = parent.siblings('.price').find('input');
-        var qu = $(this).val();
-        var amount = p.val() * qu;
-        a.val(amount);
-      });
-    
-      $( ".services_id" ).change(function() {
-        var parent = $(this).parents('td');
-        var up = $('#is_up').is(":checked") ? 1 : 0;
-        var u = parent.siblings('.unit').find('input');
-        var q = parent.find('.services_id').children("option:selected").val();
-        var upp = parent.siblings('.price').find('input.up_price');
-        var dp = parent.siblings('.price').find('input.def_price');
-        var p = parent.siblings('.price').find('input.price');
-        var a = parent.siblings('.amount').find('input');
-        var qu = parent.siblings('.quantity').find('input');
+    $('.quantity').on('input', function(){
+      var parent = $(this).parents('td');
+      var a = parent.siblings('.amount').find('input');
+      var p = parent.siblings('.price').find('input');
+      var qu = $(this).val();
+      var amount = p.val() * qu;
+      a.val(amount);
+    });
 
-        parent.siblings('.quantity').find('input').val('1');
-        machine = parent.siblings('.machines').find("select");
+    $( ".services_id" ).change(function() {
+      var parent = $(this).parents('td');
+      var up = $('#is_up').is(":checked") ? 1 : 0;
+      var u = parent.siblings('.unit').find('input');
+      var q = parent.find('.services_id').children("option:selected").val();
+      var upp = parent.siblings('.price').find('input.up_price');
+      var dp = parent.siblings('.price').find('input.def_price');
+      var p = parent.siblings('.price').find('input.price');
+      var a = parent.siblings('.amount').find('input');
+      var qu = parent.siblings('.quantity').find('input');
 
-        $.ajax({
-          url: '{{ route('servicemachines') }}?&q='+ q,
-          type: 'get',
-          dataType: 'json',
-          success:function(response){
-            var len = response.length;
-            machine.selectpicker('destroy');
-            machine.prop( "disabled", false );
-            machine.empty();
-    
-            if (len != 0){  
-              for( var i = 0; i<len; i++){
-                var id = response[i]['id'];
-                var name = response[i]['name'];
-                if (response[i]['main'] == 1){
-                  machine.append("<option value='"+id+"' selected>"+name+"</option>");
-                }else{
-                  machine.append("<option value='"+id+"'>"+name+"</option>");
-                }
+      parent.siblings('.quantity').find('input').val('1');
+      machine = parent.siblings('.machines').find("select");
+
+      $.ajax({
+        url: '{{ route('servicemachines') }}?&q='+ q,
+        type: 'get',
+        dataType: 'json',
+        success:function(response){
+          var len = response.length;
+          machine.selectpicker('destroy');
+          machine.prop( "disabled", false );
+          machine.empty();
+  
+          if (len != 0){  
+            for( var i = 0; i<len; i++){
+              var id = response[i]['id'];
+              var name = response[i]['name'];
+              if (response[i]['main'] == 1){
+                machine.append("<option value='"+id+"' selected>"+name+"</option>");
+              }else{
+                machine.append("<option value='"+id+"'>"+name+"</option>");
               }
-              machine.selectpicker();
             }
+             machine.selectpicker();
           }
-        });
-
-        $.ajax({
-          url: '{{ route('servicedetails') }}?&q='+ q,
-          type: 'get',
-          dataType: 'json',
-          success:function(response){
-            console.table(response);
-
-            u.val(response['unit']);
-            upp.val(response['up_price']);
-            dp.val(response['def_price']);
-
-            if(up == 1){
-              p.val(upp.val());
-            }else{
-              p.val(dp.val());
-            }
-            
-            var amount = p.val() * qu.val();
-            a.val(amount);
-          }
-        });
-
+        }
       });
 
-    }
+      $.ajax({
+        url: '{{ route('servicedetails') }}?&q='+ q,
+        type: 'get',
+        dataType: 'json',
+        success:function(response){
+          console.table(response);
+
+          u.val(response['unit']);
+          upp.val(response['up_price']);
+          dp.val(response['def_price']);
+
+          if(up == 1){
+            p.val(upp.val());
+          }else{
+            p.val(dp.val());
+          }
+          
+          var amount = p.val() * qu.val();
+          a.val(amount);
+        }
+      });
+
+    });
 
 
 
-    initClients();
-    initItemsTable();
 
   }); //Document Ready end
 </script>

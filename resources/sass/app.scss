@@ -901,6 +901,9 @@
 
     tr.descrow{
       border-bottom: 2px solid #e1e1e1;
+      input{
+        background: #fbfbfb;
+      }
     }
 
     td{
@@ -926,7 +929,7 @@
     }
 
     td.services{ width: 35%; }
-    td.machines{ width: 30%; }
+    td.machines{ width: 27%; }
     td.unit, td.price{ 
       width: 8%;
       background: #f0f4f8;

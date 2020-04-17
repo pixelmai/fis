@@ -132,7 +132,9 @@ class InvoicesController extends Controller
   {
     $user = auth()->user();
     $latest_invoice = Invoices::orderBy('created_at', 'desc')->select('id')->first();
-    $id_num = $latest_invoice->id + 1;
+
+    $lid = (isset($latest_invoice->id) ? $latest_invoice->id : 0);
+    $id_num = $lid + 1;
 
     $services = Services::with('current')->where('is_deactivated', 0)->get();
 
