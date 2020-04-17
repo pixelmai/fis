@@ -369,21 +369,24 @@ class ServicesController extends Controller
   {
     $arr = array();
 
-    $machine_list = Services::with('machines','mainmachine')->where("id", "=","{$request->get('q')}")->get();
+    $machine_list = Services::find($request->get('q'))->machines()->get();
+    $main = Services::find($request->get('q'))->mainmachine()->get();
 
+    if(count($machine_list) != 0){
+      foreach ($main as $m) {
+        $main_id =  $m->id;
+      }
 
-    foreach ($machine_list as $k => $mainmachine) {
-      $main_id =  $mainmachine->mainmachine->id;
-    }
-
-    foreach ($machine_list as $k => $mi) {
-      foreach($mi->machines as $m){
-
+      foreach($machine_list as $m){
         if($m->is_deactivated != 1) {
           $main = ($m->id == $main_id ? 1 : 0);
           $arr[] = array( "id" => $m->id, "name" => $m->name, 'main'=> $main);
         }
       }
+    }else{
+
+      $arr[] = array( "id" => 0, "name" => "N/A", 'main'=> 1);
+    
     }
 
     return json_encode($arr);

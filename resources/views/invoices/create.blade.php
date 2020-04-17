@@ -214,7 +214,7 @@
                         <input type="text" id="amount{{$key}}" name="amount[]" value="" class="form-control amount w-100 quantity" disabled="disabled" />
                       </td>
                       <td class="option">
-                        <a href="javascript:void(0);" class="add_button" title="Add field"><img src="/images/add-icon.png"/></a>
+                        <a href="javascript:void(0);" class="remove_button" data-delid="{{ $key }}"><img src="/images/remove-icon.png" /></a>
                       </td>
                     </tr>
                   
@@ -228,8 +228,7 @@
                   </tbody>
                 </table>
 
-
-
+                <a href="javascript:void(0);" class="add_button" title="Add field"><img src="/images/add-icon.png"/></a>
 
               </div>
 
@@ -569,29 +568,31 @@
       var q = p.find('.services_id').children("option:selected").val();
       var up = $('#is_up').is(":checked") ? 1 : 0;
 
+      machine = p.siblings('.machines').find("select");
 
       $.ajax({
         url: '{{ route('servicemachines') }}?&q='+ q,
         type: 'get',
         dataType: 'json',
         success:function(response){
-
           var len = response.length;
-
-          $('select.machines_id').selectpicker('destroy');
-          $( "select.machines_id" ).prop( "disabled", false );
-          $("select.machines_id").empty();
-
-          for( var i = 0; i<len; i++){
-            var id = response[i]['id'];
-            var name = response[i]['name'];
-            if (response[i]['main'] == 1){
-              $("select.machines_id").append("<option value='"+id+"' selected>"+name+"</option>");
-            }else{
-              $("select.machines_id").append("<option value='"+id+"'>"+name+"</option>");
+          machine.selectpicker('destroy');
+          machine.prop( "disabled", false );
+          machine.empty();
+  
+          if (len != 0){  
+            for( var i = 0; i<len; i++){
+              var id = response[i]['id'];
+              var name = response[i]['name'];
+              if (response[i]['main'] == 1){
+                machine.append("<option value='"+id+"' selected>"+name+"</option>");
+              }else{
+                machine.append("<option value='"+id+"'>"+name+"</option>");
+              }
             }
+             machine.selectpicker();
+
           }
-          $('select.machines_id').selectpicker();
         }
       });
 
@@ -608,8 +609,6 @@
           $('input.amount').val(amount);
         }
       });
-
-
 
     });
 
