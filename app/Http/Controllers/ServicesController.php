@@ -365,12 +365,11 @@ class ServicesController extends Controller
   }
 
 
-
-  public function autocomplete(Request $request)
+  public function servicemachines(Request $request)
   {
     $arr = array();
 
-    $machine_list = Services::with('machines','mainmachine')->where("id", "=","{$request->get('q')}")->where('is_deactivated', 0)->get();
+    $machine_list = Services::with('machines','mainmachine')->where("id", "=","{$request->get('q')}")->get();
 
 
     foreach ($machine_list as $k => $mainmachine) {
@@ -379,14 +378,39 @@ class ServicesController extends Controller
 
     foreach ($machine_list as $k => $mi) {
       foreach($mi->machines as $m){
-        $main = ($m->id == $main_id ? 1 : 0);
 
-        $arr[] = array( "id" => $m->id, "name" => $m->name, 'main'=> $main);
+        if($m->is_deactivated != 1) {
+          $main = ($m->id == $main_id ? 1 : 0);
+
+          $arr[] = array( "id" => $m->id, "name" => $m->name, 'main'=> $main);
+        }
       }
     }
 
     return json_encode($arr);
   }
+
+  public function servicedetails(Request $request)
+  {
+    $arr = array();
+
+    $is_up = $request->get('up');
+
+    $service_info = Services::with('current')->where("id", "=","{$request->get('q')}")->get();
+
+
+    foreach($service_info as $s){
+      if($is_up == 1){
+
+        $price = array( "price" => priceFormat($s->current->up_price));
+      }else{
+        $price = array( "price" => priceFormat($s->current->def_price));
+      }
+    }
+
+    return json_encode($price);
+  }
+
 
 
 

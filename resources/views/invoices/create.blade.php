@@ -50,8 +50,8 @@
 
                     <div class="d-flex col-md-3">
                       <div class="align-self-end">
-                        <input type="checkbox" id="is_pwd" name="is_pwd" value="1">
-                        <label for="is_pwd" class="pl-2 col-form-label">is UP?</label>
+                        <input type="checkbox" id="is_up" name="is_up" value="1">
+                        <label for="is_up" class="pl-2 col-form-label">is UP?</label>
                       </div>
                     </div>
                     
@@ -204,10 +204,10 @@
                         <input type="text" id="quantity{{$key}}" name="quantity[]" value="" class="form-control w-100 quantity" required />
                       </td>
                       <td class="unit">
-                        <input type="text" id="unit{{$key}}" name="unit[]" value="" class="form-control w-100 quantity" disabled="disabled" />
+                        <input type="text" id="unit{{$key}}" name="unit[]" value="" class="form-control unit w-100 quantity" disabled="disabled" />
                       </td>
                       <td class="amount">
-                        <input type="text" id="amount{{$key}}" name="amount[]" value="" class="form-control w-100 quantity" disabled="disabled" />
+                        <input type="text" id="amount{{$key}}" name="amount[]" value="" class="form-control amount w-100 quantity" disabled="disabled" />
                       </td>
                       <td class="option">
                         <a href="javascript:void(0);" class="add_button" title="Add field"><img src="/images/add-icon.png"/></a>
@@ -563,40 +563,59 @@
       p.siblings('.quantity').find('input').val('1');
       p.siblings('.unit').find('input').val('1');
       var q = p.find('.services_id').children("option:selected").val();
+      var up = $('#is_up').is(":checked") ? 1 : 0;
+
 
       $.ajax({
-        url: '{{ route('servicesinvoiceauto') }}?&q='+ q,
+        url: '{{ route('servicemachines') }}?&q='+ q,
         type: 'get',
         dataType: 'json',
         success:function(response){
 
-            var len = response.length;
+          var len = response.length;
 
-            alert(len);
+          $('select.machines_id').selectpicker('destroy');
+          $( "select.machines_id" ).prop( "disabled", false );
+          $("select.machines_id").empty();
 
-            $('select.machines_id').selectpicker('destroy');
-            $( "select.machines_id" ).prop( "disabled", false );
-            $("select.machines_id").empty();
-
-            for( var i = 0; i<len; i++){
-              var id = response[i]['id'];
-              var name = response[i]['name'];
-              if (response[i]['main'] == 1){
-                $("select.machines_id").append("<option value='"+id+"' selected>"+name+"</option>");
-              }else{
-                $("select.machines_id").append("<option value='"+id+"'>"+name+"</option>");
-              }
+          for( var i = 0; i<len; i++){
+            var id = response[i]['id'];
+            var name = response[i]['name'];
+            if (response[i]['main'] == 1){
+              $("select.machines_id").append("<option value='"+id+"' selected>"+name+"</option>");
+            }else{
+              $("select.machines_id").append("<option value='"+id+"'>"+name+"</option>");
             }
+          }
+          $('select.machines_id').selectpicker();
+        }
+      });
 
-            $('select.machines_id').selectpicker();
+      $.ajax({
+        url: '{{ route('servicedetails') }}?&q='+ q + '&up=' + up,
+        type: 'get',
+        dataType: 'json',
+        success:function(response){
+          console.table(response);
+          $('input.unit').val(response['price']);
 
-
+          var amount = $('input.unit').val() * $('input.quantity').val();
+          $('input.amount').val(amount);
         }
       });
 
 
 
     });
+
+
+
+    $('.quantity').on('input', function(){
+      var amount = $('input.unit').val() * $('input.quantity').val();
+      $('input.amount').val(amount);
+    });
+
+
 
   }); //Document Ready end
 </script>
