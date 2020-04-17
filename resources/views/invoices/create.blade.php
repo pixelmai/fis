@@ -190,14 +190,14 @@
                   <tbody>
                     <tr id="itemrow{{$key}}" class="itemrow">
                       <td class="services">
-                          <select id="services_id{{$key}}" name="services_id[]" class="form-control @error('$services_id') is-invalid @enderror" data-live-search="true" title="Select availed service"  data-width="100%" required>
+                          <select id="services_id{{$key}}" name="services_id[]" class="services_id form-control @error('$services_id') is-invalid @enderror" data-live-search="true" title="Select availed service"  data-width="100%" required>
                             @foreach($services as $service) 
                               <option value="{{ $service->id }}">{{ $service->name }}</option>
                             @endforeach
                           </select>
                       </td>
                       <td class="machines">
-                        <select id="machines_id{{$key}}" name="machines_id[]" class="form-control w-100 @error('$machines_id') is-invalid @enderror" disabled="disabled" required>
+                        <select id="machines_id{{$key}}" name="machines_id[]" class=" machines_id form-control w-100 @error('$machines_id') is-invalid @enderror" disabled="disabled" required>
                         </select>
                       </td>
                       <td class="quantity">
@@ -557,6 +557,12 @@
       $('#project_id').val(proj_id);
     });
 
+
+    $( ".services_id" ).change(function() {
+      var p = $(this).parents('td');
+      p.siblings('.quantity').find('input').val('1');
+      p.siblings('.unit').find('input').val('1');
+    });
 
   }); //Document Ready end
 </script>

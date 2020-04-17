@@ -225,6 +225,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
   Route::get('/services/deactivate/{id}', 'ServicesController@deactivate');
   Route::get('/services/activate/{id}', 'ServicesController@activate');
+  Route::get('/services/autocomplete', 'ServicesController@autocomplete')->name('servicesinvoiceauto');
+
+
 /* Services */
 
 
