@@ -562,6 +562,40 @@
       var p = $(this).parents('td');
       p.siblings('.quantity').find('input').val('1');
       p.siblings('.unit').find('input').val('1');
+      var q = p.find('.services_id').children("option:selected").val();
+
+      $.ajax({
+        url: '{{ route('servicesinvoiceauto') }}?&q='+ q,
+        type: 'get',
+        dataType: 'json',
+        success:function(response){
+
+            var len = response.length;
+
+            alert(len);
+
+            $('select.machines_id').selectpicker('destroy');
+            $( "select.machines_id" ).prop( "disabled", false );
+            $("select.machines_id").empty();
+
+            for( var i = 0; i<len; i++){
+              var id = response[i]['id'];
+              var name = response[i]['name'];
+              if (response[i]['main'] == 1){
+                $("select.machines_id").append("<option value='"+id+"' selected>"+name+"</option>");
+              }else{
+                $("select.machines_id").append("<option value='"+id+"'>"+name+"</option>");
+              }
+            }
+
+            $('select.machines_id').selectpicker();
+
+
+        }
+      });
+
+
+
     });
 
   }); //Document Ready end

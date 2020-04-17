@@ -368,13 +368,7 @@ class ServicesController extends Controller
 
   public function autocomplete(Request $request)
   {
-    // return Services::with('machines','mainmachine')->where("id", "LIKE","%{$request->get('q')}%")->where('is_deactivated', 0)->get();
-
-
-
-$arr = array();
-
-
+    $arr = array();
 
     $machine_list = Services::with('machines','mainmachine')->where("id", "=","{$request->get('q')}")->where('is_deactivated', 0)->get();
 
@@ -384,7 +378,6 @@ $arr = array();
     }
 
     foreach ($machine_list as $k => $mi) {
-
       foreach($mi->machines as $m){
         $main = ($m->id == $main_id ? 1 : 0);
 
@@ -392,7 +385,7 @@ $arr = array();
       }
     }
 
-    dd($arr);
+    return json_encode($arr);
   }
 
 
