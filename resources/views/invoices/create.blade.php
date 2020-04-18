@@ -323,15 +323,20 @@
             initItemsTable();
         }
 
+        initDeleteItemRow();
       });
-      
-      //Once remove button is clicked
-      $(wrapper).on('click', '.remove_button', function(e){
-          e.preventDefault();
+
+
+      function initDeleteItemRow(){
+        $('.remove_button').on('click', function(){
           var toDelete = $(this).data("delid"); //Remove field html
           $("[data-rowid=" + toDelete + "]").remove();
           x--; //Decrement field counter
-      });
+        });
+      }
+
+
+      initDeleteItemRow();
 
 
 
