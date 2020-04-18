@@ -452,10 +452,8 @@
                     $("#discount").val(discounts[1]);
                     $("#discount_type").text('(SC)');
                   }
-
-
-                  updateTotal();
                 }
+                updateTotal();
               }
             // FOR Discounts 
 
@@ -464,6 +462,8 @@
           }
         }).on('typeahead:autocomplete', function(ev, suggestion) {
           if(suggestion.id){
+            $("#discount").val(0);
+            $("#discount_type").text('');
             $('#client_id').val(suggestion.id);
             $('#contact_person_fname').val(suggestion.fname);
             if(suggestion.company.name != '-'){
@@ -476,6 +476,45 @@
             proj_id = suggestion.mainproject.id;
             $("#company_name").removeClass("disabled");
             $("#project_name").removeClass("disabled");
+
+
+            // FOR Discounts 
+              var dob = new Date(suggestion.date_of_birth);
+              var discounts = [<?php echo '"'.implode('","', $discounts).'"' ?>];
+
+              if(dob != null){
+                var today = new Date();
+                var dayDiff = Math.ceil(today - dob) / (1000 * 60 * 60 * 24 * 365);
+                var age = parseInt(dayDiff);
+              }
+
+              if(suggestion.is_pwd == 1 || age >= 60){
+                if(suggestion.is_pwd == 1 && age >= 60){
+                  applied_discount = (discounts[0] < discounts[1]) ? discounts[1] : discounts[0];
+                  $("#discount_type").text('');
+                  $("#discount").val(applied_discount);
+
+                  if(discounts[0] == applied_discount){
+                    $("#discount_type").text('(PWD)');
+                  }else{
+                    $("#discount_type").text('(SC)');
+                  }
+                }else{
+                  if(suggestion.is_pwd == 1){
+                    $("#discount_type").text('');
+                    $("#discount").val(discounts[0]);
+                    $("#discount_type").text('(PWD)');
+                  }
+
+                  if(age >= 60){
+                    $("#discount_type").text('');
+                    $("#discount").val(discounts[1]);
+                    $("#discount_type").text('(SC)');
+                  }
+                }
+                updateTotal();
+              }
+            // FOR Discounts 
 
             initCompany(suggestion.id);
             initProject(suggestion.id);
