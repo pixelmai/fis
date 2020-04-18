@@ -191,7 +191,7 @@
                     </tr>
                   </thead>
                   <tbody data-rowid="{{$key}}">
-                      <tr id="itemrow{{$key}}" class="itemrow"> <td class="services"> <select id="services_id{{$key}}" name="services_id[]" class="services_id form-control @error('$services_id') is-invalid @enderror" data-live-search="true" title="Select availed service" data-width="100%" required> @foreach($services as $service) <option value="{{ $service->id }}">{{ $service->name }}</option> @endforeach </select> </td> <td class="machines"> <select id="machines_id{{$key}}" name="machines_id[]" class=" machines_id form-control w-100 @error('$machines_id') is-invalid @enderror" disabled="disabled" required> </select> </td> <td class="quantity"> <input type="text" id="quantity{{$key}}" name="quantity[]" value="" class="form-control w-100 quantity" required /> </td> <td class="unit"> <input type="text" id="unit{{$key}}" name="unit[]" value="" class="form-control unit w-100 quantity" disabled="disabled" /> </td> <td class="price"> <input type="hidden" id="up_price{{$key}}" name="up_price[]" value="" class="form-control up_price w-100 quantity" disabled="disabled" /> <input type="hidden" id="def_price{{$key}}" name="def_price[]" value="" class="form-control def_price w-100 quantity" disabled="disabled" /> <input type="text" id="price{{$key}}" name="price[]" value="" class="form-control price w-100 quantity" disabled="disabled" /> </td> <td class="amount"> <input type="text" id="amount{{$key}}" name="amount[]" value="" class="form-control amount w-100 quantity" disabled="disabled" /> </td> <td class="option"> <a href="javascript:void(0);" class="remove_button" data-delid="{{ $key }}"><img src="/images/remove-icon.png" /></a> </td> </tr> <tr id="itemrow{{$key}}" class="descrow"> <td class="notes" colspan="5"> <input type="text" id="notes{{$key}}" name="notes[]" value="" class="form-control w-100 quantity" placeholder="Description (optional)" /> </td> <td class="amount">&nbsp;</td> <td class="option">&nbsp;</td> </tr>
+                    <tr id="itemrow{{$key}}" class="itemrow"> <td class="services"> <select id="services_id{{$key}}" name="services_id[]" class="services_id form-control @error('$services_id') is-invalid @enderror" data-live-search="true" title="Select availed service" data-width="100%" required> @foreach($services as $service) <option value="{{ $service->id }}">{{ $service->name }}</option> @endforeach </select> </td> <td class="machines"> <select id="machines_id{{$key}}" name="machines_id[]" class=" machines_id form-control w-100 @error('$machines_id') is-invalid @enderror" disabled="disabled" required> </select> </td> <td class="quantity"> <input type="text" id="quantity{{$key}}" name="quantity[]" value="" class="form-control w-100 quantity" required /> </td> <td class="unit"> <input type="text" id="unit{{$key}}" name="unit[]" value="" class="form-control unit w-100 quantity" disabled="disabled" /> </td> <td class="price"><input type="hidden" id="up_price{{$key}}" name="up_price[]" value="" class="form-control up_price w-100 quantity" disabled="disabled" /> <input type="hidden" id="def_price{{$key}}" name="def_price[]" value="" class="form-control def_price w-100 quantity" disabled="disabled" /> <input type="text" id="price{{$key}}" name="price[]" value="" class="form-control price w-100 quantity" disabled="disabled" /> </td> <td class="amount"> <input type="text" id="amount{{$key}}" name="amount[]" value="" class="form-control amount w-100 quantity" disabled="disabled" /> </td> <td class="option"> <a href="javascript:void(0);" class="remove_button" data-delid="{{ $key }}"><img src="/images/remove-icon.png" /></a> </td> </tr> <tr id="itemrow{{$key}}" class="descrow"> <td class="notes" colspan="5"> <input type="text" id="notes{{$key}}" name="notes[]" value="" class="form-control w-100 quantity" placeholder="Description (optional)" /> </td> <td class="amount">&nbsp;</td> <td class="option">&nbsp;</td> </tr>
 
                   </tbody>
                 </table>
@@ -570,16 +570,22 @@
       $('#is_up').change(function() {
 
         $("#invoice_items_table table tr.itemrow").each(function() {
-            var parent = $(this).find('.price');
-            var up = parent.find('input.up_price').val();
-            var dp = parent.find('input.def_price').val();
+            var pp = $(this).find('.price');
+            var am = $(this).find('.amount').children('input.amount');
+            var qu = $(this).find('.quantity').children('input.quantity');
+            var up = pp.find('input.up_price').val();
+            var dp = pp.find('input.def_price').val();
+
+            //val(qu.val());
 
             if($('#is_up').is(":checked")) {
-              parent.find('input.price').val(up);
+              pp.find('input.price').val(up);
             }else{
-              parent.find('input.price').val(dp);
+              pp.find('input.price').val(dp);
             }
 
+            var amount = pp.find('input.price').val() * qu.val();
+            am.val(amount);
         });
       });
 

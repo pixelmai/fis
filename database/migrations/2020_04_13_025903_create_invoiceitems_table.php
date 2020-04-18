@@ -20,6 +20,8 @@ class CreateInvoiceitemsTable extends Migration
             $table->unsignedBigInteger('services_id')->default(1);
             $table->unsignedBigInteger('machines_id')->default(0);
             $table->unsignedBigInteger('servicesrates_id')->default(1);
+            $table->text('notes')->nullable();
+            $table->timestamps();
         });
     }
 

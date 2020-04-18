@@ -158,12 +158,20 @@ class InvoicesController extends Controller
       'created_at' => ['required'],
       'due_date' => ['nullable'],
       'is_up' => ['nullable'],
+
+      'services_id' => ['required'],
+      'machines_id' => ['required'],
+      'quantity' => ['required'],
+      'notes' => ['nullable'],
     ]);
 
 
-    dd(rrequest());
-
     $is_up = (isset($data['is_up']) && $data['is_up'] == 1 ? 1 : 0); 
+
+    $services_id = $data['services_id'];
+    $machines_id = $data['machines_id'];
+    $quantity = $data['quantity'];
+    $notes = $data['notes'];
 
     if(validateDate($data['created_at'])){
       if($data['created_at'] == date('m/d/Y')){
@@ -180,7 +188,7 @@ class InvoicesController extends Controller
     $company_id = ($data['company_id'] == '' ? 1 : $data['company_id']); 
 
 
-    /*
+    
     $query = Invoices::create([
       'clients_id' => $data['client_id'],
       'companies_id' => $company_id,
@@ -192,16 +200,33 @@ class InvoicesController extends Controller
       'total' => priceFormatSaving($data['total']),
       'is_saved' => 0,
       'is_up' => $is_up,
-
       'updatedby_id' => $user->id,
     ]);
+
+
+
+    $k = 0;
+    foreach($services_id as $service){
+      $s = Services::with('current')->where('id',$service)->first();
+
+
+      Invoiceitems::create([
+        'invoices_id' => $query->id,
+        'services_id' => $service,
+        'servicesrates_id' => $s->servicesrates_id,
+        'machines_id' => $machines_id[$k],
+        'quantity' => $quantity[$k],
+        'notes' => $notes[$k],
+      ]);
+      $k++;
+    }
 
 
     if($query){
       return notifyRedirect($this->homeLink, 'Added an Invoice successfully', 'success');
     }
 
-    */
+  
 
   }
 
