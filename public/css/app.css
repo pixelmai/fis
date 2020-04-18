@@ -11777,10 +11777,15 @@ form label #compExists {
 #app #invoice_items_table td.price .form-control[readonly] {
   background-color: #fff;
   border: 0;
+  text-align: right;
 }
 
 #app #invoice_items_table td.quantity {
   width: 6%;
+}
+
+#app #invoice_items_table td.quantity input {
+  text-align: right;
 }
 
 #app #invoice_items_table td.amount {
@@ -11791,6 +11796,7 @@ form label #compExists {
 #app #invoice_items_table td.amount .form-control:disabled,
 #app #invoice_items_table td.amount .form-control[readonly] {
   background-color: #f0f4f8;
+  text-align: right;
 }
 
 #app #invoice_items_table td.option {

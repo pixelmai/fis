@@ -937,14 +937,21 @@
       .form-control:disabled, .form-control[readonly] {
         background-color: #fff;
         border: 0;
+        text-align: right;
       }
     }
-    td.quantity{ width: 6%;}
+    td.quantity{ 
+      width: 6%; 
+      input{
+        text-align: right;
+      }
+    }
     td.amount{
       border-bottom: 0 !important; 
       background: #f0f4f8;
       .form-control:disabled, .form-control[readonly] {
         background-color: #f0f4f8;
+        text-align: right;
       }
     }
     td.option{border: 0 !important; padding: 0 5px;}

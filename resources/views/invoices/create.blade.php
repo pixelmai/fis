@@ -204,52 +204,68 @@
 
 
 
+              <div id="totals_section">
+                <div class="form-group row">
+                  <div class="col-md-2">
+                    <label for="subtotal" class="col-form-label">Subtotal </label>
+                  </div>
+                  <div class="col-md-2">
+                      <input id="subtotal" 
+                        type="text" 
+                        class="form-control"
+                        name="total" 
+                        value="{{ old('subtotal') }}"  
+                        readonly>
 
-
-
-
-
-
-
-              <br><br><br><br><br>
-              <div class="form-group row">
-
-                <div class="col-md-2">
-                  <label for="discount" class="col-form-label">Discount </label>
-                    <input id="discount" 
-                      type="text" 
-                      class="form-control @error('discount') is-invalid @enderror" 
-                      name="discount" 
-                      value="{{ old('discount') }}"  
-                      autofocus autocomplete="off">
-
-                    @error('discount')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                      @error('total')
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                          </span>
+                      @enderror
+                  </div>
                 </div>
 
-                <div class="col-md-2">
-                  <label for="total" class="col-form-label">Total </label>
-                    <input id="total" 
-                      type="text" 
-                      class="form-control @error('total') is-invalid @enderror" 
-                      name="total" 
-                      value="{{ old('total') }}"  
-                      autofocus autocomplete="off">
 
-                    @error('total')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
+                <div class="form-group row">
+                  <div class="col-md-2">
+                    <label for="discount" class="col-form-label">Discount % <span id="discount_type" class="required"></span></label>
+                  </div>
+                  <div class="col-md-2">
+                      <input id="discount" 
+                        type="text" 
+                        class="form-control"
+                        name="discount" 
+                        value="{{ old('discount') ?? 0 }}" readonly="">
+
+                      @error('discount')
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                          </span>
+                      @enderror
+                  </div>
+
+                </div>
+
+                <div class="form-group row">
+                  <div class="col-md-2">
+                    <label for="total" class="col-form-label">Total </label>
+                  </div>
+                  <div class="col-md-2">
+                      <input id="total" 
+                        type="text" 
+                        class="form-control"
+                        name="total" 
+                        value="{{ old('total') }}"  
+                        readonly>
+
+                      @error('total')
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $message }}</strong>
+                          </span>
+                      @enderror
+                  </div>
                 </div>
               </div>
-
-
-
-
 
 
 
@@ -300,6 +316,8 @@
         endDate: '+3m',
       });
 
+
+ 
 
       var maxField = 10; //Input fields increment limitation
       var addButton = $('.add_button'); //Add button selector
@@ -385,6 +403,8 @@
 
         }).on('typeahead:select', function(ev, suggestion) {
           if(suggestion.id){
+            $("#discount").val(0);
+            $("#discount_type").text('');
             $('#client_id').val(suggestion.id);
             $('#contact_person_fname').val(suggestion.fname);
             if(suggestion.company.name != '-'){
@@ -397,6 +417,47 @@
             proj_id = suggestion.mainproject.id;
             $("#company_name").removeClass("disabled");
             $("#project_name").removeClass("disabled");
+
+
+            // FOR Discounts 
+              var dob = new Date(suggestion.date_of_birth);
+              var discounts = [<?php echo '"'.implode('","', $discounts).'"' ?>];
+
+              if(dob != null){
+                var today = new Date();
+                var dayDiff = Math.ceil(today - dob) / (1000 * 60 * 60 * 24 * 365);
+                var age = parseInt(dayDiff);
+              }
+
+              if(suggestion.is_pwd == 1 || age >= 60){
+                if(suggestion.is_pwd == 1 && age >= 60){
+                  applied_discount = (discounts[0] < discounts[1]) ? discounts[1] : discounts[0];
+                  $("#discount_type").text('');
+                  $("#discount").val(applied_discount);
+                  
+                  if(discounts[0] < discounts[1]){
+                    $("#discount_type").text('(PWD)');
+                  }else{
+                    $("#discount_type").text('(SC)');
+                  }
+                }else{
+                  if(suggestion.is_pwd == 1){
+                    $("#discount_type").text('');
+                    $("#discount").val(discounts[0]);
+                    $("#discount_type").text('(PWD)');
+                  }
+
+                  if(age >= 60){
+                    $("#discount_type").text('');
+                    $("#discount").val(discounts[1]);
+                    $("#discount_type").text('(SC)');
+                  }
+
+
+                  updateTotal();
+                }
+              }
+            // FOR Discounts 
 
             initCompany(suggestion.id);
             initProject(suggestion.id);
@@ -576,8 +637,6 @@
             var up = pp.find('input.up_price').val();
             var dp = pp.find('input.def_price').val();
 
-            //val(qu.val());
-
             if($('#is_up').is(":checked")) {
               pp.find('input.price').val(up);
             }else{
@@ -585,7 +644,8 @@
             }
 
             var amount = pp.find('input.price').val() * qu.val();
-            am.val(amount);
+            am.val(amount.toFixed(2));
+            updateTotal();
         });
       });
 
@@ -596,7 +656,8 @@
         var p = parent.siblings('.price').find('input.price');
         var qu = $(this).val();
         var amount = p.val() * qu;
-        a.val(amount);
+        a.val(amount.toFixed(2));
+        updateTotal();
       });
     
       $( ".services_id" ).change(function() {
@@ -646,8 +707,8 @@
             console.table(response);
 
             u.val(response['unit']);
-            upp.val(response['up_price']);
-            dp.val(response['def_price']);
+            upp.val(response['up_price'].toFixed(2));
+            dp.val(response['def_price'].toFixed(2));
 
 
             if(up == 1){
@@ -657,7 +718,9 @@
             }
             
             var amount = p.val() * qu.val();
-            a.val(amount);
+            a.val(amount.toFixed(2));
+
+            updateTotal();
           }
         });
 
@@ -666,6 +729,30 @@
     }
 
 
+
+    function updateTotal(){ 
+      var subtotal = 0;
+
+      $("#invoice_items_table table tr.itemrow").each(function() {
+          var pp = $(this).find('.price');
+          var am = $(this).find('.amount').children('input.amount');
+          var qu = $(this).find('.quantity').children('input.quantity');
+          var amount = pp.find('input.price').val() * qu.val();
+          
+          subtotal = subtotal + amount;
+      });
+
+       $("#subtotal").val(subtotal.toFixed(2));
+
+       var discount = $("#discount").val() / 100;
+
+        
+        var total = subtotal - (subtotal * discount);
+        $("#total").val(total.toFixed(2));
+
+
+
+    }
 
     initClients();
     initItemsTable();

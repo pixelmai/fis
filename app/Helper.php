@@ -61,6 +61,11 @@ function priceFormatFancy($p){
   return number_format(round($p, 2), 2);
 }
 
+function pricesInvoiceForm($p){
+  return number_format($p, 2, '.', ''); //prints "2 013,00"
+}
+
+
 function priceFormatSaving($p){
   return round($p, 4);
 }

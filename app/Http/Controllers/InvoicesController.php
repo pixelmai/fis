@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Appsettings;
 use App\Clients;
 use App\Invoices;
 use App\Invoiceitems;
@@ -139,7 +140,10 @@ class InvoicesController extends Controller
     $services = Services::with('current')->where('is_deactivated', 0)->get();
 
 
-    return view('invoices.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'id_num'=> $id_num, 'services' => $services]);
+    $appsettings = Appsettings::find(1);
+    $discounts = array( "dpwd" => $appsettings->dpwd, "dsc" => $appsettings->dsc);
+
+    return view('invoices.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'id_num'=> $id_num, 'services' => $services, 'discounts' => $discounts]);
   }
 
 
@@ -204,11 +208,9 @@ class InvoicesController extends Controller
     ]);
 
 
-
     $k = 0;
     foreach($services_id as $service){
       $s = Services::with('current')->where('id',$service)->first();
-
 
       Invoiceitems::create([
         'invoices_id' => $query->id,
@@ -221,22 +223,15 @@ class InvoicesController extends Controller
       $k++;
     }
 
-
     if($query){
       return notifyRedirect($this->homeLink, 'Added an Invoice successfully', 'success');
     }
-
-  
 
   }
 
 
 
-/*
-  protected $fillable = [
-  'clients_id','companies_id', 'projects_id', 'machines_id', 'status', 'bill_type','is_up', 'discount', 'total', 'due_date','updatedby_id','is_saved'
-  ];
-*/
+
 
 
 }
