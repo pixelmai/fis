@@ -306,7 +306,6 @@
       var wrapper = $('tbody'); //Input field wrapper
       var x = 2; //Initial field counter is 1
 
-
       //Once add button is clicked
       $(addButton).click(function(){
           //Check maximum number of input fields
@@ -567,10 +566,28 @@
 
 
     function initItemsTable(){
+
+      $('#is_up').change(function() {
+
+        $("#invoice_items_table table tr.itemrow").each(function() {
+            var parent = $(this).find('.price');
+            var up = parent.find('input.up_price').val();
+            var dp = parent.find('input.def_price').val();
+
+            if($('#is_up').is(":checked")) {
+              parent.find('input.price').val(up);
+            }else{
+              parent.find('input.price').val(dp);
+            }
+
+        });
+      });
+
+
       $('.quantity').on('input', function(){
         var parent = $(this).parents('td');
         var a = parent.siblings('.amount').find('input');
-        var p = parent.siblings('.price').find('input');
+        var p = parent.siblings('.price').find('input.price');
         var qu = $(this).val();
         var amount = p.val() * qu;
         a.val(amount);
@@ -625,6 +642,7 @@
             u.val(response['unit']);
             upp.val(response['up_price']);
             dp.val(response['def_price']);
+
 
             if(up == 1){
               p.val(upp.val());

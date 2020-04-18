@@ -161,6 +161,7 @@ class InvoicesController extends Controller
     ]);
 
 
+    dd(rrequest());
 
     $is_up = (isset($data['is_up']) && $data['is_up'] == 1 ? 1 : 0); 
 
@@ -179,6 +180,7 @@ class InvoicesController extends Controller
     $company_id = ($data['company_id'] == '' ? 1 : $data['company_id']); 
 
 
+    /*
     $query = Invoices::create([
       'clients_id' => $data['client_id'],
       'companies_id' => $company_id,
@@ -198,6 +200,8 @@ class InvoicesController extends Controller
     if($query){
       return notifyRedirect($this->homeLink, 'Added an Invoice successfully', 'success');
     }
+
+    */
 
   }
 

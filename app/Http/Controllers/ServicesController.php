@@ -384,9 +384,7 @@ class ServicesController extends Controller
         }
       }
     }else{
-
       $arr[] = array( "id" => 0, "name" => "N/A", 'main'=> 1);
-    
     }
 
     return json_encode($arr);
@@ -400,7 +398,6 @@ class ServicesController extends Controller
 
 
     foreach($service_info as $s){
-
 
         $price = array( "up_price" => priceFormat($s->current->up_price), "def_price" => priceFormat($s->current->def_price), "unit" => $s->unit);
   
