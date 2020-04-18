@@ -109,7 +109,12 @@ class InvoicesController extends Controller
           return dateTimeFormatSimple($data->created_at);
       })
       ->addColumn('due_date', function($data){
-          return datetoDpicker($data->due_date);
+          if($data->due_date){
+            return datetoDpicker($data->due_date);
+          }else{
+            return '-';
+          }
+          
       })
       ->addColumn('id', function($data){
           return str_pad($data->id, 6, '0', STR_PAD_LEFT);

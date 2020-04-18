@@ -434,8 +434,8 @@
                   applied_discount = (discounts[0] < discounts[1]) ? discounts[1] : discounts[0];
                   $("#discount_type").text('');
                   $("#discount").val(applied_discount);
-                  
-                  if(discounts[0] < discounts[1]){
+
+                  if(discounts[0] == applied_discount){
                     $("#discount_type").text('(PWD)');
                   }else{
                     $("#discount_type").text('(SC)');
