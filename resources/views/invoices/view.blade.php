@@ -3,26 +3,40 @@
 
 <div class="container">
   <div id="invoice_heading" class="d-flex justify-content-between align-self-center">
-      <h1>Invoice <span> #</span>{{ str_pad($invoice->id, 6, '0', STR_PAD_LEFT) }}</h1>
+    <h1>Invoice Details</h1>
 
-      <div id="invoice_menu">
-        <a href="/services/edit/{{ $invoice->id }}" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-lg">
-          <i class="fas fa-edit"></i>
-        </a>
-
-        <a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="{{ $invoice->id }}" class="delete btn btn-outline-danger btn-lg"><i class="fas fa-trash"></i></a>
-      </div>
-
+    <div id="invoice_id" class="col-md-4">
+      <span>ID #</span> {{ str_pad($invoice->id, 6, '0', STR_PAD_LEFT) }}
+    </div>
 
   </div>
 
   <div id="view_invoice" class="row justify-content-center">
     <div class="col-lg-12">
       <div class="card">
-        <div id="markers">
-          @if($s)
-            <div class="status status_{{ $s }}">{{ $s }}</div>
-          @endif
+        <div id="markers" class="d-flex justify-content-between">
+          <div>
+            <div class="status status_{{ strtolower($s) }}">{{ $s }}</div>
+          </div>
+
+          <div id="invoice_menu">
+
+            <a href="javascript:void(0);" id="add-log-row" data-id="{{ $invoice->id }}" class="edit btn btn-outline-secondary btn-md">
+              <i class="fas fa-history"></i> Change Status
+            </a>
+
+            @if($s == 'Draft')
+              <a href="/services/edit/{{ $invoice->id }}" class="edit btn btn-outline-secondary btn-md">
+                <i class="fas fa-edit"></i> Edit
+              </a>
+
+              <a href="javascript:void(0);" id="delete-row" data-id="{{ $invoice->id }}" class="delete btn btn-outline-danger btn-md">
+                <i class="fas fa-trash"></i> Delete
+              </a>
+            @endif
+          </div>
+
+
         </div>
         <div class="card-body">
           <div id="basic_invoice_info" class="row">

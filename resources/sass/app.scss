@@ -1038,7 +1038,26 @@
         background: #000;
         color: #fff;
         display: inline-block;
-        padding: 10px 20px;
+        padding: 15px 40px;
+        font-size: 1.3em;
+        text-transform:   uppercase;  
+        letter-spacing: 1px;
+      }
+
+      .status_draft{
+        background: #999;
+      }
+
+      .status_paid{
+        background: $green;
+      }
+
+      .status_sent{
+        background: $orange;
+      }
+
+      #invoice_menu{
+        padding: 30px 40px 0;
       }
 
     }

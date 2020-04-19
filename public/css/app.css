@@ -11872,7 +11872,26 @@ form label #compExists {
   background: #000;
   color: #fff;
   display: inline-block;
-  padding: 10px 20px;
+  padding: 15px 40px;
+  font-size: 1.3em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+#app #view_invoice #markers .status_draft {
+  background: #999;
+}
+
+#app #view_invoice #markers .status_paid {
+  background: #38c172;
+}
+
+#app #view_invoice #markers .status_sent {
+  background: #f6993f;
+}
+
+#app #view_invoice #markers #invoice_menu {
+  padding: 30px 40px 0;
 }
 
 #app #view_invoice em.info_na {
