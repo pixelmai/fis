@@ -218,7 +218,7 @@
                         <input id="subtotal" 
                           type="text" 
                           class="form-control"
-                          name="total" 
+                          name="subtotal" 
                           value="{{ old('subtotal') ?? '0.00' }}"  
                           readonly>
 
@@ -241,6 +241,10 @@
                           class="form-control"
                           name="discount" 
                           value="{{ old('discount') ?? 0 }}" readonly="">
+
+                          <input id="dtype" 
+                          type="hidden" 
+                          name="dtype" >
 
                         @error('discount')
                             <span class="invalid-feedback" role="alert">
@@ -413,6 +417,7 @@
           if(suggestion.id){
             $("#discount").val(0);
             $("#discount_type").text('');
+            $("#dtype").val(0);
             $('#client_id').val(suggestion.id);
             $('#contact_person_fname').val(suggestion.fname);
             if(suggestion.company.name != '-'){
@@ -445,20 +450,24 @@
 
                   if(discounts[0] == applied_discount){
                     $("#discount_type").text('(PWD)');
+                    $("#dtype").val(1);
                   }else{
                     $("#discount_type").text('(SC)');
+                    $("#dtype").val(2);
                   }
                 }else{
                   if(suggestion.is_pwd == 1){
                     $("#discount_type").text('');
                     $("#discount").val(discounts[0]);
                     $("#discount_type").text('(PWD)');
+                    $("#dtype").val(1);
                   }
 
                   if(age >= 60){
                     $("#discount_type").text('');
                     $("#discount").val(discounts[1]);
                     $("#discount_type").text('(SC)');
+                    $("#dtype").val(2);
                   }
                 }
                 updateTotal();
@@ -473,6 +482,7 @@
           if(suggestion.id){
             $("#discount").val(0);
             $("#discount_type").text('');
+            $("#dtype").val(0);
             $('#client_id').val(suggestion.id);
             $('#contact_person_fname').val(suggestion.fname);
             if(suggestion.company.name != '-'){
@@ -505,20 +515,24 @@
 
                   if(discounts[0] == applied_discount){
                     $("#discount_type").text('(PWD)');
+                    $("#dtype").val(1);
                   }else{
                     $("#discount_type").text('(SC)');
+                    $("#dtype").val(2);
                   }
                 }else{
                   if(suggestion.is_pwd == 1){
                     $("#discount_type").text('');
                     $("#discount").val(discounts[0]);
                     $("#discount_type").text('(PWD)');
+                    $("#dtype").val(1);
                   }
 
                   if(age >= 60){
                     $("#discount_type").text('');
                     $("#discount").val(discounts[1]);
                     $("#discount_type").text('(SC)');
+                    $("#dtype").val(2);
                   }
                 }
                 updateTotal();
@@ -542,6 +556,7 @@
           $('#project_id').val('');
           $('#project_name').val('');
           $('#discount').val(0);
+          $('#dtype').val(0);
           if($('#contact_person_fname').val()){
             $('#contact_person_fname').val('');
           }

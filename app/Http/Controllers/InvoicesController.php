@@ -147,7 +147,6 @@ class InvoicesController extends Controller
 
     $services = Services::with('current')->where('is_deactivated', 0)->get();
 
-
     $appsettings = Appsettings::find(1);
     $discounts = array( "dpwd" => $appsettings->dpwd, "dsc" => $appsettings->dsc);
 
@@ -165,7 +164,9 @@ class InvoicesController extends Controller
       'company_id' => ['nullable'],
       'project_id' => ['nullable'],
       'status' => ['required'],
-      'discount' => ['nullable'],
+      'subtotal' => ['required'],
+      'discount' => ['required'],
+      'dtype' => ['required'],
       'total' => ['required'],
       'created_at' => ['required'],
       'due_date' => ['nullable'],
@@ -179,6 +180,7 @@ class InvoicesController extends Controller
 
 
     $is_up = (isset($data['is_up']) && $data['is_up'] == 1 ? 1 : 0); 
+
 
     $services_id = $data['services_id'];
     $machines_id = $data['machines_id'];
@@ -199,7 +201,6 @@ class InvoicesController extends Controller
 
     $company_id = ($data['company_id'] == '' ? 1 : $data['company_id']); 
 
-
     
     $query = Invoices::create([
       'clients_id' => $data['client_id'],
@@ -208,7 +209,9 @@ class InvoicesController extends Controller
       'status' => $data['status'],
       'created_at' => $created_at,
       'due_date' => $due_date,
+      'subtotal' => priceFormatSaving($data['subtotal']),
       'discount' => $data['discount'],
+      'discount_type' => $data['dtype'],
       'total' => priceFormatSaving($data['total']),
       'is_saved' => 0,
       'is_up' => $is_up,
@@ -231,6 +234,12 @@ class InvoicesController extends Controller
       $k++;
     }
 
+    
+    $query->jobs = $k;
+    $query->update();
+    
+
+
     if($query){
       return notifyRedirect($this->homeLink, 'Added an Invoice successfully', 'success');
     }
@@ -250,30 +259,32 @@ class InvoicesController extends Controller
       }
 
       $invoice_items = array();
+      $subtotal = 0;
 
       foreach ($invoice->items as $key => $item) {
-        $s = Services::where("id", "=","$item->services_id")->first();
+        $stat = Services::where("id", "=","$item->services_id")->first();
         $r = Servicesrates::where("id", "=","$item->servicesrates_id")->first();
         $m = Machines::where("id", "=","$item->machines_id")->first();
+        $price = ( $item->is_up == 1  ? $r->up_price : $r->def_price);
 
-        $item_infos = array( 
+        $invoice_items[] = array( 
           "id" => $item->id,
-          "services_id" => $s->id,
-          "services_name" => $s->name,
+          "services_id" => $stat->id,
+          "services_name" => $stat->name,
+          "quantity" => $item->quantity,
+          "unit" => $stat->unit,
           "machines_id" => (isset($m->id) ? $m->id : 0),
           "machines_name" => (isset($m->name) ? $m->name : 0),
           "servicesrates_id" => $r->id,
-          "up_price" => $r->up_price,
-          "def_price" => $r->up_price,
+          "price" => $price,
+          "notes" => $item->notes,
         );
 
-        $invoice_items = array_merge_recursive($invoice_items, $item_infos);
+        $subtotal = $subtotal + ($price * $item->quantity);
 
       }
-      
-      dd(count($invoice_items));
-      
-      return view('invoices.view', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status]);
+            
+      return view('invoices.view', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items, 'subtotal' => $subtotal]);
 
     }else{
       return notifyRedirect($this->homeLink, 'Invoice not found', 'danger');

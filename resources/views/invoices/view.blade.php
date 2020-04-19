@@ -3,18 +3,28 @@
 
 <div class="container">
   <div id="invoice_heading" class="d-flex justify-content-between align-self-center">
-    <h1>Invoice Details</h1>
-    <div id="invoice_id" class="col-md-4">
-      <span>ID #</span> 
-        {{ str_pad($invoice->id, 6, '0', STR_PAD_LEFT) }}
-    </div>
+      <h1>Invoice <span> #</span>{{ str_pad($invoice->id, 6, '0', STR_PAD_LEFT) }}</h1>
+
+      <div id="invoice_menu">
+        <a href="/services/edit/{{ $invoice->id }}" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-lg">
+          <i class="fas fa-edit"></i>
+        </a>
+
+        <a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="{{ $invoice->id }}" class="delete btn btn-outline-danger btn-lg"><i class="fas fa-trash"></i></a>
+      </div>
+
+
   </div>
 
   <div id="view_invoice" class="row justify-content-center">
     <div class="col-lg-12">
       <div class="card">
+        <div id="markers">
+          @if($s)
+            <div class="status status_{{ $s }}">{{ $s }}</div>
+          @endif
+        </div>
         <div class="card-body">
-
           <div id="basic_invoice_info" class="row">
             <div class="col-md-9">
 
@@ -22,7 +32,7 @@
 
                 
                @if ($invoice->client->fname)
-               <div class="col-md-6">
+               <div class="col-md-12">
                   <div class="info-item">
 
                   <strong>Client</strong>
@@ -30,36 +40,17 @@
                     <a href="/clients/view/{{ $invoice->client->id }}">
                       {{ $invoice->client->fname }} {{ $invoice->client->lname }}
                     </a>
+
+
+                    @if($invoice->is_up && $invoice->is_up == 1)
+                      (UP)
+                    @endif
+
                   </div>
                  </div>
                 @endif
                 
 
-               @if($invoice->is_up)
-               <div class="col-md-3">
-                  <div class="info-item">
-
-                  @if($invoice->is_up == 1)
-                    <strong>UP</strong>
-                  @endif
-                  &nbsp;
-                  
-                  </div>
-                 </div>
-                @endif
-
-
-               @if($s)
-               <div class="col-md-3">
-                  <div class="info-item">
-
-                    <strong>Status</strong>
-
-                    {{ $s }}
-                  
-                  </div>
-                </div>
-                @endif
 
 
               </div> <!-- end row -->
@@ -112,7 +103,7 @@
                   <div class="info-item">
                     <strong>Created at</strong>
                     {{ dateTimeFormat($invoice->created_at) }}
-                   </div>
+                  </div>
                 @endif
               </div>
 
@@ -140,119 +131,88 @@
                 <tr>
                   <th>Service</th>
                   <th>Machine</th>
-                  <th>Qty</th>
-                  <th>Unit</th>
-                  <th>Price</th>
-                  <th>Amount</th>
+                  <th class="quantity">Qty</th>
+                  <th>/Unit</th>
+                  <th class="price">Price</th>
+                  <th class="amount">Amount</th>
                 </tr>
               </thead>
               <tbody>
-                <tr class="itemrow">
-                  <td class="services"> 
-                    haha
-                  </td> 
-                  <td class="machines"> 
-                    ahaha
-                  </td> 
-                  <td class="quantity"> 
-                    haha
-                  </td> 
-                  <td class="unit"> 
-                    haha
-                  </td> 
-                  <td class="price">
-                    haha
-                   </td> 
-                  <td class="amount"> 
-                    haha
-                  </td> 
-                 
-                </tr> 
+                @foreach($items as $k => $item)
+                  <tr class="itemrow">
+                    <td class="services"> 
+                      {{ $item["services_name"] }}
+                    </td> 
+                    <td class="machines"> 
 
-                <tr class="descrow"> 
-                  <td class="notes" colspan="5"> 
-                  </td> 
-                  <td class="amount">&nbsp;</td>
-
+                      @if($item["machines_name"])
+                        {{ $item["machines_name"] }}
+                      @else
+                        <em class="info_na">N/A</em>
+                      @endif
+                    </td> 
+                    <td class="quantity"> 
+                      {{ $item["quantity"] + 0 }}
+                    </td> 
+                    <td class="unit"> 
+                      {{ $item["unit"] }}
+                    </td> 
+                    <td class="price">
+                      {{ priceFormatFancy($item["price"]) }}
+                     </td> 
+                    <td class="amount"> 
+                      {{ priceFormatFancy($item["price"] * $item["quantity"]) }}
+                    </td> 
+                  </tr> 
+   
+                  <tr class="descrow"> 
+                    <td class="notes" colspan="5"> 
+                      {{ $item["notes"] }}
+                    </td> 
+                    <td class="amount">&nbsp;</td>
+                  </tr>
+                @endforeach
               </tbody>
             </table>
+          </div>
 
-              
+          <div id="totals_section" class="d-flex align-items-end flex-column">
 
-
-              <br /><br /><br /><br /><br /><br />
-              <div id="totals_section" class="d-flex align-items-end flex-column">
-
-                <div id="totals_form_group">
-                  <div class="form-group row">
-                    <div class="col-md-6">
-                      <label for="subtotal" class="col-form-label">Subtotal </label>
-                    </div>
-                    <div class="col-md-6">
-                        <input id="subtotal" 
-                          type="text" 
-                          class="form-control"
-                          name="total" 
-                          value="{{ old('subtotal') ?? '0.00' }}"  
-                          readonly>
-
-                        @error('total')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                  </div>
-
-
-                  <div class="form-group row">
-                    <div class="col-md-6">
-                      <label for="discount" class="col-form-label"><span id="discount_type" class="required"></span> Discount %</label>
-                    </div>
-                    <div class="col-md-6">
-                        <input id="discount" 
-                          type="text" 
-                          class="form-control"
-                          name="discount" 
-                          value="{{ old('discount') ?? 0 }}" readonly="">
-
-                        @error('discount')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-
-                  </div>
-
-                  <div class="form-group row">
-                    <div class="col-md-6 flex align-self-center">
-                      <label id="label_total" for="total" class="col-form-label">Total </label>
-                    </div>
-                    <div class="col-md-6">
-                        <input id="total" 
-                          type="text" 
-                          class="form-control"
-                          name="total" 
-                          value="{{ old('total') ?? '0.00' }}"  
-                          readonly>
-
-                        @error('total')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                  </div>
+            <div id="totals_form_group">
+              <div class="info-block row">
+                <div class="col-6 flex align-self-center">
+                  <strong>Subtotal</strong>
+                </div>
+                <div class="col-6 num">
+                  {{ priceFormatFancy($subtotal) }}
                 </div>
               </div>
 
 
+              <div class="info-block row">
+                <div class="col-6 flex align-self-center">
+                  <strong>
+                    @if( $invoice->discount_type == 1 ) PWD @endif
+                    @if( $invoice->discount_type == 2 ) SC @endif
+                    Discount
+                  </strong>
+                </div>
+                <div class="col-6 num">
+                  {{ $invoice->discount }}
+                </div>
 
- 
+              </div>
 
-        </div>
-
+              <div id="grand_total" class="form-group row">
+                <div class="col-6 flex align-self-center">
+                   <strong>Total</strong>
+                </div>
+                <div class="col-6 num">
+                  <strong>{{ $invoice->discount }}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
 
       </div>
     </div>
