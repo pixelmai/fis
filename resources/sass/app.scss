@@ -1034,16 +1034,6 @@
 
     #markers{
 
-      .status{
-        background: #000;
-        color: #fff;
-        display: inline-block;
-        padding: 15px 40px;
-        font-size: 1.3em;
-        text-transform:   uppercase;  
-        letter-spacing: 1px;
-      }
-
       .status_draft{
         background: #999;
       }
@@ -1054,6 +1044,16 @@
 
       .status_sent{
         background: $orange;
+      }
+
+      .status{
+        border-top-left-radius: 0.25rem;
+        color: #fff;
+        display: inline-block;
+        padding: 15px 40px;
+        font-size: 1.3em;
+        text-transform:   uppercase;  
+        letter-spacing: 1px;
       }
 
       #invoice_menu{

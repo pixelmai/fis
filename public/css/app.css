@@ -11868,16 +11868,6 @@ form label #compExists {
   padding-top: 20px;
 }
 
-#app #view_invoice #markers .status {
-  background: #000;
-  color: #fff;
-  display: inline-block;
-  padding: 15px 40px;
-  font-size: 1.3em;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
 #app #view_invoice #markers .status_draft {
   background: #999;
 }
@@ -11888,6 +11878,16 @@ form label #compExists {
 
 #app #view_invoice #markers .status_sent {
   background: #f6993f;
+}
+
+#app #view_invoice #markers .status {
+  border-top-left-radius: 0.25rem;
+  color: #fff;
+  display: inline-block;
+  padding: 15px 40px;
+  font-size: 1.3em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 #app #view_invoice #markers #invoice_menu {

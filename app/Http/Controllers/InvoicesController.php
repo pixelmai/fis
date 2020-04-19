@@ -187,11 +187,14 @@ class InvoicesController extends Controller
     $quantity = $data['quantity'];
     $notes = $data['notes'];
 
+    $now = date('m/d/Y');
+
     if(validateDate($data['created_at'])){
-      if($data['created_at'] == date('m/d/Y')){
+      if($data['created_at'] == $now ){
+        
         $created_at = date("Y-m-d H:i:s");
       }else{
-        $created_at = $data['created_at'];
+        $created_at = dateDatabase($data['created_at']);
       }
     }
 
@@ -207,7 +210,6 @@ class InvoicesController extends Controller
       'companies_id' => $company_id,
       'projects_id' => $data['project_id'],
       'status' => $data['status'],
-      'created_at' => $created_at,
       'due_date' => $due_date,
       'subtotal' => priceFormatSaving($data['subtotal']),
       'discount' => $data['discount'],
@@ -216,6 +218,7 @@ class InvoicesController extends Controller
       'is_saved' => 0,
       'is_up' => $is_up,
       'updatedby_id' => $user->id,
+      'created_at' => $created_at,
     ]);
 
 
