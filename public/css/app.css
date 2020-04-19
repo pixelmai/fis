@@ -11768,7 +11768,6 @@ form label #compExists {
 #app #invoice_items_table td.unit,
 #app #invoice_items_table td.price {
   width: 8%;
-  background: #f0f4f8;
 }
 
 #app #invoice_items_table td.unit .form-control:disabled,
@@ -11802,6 +11801,51 @@ form label #compExists {
 #app #invoice_items_table td.option {
   border: 0 !important;
   padding: 0 5px;
+}
+
+#app #invoice_add_button {
+  display: block;
+  color: #383d41;
+  background-color: #e2e3e5;
+  border: 1px solid #d6d8db;
+  margin: 10px 0 20px;
+  padding: 5px 10px;
+}
+
+#app #invoice_add_button span {
+  padding-left: 10px;
+}
+
+#app #totals_section {
+  width: 1030px !important;
+  padding-right: 31px;
+}
+
+#app #totals_section #totals_form_group {
+  width: 30%;
+}
+
+#app #totals_section #totals_form_group input {
+  background: #f0f4f8;
+  text-align: right;
+}
+
+#app #totals_section #totals_form_group label {
+  text-align: right;
+  width: 100%;
+}
+
+#app #totals_section #totals_form_group #label_total {
+  text-transform: uppercase;
+  font-size: 1.2em;
+}
+
+#app #totals_section #totals_form_group #total {
+  font-size: 1.3em;
+}
+
+#app #view_invoice em.info_na {
+  color: #ccc;
 }
 
 /* ---------------------------------------------------

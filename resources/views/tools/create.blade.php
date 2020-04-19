@@ -32,7 +32,7 @@
 
 
               <div class="form-group row d-flex">
-
+                
                 <div class="col-md-6">
                   <label for="model" class="col-form-label">Model </label>
 

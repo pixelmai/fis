@@ -6,7 +6,10 @@ use App\Appsettings;
 use App\Clients;
 use App\Invoices;
 use App\Invoiceitems;
+use App\Machines;
 use App\Services;
+use App\Servicesrates;
+use App\User;
 use Illuminate\Http\Request;
 use Redirect,Response,DB,Config;
 use Datatables;
@@ -58,8 +61,8 @@ class InvoicesController extends Controller
 
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){
-      $button = '<div class="hover_buttons"><a href="/services/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
-      $button .= '<a href="/services/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
+      $button = '<div class="hover_buttons"><a href="/invoices/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
+      $button .= '<a href="/invoices/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
 
       $sum = 0;
 
@@ -235,7 +238,48 @@ class InvoicesController extends Controller
   }
 
 
+  public function view($id)
+  {
+    $user = auth()->user();
+    $invoice = Invoices::with('items')->find($id);
 
+    if($invoice){
+      $updater = User::find($invoice->updatedby_id);
+      if($invoice->status){
+        $s = $this->status[$invoice->status];
+      }
+
+      $invoice_items = array();
+
+      foreach ($invoice->items as $key => $item) {
+        $s = Services::where("id", "=","$item->services_id")->first();
+        $r = Servicesrates::where("id", "=","$item->servicesrates_id")->first();
+        $m = Machines::where("id", "=","$item->machines_id")->first();
+
+        $item_infos = array( 
+          "id" => $item->id,
+          "services_id" => $s->id,
+          "services_name" => $s->name,
+          "machines_id" => (isset($m->id) ? $m->id : 0),
+          "machines_name" => (isset($m->name) ? $m->name : 0),
+          "servicesrates_id" => $r->id,
+          "up_price" => $r->up_price,
+          "def_price" => $r->up_price,
+        );
+
+        $invoice_items = array_merge_recursive($invoice_items, $item_infos);
+
+      }
+      
+      dd(count($invoice_items));
+      
+      return view('invoices.view', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status]);
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Invoice not found', 'danger');
+    }
+
+  }
 
 
 

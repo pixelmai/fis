@@ -196,7 +196,10 @@
                   </tbody>
                 </table>
 
-                <a href="javascript:void(0);" class="add_button" title="Add field"><img src="/images/add-icon.png"/></a>
+                <a href="javascript:void(0);" id="invoice_add_button" class="add_button" title="Add field">
+                  <i class="fas fa-plus"></i>
+                  <span>Add another line item</span>
+                </a>
 
               </div>
 
@@ -204,65 +207,68 @@
 
 
 
-              <div id="totals_section">
-                <div class="form-group row">
-                  <div class="col-md-2">
-                    <label for="subtotal" class="col-form-label">Subtotal </label>
-                  </div>
-                  <div class="col-md-2">
-                      <input id="subtotal" 
-                        type="text" 
-                        class="form-control"
-                        name="total" 
-                        value="{{ old('subtotal') }}"  
-                        readonly>
+              <div id="totals_section" class="d-flex align-items-end flex-column">
 
-                      @error('total')
-                          <span class="invalid-feedback" role="alert">
-                              <strong>{{ $message }}</strong>
-                          </span>
-                      @enderror
-                  </div>
-                </div>
+                <div id="totals_form_group">
+                  <div class="form-group row">
+                    <div class="col-md-6">
+                      <label for="subtotal" class="col-form-label">Subtotal </label>
+                    </div>
+                    <div class="col-md-6">
+                        <input id="subtotal" 
+                          type="text" 
+                          class="form-control"
+                          name="total" 
+                          value="{{ old('subtotal') ?? '0.00' }}"  
+                          readonly>
 
-
-                <div class="form-group row">
-                  <div class="col-md-2">
-                    <label for="discount" class="col-form-label">Discount % <span id="discount_type" class="required"></span></label>
-                  </div>
-                  <div class="col-md-2">
-                      <input id="discount" 
-                        type="text" 
-                        class="form-control"
-                        name="discount" 
-                        value="{{ old('discount') ?? 0 }}" readonly="">
-
-                      @error('discount')
-                          <span class="invalid-feedback" role="alert">
-                              <strong>{{ $message }}</strong>
-                          </span>
-                      @enderror
+                        @error('total')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
                   </div>
 
-                </div>
 
-                <div class="form-group row">
-                  <div class="col-md-2">
-                    <label for="total" class="col-form-label">Total </label>
+                  <div class="form-group row">
+                    <div class="col-md-6">
+                      <label for="discount" class="col-form-label"><span id="discount_type" class="required"></span> Discount %</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input id="discount" 
+                          type="text" 
+                          class="form-control"
+                          name="discount" 
+                          value="{{ old('discount') ?? 0 }}" readonly="">
+
+                        @error('discount')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
                   </div>
-                  <div class="col-md-2">
-                      <input id="total" 
-                        type="text" 
-                        class="form-control"
-                        name="total" 
-                        value="{{ old('total') }}"  
-                        readonly>
 
-                      @error('total')
-                          <span class="invalid-feedback" role="alert">
-                              <strong>{{ $message }}</strong>
-                          </span>
-                      @enderror
+                  <div class="form-group row">
+                    <div class="col-md-6 flex align-self-center">
+                      <label id="label_total" for="total" class="col-form-label">Total </label>
+                    </div>
+                    <div class="col-md-6">
+                        <input id="total" 
+                          type="text" 
+                          class="form-control"
+                          name="total" 
+                          value="{{ old('total') ?? '0.00' }}"  
+                          readonly>
+
+                        @error('total')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
                   </div>
                 </div>
               </div>
@@ -349,7 +355,9 @@
           var toDelete = $(this).data("delid"); //Remove field html
           $("[data-rowid=" + toDelete + "]").remove();
           x--; //Decrement field counter
+          updateTotal();
         });
+
       }
 
 
@@ -459,6 +467,7 @@
 
             initCompany(suggestion.id);
             initProject(suggestion.id);
+            $("#status").focus();
           }
         }).on('typeahead:autocomplete', function(ev, suggestion) {
           if(suggestion.id){
@@ -518,6 +527,7 @@
 
             initCompany(suggestion.id);
             initProject(suggestion.id);
+            $("#status").focus();
           }
         });
       
@@ -531,6 +541,7 @@
           $('#company_name').val('');
           $('#project_id').val('');
           $('#project_name').val('');
+          $('#discount').val(0);
           if($('#contact_person_fname').val()){
             $('#contact_person_fname').val('');
           }
