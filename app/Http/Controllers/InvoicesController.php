@@ -294,5 +294,112 @@ class InvoicesController extends Controller
   }
 
 
+  public function edit($id)
+  {
+    $user = auth()->user();
+    $invoice = Invoices::with('items')->find($id);
+
+    if(isset($invoice)){
+
+      $services = Services::with('current')->where('is_deactivated', 0)->get();
+      $appsettings = Appsettings::find(1);
+      $discounts = array( "dpwd" => $appsettings->dpwd, "dsc" => $appsettings->dsc);
+
+
+
+      $invoice_current_data = array( 
+        "company_name" => ($invoice->company->id == 1 ? '' : $invoice->company->name),
+        "project_name" => ($invoice->project->is_categorized == 0 ? '' : $invoice->project->name),
+        "due_date" => (!isset($invoice->due_date) ? '' : datetoDpicker($invoice->due_date)),
+      );
+
+
+
+    return view('invoices.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'services' => $services, 'discounts' => $discounts, 'invoice' => $invoice, 'current_data' => $invoice_current_data]);
+
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Invoice not found', 'danger');
+    }
+  }
+
+
+
+
+
+  public function update($id)
+  {
+    $user = auth()->user();
+    $invoice = Invoices::find($id);
+
+    $data = request()->validate([
+      'client_id' => ['required'],
+      'company_id' => ['nullable'],
+      'project_id' => ['nullable'],
+      'status' => ['required'],
+      'subtotal' => ['required'],
+      'discount' => ['required'],
+      'dtype' => ['required'],
+      'total' => ['required'],
+      'created_at' => ['required'],
+      'due_date' => ['nullable'],
+      'is_up' => ['nullable'],
+      /*
+      'services_id' => ['required'],
+      'machines_id' => ['required'],
+      'quantity' => ['required'],
+      'notes' => ['nullable'], */
+    ]);
+
+
+    $is_up = (isset($data['is_up']) && $data['is_up'] == 1 ? 1 : 0); 
+
+    /*
+    $services_id = $data['services_id'];
+    $machines_id = $data['machines_id'];
+    $quantity = $data['quantity'];
+    $notes = $data['notes'];
+    */
+
+    $now = date('m/d/Y');
+
+    if(validateDate($data['created_at'])){
+      if($data['created_at'] == $now ){
+        
+        $created_at = date("Y-m-d H:i:s");
+      }else{
+        $created_at = dateDatabase($data['created_at']);
+      }
+    }
+
+
+
+    $due_date = (isset($data['due_date']) ? dateDatabase($data['due_date']) : $data['due_date']);
+
+    $company_id = ($data['company_id'] == '' ? 1 : $data['company_id']); 
+
+
+    $invoice->clients_id = $data['client_id'];
+    $invoice->companies_id = $company_id;
+    $invoice->projects_id = $data['project_id'];
+    $invoice->status = $data['status'];
+    $invoice->due_date = $due_date;
+    $invoice->subtotal = priceFormatSaving($data['subtotal']);
+    $invoice->discount = $data['discount'];
+    $invoice->discount_type = $data['dtype'];
+    $invoice->total = priceFormatSaving($data['total']);
+    $invoice->is_saved = 0;
+    $invoice->is_up = $is_up;
+    $invoice->updatedby_id = $user->id;
+    $invoice->created_at = $created_at;
+
+    $query = $invoice->update();
+
+
+    if($query){
+      return notifyRedirect($this->homeLink.'/view/'.$id, 'Updated Invoice '. $invoice->name .' successfully', 'success');
+    }
+
+  }
 
 }
