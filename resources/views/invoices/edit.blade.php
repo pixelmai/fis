@@ -207,7 +207,7 @@
 
       <td class="machines"> 
         <select id="machines_id{{$key}}" name="machines_id[]" class=" machines_id form-control w-100 @error('$machines_id') is-invalid @enderror" required>
-           @foreach($machines as $key => $smachine) 
+           @foreach($machines as $z => $smachine) 
             @if($smachine['service_id'] == $item['services_id'] )
               <option value="{{ $smachine['smachine_id'] }}" @if($item['machines_id'] == $smachine['smachine_id'] ) selected @endif >{{ $smachine['smachine_name'] }}
               </option>
@@ -243,7 +243,7 @@
 
     <tr id="itemrow{{$key}}" class="descrow"> 
       <td class="notes" colspan="5"> 
-        <input type="text" id="notes{{$key}}" name="notes[]" value="" class="form-control w-100 quantity" placeholder="Description (optional)" /> 
+        <input type="text" id="notes{{$key}}" name="notes[]" value="{{ $item['notes'] }}" class="form-control w-100 quantity" placeholder="Description (optional)" /> 
       </td> 
       <td class="amount">&nbsp;</td> <td class="option">&nbsp;</td> 
     </tr>
@@ -399,7 +399,7 @@
       $(addButton).click(function(){
           //Check maximum number of input fields
 
-        var fieldHTML = '<tbody data-rowid="' + x + '"><tr id="itemrow' + x + '" class="itemrow"> <td class="services"> <select id="services_id' + x + '" name="services_id[]" class="services_id form-control @error('$services_id') is-invalid @enderror" data-live-search="true" title="Select availed service" data-width="100%" required> @foreach($services as $service) <option value="{{ $service->id }}">{{ $service->name }}</option> @endforeach </select> </td> <td class="machines"> <select id="machines_id' + x + '" name="machines_id[]" class=" machines_id form-control w-100 @error('$machines_id') is-invalid @enderror" disabled="disabled" required> </select> </td> <td class="quantity"> <input type="text" id="quantity' + x + '" name="quantity[]" value="" class="form-control w-100 quantity" required /> </td> <td class="unit"> <input type="text" id="unit' + x + '" name="unit[]" value="" class="form-control unit w-100 quantity" disabled="disabled" /> </td> <td class="price"> <input type="hidden" id="up_price' + x + '" name="up_price[]" value="" class="form-control up_price w-100 quantity" disabled="disabled" /> <input type="hidden" id="def_price' + x + '" name="def_price[]" value="" class="form-control def_price w-100 quantity" disabled="disabled" /> <input type="text" id="price' + x + '" name="price[]" value="" class="form-control price w-100 quantity" disabled="disabled" /> </td> <td class="amount"> <input type="text" id="amount' + x + '" name="amount[]" value="" class="form-control amount w-100 quantity" disabled="disabled" /> </td> <td class="option"> <a href="javascript:void(0);" class="remove_button" data-delid="' + x + '"><img src="/images/remove-icon.png" /></a> </td> </tr> <tr id="itemrow' + x + '" class="descrow"> <td class="notes" colspan="5"> <input type="text" id="notes' + x + '" name="notes[]" value="" class="form-control w-100 quantity" placeholder="Description (optional)" /> </td> <td class="amount">&nbsp;</td> <td class="option">&nbsp;</td> </tr></tbody>'; 
+        var fieldHTML = '<tbody data-rowid="' + x + '"><tr id="itemrow' + x + '" class="itemrow"> <td class="services"> <input type="hidden" id="currentid"' + x + '" name="currentid[]" value="0" required /> <select id="services_id' + x + '" name="services_id[]" class="services_id form-control @error('$services_id') is-invalid @enderror" data-live-search="true" title="Select availed service" data-width="100%" required> @foreach($services as $service) <option value="{{ $service->id }}">{{ $service->name }}</option> @endforeach </select> </td> <td class="machines"> <select id="machines_id' + x + '" name="machines_id[]" class=" machines_id form-control w-100 @error('$machines_id') is-invalid @enderror" disabled="disabled" required> </select> </td> <td class="quantity"> <input type="text" id="quantity' + x + '" name="quantity[]" value="" class="form-control w-100 quantity" required /> </td> <td class="unit"> <input type="text" id="unit' + x + '" name="unit[]" value="" class="form-control unit w-100 quantity" disabled="disabled" /> </td> <td class="price"> <input type="hidden" id="up_price' + x + '" name="up_price[]" value="" class="form-control up_price w-100 quantity" disabled="disabled" /> <input type="hidden" id="def_price' + x + '" name="def_price[]" value="" class="form-control def_price w-100 quantity" disabled="disabled" /> <input type="text" id="price' + x + '" name="price[]" value="" class="form-control price w-100 quantity" disabled="disabled" /> </td> <td class="amount"> <input type="text" id="amount' + x + '" name="amount[]" value="" class="form-control amount w-100 quantity" disabled="disabled" /> </td> <td class="option"> <a href="javascript:void(0);" class="remove_button" data-delid="' + x + '"><img src="/images/remove-icon.png" /></a> </td> </tr> <tr id="itemrow' + x + '" class="descrow"> <td class="notes" colspan="5"> <input type="text" id="notes' + x + '" name="notes[]" value="" class="form-control w-100 quantity" placeholder="Description (optional)" /> </td> <td class="amount">&nbsp;</td> <td class="option">&nbsp;</td> </tr></tbody>'; 
         //New input field html 
 
         if(x < maxField){ 

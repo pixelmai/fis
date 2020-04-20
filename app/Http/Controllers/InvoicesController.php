@@ -396,12 +396,10 @@ class InvoicesController extends Controller
     $company_id = ($data['company_id'] == '' ? 1 : $data['company_id']); 
     $due_date = (isset($data['due_date']) ? dateDatabase($data['due_date']) : $data['due_date']);
     
-    $currentid = $data['currentid'];
     $services_id = $data['services_id'];
     $machines_id = $data['machines_id'];
     $quantity = $data['quantity'];
     $notes = $data['notes'];
-    
 
 
     $now = date('m/d/Y');
@@ -413,10 +411,6 @@ class InvoicesController extends Controller
         $created_at = dateDatabase($data['created_at']);
       }
     }
-
-
-
-
 
     $invoice->clients_id = $data['client_id'];
     $invoice->companies_id = $company_id;
@@ -431,12 +425,66 @@ class InvoicesController extends Controller
     $invoice->is_up = $is_up;
     $invoice->updatedby_id = $user->id;
     $invoice->created_at = $created_at;
+    $invoice_query = $invoice->update();
 
-    $query = $invoice->update();
+
+    // INVOICE ITEM SAVES
+
+
+
+
+    if($invoice_query){
+      $old_items = $invoice->items->pluck('id')->toArray();
+      $current_ids = array_map('intval', $data['currentid']);
+      $add = array_diff($current_ids, $old_items);
+      $remove = array_diff($old_items,$current_ids);
+      $change = array_diff($old_items,$remove);
+
+
+
+      $k = 0;
+      foreach($data['currentid'] as $cl){
+        $s = Services::with('current')->where('id',$services_id[$k])->first();
+
+        if($cl != 0){
+          $sitem = Invoiceitems::find($cl);
+          
+          $sitem->invoices_id = $invoice->id;
+          $sitem->services_id = $services_id[$k];
+          $sitem->servicesrates_id = $s->servicesrates_id;
+          $sitem->machines_id = $machines_id[$k];
+          $sitem->quantity = $quantity[$k];
+          $sitem->notes = $notes[$k];
+          $sitem->update();
+
+        }elseif($cl == 0){
+          Invoiceitems::create([
+            'invoices_id' => $invoice->id,
+            'services_id' => $services_id[$k],
+            'servicesrates_id' => $s->servicesrates_id,
+            'machines_id' => $machines_id[$k],
+            'quantity' => $quantity[$k],
+            'notes' => $notes[$k],
+          ]);
+        }
+        $k++;
+      }
+
+      if(count($remove) != 0 ){
+        $delete_rows = Invoiceitems::whereIn('id', $remove);
+        $delete_rows->delete();
+      }
+
+      $new_item_count  = Invoices::find($id); //need to count new number
+      $new_item_count->jobs = count($new_item_count->items);
+      $new_item_count->update();
+
+    }
+
 
 
     
-    if($query){
+    if($new_item_count){
       return notifyRedirect($this->homeLink.'/view/'.$id, 'Updated Invoice #'. $invoice->id .' successfully', 'success');
     }
 
