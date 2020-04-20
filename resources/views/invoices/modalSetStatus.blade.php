@@ -55,7 +55,7 @@
              <button type="submit" class="btn btn-primary btn-lg d-none" id="btn-edit-status" value="create">Edit Status
              </button>
 
-             <button type="submit" class="btn btn-primary btn-lg" id="btn-multiple-save-status" value="create">Set Multiple Status
+             <button type="submit" class="btn btn-primary btn-lg" id="btn-multiple-save-status" value="create">Set Status
              </button>
 
              <button type="button" class="btn btn-outline-secondary btn-lg" data-dismiss="modal">Cancel</button>

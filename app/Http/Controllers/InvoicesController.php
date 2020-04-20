@@ -66,7 +66,7 @@ class InvoicesController extends Controller
       if($data->status != 3){
         $button .= '<a href="javascript:void(0);" id="add-log-row" data-toggle="tooltip" data-placement="top" data-original-title="Set Status" data-id="'.$data->id.'"  class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-history"></i></a>';
       }
-      
+
       if($data->status == 1){        
         $button .= '<a href="/invoices/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
 
@@ -79,7 +79,7 @@ class InvoicesController extends Controller
       return $button;
       })
       ->addColumn('checkbox', function($data){
-        if($data->status == 1){
+        if($data->status != 3){
           return '<input type="checkbox" name="tbl_row_checkbox[]" class="tbl_row_checkbox" value="'. $data->id .'" />';
         }else{
           return '&nbsp;';
