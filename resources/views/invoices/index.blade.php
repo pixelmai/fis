@@ -128,8 +128,33 @@
       
 
 
+      $('body').on('click', '#delete-row', function () {
+        var row_id = $(this).data("id");
 
+        if (confirm('Are you sure want to delete row?')) {
 
+          $.ajax({
+              type: "get",
+              url: "/invoices/destroy/"+row_id,
+              success: function (data) {
+                var oTable = $('#listpage_datatable').dataTable(); 
+                oTable.fnDraw(false);
+
+                var notifData = {
+                  status: 'warning',
+                  message: 'Successfully deleted a invoice.',
+                };
+
+                generateNotif(notifData);
+                //$('#bulk_delete').addClass('d-none');
+
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+      });   
 
 
 

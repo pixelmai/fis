@@ -16,7 +16,7 @@
       <div class="card">
           <div class="card-body">
 
-            <form action="/invoices/create" enctype="multipart/form-data" method="POST">
+            <form if="invoices_form" action="/invoices/create" enctype="multipart/form-data" method="POST">
               @csrf
 
               
@@ -281,7 +281,7 @@
 
             <div class="row py-2">
               <div class="col-12">
-                <button id="big-add-button" class="btn btn-primary btn-lg">Save Invoice</button>
+                <button id="big-add-button" class="btn btn-primary btn-lg" type="submit">Save Invoice</button>
               </div>
             </div>
 
@@ -327,7 +327,9 @@
       });
 
 
- 
+
+
+
 
       var maxField = 10; //Input fields increment limitation
       var addButton = $('.add_button'); //Add button selector
@@ -821,6 +823,7 @@
 
     initClients();
     initItemsTable();
+
 
   }); //Document Ready end
 </script>

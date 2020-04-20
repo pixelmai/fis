@@ -249,6 +249,24 @@
 <script type="text/javascript">
   $(document).ready(function(){
 
+      $('body').on('click', '#delete-row', function () {
+        
+
+        if (confirm('Are you sure want to delete invoice?')) {
+
+          $.ajax({
+              type: "get",
+              url: "/invoices/destroy/"+ {{ $invoice->id }},
+              success: function (data) {
+                console.log(data);
+                window.location.href = '{{ url('/invoices') }}';
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+      });   
 
 
 

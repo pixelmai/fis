@@ -36,6 +36,14 @@ function notifyRedirect($link, $message, $status){
   return redirect($link)->with(['status' => $status, 'message' => $message]);
 }
 
+function sessionSetter($status, $message){
+  session(['status' => $status, 'message' => $message]);
+}
+
+
+
+
+
 function dateDatabase($d) {
   return date('Y-m-d',strtotime($d));
 }

@@ -339,10 +339,9 @@
               </div>
 
 
-
             <div class="row py-2">
               <div class="col-12">
-                <button id="big-add-button" class="btn btn-primary btn-lg">Save Invoice</button>
+                <button id="big-add-button" class="btn btn-primary btn-lg" type="submit">Update Invoice</button>
               </div>
             </div>
 

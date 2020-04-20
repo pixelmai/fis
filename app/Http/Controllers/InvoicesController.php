@@ -62,11 +62,13 @@ class InvoicesController extends Controller
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){
       $button = '<div class="hover_buttons"><a href="/invoices/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
-      $button .= '<a href="/invoices/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
 
-      $sum = 0;
+      if($data->status == 1){
 
-      $activate_button = '<a href="javascript:void(0);" id="activate-row" data-toggle="tooltip" data-placement="top" data-original-title="Activate" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-success"><i class="fas fa-check"></i></a></div>';
+        $button .= '<a href="/invoices/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
+
+        $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
+      }
 
       return $button;
       })
@@ -177,7 +179,6 @@ class InvoicesController extends Controller
       'quantity' => ['required'],
       'notes' => ['nullable'],
     ]);
-
 
     $is_up = (isset($data['is_up']) && $data['is_up'] == 1 ? 1 : 0); 
 
@@ -297,7 +298,7 @@ class InvoicesController extends Controller
     $user = auth()->user();
     $invoice = Invoices::with('items')->find($id);
 
-    if(isset($invoice)){
+    if(isset($invoice) && $invoice->status == 1){
 
       $services = Services::with('current')->where('is_deactivated', 0)->get();
       $appsettings = Appsettings::find(1);
@@ -354,16 +355,13 @@ class InvoicesController extends Controller
         );
       }
 
-    return view('invoices.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'services' => $services, 'discounts' => $discounts, 'invoice' => $invoice, 'current_data' => $invoice_current_data, 'items' => $invoice_items, 'machines' => $machines]);
+      return view('invoices.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'services' => $services, 'discounts' => $discounts, 'invoice' => $invoice, 'current_data' => $invoice_current_data, 'items' => $invoice_items, 'machines' => $machines]);
 
 
     }else{
       return notifyRedirect($this->homeLink, 'Invoice not found', 'danger');
     }
   }
-
-
-
 
 
   public function update($id)
@@ -431,8 +429,6 @@ class InvoicesController extends Controller
     // INVOICE ITEM SAVES
 
 
-
-
     if($invoice_query){
       $old_items = $invoice->items->pluck('id')->toArray();
       $current_ids = array_map('intval', $data['currentid']);
@@ -480,16 +476,32 @@ class InvoicesController extends Controller
       $new_item_count->update();
 
     }
-
-
-
     
     if($new_item_count){
       return notifyRedirect($this->homeLink.'/view/'.$id, 'Updated Invoice #'. $invoice->id .' successfully', 'success');
     }
 
-    
+  }
 
+
+  public function destroy($id)
+  {
+    $invoice = Invoices::find($id);
+
+    if($invoice && $invoice->status == 1){
+      if(request()->ajax()){
+        Invoiceitems::where('invoices_id',$id)->delete();
+        $row = Invoices::where('id',$id)->delete();
+        
+        sessionSetter('warning', 'Deleted invoice successufully');
+
+        return Response::json($row);
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to delete', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Invoice not found', 'danger');
+    }
   }
 
 }

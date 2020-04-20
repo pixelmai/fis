@@ -57,6 +57,9 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
+
+    <?php session()->forget('status'); ?>
+
   @endif
 
 </div>
