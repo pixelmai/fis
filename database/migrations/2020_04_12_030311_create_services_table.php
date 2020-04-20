@@ -19,6 +19,7 @@ class CreateServicesTable extends Migration
             $table->string('unit');
             $table->tinyInteger('servcats_id');
             $table->tinyInteger('servicesrates_id'); //to set the current price
+            $table->text('notes')->nullable();
             $table->boolean('is_deactivated')->default(0);
             $table->unsignedBigInteger('machines_id')->default(0);
             $table->unsignedBigInteger('updatedby_id');

@@ -27,8 +27,12 @@ class Services extends Model
 
 	public function machines()
 	{
-	return $this->belongsToMany('App\Machines');
+		return $this->belongsToMany('App\Machines');
 	}
 
+	public function mainmachine()
+	{
+		return $this->hasOne('App\Machines','id','machines_id');
+	}
 
 }

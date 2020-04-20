@@ -358,6 +358,8 @@
       .content-area{
         padding: 20px;
       }
+
+
     }
   }
 
@@ -422,12 +424,17 @@
           font-weight: bold;
         }
       }
+
     }
 
     input[type=email], input[type=password]{
       &:focus{
         background: #ffffe5;
       }
+    }
+
+    input.disabled{
+      background-color: #e9ecef !important;
     }
 
     .form-note{
@@ -515,6 +522,7 @@
       }
 
     }
+
 
 
   }
@@ -801,13 +809,20 @@
     }
   }
 
-
-
   .dataTables_wrapper{
     border-top: 1px dotted #ccc;
+
+    .bootstrap-select{
+      .dropdown-toggle{
+        padding-top: 0;
+        padding-bottom: 0;
+        padding-right: 0;
+      }
+    }
+
     .dataTables_length{
       padding: 20px 0 10px;
-      .dk-select{
+      .bootstrap-select{
         width: 70px;
       }
     }
@@ -832,8 +847,8 @@
           color: #ccc;
         }
 
-        .dk-select{
-          width: 80px;
+        .bootstrap-select{
+          width: 100px;
           text-align: left;
           margin-left: 10px;
         }
@@ -844,6 +859,262 @@
   }
 
 
+  #invoice_heading{
+    padding: 10px 0 15px; 
+
+    h1{
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 2em;
+      color: #666;
+      line-height: 1;
+      width: 100%;
+    }
+
+    #invoice_id{
+      font-size: 1.7em;
+      color: #666;
+      text-align: right;
+      padding: 0;
+      line-height: 1;
+
+      span{
+        color: #999;
+      }
+    }
+  }
+
+
+  #invoice_items_table{
+    background: #fff;
+    min-width: 1030px !important;
+    margin-top: 10px;
+
+    th{
+      border-top: 2px solid #e1e1e1;
+      border-bottom: 2px solid #e1e1e1;
+      background: #f8f8f8;
+      color: #333;
+      padding: 10px 5px;
+    
+    }
+
+    th.price, th.quantity, th.amount{ text-align: right; }
+
+    tbody{
+      tr.itemrow{
+        td{border-bottom: 1px dotted #e1e1e1;}
+      }
+
+      tr.descrow{
+        background: #fbfbfb;
+        border-bottom: 2px solid #e1e1e1;
+        input{
+          background: #fbfbfb;
+        }
+      }
+
+      td{
+        border-right: 1px dotted #e1e1e1;
+        input, select, button{
+          border: 0;
+          border-radius: 0;
+          margin: 0;
+
+          &:focus{
+            outline: none;
+            background: #ffffe5;
+          }
+
+        }
+
+        .form-control:focus {
+          border-color: inherit;
+          -webkit-box-shadow: none;
+          box-shadow: none;
+        }
+
+      }
+
+      td.services{ width: 35%; }
+      td.machines{ width: 27%; }
+
+      td.unit, td.price{ 
+        width: 8%;
+        text-align: right;
+
+        .form-control:disabled, .form-control[readonly] {
+          background-color: #fff;
+          border: 0;
+          text-align: right;
+        }
+      }
+
+      td.unit{
+        text-align: left;
+      }
+
+
+      td.quantity{ 
+        width: 6%; 
+        text-align: right;
+
+        input{
+          text-align: right;
+        }
+      }
+      td.amount{
+        border-bottom: 0 !important; 
+        border-right: 0;
+        background: #f0f4f8;
+        text-align: right;
+
+        .form-control:disabled, .form-control[readonly] {
+          background-color: #f0f4f8;
+          text-align: right;
+        }
+      }
+      td.option{border: 0 !important; padding: 0 5px;}
+    }
+ 
+  }
+
+  #invoice_add_button{
+    display: block;
+    color: #383d41;
+    background-color: #e2e3e5;
+    border: 1px solid #d6d8db;
+    margin: 10px 0 20px;
+    padding: 5px 10px;
+
+    span{
+      padding-left: 10px;
+    }
+  }
+
+  #totals_section{
+    width: 1030px !important;
+    padding-right: 31px;
+
+    #totals_form_group{
+      width: 30%;
+
+      input{
+        background: #f0f4f8;
+        text-align: right;
+      }
+
+      label{
+        text-align: right;
+        width: 100%;
+      }
+      #label_total{
+        text-transform: uppercase;
+        font-size: 1.2em;
+      }
+
+      #total{
+        font-size: 1.3em;
+      }
+
+
+    }
+  }
+
+
+  #view_invoice{
+
+    .card{
+      padding: 0;
+
+      .card-body{
+        padding: 2.25rem;
+        padding-top: 20px;
+      }
+    }
+
+
+    #up_candy{
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background-image: url('/images/up_logo.png');
+      margin-left: 10px;
+    }
+
+    #markers{
+
+      .status_draft{
+        background: #999;
+      }
+
+      .status_paid{
+        background: $green;
+      }
+
+      .status_sent{
+        background: $orange;
+      }
+
+      .status{
+        border-top-left-radius: 0.25rem;
+        color: #fff;
+        display: inline-block;
+        padding: 15px 40px;
+        font-size: 1.3em;
+        text-transform:   uppercase;  
+        letter-spacing: 1px;
+      }
+
+      #invoice_menu{
+        padding: 30px 40px 0;
+      }
+
+    }
+    em.info_na{
+      color: #ccc;
+    }
+
+    #invoice_items_table{
+      td{
+        padding: 5px 10px;
+      }
+
+      th{
+        padding: 10px;
+      }
+    }
+
+
+    #totals_section{
+      padding: 0;
+      text-align: right;
+      margin: 0;
+      width: 100% !important;
+
+      #totals_form_group{
+        width: 334px;
+      }
+
+      .row{
+        margin: 0;
+      }
+
+      .num{
+        border-left: 1px dotted #e1e1e1;
+        background: #f0f4f8;
+        margin: 0;
+        padding: 5px 10px;
+      }
+
+      #grand_total{
+        border-top: 2px solid #e1e1e1;
+        border-bottom: 2px solid #e1e1e1;
+        margin-bottom: 0;
+        font-size: 1.4em;
+      }
+    }
+  }
 }
 
 
@@ -890,6 +1161,17 @@ hr.dotted{ border-top: 1px dotted #ddd; }
   width: 315px;
 }
       
+.datepicker{
+  z-index: 9000 !important;
+}
+
+
+.bootstrap-select{
+  .dropdown-toggle{
+    background-color: #fff;
+    border-color: #ced4da;
+  }
+}
 /* ---------------------------------------------------
   MEDIAQUERIES
 ----------------------------------------------------- */

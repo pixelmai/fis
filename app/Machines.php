@@ -27,4 +27,6 @@ class Machines extends Model
     return $this->belongsToMany('App\Services');
   }
 
+
+
 }

@@ -18,7 +18,8 @@ class Projects extends Model
     return $this->belongsTo('App\Clients');
   }
 
-
-
+  public function invoice(){
+    return $this->belongsTo('App\Invoices');
+  }
 
 }

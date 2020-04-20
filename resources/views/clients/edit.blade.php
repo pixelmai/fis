@@ -382,7 +382,10 @@
   <script>
   $(document).ready( function () {
 
-    $('#date_of_birth').datepicker();
+    $('#date_of_birth').datepicker({
+      startDate: '01/01/1920',
+      endDate: 'today',
+    });
 
     /* Type Ahead */
     var engine = new Bloodhound({

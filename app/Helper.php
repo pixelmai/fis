@@ -36,6 +36,14 @@ function notifyRedirect($link, $message, $status){
   return redirect($link)->with(['status' => $status, 'message' => $message]);
 }
 
+function sessionSetter($status, $message){
+  session(['status' => $status, 'message' => $message]);
+}
+
+
+
+
+
 function dateDatabase($d) {
   return date('Y-m-d',strtotime($d));
 }
@@ -48,6 +56,11 @@ function dateTimeFormat($d) {
   return date('M d, Y h:i A', strtotime($d));
 }
 
+function dateTimeFormatSimple($d) {
+  return date('m/d/Y h:i A',strtotime($d));
+}
+
+
 function priceFormat($p){
   return round($p, 2);
 }
@@ -56,6 +69,24 @@ function priceFormatFancy($p){
   return number_format(round($p, 2), 2);
 }
 
+function pricesInvoiceForm($p){
+  return number_format($p, 2, '.', ''); //prints "2 013,00"
+}
+
+
 function priceFormatSaving($p){
   return round($p, 4);
 }
+
+function validateDate($date, $format = 'm/d/Y')
+{
+    $d = DateTime::createFromFormat($format, $date);
+    // The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
+    return $d && $d->format($format) === $date;
+}
+
+
+function shortenText($t, $n){
+  return substr($t, 0, $n). " ... ";
+}
+

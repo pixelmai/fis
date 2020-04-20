@@ -11278,6 +11278,10 @@ a[data-toggle=collapse] {
   background: #ffffe5;
 }
 
+#app input.disabled {
+  background-color: #e9ecef !important;
+}
+
 #app .form-note {
   font-size: 0.8em;
   color: #999;
@@ -11636,11 +11640,17 @@ form label #compExists {
   border-top: 1px dotted #ccc;
 }
 
+#app .dataTables_wrapper .bootstrap-select .dropdown-toggle {
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-right: 0;
+}
+
 #app .dataTables_wrapper .dataTables_length {
   padding: 20px 0 10px;
 }
 
-#app .dataTables_wrapper .dataTables_length .dk-select {
+#app .dataTables_wrapper .dataTables_length .bootstrap-select {
   width: 70px;
 }
 
@@ -11667,10 +11677,271 @@ form label #compExists {
   color: #ccc;
 }
 
-#app .dataTables_wrapper .dataTables_filter #active_status_container .dk-select {
-  width: 80px;
+#app .dataTables_wrapper .dataTables_filter #active_status_container .bootstrap-select {
+  width: 100px;
   text-align: left;
   margin-left: 10px;
+}
+
+#app #invoice_heading {
+  padding: 10px 0 15px;
+}
+
+#app #invoice_heading h1 {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 2em;
+  color: #666;
+  line-height: 1;
+  width: 100%;
+}
+
+#app #invoice_heading #invoice_id {
+  font-size: 1.7em;
+  color: #666;
+  text-align: right;
+  padding: 0;
+  line-height: 1;
+}
+
+#app #invoice_heading #invoice_id span {
+  color: #999;
+}
+
+#app #invoice_items_table {
+  background: #fff;
+  min-width: 1030px !important;
+  margin-top: 10px;
+}
+
+#app #invoice_items_table th {
+  border-top: 2px solid #e1e1e1;
+  border-bottom: 2px solid #e1e1e1;
+  background: #f8f8f8;
+  color: #333;
+  padding: 10px 5px;
+}
+
+#app #invoice_items_table th.price,
+#app #invoice_items_table th.quantity,
+#app #invoice_items_table th.amount {
+  text-align: right;
+}
+
+#app #invoice_items_table tbody tr.itemrow td {
+  border-bottom: 1px dotted #e1e1e1;
+}
+
+#app #invoice_items_table tbody tr.descrow {
+  background: #fbfbfb;
+  border-bottom: 2px solid #e1e1e1;
+}
+
+#app #invoice_items_table tbody tr.descrow input {
+  background: #fbfbfb;
+}
+
+#app #invoice_items_table tbody td {
+  border-right: 1px dotted #e1e1e1;
+}
+
+#app #invoice_items_table tbody td input,
+#app #invoice_items_table tbody td select,
+#app #invoice_items_table tbody td button {
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+}
+
+#app #invoice_items_table tbody td input:focus,
+#app #invoice_items_table tbody td select:focus,
+#app #invoice_items_table tbody td button:focus {
+  outline: none;
+  background: #ffffe5;
+}
+
+#app #invoice_items_table tbody td .form-control:focus {
+  border-color: inherit;
+  box-shadow: none;
+}
+
+#app #invoice_items_table tbody td.services {
+  width: 35%;
+}
+
+#app #invoice_items_table tbody td.machines {
+  width: 27%;
+}
+
+#app #invoice_items_table tbody td.unit,
+#app #invoice_items_table tbody td.price {
+  width: 8%;
+  text-align: right;
+}
+
+#app #invoice_items_table tbody td.unit .form-control:disabled,
+#app #invoice_items_table tbody td.unit .form-control[readonly],
+#app #invoice_items_table tbody td.price .form-control:disabled,
+#app #invoice_items_table tbody td.price .form-control[readonly] {
+  background-color: #fff;
+  border: 0;
+  text-align: right;
+}
+
+#app #invoice_items_table tbody td.unit {
+  text-align: left;
+}
+
+#app #invoice_items_table tbody td.quantity {
+  width: 6%;
+  text-align: right;
+}
+
+#app #invoice_items_table tbody td.quantity input {
+  text-align: right;
+}
+
+#app #invoice_items_table tbody td.amount {
+  border-bottom: 0 !important;
+  border-right: 0;
+  background: #f0f4f8;
+  text-align: right;
+}
+
+#app #invoice_items_table tbody td.amount .form-control:disabled,
+#app #invoice_items_table tbody td.amount .form-control[readonly] {
+  background-color: #f0f4f8;
+  text-align: right;
+}
+
+#app #invoice_items_table tbody td.option {
+  border: 0 !important;
+  padding: 0 5px;
+}
+
+#app #invoice_add_button {
+  display: block;
+  color: #383d41;
+  background-color: #e2e3e5;
+  border: 1px solid #d6d8db;
+  margin: 10px 0 20px;
+  padding: 5px 10px;
+}
+
+#app #invoice_add_button span {
+  padding-left: 10px;
+}
+
+#app #totals_section {
+  width: 1030px !important;
+  padding-right: 31px;
+}
+
+#app #totals_section #totals_form_group {
+  width: 30%;
+}
+
+#app #totals_section #totals_form_group input {
+  background: #f0f4f8;
+  text-align: right;
+}
+
+#app #totals_section #totals_form_group label {
+  text-align: right;
+  width: 100%;
+}
+
+#app #totals_section #totals_form_group #label_total {
+  text-transform: uppercase;
+  font-size: 1.2em;
+}
+
+#app #totals_section #totals_form_group #total {
+  font-size: 1.3em;
+}
+
+#app #view_invoice .card {
+  padding: 0;
+}
+
+#app #view_invoice .card .card-body {
+  padding: 2.25rem;
+  padding-top: 20px;
+}
+
+#app #view_invoice #up_candy {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-image: url("/images/up_logo.png");
+  margin-left: 10px;
+}
+
+#app #view_invoice #markers .status_draft {
+  background: #999;
+}
+
+#app #view_invoice #markers .status_paid {
+  background: #38c172;
+}
+
+#app #view_invoice #markers .status_sent {
+  background: #f6993f;
+}
+
+#app #view_invoice #markers .status {
+  border-top-left-radius: 0.25rem;
+  color: #fff;
+  display: inline-block;
+  padding: 15px 40px;
+  font-size: 1.3em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+#app #view_invoice #markers #invoice_menu {
+  padding: 30px 40px 0;
+}
+
+#app #view_invoice em.info_na {
+  color: #ccc;
+}
+
+#app #view_invoice #invoice_items_table td {
+  padding: 5px 10px;
+}
+
+#app #view_invoice #invoice_items_table th {
+  padding: 10px;
+}
+
+#app #view_invoice #totals_section {
+  padding: 0;
+  text-align: right;
+  margin: 0;
+  width: 100% !important;
+}
+
+#app #view_invoice #totals_section #totals_form_group {
+  width: 334px;
+}
+
+#app #view_invoice #totals_section .row {
+  margin: 0;
+}
+
+#app #view_invoice #totals_section .num {
+  border-left: 1px dotted #e1e1e1;
+  background: #f0f4f8;
+  margin: 0;
+  padding: 5px 10px;
+}
+
+#app #view_invoice #totals_section #grand_total {
+  border-top: 2px solid #e1e1e1;
+  border-bottom: 2px solid #e1e1e1;
+  margin-bottom: 0;
+  font-size: 1.4em;
 }
 
 /* ---------------------------------------------------
@@ -11714,6 +11985,15 @@ hr.dotted {
 
 .tt-dataset-client {
   width: 315px;
+}
+
+.datepicker {
+  z-index: 9000 !important;
+}
+
+.bootstrap-select .dropdown-toggle {
+  background-color: #fff;
+  border-color: #ced4da;
 }
 
 /* ---------------------------------------------------

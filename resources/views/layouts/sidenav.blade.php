@@ -29,7 +29,7 @@
           <a href="#submenuTransactions" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Transactions</a>
           <ul class="@if(!empty($page_settings['seltab']) && ($page_settings['seltab'] == 'transactions')) active @else collapse @endif list-unstyled" id="submenuTransactions">
               <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'invoices')) class="active" @endif>
-                  <a href="#">Invoices</a>
+                  <a href="/invoices">Invoices</a>
               </li>
               <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'official')) class="active" @endif>
                   <a href="#">Official Billing</a>
