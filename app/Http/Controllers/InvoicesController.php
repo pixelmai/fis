@@ -63,16 +63,29 @@ class InvoicesController extends Controller
         ->addColumn('action', function($data){
       $button = '<div class="hover_buttons"><a href="/invoices/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
 
-      if($data->status == 1){
-
+      if($data->status != 3){
+        $button .= '<a href="javascript:void(0);" id="add-log-row" data-toggle="tooltip" data-placement="top" data-original-title="Set Status" data-id="'.$data->id.'"  class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-history"></i></a>';
+      }
+      
+      if($data->status == 1){        
         $button .= '<a href="/invoices/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
 
-        $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
+        $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a>';
       }
+
+
+      $button .= '</div>';
 
       return $button;
       })
-      ->addColumn('checkbox', '<input type="checkbox" name="tbl_row_checkbox[]" class="tbl_row_checkbox" value="{{$id}}" />')
+      ->addColumn('checkbox', function($data){
+        if($data->status == 1){
+          return '<input type="checkbox" name="tbl_row_checkbox[]" class="tbl_row_checkbox" value="'. $data->id .'" />';
+        }else{
+          return '&nbsp;';
+        }
+      })
+
       ->addColumn('total', function($data){
         return '<div class="price">'. priceFormatFancy($data->total) .'</div>';
       })
@@ -503,5 +516,48 @@ class InvoicesController extends Controller
       return notifyRedirect($this->homeLink, 'Invoice not found', 'danger');
     }
   }
+
+
+  public function status(Request $request)
+  {
+    if(request()->ajax()){
+      $req_id = $request->input('id');
+      $form = $request->input('formData');
+
+      if(is_array($req_id)){
+        $count_updated = 0;
+
+        foreach ($req_id as $row_id) {
+
+            $row = Invoices::find($row_id); 
+            if($row){
+              $row->status = $form['status'];
+              $row->updatedby_id = $form['updatedby_id'];
+              $row->update();
+
+              $count_updated++;
+            }
+        }
+        return Response::json($count_updated);
+
+      }else{
+
+        $row = Invoices::find($req_id); 
+        if($row){
+          $row->status = $form['status'];
+          $row->updatedby_id = $form['updatedby_id'];
+          $row->update();
+
+          return Response::json(1);
+        }
+      }
+
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Action not permitted', 'danger');
+    }
+  }
+
+
 
 }

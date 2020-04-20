@@ -99,8 +99,6 @@
 
 
 
-
-
       $('#listpage_datatable tbody').on('click', '.tbl_row_checkbox', function () {
           $(this).parent().parent().toggleClass('rowselected');
 
@@ -110,7 +108,7 @@
             $('#bulk_status').addClass('d-none');
           }
 
-      } );
+      });
 
 
       $('body').on('click', '#delete-row', function () {

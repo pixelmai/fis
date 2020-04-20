@@ -31,8 +31,7 @@
               <th scope="col">Due Date</th>
               <th scope="col"><div class="price">Total</div></th>
               <th scope="col" class="col_actions"/>
-                <button type="button" name="bulk_deac" id="bulk_deac" class="btn btn-danger btn-sm d-none">Deactivate All</i></button>
-                <button type="button" name="bulk_acti" id="bulk_acti" class="btn btn-success btn-sm d-none">Activate All</i></button>
+                <button type="button" name="bulk_status" id="bulk_status" class="btn btn-primary btn-sm d-none">Set Status</i></button>
               </th>
             </tr>
           </thead>
@@ -46,11 +45,13 @@
 @stop
 
 @push('modals')
+  @include('invoices.modalSetStatus')
 @endpush
 
 
 @push('scripts')
   <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 
   <script>
     $(document).ready( function () {
@@ -93,25 +94,16 @@
 
 
 
+
       $('#listpage_datatable tbody').on('click', '.tbl_row_checkbox', function () {
           $(this).parent().parent().toggleClass('rowselected');
-          var as = $('#active_status').children("option:selected").val();
 
           if ( document.querySelector('.rowselected') !== null ) {
-            if(as == 0){
-              $('#bulk_deac').removeClass('d-none');
-              $('#bulk_acti').addClass('d-none');
-            }else if(as == 1){
-              $('#bulk_deac').addClass('d-none');
-              $('#bulk_acti').removeClass('d-none');
-            }
+            $('#bulk_status').removeClass('d-none');
           }else{
-            $('#bulk_deac').addClass('d-none');
-            $('#bulk_acti').addClass('d-none');
+            $('#bulk_status').addClass('d-none');
           }
-
-      } );
-
+      });
 
  
 
@@ -156,6 +148,118 @@
         } 
       });   
 
+
+
+      $('body').on('click', '#add-log-row', function () {
+        var row_id = $(this).data("id");
+        $('#ajaxForm #invoice_id').val(row_id);
+        $('#ajax-crud-modal').trigger("reset");
+        $('#ajax-crud-modal').modal('show');
+        $('#btn-multiple-save-status').addClass('d-none');
+        $('#btn-single-save-status').removeClass('d-none');
+      });   
+
+
+      $('body').on('click', '#btn-single-save-status', function () {
+        initvalidator($('#invoice_id').val());
+      });   
+
+
+      $('body').on('click', '#btn-multiple-save-status', function () {
+        var id = [];
+        $('.tbl_row_checkbox:checked').each(function(){
+           id.push($(this).val());
+        });
+
+        initvalidator(id);
+      });   
+
+
+
+      $(document).on('click', '#bulk_status', function(){
+          var id = [];
+          $('.tbl_row_checkbox:checked').each(function(){
+             id.push($(this).val());
+          });
+          if(id.length > 0)
+          {
+            $('#ajax-crud-modal').trigger("reset");
+            $('#ajax-crud-modal').modal('show');
+            $('#btn-single-save-status').addClass('d-none');
+            $('#btn-multiple-save-status').removeClass('d-none');
+          }
+          else
+          {
+              alert("Please select atleast one checkbox");
+          }
+      
+      });
+
+
+
+      function initvalidator(ids){
+        var validator = $("#ajaxForm").validate({
+          errorPlacement: function(error, element) {
+            // Append error within linked label
+            $( element )
+              .closest( "form" )
+                .find( "label[for='" + element.attr( "id" ) + "']" )
+                  .append( error );
+          },
+          errorElement: "span",
+          rules: {
+            status: {
+              required: true
+            }
+          },
+          messages: {
+            status: " (required)",
+          },
+          submitHandler: function(form) {
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+        
+            var formData = {
+              status: $('#status').children("option:selected").val(),
+              updatedby_id: $('#updatedby_id').val(),
+            };
+
+            var state = jQuery('#btn-save').val();
+            var type = "POST";
+
+            $.ajax({
+                type: type,
+                url: "/invoices/status",
+                data: { "formData" : formData, "id": ids } ,
+                dataType: 'json',
+                success: function (data) {
+                  $('#ajax-crud-modal').trigger("reset");
+                  $('#ajax-crud-modal').modal('hide');
+                  var oTable = $('#listpage_datatable').dataTable(); 
+                  oTable.fnDraw(false);
+
+                  var notifData = {
+                    status: 'success',
+                    message: 'Successfully updated status of the selected ' + data + ' tools.',
+                  };
+
+                  generateNotif(notifData);
+                  $('#bulk_status').addClass('d-none');
+                },
+                error: function (data) {
+                  console.log('Error:', data);
+                }
+            });
+
+          },
+        });
+
+      }
 
 
 

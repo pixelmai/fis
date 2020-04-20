@@ -20,10 +20,11 @@
           </div>
 
           <div id="invoice_menu">
-
-            <a href="javascript:void(0);" id="add-log-row" data-id="{{ $invoice->id }}" class="edit btn btn-outline-secondary btn-md">
-              <i class="fas fa-history"></i> Change Status
-            </a>
+            @if($s != 'Paid')
+              <a href="javascript:void(0);" id="add-log-row" data-id="{{ $invoice->id }}" class="edit btn btn-outline-secondary btn-md">
+                <i class="fas fa-history"></i> Change Status
+              </a>
+            @endif
 
             @if($s == 'Draft')
               <a href="/invoices/edit/{{ $invoice->id }}" class="edit btn btn-outline-secondary btn-md">
@@ -34,6 +35,8 @@
                 <i class="fas fa-trash"></i> Delete
               </a>
             @endif
+
+
           </div>
 
 
@@ -239,14 +242,16 @@
 
 
 @push('modals')
-
+  @include('invoices.modalSetStatus')
 @endpush
 
 
 @push('scripts')
+<script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 
 
 <script type="text/javascript">
+
   $(document).ready(function(){
 
       $('body').on('click', '#delete-row', function () {
@@ -269,6 +274,85 @@
       });   
 
 
+
+      $('body').on('click', '#add-log-row', function () {
+        $('#ajaxForm #invoice_id').val({{ $invoice->id }});
+        $('#ajax-crud-modal').trigger("reset");
+        $('#ajax-crud-modal').modal('show');
+        $('#btn-edit-status').addClass('d-none');
+        $('#btn-multiple-save-status').addClass('d-none');
+        $('#btn-single-save-status').removeClass('d-none');
+      });   
+
+    
+      $('body').on('click', '#btn-single-save-status', function () {
+        initvalidator("{{ $invoice->id }}");
+      });   
+
+
+      function initvalidator(ids){
+        var validator = $("#ajaxForm").validate({
+          errorPlacement: function(error, element) {
+            // Append error within linked label
+            $( element )
+              .closest( "form" )
+                .find( "label[for='" + element.attr( "id" ) + "']" )
+                  .append( error );
+          },
+          errorElement: "span",
+          rules: {
+            status: {
+              required: true
+            }
+          },
+          messages: {
+            status: " (required)",
+          },
+          submitHandler: function(form) {
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+        
+            var formData = {
+              status: $('#status').children("option:selected").val(),
+              updatedby_id: $('#updatedby_id').val(),
+            };
+
+            var state = jQuery('#btn-save').val();
+            var type = "POST";
+
+            $.ajax({
+                type: type,
+                url: "/invoices/status",
+                data: { "formData" : formData, "id": ids } ,
+                dataType: 'json',
+                success: function (data) {
+                  $('#ajax-crud-modal').trigger("reset");
+                  $('#ajax-crud-modal').modal('hide');
+
+                  var notifData = {
+                    status: 'success',
+                    message: 'Successfully updated status of the selected ' + data + ' invoice.',
+                  };
+
+                  generateNotif(notifData);
+
+              
+                  window.location.href = '{{ url( '/invoices/view/'.$invoice->id ) }}';
+                },
+                error: function (data) {
+                  console.log('Error:', data);
+                }
+            });
+
+          },
+        });
+
+      }
 
 
   }); //Document Ready end

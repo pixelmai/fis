@@ -244,6 +244,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
   Route::get('/invoices/deactivate/{id}', 'InvoicesController@deactivate');
   Route::get('/invoices/activate/{id}', 'InvoicesController@activate');
+  Route::post('/invoices/status', 'InvoicesController@status');
+
 /* Invoices */
 
 
