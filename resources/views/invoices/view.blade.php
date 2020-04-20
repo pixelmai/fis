@@ -47,18 +47,18 @@
                 
                @if ($invoice->client->fname)
                <div class="col-md-12">
-                  <div class="info-item">
+                  <div class="info-item ">
+                    <strong>Client</strong>
+                    <a href="/clients/view/{{ $invoice->client->id }}" class="d-flex align-items-center">
+                      <span>{{ $invoice->client->fname }} {{ $invoice->client->lname }}</span>
 
-                  <strong>Client</strong>
+                      @if($invoice->is_up && $invoice->is_up == 1)
+                        <span id="up_candy"></span>
+                      @endif
 
-                    <a href="/clients/view/{{ $invoice->client->id }}">
-                      {{ $invoice->client->fname }} {{ $invoice->client->lname }}
                     </a>
 
 
-                    @if($invoice->is_up && $invoice->is_up == 1)
-                      (UP)
-                    @endif
 
                   </div>
                  </div>
@@ -198,7 +198,7 @@
                   <strong>Subtotal</strong>
                 </div>
                 <div class="col-6 num">
-                  {{ priceFormatFancy($subtotal) }}
+                  {{ priceFormatFancy($invoice->subtotal) }}
                 </div>
               </div>
 
@@ -212,7 +212,7 @@
                   </strong>
                 </div>
                 <div class="col-6 num">
-                  {{ $invoice->discount }}
+                  {{ $invoice->discount + 0 }}%
                 </div>
 
               </div>
@@ -222,7 +222,7 @@
                    <strong>Total</strong>
                 </div>
                 <div class="col-6 num">
-                  <strong>{{ $invoice->discount }}</strong>
+                  <strong>{{ priceFormatFancy($invoice->total) }}</strong>
                 </div>
               </div>
             </div>

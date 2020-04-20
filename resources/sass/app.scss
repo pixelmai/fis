@@ -965,6 +965,7 @@
       }
       td.amount{
         border-bottom: 0 !important; 
+        border-right: 0;
         background: #f0f4f8;
         text-align: right;
 
@@ -1030,6 +1031,15 @@
         padding: 2.25rem;
         padding-top: 20px;
       }
+    }
+
+
+    #up_candy{
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background-image: url('/images/up_logo.png');
+      margin-left: 10px;
     }
 
     #markers{

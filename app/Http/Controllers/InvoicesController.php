@@ -244,7 +244,7 @@ class InvoicesController extends Controller
 
 
     if($query){
-      return notifyRedirect($this->homeLink, 'Added an Invoice successfully', 'success');
+      return notifyRedirect($this->homeLink.'/view/'.$query->id, 'Added an Invoice successfully', 'success');
     }
 
   }
@@ -268,7 +268,7 @@ class InvoicesController extends Controller
         $stat = Services::where("id", "=","$item->services_id")->first();
         $r = Servicesrates::where("id", "=","$item->servicesrates_id")->first();
         $m = Machines::where("id", "=","$item->machines_id")->first();
-        $price = ( $item->is_up == 1  ? $r->up_price : $r->def_price);
+        $price = ( $invoice->is_up == 1  ? $r->up_price : $r->def_price);
 
         $invoice_items[] = array( 
           "id" => $item->id,
@@ -282,8 +282,6 @@ class InvoicesController extends Controller
           "price" => $price,
           "notes" => $item->notes,
         );
-
-        $subtotal = $subtotal + ($price * $item->quantity);
 
       }
             

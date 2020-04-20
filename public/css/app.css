@@ -11803,6 +11803,7 @@ form label #compExists {
 
 #app #invoice_items_table tbody td.amount {
   border-bottom: 0 !important;
+  border-right: 0;
   background: #f0f4f8;
   text-align: right;
 }
@@ -11866,6 +11867,14 @@ form label #compExists {
 #app #view_invoice .card .card-body {
   padding: 2.25rem;
   padding-top: 20px;
+}
+
+#app #view_invoice #up_candy {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background-image: url("/images/up_logo.png");
+  margin-left: 10px;
 }
 
 #app #view_invoice #markers .status_draft {
