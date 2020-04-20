@@ -262,12 +262,11 @@ class InvoicesController extends Controller
       }
 
       $invoice_items = array();
-      $subtotal = 0;
 
       foreach ($invoice->items as $key => $item) {
-        $stat = Services::where("id", "=","$item->services_id")->first();
-        $r = Servicesrates::where("id", "=","$item->servicesrates_id")->first();
-        $m = Machines::where("id", "=","$item->machines_id")->first();
+        $stat = Services::find($item->services_id);
+        $r = Servicesrates::find($item->servicesrates_id);
+        $m = Machines::find($item->machines_id);
         $price = ( $invoice->is_up == 1  ? $r->up_price : $r->def_price);
 
         $invoice_items[] = array( 
@@ -282,10 +281,9 @@ class InvoicesController extends Controller
           "price" => $price,
           "notes" => $item->notes,
         );
-
       }
             
-      return view('invoices.view', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items, 'subtotal' => $subtotal]);
+      return view('invoices.view', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items]);
 
     }else{
       return notifyRedirect($this->homeLink, 'Invoice not found', 'danger');
@@ -305,17 +303,58 @@ class InvoicesController extends Controller
       $appsettings = Appsettings::find(1);
       $discounts = array( "dpwd" => $appsettings->dpwd, "dsc" => $appsettings->dsc);
 
-
-
       $invoice_current_data = array( 
         "company_name" => ($invoice->company->id == 1 ? '' : $invoice->company->name),
         "project_name" => ($invoice->project->is_categorized == 0 ? '' : $invoice->project->name),
         "due_date" => (!isset($invoice->due_date) ? '' : datetoDpicker($invoice->due_date)),
       );
 
+      $invoice_items = array();
+      $machines = array();
+
+      foreach ($invoice->items as $key => $item) {
+        $stat = Services::with('machines')->find($item->services_id);
+        $r = Servicesrates::find($item->servicesrates_id);
+        $m = Machines::find($item->machines_id);
+
+        $price = ( $invoice->is_up == 1  ? $r->up_price : $r->def_price);
 
 
-    return view('invoices.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'services' => $services, 'discounts' => $discounts, 'invoice' => $invoice, 'current_data' => $invoice_current_data]);
+        if(count($stat->machines) != 0){
+          foreach ($stat->machines as $key => $smachine){
+            $machines[] = array(
+              "service_id" => $stat->id,
+              "smachine_id" => $smachine->id,
+              "smachine_name" => $smachine->name,
+            );
+          }
+        }else{
+          $machines[] = array(
+            "service_id" => $stat->id,
+            "smachine_id" => 0,
+            "smachine_name" => 'N/A',
+          );
+        }
+        
+        $amount = $price * $item->quantity;
+
+        $invoice_items[] = array( 
+          "id" => $item->id,
+          "services_id" => $stat->id,
+          "services_name" => $stat->name,
+          "quantity" => $item->quantity,
+          "unit" => $stat->unit,
+          "machines_id" => (isset($m->id) ? $m->id : 0),
+          "servicesrates_id" => $r->id,
+          "up_price" => $r->up_price,
+          "def_price" => $r->def_price,
+          "price" => $price,
+          "amount" => $amount,
+          "notes" => $item->notes,
+        );
+      }
+
+    return view('invoices.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'services' => $services, 'discounts' => $discounts, 'invoice' => $invoice, 'current_data' => $invoice_current_data, 'items' => $invoice_items, 'machines' => $machines]);
 
 
     }else{
@@ -344,28 +383,31 @@ class InvoicesController extends Controller
       'created_at' => ['required'],
       'due_date' => ['nullable'],
       'is_up' => ['nullable'],
-      /*
+
+      'currentid' => ['required'],
       'services_id' => ['required'],
       'machines_id' => ['required'],
       'quantity' => ['required'],
-      'notes' => ['nullable'], */
+      'notes' => ['nullable'], 
     ]);
 
 
     $is_up = (isset($data['is_up']) && $data['is_up'] == 1 ? 1 : 0); 
-
-    /*
+    $company_id = ($data['company_id'] == '' ? 1 : $data['company_id']); 
+    $due_date = (isset($data['due_date']) ? dateDatabase($data['due_date']) : $data['due_date']);
+    
+    $currentid = $data['currentid'];
     $services_id = $data['services_id'];
     $machines_id = $data['machines_id'];
     $quantity = $data['quantity'];
     $notes = $data['notes'];
-    */
+    
+
 
     $now = date('m/d/Y');
 
     if(validateDate($data['created_at'])){
       if($data['created_at'] == $now ){
-        
         $created_at = date("Y-m-d H:i:s");
       }else{
         $created_at = dateDatabase($data['created_at']);
@@ -374,9 +416,6 @@ class InvoicesController extends Controller
 
 
 
-    $due_date = (isset($data['due_date']) ? dateDatabase($data['due_date']) : $data['due_date']);
-
-    $company_id = ($data['company_id'] == '' ? 1 : $data['company_id']); 
 
 
     $invoice->clients_id = $data['client_id'];
@@ -396,9 +435,12 @@ class InvoicesController extends Controller
     $query = $invoice->update();
 
 
+    
     if($query){
-      return notifyRedirect($this->homeLink.'/view/'.$id, 'Updated Invoice '. $invoice->name .' successfully', 'success');
+      return notifyRedirect($this->homeLink.'/view/'.$id, 'Updated Invoice #'. $invoice->id .' successfully', 'success');
     }
+
+    
 
   }
 

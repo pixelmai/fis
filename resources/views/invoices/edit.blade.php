@@ -192,10 +192,69 @@
                       <th>&nbsp;</th>
                     </tr>
                   </thead>
-                  <tbody data-rowid="{{$key}}">
-                    <tr id="itemrow{{$key}}" class="itemrow"> <td class="services"> <select id="services_id{{$key}}" name="services_id[]" class="services_id form-control @error('$services_id') is-invalid @enderror" data-live-search="true" title="Select availed service" data-width="100%" required> @foreach($services as $service) <option value="{{ $service->id }}">{{ $service->name }}</option> @endforeach </select> </td> <td class="machines"> <select id="machines_id{{$key}}" name="machines_id[]" class=" machines_id form-control w-100 @error('$machines_id') is-invalid @enderror" disabled="disabled" required> </select> </td> <td class="quantity"> <input type="text" id="quantity{{$key}}" name="quantity[]" value="" class="form-control w-100 quantity" required /> </td> <td class="unit"> <input type="text" id="unit{{$key}}" name="unit[]" value="" class="form-control unit w-100 quantity" disabled="disabled" /> </td> <td class="price"><input type="hidden" id="up_price{{$key}}" name="up_price[]" value="" class="form-control up_price w-100 quantity" disabled="disabled" /> <input type="hidden" id="def_price{{$key}}" name="def_price[]" value="" class="form-control def_price w-100 quantity" disabled="disabled" /> <input type="text" id="price{{$key}}" name="price[]" value="" class="form-control price w-100 quantity" disabled="disabled" /> </td> <td class="amount"> <input type="text" id="amount{{$key}}" name="amount[]" value="" class="form-control amount w-100 quantity" disabled="disabled" /> </td> <td class="option"> <a href="javascript:void(0);" class="remove_button" data-delid="{{ $key }}"><img src="/images/remove-icon.png" /></a> </td> </tr> <tr id="itemrow{{$key}}" class="descrow"> <td class="notes" colspan="5"> <input type="text" id="notes{{$key}}" name="notes[]" value="" class="form-control w-100 quantity" placeholder="Description (optional)" /> </td> <td class="amount">&nbsp;</td> <td class="option">&nbsp;</td> </tr>
 
-                  </tbody>
+                  
+
+@foreach($items as $k => $item)
+  <tbody data-rowid="{{ $key }}">
+    <tr id="itemrow{{$key}}" class="itemrow"> 
+      <td class="services">
+        <input type="hidden" id="currentid{{$key}}" name="currentid[]" value="{{ $item['id'] }}" required />
+
+        <select id="services_id{{$key}}" name="services_id[]" class="services_id form-control @error('$services_id') is-invalid @enderror" data-live-search="true" title="Select availed service" data-width="100%" required> 
+          @foreach($services as $service) <option value="{{ $service->id }}" @if($item['services_id'] == $service->id) selected @endif >{{ $service->name }}</option> @endforeach </select> 
+      </td>
+
+      <td class="machines"> 
+        <select id="machines_id{{$key}}" name="machines_id[]" class=" machines_id form-control w-100 @error('$machines_id') is-invalid @enderror" required>
+           @foreach($machines as $key => $smachine) 
+            @if($smachine['service_id'] == $item['services_id'] )
+              <option value="{{ $smachine['smachine_id'] }}" @if($item['machines_id'] == $smachine['smachine_id'] ) selected @endif >{{ $smachine['smachine_name'] }}
+              </option>
+            @endif
+          @endforeach 
+        </select> 
+
+        </select> 
+      </td> 
+
+      <td class="quantity"> 
+        <input type="text" id="quantity{{$key}}" name="quantity[]" value="{{ $item['services_id'] }}" class="form-control w-100 quantity" required /> 
+      </td> 
+
+      <td class="unit"> 
+        <input type="text" id="unit{{$key}}" name="unit[]" value="{{ $item['unit'] }}" class="form-control unit w-100 quantity" disabled="disabled" /> 
+      </td> 
+
+      <td class="price">
+        <input type="hidden" id="up_price{{$key}}" name="up_price[]" value="{{ $item['up_price'] }}" class="form-control up_price w-100 quantity" disabled="disabled" /> 
+        <input type="hidden" id="def_price{{$key}}" name="def_price[]" value="{{ $item['def_price'] }}" class="form-control def_price w-100 quantity" disabled="disabled" /> 
+        <input type="text" id="price{{$key}}" name="price[]" value="{{ pricesInvoiceForm($item['price']) }}" class="form-control price w-100 quantity" disabled="disabled" /> 
+      </td> 
+
+      <td class="amount"> 
+        <input type="text" id="amount{{$key}}" name="amount[]" value="{{ pricesInvoiceForm($item['amount']) }}" class="form-control amount w-100 quantity" disabled="disabled" /> 
+      </td> 
+
+      <td class="option"> 
+        <a href="javascript:void(0);" class="remove_button" data-delid="{{ $key }}"><img src="/images/remove-icon.png" /></a> 
+      </td> 
+    </tr> 
+
+    <tr id="itemrow{{$key}}" class="descrow"> 
+      <td class="notes" colspan="5"> 
+        <input type="text" id="notes{{$key}}" name="notes[]" value="" class="form-control w-100 quantity" placeholder="Description (optional)" /> 
+      </td> 
+      <td class="amount">&nbsp;</td> <td class="option">&nbsp;</td> 
+    </tr>
+
+  </tbody>
+  <?php $key++; ?>
+@endforeach
+
+
+
+                  
                 </table>
 
                 <a href="javascript:void(0);" id="invoice_add_button" class="add_button" title="Add field">
@@ -221,7 +280,7 @@
                           type="text" 
                           class="form-control"
                           name="subtotal" 
-                          value="{{ old('subtotal') ?? '0.00' }}"  
+                          value="{{ old('subtotal') ?? pricesInvoiceForm($invoice->subtotal) }}"  
                           readonly>
 
                         @error('total')
@@ -242,11 +301,11 @@
                           type="text" 
                           class="form-control"
                           name="discount" 
-                          value="{{ old('discount') ?? 0 }}" readonly="">
+                          value="{{ old('discount') ?? $invoice->discount + 0 }}" readonly="">
 
                           <input id="dtype" 
                           type="hidden" 
-                          name="dtype" >
+                          name="dtype" value="{{ old('dtype') ?? $invoice->discount_type }}">
 
                         @error('discount')
                             <span class="invalid-feedback" role="alert">
@@ -266,7 +325,7 @@
                           type="text" 
                           class="form-control"
                           name="total" 
-                          value="{{ old('total') ?? '0.00' }}"  
+                          value="{{ old('total') ?? pricesInvoiceForm($invoice->total) }}"  
                           readonly>
 
                         @error('total')
@@ -334,7 +393,7 @@
       var maxField = 10; //Input fields increment limitation
       var addButton = $('.add_button'); //Add button selector
       var wrapper = $('tbody'); //Input field wrapper
-      var x = 2; //Initial field counter is 1
+      var x = {{ $key }};
 
       //Once add button is clicked
       $(addButton).click(function(){
@@ -822,9 +881,10 @@
     }
 
     initClients();
-    initProject({{ $invoice->client->id }});
-    initCompanies({{ $invoice->client->id }});
+    initProject('{{ $invoice->client->id }}');
+    initCompany('{{ $invoice->client->id }}');
     initItemsTable();
+    updateTotal();
 
   }); //Document Ready end
 </script>

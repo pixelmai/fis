@@ -26,7 +26,7 @@
             </a>
 
             @if($s == 'Draft')
-              <a href="/services/edit/{{ $invoice->id }}" class="edit btn btn-outline-secondary btn-md">
+              <a href="/invoices/edit/{{ $invoice->id }}" class="edit btn btn-outline-secondary btn-md">
                 <i class="fas fa-edit"></i> Edit
               </a>
 
