@@ -435,6 +435,8 @@ class CompaniesController extends Controller
   {
 
     // There's a bug wherein things are being showed automatically irregardless of string
+    // try with joins
+    
     $id = $request->get('c');
     $q = $request->get('q');
 
