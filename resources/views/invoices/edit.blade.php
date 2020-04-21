@@ -19,6 +19,7 @@
               @csrf
               @method('PATCH')
 
+              <input type="hidden" name="token_check" value="{{ $dtoken }}">
               
               <div class="row">
                 <div class="col-md-9">
@@ -341,7 +342,7 @@
 
             <div class="row py-2">
               <div class="col-12">
-                <button id="big-add-button" class="btn btn-primary btn-lg" type="submit">Update Invoice</button>
+                <button id="submit-button" class="btn btn-primary btn-lg" type="submit">Update Invoice</button>
               </div>
             </div>
 

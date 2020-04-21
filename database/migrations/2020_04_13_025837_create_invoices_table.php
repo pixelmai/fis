@@ -28,6 +28,7 @@ class CreateInvoicesTable extends Migration
             $table->date('due_date')->nullable(); 
             $table->unsignedBigInteger('updatedby_id');
             $table->boolean('is_saved')->default(0);
+            $table->string('token')->nullable();
             $table->timestamps(); 
         });
     }

@@ -106,7 +106,7 @@ class MachinesController extends Controller
     $user = auth()->user();
 
     $data = request()->validate([
-      'name' => ['required', 'string', 'max:255'],
+      'name' => ['required', 'string', 'max:255', 'unique:machines'],
       'model' => ['nullable'],
       'brand' => ['nullable'],
       'dimensions' => ['nullable'],

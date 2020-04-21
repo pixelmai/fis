@@ -119,7 +119,7 @@
 
             <div class="row py-2">
               <div class="col-12">
-                <button id="big-add-button" class="btn btn-primary btn-lg">Edit Project</button>
+                <button id="submit-button" type="submit" class="btn btn-primary btn-lg">Edit Project</button>
               </div>
             </div>
 
@@ -204,7 +204,7 @@
     });
 
 
-    $(document).on('click', '#big-add-button', function(){
+    $(document).on('click', '#submit-button', function(){
       if($('#client_id').val() == ''){
         var notifData = {
           status: 'danger',

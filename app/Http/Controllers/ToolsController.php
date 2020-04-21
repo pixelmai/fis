@@ -107,7 +107,7 @@ class ToolsController extends Controller
     $user = auth()->user();
 
     $data = request()->validate([
-      'name' => ['required', 'string', 'max:255'],
+      'name' => ['required', 'string', 'max:255', 'unique:tools'],
       'model' => ['nullable'],
       'brand' => ['nullable'],
       'notes' => ['nullable'],

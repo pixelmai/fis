@@ -7,8 +7,7 @@
     <div id="invoice_id" class="col-md-4">
       <span>ID #</span> 
         {{ str_pad($id_num, 6, '0', STR_PAD_LEFT) }}
-      <input type="hidden" name="id" value="{{ $id_num }}"> 
-    </div>
+      </div>
   </div>
 
   <div class="row justify-content-center">
@@ -19,6 +18,7 @@
             <form if="invoices_form" action="/invoices/create" enctype="multipart/form-data" method="POST">
               @csrf
 
+              <input type="hidden" name="token_check" value="{{ $dtoken }}">
               
               <div class="row">
                 <div class="col-md-9">
@@ -281,7 +281,7 @@
 
             <div class="row py-2">
               <div class="col-12">
-                <button id="big-add-button" class="btn btn-primary btn-lg" type="submit">Save Invoice</button>
+                <button id="submit-button" class="btn btn-primary btn-lg" type="submit">Save Invoice</button>
               </div>
             </div>
 
@@ -821,6 +821,8 @@
 
     }
 
+
+    
     initClients();
     initItemsTable();
 

@@ -58,7 +58,7 @@ class ServcatsController extends Controller
     }
 
     $data = request()->validate([
-      'name' => ['required', 'string', 'max:255'],
+      'name' => ['required', 'string', 'max:255', 'unique:servcats'],
       'description' => ['nullable', 'string'],
     ]);
 

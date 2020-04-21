@@ -194,7 +194,7 @@
 
             <div class="row py-2">
               <div class="col-12">
-                <button class="btn btn-primary btn-lg">Update Profile</button>
+                <button id="submit-button" type="submit" class="btn btn-primary btn-lg">Update Profile</button>
               </div>
             </div>
 

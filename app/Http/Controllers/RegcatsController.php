@@ -68,7 +68,7 @@ class RegcatsController extends Controller
     }
 
     $data = request()->validate([
-      'name' => ['required', 'string', 'max:255'],
+      'name' => ['required', 'string', 'max:255', 'unique:regtypes'],
       'description' => ['nullable', 'string'],
       'msme_types' => ['required'],
     ]);
@@ -192,7 +192,7 @@ class RegcatsController extends Controller
     }
 
     $data = request()->validate([
-      'name' => ['required', 'string', 'max:255'],
+      'name' => ['required', 'string', 'max:255', 'unique:regmsmes'],
       'description' => ['nullable', 'string'],
     ]);
 

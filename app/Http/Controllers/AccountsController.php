@@ -41,7 +41,7 @@ class AccountsController extends Controller
       'image' => '',
       'fname' => ['required', 'string', 'max:50'],
       'lname' => ['required', 'string', 'max:50'],
-      'email' => ['required', 'string', 'email', 'max:255'],
+      'email' => ['required', 'string', 'email', 'max:255', 'unique:user'],
       'number' => ['nullable', 'max:30', new PhoneNumber],
       'address' => 'nullable',
       'position' => ['required', 'string', 'max:100'],

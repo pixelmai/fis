@@ -10,6 +10,7 @@ use App\Machines;
 use App\Services;
 use App\Servicesrates;
 use App\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Redirect,Response,DB,Config;
 use Datatables;
@@ -165,7 +166,9 @@ class InvoicesController extends Controller
     $appsettings = Appsettings::find(1);
     $discounts = array( "dpwd" => $appsettings->dpwd, "dsc" => $appsettings->dsc);
 
-    return view('invoices.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'id_num'=> $id_num, 'services' => $services, 'discounts' => $discounts]);
+    $token = Str::random(60);
+
+    return view('invoices.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'id_num'=> $id_num, 'services' => $services, 'discounts' => $discounts, 'dtoken' => $token ]);
   }
 
 
@@ -175,6 +178,7 @@ class InvoicesController extends Controller
     $user = auth()->user();
 
     $data = request()->validate([
+      'token_check' => ['required'],
       'client_id' => ['required'],
       'company_id' => ['nullable'],
       'project_id' => ['nullable'],
@@ -193,73 +197,89 @@ class InvoicesController extends Controller
       'notes' => ['nullable'],
     ]);
 
-    $is_up = (isset($data['is_up']) && $data['is_up'] == 1 ? 1 : 0); 
+
+    $token_check = Invoices::where('token', $data['token_check'])->first();
 
 
-    $services_id = $data['services_id'];
-    $machines_id = $data['machines_id'];
-    $quantity = $data['quantity'];
-    $notes = $data['notes'];
+    if(!$token_check){
 
-    $now = date('m/d/Y');
+      
 
-    if(validateDate($data['created_at'])){
-      if($data['created_at'] == $now ){
-        
-        $created_at = date("Y-m-d H:i:s");
-      }else{
-        $created_at = dateDatabase($data['created_at']);
+      $is_up = (isset($data['is_up']) && $data['is_up'] == 1 ? 1 : 0); 
+
+
+      $services_id = $data['services_id'];
+      $machines_id = $data['machines_id'];
+      $quantity = $data['quantity'];
+      $notes = $data['notes'];
+
+      $now = date('m/d/Y');
+
+      if(validateDate($data['created_at'])){
+        if($data['created_at'] == $now ){
+          
+          $created_at = date("Y-m-d H:i:s");
+        }else{
+          $created_at = dateDatabase($data['created_at']);
+        }
       }
-    }
 
 
 
-    $due_date = (isset($data['due_date']) ? dateDatabase($data['due_date']) : $data['due_date']);
+      $due_date = (isset($data['due_date']) ? dateDatabase($data['due_date']) : $data['due_date']);
 
-    $company_id = ($data['company_id'] == '' ? 1 : $data['company_id']); 
+      $company_id = ($data['company_id'] == '' ? 1 : $data['company_id']); 
 
-    
-    $query = Invoices::create([
-      'clients_id' => $data['client_id'],
-      'companies_id' => $company_id,
-      'projects_id' => $data['project_id'],
-      'status' => $data['status'],
-      'due_date' => $due_date,
-      'subtotal' => priceFormatSaving($data['subtotal']),
-      'discount' => $data['discount'],
-      'discount_type' => $data['dtype'],
-      'total' => priceFormatSaving($data['total']),
-      'is_saved' => 0,
-      'is_up' => $is_up,
-      'updatedby_id' => $user->id,
-      'created_at' => $created_at,
-    ]);
-
-
-    $k = 0;
-    foreach($services_id as $service){
-      $s = Services::with('current')->where('id',$service)->first();
-
-      Invoiceitems::create([
-        'invoices_id' => $query->id,
-        'services_id' => $service,
-        'servicesrates_id' => $s->servicesrates_id,
-        'machines_id' => $machines_id[$k],
-        'quantity' => $quantity[$k],
-        'notes' => $notes[$k],
+      
+      $query = Invoices::create([
+        'clients_id' => $data['client_id'],
+        'companies_id' => $company_id,
+        'projects_id' => $data['project_id'],
+        'status' => $data['status'],
+        'due_date' => $due_date,
+        'subtotal' => priceFormatSaving($data['subtotal']),
+        'discount' => $data['discount'],
+        'discount_type' => $data['dtype'],
+        'total' => priceFormatSaving($data['total']),
+        'is_saved' => 0,
+        'is_up' => $is_up,
+        'updatedby_id' => $user->id,
+        'token' => $data['token_check'],
+        'created_at' => $created_at,
       ]);
-      $k++;
+
+
+      $k = 0;
+      foreach($services_id as $service){
+        $s = Services::with('current')->where('id',$service)->first();
+
+        Invoiceitems::create([
+          'invoices_id' => $query->id,
+          'services_id' => $service,
+          'servicesrates_id' => $s->servicesrates_id,
+          'machines_id' => $machines_id[$k],
+          'quantity' => $quantity[$k],
+          'notes' => $notes[$k],
+        ]);
+        $k++;
+      }
+
+      
+      $query->jobs = $k;
+      $query->update();
+      
+
+
+      if($query){
+        return notifyRedirect($this->homeLink.'/view/'.$query->id, 'Added an Invoice successfully', 'success');
+      }
+
+    }else{
+      return notifyRedirect($this->homeLink.'/view/'.$token_check->id, 'Added an Invoice successfully', 'success');
     }
 
-    
-    $query->jobs = $k;
-    $query->update();
-    
 
 
-    if($query){
-      return notifyRedirect($this->homeLink.'/view/'.$query->id, 'Added an Invoice successfully', 'success');
-    }
 
   }
 
@@ -268,6 +288,7 @@ class InvoicesController extends Controller
   {
     $user = auth()->user();
     $invoice = Invoices::with('items')->find($id);
+
 
     if($invoice){
       $updater = User::find($invoice->updatedby_id);
@@ -310,6 +331,8 @@ class InvoicesController extends Controller
   {
     $user = auth()->user();
     $invoice = Invoices::with('items')->find($id);
+    $token = Str::random(60);
+
 
     if(isset($invoice) && $invoice->status == 1){
 
@@ -368,7 +391,7 @@ class InvoicesController extends Controller
         );
       }
 
-      return view('invoices.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'services' => $services, 'discounts' => $discounts, 'invoice' => $invoice, 'current_data' => $invoice_current_data, 'items' => $invoice_items, 'machines' => $machines]);
+      return view('invoices.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'services' => $services, 'discounts' => $discounts, 'invoice' => $invoice, 'current_data' => $invoice_current_data, 'items' => $invoice_items, 'machines' => $machines, 'dtoken' => $token ]);
 
 
     }else{
@@ -383,6 +406,7 @@ class InvoicesController extends Controller
     $invoice = Invoices::find($id);
 
     $data = request()->validate([
+      'token_check' => ['required'],
       'client_id' => ['required'],
       'company_id' => ['nullable'],
       'project_id' => ['nullable'],
@@ -402,96 +426,104 @@ class InvoicesController extends Controller
       'notes' => ['nullable'], 
     ]);
 
-
-    $is_up = (isset($data['is_up']) && $data['is_up'] == 1 ? 1 : 0); 
-    $company_id = ($data['company_id'] == '' ? 1 : $data['company_id']); 
-    $due_date = (isset($data['due_date']) ? dateDatabase($data['due_date']) : $data['due_date']);
-    
-    $services_id = $data['services_id'];
-    $machines_id = $data['machines_id'];
-    $quantity = $data['quantity'];
-    $notes = $data['notes'];
+    $token_check = Invoices::where('token', $data['token_check'])->first();
 
 
-    $now = date('m/d/Y');
+    if(!$token_check){
 
-    if(validateDate($data['created_at'])){
-      if($data['created_at'] == $now ){
-        $created_at = date("Y-m-d H:i:s");
-      }else{
-        $created_at = dateDatabase($data['created_at']);
-      }
-    }
-
-    $invoice->clients_id = $data['client_id'];
-    $invoice->companies_id = $company_id;
-    $invoice->projects_id = $data['project_id'];
-    $invoice->status = $data['status'];
-    $invoice->due_date = $due_date;
-    $invoice->subtotal = priceFormatSaving($data['subtotal']);
-    $invoice->discount = $data['discount'];
-    $invoice->discount_type = $data['dtype'];
-    $invoice->total = priceFormatSaving($data['total']);
-    $invoice->is_saved = 0;
-    $invoice->is_up = $is_up;
-    $invoice->updatedby_id = $user->id;
-    $invoice->created_at = $created_at;
-    $invoice_query = $invoice->update();
+      $is_up = (isset($data['is_up']) && $data['is_up'] == 1 ? 1 : 0); 
+      $company_id = ($data['company_id'] == '' ? 1 : $data['company_id']); 
+      $due_date = (isset($data['due_date']) ? dateDatabase($data['due_date']) : $data['due_date']);
+      
+      $services_id = $data['services_id'];
+      $machines_id = $data['machines_id'];
+      $quantity = $data['quantity'];
+      $notes = $data['notes'];
 
 
-    // INVOICE ITEM SAVES
+      $now = date('m/d/Y');
 
-
-    if($invoice_query){
-      $old_items = $invoice->items->pluck('id')->toArray();
-      $current_ids = array_map('intval', $data['currentid']);
-      $add = array_diff($current_ids, $old_items);
-      $remove = array_diff($old_items,$current_ids);
-      $change = array_diff($old_items,$remove);
-
-
-
-      $k = 0;
-      foreach($data['currentid'] as $cl){
-        $s = Services::with('current')->where('id',$services_id[$k])->first();
-
-        if($cl != 0){
-          $sitem = Invoiceitems::find($cl);
-          
-          $sitem->invoices_id = $invoice->id;
-          $sitem->services_id = $services_id[$k];
-          $sitem->servicesrates_id = $s->servicesrates_id;
-          $sitem->machines_id = $machines_id[$k];
-          $sitem->quantity = $quantity[$k];
-          $sitem->notes = $notes[$k];
-          $sitem->update();
-
-        }elseif($cl == 0){
-          Invoiceitems::create([
-            'invoices_id' => $invoice->id,
-            'services_id' => $services_id[$k],
-            'servicesrates_id' => $s->servicesrates_id,
-            'machines_id' => $machines_id[$k],
-            'quantity' => $quantity[$k],
-            'notes' => $notes[$k],
-          ]);
+      if(validateDate($data['created_at'])){
+        if($data['created_at'] == $now ){
+          $created_at = date("Y-m-d H:i:s");
+        }else{
+          $created_at = dateDatabase($data['created_at']);
         }
-        $k++;
       }
 
-      if(count($remove) != 0 ){
-        $delete_rows = Invoiceitems::whereIn('id', $remove);
-        $delete_rows->delete();
+      $invoice->clients_id = $data['client_id'];
+      $invoice->companies_id = $company_id;
+      $invoice->projects_id = $data['project_id'];
+      $invoice->status = $data['status'];
+      $invoice->due_date = $due_date;
+      $invoice->subtotal = priceFormatSaving($data['subtotal']);
+      $invoice->discount = $data['discount'];
+      $invoice->discount_type = $data['dtype'];
+      $invoice->total = priceFormatSaving($data['total']);
+      $invoice->is_saved = 0;
+      $invoice->is_up = $is_up;
+      $invoice->updatedby_id = $user->id;
+      $invoice->token = $data['token_check'];
+      $invoice->created_at = $created_at;
+      $invoice_query = $invoice->update();
+
+
+      // INVOICE ITEM SAVES
+
+
+      if($invoice_query){
+        $old_items = $invoice->items->pluck('id')->toArray();
+        $current_ids = array_map('intval', $data['currentid']);
+        $add = array_diff($current_ids, $old_items);
+        $remove = array_diff($old_items,$current_ids);
+        $change = array_diff($old_items,$remove);
+
+
+
+        $k = 0;
+        foreach($data['currentid'] as $cl){
+          $s = Services::with('current')->where('id',$services_id[$k])->first();
+
+          if($cl != 0){
+            $sitem = Invoiceitems::find($cl);
+            
+            $sitem->invoices_id = $invoice->id;
+            $sitem->services_id = $services_id[$k];
+            $sitem->servicesrates_id = $s->servicesrates_id;
+            $sitem->machines_id = $machines_id[$k];
+            $sitem->quantity = $quantity[$k];
+            $sitem->notes = $notes[$k];
+            $sitem->update();
+
+          }elseif($cl == 0){
+            Invoiceitems::create([
+              'invoices_id' => $invoice->id,
+              'services_id' => $services_id[$k],
+              'servicesrates_id' => $s->servicesrates_id,
+              'machines_id' => $machines_id[$k],
+              'quantity' => $quantity[$k],
+              'notes' => $notes[$k],
+            ]);
+          }
+          $k++;
+        }
+
+        if(count($remove) != 0 ){
+          $delete_rows = Invoiceitems::whereIn('id', $remove);
+          $delete_rows->delete();
+        }
+
+        $new_item_count  = Invoices::find($id); //need to count new number
+        $new_item_count->jobs = count($new_item_count->items);
+        $new_item_count->update();
+
       }
-
-      $new_item_count  = Invoices::find($id); //need to count new number
-      $new_item_count->jobs = count($new_item_count->items);
-      $new_item_count->update();
-
-    }
-    
-    if($new_item_count){
-      return notifyRedirect($this->homeLink.'/view/'.$id, 'Updated Invoice #'. $invoice->id .' successfully', 'success');
+      
+      if($new_item_count){
+        return notifyRedirect($this->homeLink.'/view/'.$id, 'Updated Invoice #'. $invoice->id .' successfully', 'success');
+      }
+    }else{
+      return notifyRedirect($this->homeLink.'/view/'.$id, 'Updated Invoice #'. $token_check->id .' successfully', 'success');
     }
 
   }

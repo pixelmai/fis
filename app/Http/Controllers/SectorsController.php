@@ -59,7 +59,7 @@ class SectorsController extends Controller
     }
 
     $data = request()->validate([
-      'name' => ['required', 'string', 'max:255'],
+      'name' => ['required', 'string', 'max:255', 'unique:sectors'],
       'description' => ['nullable', 'string'],
     ]);
 
