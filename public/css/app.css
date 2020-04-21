@@ -11683,6 +11683,11 @@ form label #compExists {
   margin-left: 10px;
 }
 
+#app #invoices_page #listpage_datatable tr td:last-child {
+  width: 200px !important;
+  min-width: 200px !important;
+}
+
 #app #invoice_heading {
   padding: 10px 0 15px;
 }

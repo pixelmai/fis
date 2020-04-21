@@ -859,6 +859,16 @@
   }
 
 
+  #invoices_page #listpage_datatable{
+    tr{
+      td:last-child{
+        width: 200px !important;
+        min-width: 200px !important;
+      }
+    }
+  }
+
+
   #invoice_heading{
     padding: 10px 0 15px; 
 

@@ -17,7 +17,7 @@
   </div>
 
   <div class="row justify-content-center">
-    <div class="col-lg-12">
+    <div id="invoices_page" class="col-lg-12">
         <table id="listpage_datatable" class="table table-responsive-md" data-page-length="25">
           <thead class="thead-dark">
             <tr>

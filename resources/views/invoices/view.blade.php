@@ -20,11 +20,17 @@
           </div>
 
           <div id="invoice_menu">
+
             @if($s != 'Paid')
               <a href="javascript:void(0);" id="add-log-row" data-id="{{ $invoice->id }}" class="edit btn btn-outline-secondary btn-md">
                 <i class="fas fa-history"></i> Change Status
               </a>
             @endif
+
+            <a href="/invoices/view/{{ $invoice->id }}/print" class="edit btn btn-outline-secondary btn-md" target="_blank">
+              <i class="fas fa-print"></i> Print
+            </a>
+
 
             @if($s == 'Draft')
               <a href="/invoices/edit/{{ $invoice->id }}" class="edit btn btn-outline-secondary btn-md">

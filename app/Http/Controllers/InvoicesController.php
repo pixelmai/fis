@@ -64,6 +64,8 @@ class InvoicesController extends Controller
         ->addColumn('action', function($data){
       $button = '<div class="hover_buttons"><a href="/invoices/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
 
+      $button .= '<a href="/invoices/view/'.$data->id.'/print" data-toggle="tooltip" data-placement="top" data-original-title="Print" class="edit btn btn-outline-secondary btn-sm" target="_blank"><i class="fas fa-print"></i></a>';
+
       if($data->status != 3){
         $button .= '<a href="javascript:void(0);" id="add-log-row" data-toggle="tooltip" data-placement="top" data-original-title="Set Status" data-id="'.$data->id.'"  class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-history"></i></a>';
       }

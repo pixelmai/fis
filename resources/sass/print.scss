@@ -72,7 +72,14 @@ body{
         }
 
         td.id{ width: 5%; text-align: center; }
-        td.services{ width: 55%; }
+        td.services{ 
+          width: 55%; 
+
+          .notes{
+            padding-left: 10px;
+            font-style: italic;
+          }
+        }
 
         td.price{ 
           width: 13%;

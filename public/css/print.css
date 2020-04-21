@@ -10957,6 +10957,11 @@ body {
   width: 55%;
 }
 
+#print_page .invoice_items_table tbody tr.itemrow td.services .notes {
+  padding-left: 10px;
+  font-style: italic;
+}
+
 #print_page .invoice_items_table tbody tr.itemrow td.price {
   width: 13%;
   text-align: right;

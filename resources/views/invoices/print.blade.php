@@ -44,17 +44,13 @@
                 </tr>
               @endif
 
-              @if($invoice->project->id)
+              @if($invoice->project->is_categorized == 1)
                 <tr>
                   <td class="label">
                     <strong>Project</strong>
                   </td>
                   <td class="value">
-                    @if($invoice->project->is_categorized == 1)
-                        {{ $invoice->project->name }}
-                    @else 
-                      <em class="info_na">N/A</em>
-                    @endif
+                    {{ $invoice->project->name }}
                   </td>
                 </tr>
               @endif
@@ -142,11 +138,18 @@
                 <tr class="itemrow">
                   <td class="id"> 
                     {{ $k + 1 }}
-                    <span class="notes">{{ $item["notes"] }}</span>
                   </td> 
                   <td class="services"> 
                     {{ $item["services_name"] }}
-                    <span class="notes">{{ $item["notes"] }}</span>
+                    @if($item["notes"] != '')
+                      <span class="notes">
+                        @if (strlen($item["notes"]) >= 50) 
+                          {{ shortenText($item["notes"], 50) }}
+                        @else
+                          {{ $item["notes"] }}
+                        @endif
+                      </span>
+                    @endif
                   </td> 
                   <td class="quantity"> 
                     {{ $item["quantity"] + 0 }}
@@ -269,17 +272,13 @@
                 </tr>
               @endif
 
-              @if($invoice->project->id)
+              @if($invoice->project->is_categorized == 1)
                 <tr>
                   <td class="label">
                     <strong>Project</strong>
                   </td>
                   <td class="value">
-                    @if($invoice->project->is_categorized == 1)
-                        {{ $invoice->project->name }}
-                    @else 
-                      <em class="info_na">N/A</em>
-                    @endif
+                    {{ $invoice->project->name }}
                   </td>
                 </tr>
               @endif
@@ -367,11 +366,18 @@
                 <tr class="itemrow">
                   <td class="id"> 
                     {{ $k + 1 }}
-                    <span class="notes">{{ $item["notes"] }}</span>
                   </td> 
                   <td class="services"> 
                     {{ $item["services_name"] }}
-                    <span class="notes">{{ $item["notes"] }}</span>
+                    @if($item["notes"] != '')
+                      <span class="notes">
+                        @if (strlen($item["notes"]) >= 50) 
+                          {{ shortenText($item["notes"], 50) }}
+                        @else
+                          {{ $item["notes"] }}
+                        @endif
+                      </span>
+                    @endif
                   </td> 
                   <td class="quantity"> 
                     {{ $item["quantity"] + 0 }}
@@ -491,17 +497,13 @@
                 </tr>
               @endif
 
-              @if($invoice->project->id)
+              @if($invoice->project->is_categorized == 1)
                 <tr>
                   <td class="label">
                     <strong>Project</strong>
                   </td>
                   <td class="value">
-                    @if($invoice->project->is_categorized == 1)
-                        {{ $invoice->project->name }}
-                    @else 
-                      <em class="info_na">N/A</em>
-                    @endif
+                    {{ $invoice->project->name }}
                   </td>
                 </tr>
               @endif
@@ -589,11 +591,18 @@
                 <tr class="itemrow">
                   <td class="id"> 
                     {{ $k + 1 }}
-                    <span class="notes">{{ $item["notes"] }}</span>
                   </td> 
                   <td class="services"> 
                     {{ $item["services_name"] }}
-                    <span class="notes">{{ $item["notes"] }}</span>
+                    @if($item["notes"] != '')
+                      <span class="notes">
+                        @if (strlen($item["notes"]) >= 50) 
+                          {{ shortenText($item["notes"], 50) }}
+                        @else
+                          {{ $item["notes"] }}
+                        @endif
+                      </span>
+                    @endif
                   </td> 
                   <td class="quantity"> 
                     {{ $item["quantity"] + 0 }}
