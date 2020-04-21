@@ -433,7 +433,52 @@ class CompaniesController extends Controller
 
   public function invoiceautocomplete(Request $request)
   {
-    return Companies::where("client_id","=","{$request->get('c')}")->where("name","LIKE","%{$request->get('q')}%")->where('is_deactivated', 0)->get();
+
+    // There's a bug wherein things are being showed automatically irregardless of string
+    $id = $request->get('c');
+    $q = $request->get('q');
+
+    //return Companies::where("client_id","=","{$request->get('c')}")->where("name","LIKE","%{$request->get('q')}%")->where('is_deactivated', 0)->get();
+
+
+    $from_companies = Companies::select('id','name')->where("client_id","=", $id)->where('is_deactivated', 0)->where("name","LIKE","%{$request->get('q')}%")->get();
+
+    $client = Clients::select('company_id')->with('company')->find($id); //just 1
+
+    $comp_list = array();
+    $found = FALSE;
+
+    if(count($from_companies) != 0){
+      foreach ($from_companies as $company) {
+        $com = array( 
+          "id" => $company->id, 
+          "name" => $company->name, 
+        );
+
+        if($client->company->id == $company->id){
+          $found = TRUE;
+        }
+
+        array_push($comp_list, $com);
+        return $comp_list;
+        
+      }
+    }
+
+
+    if($found == FALSE){
+      $new_array = array();
+      $com = array( 
+        "id" => $client->company->id, 
+        "name" => $client->company->name, 
+      );
+      
+      array_push($new_array, $com);
+      return $new_array;
+    }
+
+    
+
   }
 
 
