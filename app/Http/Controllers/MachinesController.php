@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Logs;
 use App\User;
+use App\Invoiceitems;
 use App\Machines;
 use App\Suppliers;
 use Illuminate\Http\Request;
@@ -47,13 +48,28 @@ class MachinesController extends Controller
         $dbtable = Machines::with('logs')->where('is_deactivated', $active_status)->get();
       }
 
+
+
+
+
+
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){
+
+      $machines = Machines::find($data->id);
+      $items = Invoiceitems::where('machines_id', $data->id)->get();   
+      $dlogs = (count($data->logs) != 0 ? 1 : 0);
+
+      $dmachines = (count($machines->services) != 0 ? 1 : 0);
+      $ditems = (count($items) != 0 ? 1 : 0);
+      $sum = $dmachines + $ditems + $dlogs;
+
+
       $button = '<div class="hover_buttons"><a href="/machines/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
       $button .= '<a href="javascript:void(0);" id="add-log-row" data-toggle="tooltip" data-placement="top" data-original-title="Add Log" data-id="'.$data->id.'"  class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-history"></i></a>';
       $button .= '<a href="/machines/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
 
-      if(count($data->logs) == 0){
+      if($sum == 0){
         $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
       }else{
         if($data->is_deactivated == 0){
@@ -89,6 +105,7 @@ class MachinesController extends Controller
     }
         
     return view('machines.index', ['user' => $user, 'page_settings'=> $this->page_settings,  'status' => $this->status]);
+    
   }
 
 
@@ -149,17 +166,27 @@ class MachinesController extends Controller
   {
     $user = auth()->user();
     $machine = Machines::with('logs')->find($id);
-    $logs = Logs::where('machine_id', $id)->orderBy('updated_at', 'DESC')->get();
-
 
 
     if($machine){
+      $logs = Logs::where('machine_id', $id)->orderBy('updated_at', 'DESC')->get();
+
+      $machines = Machines::find($id);
+      $items = Invoiceitems::where('machines_id', $id)->get();   
+      $dlogs = (count($machine->logs) != 0 ? 1 : 0);
+
+      $dmachines = (count($machines->services) != 0 ? 1 : 0);
+      $ditems = (count($items) != 0 ? 1 : 0);
+      $sum = $dmachines + $ditems + $dlogs;
+
+
+
       $updater = User::find($machine->updatedby_id);
       if($machine->status){
         $s = $this->status[$machine->status];
       }
 
-      return view('machines.view', ['user' => $user, 'machine' => $machine, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'logs' => $logs]);
+      return view('machines.view', ['user' => $user, 'machine' => $machine, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'logs' => $logs, 'sum' => $sum]);
 
     }else{
       return notifyRedirect($this->homeLink, 'Machine not found', 'danger');
