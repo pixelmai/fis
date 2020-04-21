@@ -473,10 +473,6 @@ class CompaniesController extends Controller
           "name" => $company->name, 
         );
 
-        if($client->company->id == $company->id){
-          $found = TRUE;
-        }
-
         array_push($comp_list, $com);
         
       }
