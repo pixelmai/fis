@@ -299,8 +299,10 @@ class ClientsController extends Controller
       $partner_id = Partners::where('is_active', '1')->where('id', '!=' , 1)->orderBy('id', 'ASC')->get();
 
 
+      $dob = (!isset($client->date_of_birth) ? '' : datetoDpicker($client->date_of_birth));
 
-      return view('clients.edit', ['user' => $user, 'page_settings'=> $this->page_settings,'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 'client'=> $client, 'partner_id' => $partner_id]);
+
+      return view('clients.edit', ['user' => $user, 'page_settings'=> $this->page_settings,'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 'client'=> $client, 'partner_id' => $partner_id, 'dob' => $dob]);
 
     }else{
       return notifyRedirect($this->homeLink, 'Client not found', 'danger');

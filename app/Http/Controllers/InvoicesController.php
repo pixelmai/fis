@@ -284,11 +284,10 @@ class InvoicesController extends Controller
   }
 
 
-  public function view($id)
+  public function view($id, $print = null)
   {
     $user = auth()->user();
     $invoice = Invoices::with('items')->find($id);
-
 
     if($invoice){
       $updater = User::find($invoice->updatedby_id);
@@ -318,12 +317,15 @@ class InvoicesController extends Controller
         );
       }
             
-      return view('invoices.view', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items]);
+      if($print == 'print'){
+        return view('invoices.print', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items]);
+      }else{
+        return view('invoices.view', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items]);
+      }
 
     }else{
       return notifyRedirect($this->homeLink, 'Invoice not found', 'danger');
     }
-
   }
 
 

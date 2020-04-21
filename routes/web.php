@@ -238,7 +238,9 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::post('/invoices/create', 'InvoicesController@store');
   Route::get('/invoices/edit/{id}', 'InvoicesController@edit');
   Route::patch('/invoices/edit/{id}', 'InvoicesController@update');
+  Route::get('/invoices/view/{id}/{print?}', 'InvoicesController@view');
   Route::get('/invoices/view/{id}', 'InvoicesController@view');
+
   Route::get('/invoices/destroy/{id}', 'InvoicesController@destroy');
 
 

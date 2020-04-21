@@ -80,7 +80,7 @@
               
 
                 <div id="date_of_birth" class="input-group date @error('date_of_birth') is-invalid @enderror" data-provide="datepicker">
-                    <input name="date_of_birth" type="text" class="form-control" value="{{ old('date_of_birth') ?? datetoDpicker($client->date_of_birth) }}" autocomplete="off" placeholder="mm/dd/yyyy">
+                    <input name="date_of_birth" type="text" class="form-control" value="{{ old('date_of_birth') ?? $dob }}" autocomplete="off" placeholder="mm/dd/yyyy">
                     <div class="input-group-addon">
                       <span><i class="fa fa-calendar"></i></span>
                     </div>
