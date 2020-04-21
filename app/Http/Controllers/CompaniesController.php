@@ -434,9 +434,9 @@ class CompaniesController extends Controller
   public function invoiceautocomplete(Request $request)
   {
 
+    // FIXED:
     // There's a bug wherein things are being showed automatically irregardless of string
-    // try with joins
-    
+
     $id = $request->get('c');
     $q = $request->get('q');
 
@@ -450,7 +450,23 @@ class CompaniesController extends Controller
     $comp_list = array();
     $found = FALSE;
 
-    if(count($from_companies) != 0){
+
+    if($client){
+      $checker = stripos($client->company->name, $q);
+      if(is_numeric($checker) == TRUE ){
+
+        $com = array( 
+          "id" => $client->company->id, 
+          "name" => $client->company->name, 
+        );
+
+        $found = TRUE;
+        array_push($comp_list, $com);
+      }
+      
+    }
+
+    if(count($from_companies) != 0 && $found  == FALSE){
       foreach ($from_companies as $company) {
         $com = array( 
           "id" => $company->id, 
@@ -462,24 +478,12 @@ class CompaniesController extends Controller
         }
 
         array_push($comp_list, $com);
-        return $comp_list;
         
       }
     }
 
+    return $comp_list;
 
-    if($found == FALSE){
-      $new_array = array();
-      $com = array( 
-        "id" => $client->company->id, 
-        "name" => $client->company->name, 
-      );
-      
-      array_push($new_array, $com);
-      return $new_array;
-    }
-
-    
 
   }
 
