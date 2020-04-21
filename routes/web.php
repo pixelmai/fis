@@ -228,6 +228,8 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/services/activate/{id}', 'ServicesController@activate');
   Route::get('/services/servicemachines', 'ServicesController@servicemachines')->name('servicemachines');
   Route::get('/services/servicedetails', 'ServicesController@servicedetails')->name('servicedetails');
+  Route::get('/services/massdeac', 'ServicesController@massdeac');
+  Route::get('/services/massacti', 'ServicesController@massacti');
 
 /* Services */
 

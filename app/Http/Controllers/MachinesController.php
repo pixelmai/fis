@@ -49,10 +49,6 @@ class MachinesController extends Controller
       }
 
 
-
-
-
-
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){
 

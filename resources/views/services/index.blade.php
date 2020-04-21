@@ -154,7 +154,7 @@
                 $.ajax({
                   type: "get",
                   data:{id:id},
-                  url: "/suppliers/massdeac",
+                  url: "/services/massdeac",
                   success: function (data) {
                     var notifData = [];
                     var oTable = $('#listpage_datatable').dataTable(); 
@@ -163,7 +163,7 @@
                     $('#listpage_datatable').DataTable().ajax.reload();
                     notifData = {
                       status: 'danger',
-                      message: 'Successfully deactivated '+ data +' suppliers.',
+                      message: 'Successfully deactivated '+ data +' services.',
                     };
                    
 
@@ -200,7 +200,7 @@
                 $.ajax({
                   type: "get",
                   data:{id:id},
-                  url: "/suppliers/massacti",
+                  url: "/services/massacti",
                   success: function (data) {
                     var notifData = [];
                     var oTable = $('#listpage_datatable').dataTable(); 
@@ -209,7 +209,7 @@
                     $('#listpage_datatable').DataTable().ajax.reload();
                     notifData = {
                       status: 'success',
-                      message: 'Successfully activated '+ data +' suppliers.',
+                      message: 'Successfully activated '+ data +' services.',
                     };
                    
 
@@ -239,14 +239,14 @@
 
           $.ajax({
               type: "get",
-              url: "/suppliers/deactivate/"+row_id,
+              url: "/services/deactivate/"+row_id,
               success: function (data) {
                 var oTable = $('#listpage_datatable').dataTable(); 
                 oTable.fnDraw(false);
 
                 var notifData = {
                   status: 'warning',
-                  message: 'Successfully deactivated a supplier.',
+                  message: 'Successfully deactivated a service.',
                 };
 
                 generateNotif(notifData);
@@ -265,14 +265,14 @@
 
           $.ajax({
               type: "get",
-              url: "/suppliers/activate/"+row_id,
+              url: "/services/activate/"+row_id,
               success: function (data) {
                 var oTable = $('#listpage_datatable').dataTable(); 
                 oTable.fnDraw(false);
 
                 var notifData = {
                   status: 'success',
-                  message: 'Successfully activated a supplier.',
+                  message: 'Successfully activated a service.',
                 };
 
                 generateNotif(notifData);
