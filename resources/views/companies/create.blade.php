@@ -352,6 +352,7 @@
 
 
         var formData = {
+          token_check: jQuery('#token_check').val(),
           fname: jQuery('#fname').val(),
           lname: jQuery('#lname').val(),
           email: jQuery('#client_email').val(),

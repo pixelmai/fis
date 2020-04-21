@@ -11,6 +11,7 @@ use App\Sectors;
 use App\Projects;
 use App\Rules\Url;
 use App\Rules\PhoneNumber;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Redirect,Response,DB,Config;
 use Datatables;
@@ -128,8 +129,9 @@ class ClientsController extends Controller
 
     $partner_id = Partners::where('is_active', '1')->where('id', '!=' , 1)->orderBy('id', 'ASC')->get();
 
+    $token = Str::random(60);
 
-    return view('clients.create', ['user' => $user, 'page_settings'=> $this->page_settings,'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 'partner_id' => $partner_id]);
+    return view('clients.create', ['user' => $user, 'page_settings'=> $this->page_settings,'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 'partner_id' => $partner_id, 'dtoken' => $token ]);
 
   }
 
@@ -139,6 +141,7 @@ class ClientsController extends Controller
     $user = auth()->user();
 
     $data = request()->validate([
+      'token_check' => ['required'],
       'fname' => ['required', 'string', 'max:50'],
       'lname' =>['required', 'string', 'max:50'],
       'gender' => ['required'],
@@ -158,49 +161,56 @@ class ClientsController extends Controller
       'is_pwd' => ['nullable'],
     ]);
 
-
-    $is_freelancer = (isset($data['is_freelancer']) && $data['is_freelancer'] == 1 ? TRUE : FALSE); 
-    $is_food = (isset($data['is_food']) && $data['is_food'] == 1 ? 1 : 0); 
-    $is_pwd = (isset($data['is_pwd']) && $data['is_pwd'] == 1 ? 1 : 0); 
-    $dob = (isset($data['date_of_birth']) ? dateDatabase($data['date_of_birth']) : $data['date_of_birth']);
-
-    $company_id = ($data['company_id'] == '' ? 1 : $data['company_id']); 
+    $token_check = Clients::where('token', $data['token_check'])->first();
 
 
-    $query = Clients::create([
-      'fname' => $data['fname'],
-      'lname' => $data['lname'],
-      'gender' => $data['gender'],
-      'date_of_birth' => $dob,
-      'email' => $data['email'],
-      'number' => $data['number'],
-      'address' => $data['address'],
-      'company_id' => $company_id,
-      'regtype_id' => $data['regtype_id'],
-      'sector_id' => $data['sector_id'],
-      'position' => $data['position'],
-      'url' => $data['url'],
-      'skillset' => $data['skillset'],
-      'hobbies' => $data['hobbies'],
-      'is_imported' => 0,
-      'is_deactivated' => 0,
-      'is_freelancer' => $is_freelancer,
-      'is_food' => $is_food,
-      'is_pwd' => $is_pwd, 
-    
-      'updatedby_id' => $user->id,
-    ]);
+    if(!$token_check){
+
+      $is_freelancer = (isset($data['is_freelancer']) && $data['is_freelancer'] == 1 ? TRUE : FALSE); 
+      $is_food = (isset($data['is_food']) && $data['is_food'] == 1 ? 1 : 0); 
+      $is_pwd = (isset($data['is_pwd']) && $data['is_pwd'] == 1 ? 1 : 0); 
+      $dob = (isset($data['date_of_birth']) ? dateDatabase($data['date_of_birth']) : $data['date_of_birth']);
+
+      $company_id = ($data['company_id'] == '' ? 1 : $data['company_id']); 
 
 
-    $company_check = Companies::find($company_id);
+      $query = Clients::create([
+        'fname' => $data['fname'],
+        'lname' => $data['lname'],
+        'gender' => $data['gender'],
+        'date_of_birth' => $dob,
+        'email' => $data['email'],
+        'number' => $data['number'],
+        'address' => $data['address'],
+        'company_id' => $company_id,
+        'regtype_id' => $data['regtype_id'],
+        'sector_id' => $data['sector_id'],
+        'position' => $data['position'],
+        'url' => $data['url'],
+        'skillset' => $data['skillset'],
+        'hobbies' => $data['hobbies'],
+        'is_imported' => 0,
+        'is_deactivated' => 0,
+        'is_freelancer' => $is_freelancer,
+        'is_food' => $is_food,
+        'is_pwd' => $is_pwd, 
+        'token' => $data['token_check'],
+        'updatedby_id' => $user->id,
+      ]);
 
-    if($company_check->client_id == 1){
-      $company_check->client_id = $query->id;
-      $company_check->update();
-    }
 
-    if($query){
-      return notifyRedirect($this->homeLink, 'Added a Client successfully', 'success');
+      $company_check = Companies::find($company_id);
+
+      if($company_check->client_id == 1){
+        $company_check->client_id = $query->id;
+        $company_check->update();
+      }
+
+      if($query){
+        return notifyRedirect($this->homeLink.'/view/'.$query->id, 'Added a Client successfully', 'success');
+      }
+    }else{
+      return notifyRedirect($this->homeLink.'/view/'.$token_check->id, 'Added a Client successfully', 'success');
     }
 
   }
@@ -209,7 +219,11 @@ class ClientsController extends Controller
 
   public function modalStore(Request $request)
   {  
-      
+    
+    $token_check = Clients::where('token', $request->token_check)->first();
+
+
+    if(!$token_check){
       $query = Clients::create([
       'fname' => $request->fname,
       'lname' => $request->lname,
@@ -225,10 +239,12 @@ class ClientsController extends Controller
       'is_pwd' => $request->is_pwd,
       'is_deactivated' => 0,
       'updatedby_id' => $request->updatedby_id,
+      'token' => $request->token_check,
       ]);
-
-
       return Response::json($query);
+    }else{
+      return Response::json($token_check);
+    }
   }
 
 
@@ -270,6 +286,8 @@ class ClientsController extends Controller
     if($id == 1){
       return notifyRedirect($this->homeLink, 'Client not found', 'danger');
     }
+
+    
 
     $client = Clients::with('company')->find($id);
 

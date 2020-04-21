@@ -12,7 +12,7 @@ class Clients extends Model
       'fname', 'lname', 'email', 'gender','regtype_id','sector_id',
       'date_of_birth', 'number', 'address', 'position','url','skillset', 
       'hobbies', 'company_id','is_pwd','is_freelancer','is_food',
-      'updatedby_id', 'is_deactivated',
+      'updatedby_id', 'is_deactivated', 'token'
   ];
 
   protected static function boot(){

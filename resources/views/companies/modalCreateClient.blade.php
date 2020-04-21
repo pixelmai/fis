@@ -9,6 +9,7 @@
         <form id="ajaxForm" name="ajaxForm" class="form-horizontal">
 
           <input id="updatedby_id" type="hidden" value="{{ $user->id }}">
+          <input type="hidden" id="token_check" name="token_check" value="{{ $dtoken }}">
 
             <div class="form-group row d-flex">
               <div class="col-md-6">

@@ -15,6 +15,8 @@
             <form action="/clients/create" enctype="multipart/form-data" method="POST">
               @csrf
 
+              <input type="hidden" name="token_check" value="{{ $dtoken }}">
+              
             <div class="form-group row d-flex">
               <div class="col-md-6">
                 <label for="fname" class="col-form-label">First Name <span class="required">*</span></label>

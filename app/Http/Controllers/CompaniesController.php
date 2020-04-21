@@ -12,6 +12,7 @@ use App\Partners;
 use App\Sectors;
 use App\Rules\Url;
 use App\Rules\PhoneNumber;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Redirect,Response,DB,Config;
 use Datatables;
@@ -77,9 +78,10 @@ class CompaniesController extends Controller
 
     $sector_id = Sectors::where('is_active', '1')->orderBy('id', 'ASC')->get();
 
+    $token = Str::random(60);
 
     return view('companies.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 
-      'partner_id' => $partner_id]);
+      'partner_id' => $partner_id, 'dtoken' => $token ]);
 
 
   }
@@ -240,9 +242,10 @@ class CompaniesController extends Controller
 
       $sector_id = Sectors::where('is_active', '1')->orderBy('id', 'ASC')->get();
 
+      $token = Str::random(60);
 
       return view('companies.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 
-        'partner_id' => $partner_id, 'company' => $company]);
+        'partner_id' => $partner_id, 'company' => $company, 'dtoken' => $token ]);
     }else{
       return notifyRedirect($this->homeLink, 'Company not found', 'danger');
     }
