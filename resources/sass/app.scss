@@ -719,412 +719,509 @@
 
 
 
+  /* DATA TABLES */
+    #listpage_datatable{
+      width: 100% !important;
+      border-bottom: 1px solid #dee2e6;
 
-  #listpage_datatable{
-    width: 100% !important;
-    border-bottom: 1px solid #dee2e6;
+      #bulk_deac, #bulk_status, #bulk_acti, #bulk_delete{
+        padding: 1px 10px;
+      }
 
-    #bulk_deac, #bulk_status, #bulk_acti, #bulk_delete{
-      padding: 1px 10px;
-    }
+      tr{
+        td{
+          vertical-align: middle;
 
-    tr{
-      td{
-        vertical-align: middle;
+          .btn{
+            margin-left: 5px;
 
-        .btn{
-          margin-left: 5px;
-
-        }
-
-
-
-        .btn-outline-secondary, .btn-outline-danger, .btn-outline-success{
-          border: 1px solid #eee;
-        }
-
-        .btn-outline-secondary{
-          &:hover{
-            border: 1px solid #6c757d;
           }
-        }
 
-        .btn-outline-danger{
-          color: #6c757d;
-          &:hover{
-            color: #fff;
-            border: 1px solid #e3342f;
+
+
+          .btn-outline-secondary, .btn-outline-danger, .btn-outline-success{
+            border: 1px solid #eee;
           }
-        }
 
-        .btn-outline-success{
-          color: #6c757d;
-          &:hover{
-            color: #fff;
-            border: 1px solid $green;
+          .btn-outline-secondary{
+            &:hover{
+              border: 1px solid #6c757d;
+            }
           }
+
+          .btn-outline-danger{
+            color: #6c757d;
+            &:hover{
+              color: #fff;
+              border: 1px solid #e3342f;
+            }
+          }
+
+          .btn-outline-success{
+            color: #6c757d;
+            &:hover{
+              color: #fff;
+              border: 1px solid $green;
+            }
+          }
+
         }
-
-      }
-      td:first-child{
-        line-height: 1em;
-        padding-left: 20px;
-      }
-      td:last-child{
-        text-align: right;
-        width: 150px !important;
-        min-width: 150px !important;
-      }
-
-      .hover_buttons{
-        opacity: 0;
-      }
-
-      &:hover{
-        background: #f9f9f9;
+        td:first-child{
+          line-height: 1em;
+          padding-left: 20px;
+        }
+        td:last-child{
+          text-align: right;
+          width: 150px !important;
+          min-width: 150px !important;
+        }
 
         .hover_buttons{
-          opacity: 1;
+          opacity: 0;
+        }
+
+        &:hover{
+          background: #f9f9f9;
+
+          .hover_buttons{
+            opacity: 1;
+          }
         }
       }
-    }
 
-    tr.deactivated{
-      background: #f7f7f7;
-      color: #999;
-    }
+      tr.deactivated{
+        background: #f7f7f7;
+        color: #999;
+      }
 
-    tr.rowselected, tr.rowselected:hover{
-      background: #fff3f3;
-    }
+      tr.rowselected, tr.rowselected:hover{
+        background: #fff3f3;
+      }
 
-    .col_actions{
-      text-align: right;
-      padding-right: 10px;
-    }
+      .col_actions{
+        text-align: right;
+        padding-right: 10px;
+      }
 
-    .price{
-      display: block;
-      text-align: right;
-    }
-  }
-
-  .dataTables_wrapper{
-    border-top: 1px dotted #ccc;
-
-    .bootstrap-select{
-      .dropdown-toggle{
-        padding-top: 0;
-        padding-bottom: 0;
-        padding-right: 0;
+      .price{
+        display: block;
+        text-align: right;
       }
     }
 
-    .dataTables_length{
-      padding: 20px 0 10px;
+    .dataTables_wrapper{
+      border-top: 1px dotted #ccc;
+
       .bootstrap-select{
-        width: 70px;
-      }
-    }
-
-    .dataTables_filter{
-      padding: 13px 0 0;
-      label{
-        margin-left: 10px;
-      }
-
-      input{
-        border: 1px solid #ced4da;
-        border-radius: 0.25rem;
-        min-width: 200px;
-      }
-
-      #active_status_container{
-        display: inline-block;
-
-        .divider{
-          padding-left: 10px;
-          color: #ccc;
+        .dropdown-toggle{
+          padding-top: 0;
+          padding-bottom: 0;
+          padding-right: 0;
         }
+      }
 
+      .dataTables_length{
+        padding: 20px 0 10px;
         .bootstrap-select{
-          width: 100px;
-          text-align: left;
+          width: 70px;
+        }
+      }
+
+      .dataTables_filter{
+        padding: 13px 0 0;
+        label{
           margin-left: 10px;
         }
 
-      }
-
-    }
-  }
-
-
-  #invoices_page #listpage_datatable{
-    tr{
-      td:last-child{
-        width: 200px !important;
-        min-width: 200px !important;
-      }
-    }
-  }
-
-
-  #invoice_heading{
-    padding: 10px 0 15px; 
-
-    h1{
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-size: 2em;
-      color: #666;
-      line-height: 1;
-      width: 100%;
-    }
-
-    #invoice_id{
-      font-size: 1.7em;
-      color: #666;
-      text-align: right;
-      padding: 0;
-      line-height: 1;
-
-      span{
-        color: #999;
-      }
-    }
-  }
-
-
-  #invoice_items_table{
-    background: #fff;
-    min-width: 1030px !important;
-    margin-top: 10px;
-
-    th{
-      border-top: 2px solid #e1e1e1;
-      border-bottom: 2px solid #e1e1e1;
-      background: #f8f8f8;
-      color: #333;
-      padding: 10px 5px;
-    
-    }
-
-    th.price, th.quantity, th.amount{ text-align: right; }
-
-    tbody{
-      tr.itemrow{
-        td{border-bottom: 1px dotted #e1e1e1;}
-      }
-
-      tr.descrow{
-        background: #fbfbfb;
-        border-bottom: 2px solid #e1e1e1;
         input{
-          background: #fbfbfb;
+          border: 1px solid #ced4da;
+          border-radius: 0.25rem;
+          min-width: 200px;
         }
-      }
 
-      td{
-        border-right: 1px dotted #e1e1e1;
-        input, select, button{
-          border: 0;
-          border-radius: 0;
-          margin: 0;
+        #active_status_container{
+          display: inline-block;
 
-          &:focus{
-            outline: none;
-            background: #ffffe5;
+          .divider{
+            padding-left: 10px;
+            color: #ccc;
+          }
+
+          .bootstrap-select{
+            width: 100px;
+            text-align: left;
+            margin-left: 10px;
           }
 
         }
 
-        .form-control:focus {
-          border-color: inherit;
-          -webkit-box-shadow: none;
-          box-shadow: none;
-        }
-
       }
-
-      td.services{ width: 35%; }
-      td.machines{ width: 27%; }
-
-      td.unit, td.price{ 
-        width: 8%;
-        text-align: right;
-
-        .form-control:disabled, .form-control[readonly] {
-          background-color: #fff;
-          border: 0;
-          text-align: right;
-        }
-      }
-
-      td.unit{
-        text-align: left;
-      }
-
-
-      td.quantity{ 
-        width: 6%; 
-        text-align: right;
-
-        input{
-          text-align: right;
-        }
-      }
-      td.amount{
-        border-bottom: 0 !important; 
-        border-right: 0;
-        background: #f0f4f8;
-        text-align: right;
-
-        .form-control:disabled, .form-control[readonly] {
-          background-color: #f0f4f8;
-          text-align: right;
-        }
-      }
-      td.option{border: 0 !important; padding: 0 5px;}
     }
- 
-  }
+  /* DATA TABLES */
 
-  #invoice_add_button{
-    display: block;
-    color: #383d41;
-    background-color: #e2e3e5;
-    border: 1px solid #d6d8db;
-    margin: 10px 0 20px;
-    padding: 5px 10px;
 
-    span{
-      padding-left: 10px;
-    }
-  }
-
-  #totals_section{
-    width: 1030px !important;
-    padding-right: 31px;
-
-    #totals_form_group{
-      width: 30%;
-
-      input{
-        background: #f0f4f8;
-        text-align: right;
+  /* INVOICES */
+    #invoices_page #listpage_datatable{
+      tr{
+        td:last-child{
+          width: 200px !important;
+          min-width: 200px !important;
+        }
       }
+    }
 
-      label{
-        text-align: right;
+
+    #invoice_heading{
+      padding: 10px 0 15px; 
+
+      h1{
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 2em;
+        color: #666;
+        line-height: 1;
         width: 100%;
       }
-      #label_total{
-        text-transform: uppercase;
-        font-size: 1.2em;
-      }
 
-      #total{
-        font-size: 1.3em;
-      }
+      #invoice_id{
+        font-size: 1.7em;
+        color: #666;
+        text-align: right;
+        padding: 0;
+        line-height: 1;
 
-
-    }
-  }
-
-
-  #view_invoice{
-
-    .card{
-      padding: 0;
-
-      .card-body{
-        padding: 2.25rem;
-        padding-top: 20px;
+        span{
+          color: #999;
+        }
       }
     }
 
-
-    #up_candy{
-      display: inline-block;
-      width: 24px;
-      height: 24px;
-      background-image: url('/images/up_logo.png');
-      margin-left: 10px;
-    }
-
-    #markers{
-
-      .status_draft{
-        background: #999;
-      }
-
-      .status_paid{
-        background: $green;
-      }
-
-      .status_sent{
-        background: $orange;
-      }
-
-      .status{
-        border-top-left-radius: 0.25rem;
-        color: #fff;
-        display: inline-block;
-        padding: 15px 40px;
-        font-size: 1.3em;
-        text-transform:   uppercase;  
-        letter-spacing: 1px;
-      }
-
-      #invoice_menu{
-        padding: 30px 40px 0;
-      }
-
-    }
-    em.info_na{
-      color: #ccc;
-    }
 
     #invoice_items_table{
-      td{
-        padding: 5px 10px;
-      }
+      background: #fff;
+      min-width: 1030px !important;
+      margin-top: 10px;
 
       th{
-        padding: 10px;
-      }
-    }
-
-
-    #totals_section{
-      padding: 0;
-      text-align: right;
-      margin: 0;
-      width: 100% !important;
-
-      #totals_form_group{
-        width: 334px;
-      }
-
-      .row{
-        margin: 0;
-      }
-
-      .num{
-        border-left: 1px dotted #e1e1e1;
-        background: #f0f4f8;
-        margin: 0;
-        padding: 5px 10px;
-      }
-
-      #grand_total{
         border-top: 2px solid #e1e1e1;
         border-bottom: 2px solid #e1e1e1;
-        margin-bottom: 0;
-        font-size: 1.4em;
+        background: #f8f8f8;
+        color: #333;
+        padding: 10px 5px;
+      
+      }
+
+      th.price, th.quantity, th.amount{ text-align: right; }
+
+      tbody{
+        tr.itemrow{
+          td{border-bottom: 1px dotted #e1e1e1;}
+        }
+
+        tr.descrow{
+          background: #fbfbfb;
+          border-bottom: 2px solid #e1e1e1;
+          input{
+            background: #fbfbfb;
+          }
+        }
+
+        td{
+          border-right: 1px dotted #e1e1e1;
+          input, select, button{
+            border: 0;
+            border-radius: 0;
+            margin: 0;
+
+            &:focus{
+              outline: none;
+              background: #ffffe5;
+            }
+
+          }
+
+          .form-control:focus {
+            border-color: inherit;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+          }
+
+        }
+
+        td.services{ width: 35%; }
+        td.machines{ width: 27%; }
+
+        td.unit, td.price{ 
+          width: 8%;
+          text-align: right;
+
+          .form-control:disabled, .form-control[readonly] {
+            background-color: #fff;
+            border: 0;
+            text-align: right;
+          }
+        }
+
+        td.unit{
+          text-align: left;
+        }
+
+
+        td.quantity{ 
+          width: 6%; 
+          text-align: right;
+
+          input{
+            text-align: right;
+          }
+        }
+        td.amount{
+          border-bottom: 0 !important; 
+          border-right: 0;
+          background: #f0f4f8;
+          text-align: right;
+
+          .form-control:disabled, .form-control[readonly] {
+            background-color: #f0f4f8;
+            text-align: right;
+          }
+        }
+        td.option{border: 0 !important; padding: 0 5px;}
+      }
+   
+    }
+
+    #invoice_add_button{
+      display: block;
+      color: #383d41;
+      background-color: #e2e3e5;
+      border: 1px solid #d6d8db;
+      margin: 10px 0 20px;
+      padding: 5px 10px;
+
+      span{
+        padding-left: 10px;
       }
     }
-  }
+
+    #totals_section{
+      width: 1030px !important;
+      padding-right: 31px;
+
+      #totals_form_group{
+        width: 30%;
+
+        input{
+          background: #f0f4f8;
+          text-align: right;
+        }
+
+        label{
+          text-align: right;
+          width: 100%;
+        }
+        #label_total{
+          text-transform: uppercase;
+          font-size: 1.2em;
+        }
+
+        #total{
+          font-size: 1.3em;
+        }
+
+
+      }
+    }
+
+
+    #view_invoice{
+
+      .card{
+        padding: 0;
+
+        .card-body{
+          padding: 2.25rem;
+          padding-top: 20px;
+        }
+      }
+
+
+      #up_candy{
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        background-image: url('/images/up_logo.png');
+        margin-left: 10px;
+      }
+
+      #markers{
+
+        .status_draft{
+          background: #999;
+        }
+
+        .status_paid{
+          background: $green;
+        }
+
+        .status_sent{
+          background: $orange;
+        }
+
+        .status{
+          border-top-left-radius: 0.25rem;
+          color: #fff;
+          display: inline-block;
+          padding: 15px 40px;
+          font-size: 1.3em;
+          text-transform:   uppercase;  
+          letter-spacing: 1px;
+        }
+
+        #invoice_menu{
+          padding: 30px 40px 0;
+        }
+
+      }
+      em.info_na{
+        color: #ccc;
+      }
+
+      #invoice_items_table{
+        td{
+          padding: 5px 10px;
+        }
+
+        th{
+          padding: 10px;
+        }
+      }
+
+
+      #totals_section{
+        padding: 0;
+        text-align: right;
+        margin: 0;
+        width: 100% !important;
+
+        #totals_form_group{
+          width: 334px;
+        }
+
+        .row{
+          margin: 0;
+        }
+
+        .num{
+          border-left: 1px dotted #e1e1e1;
+          background: #f0f4f8;
+          margin: 0;
+          padding: 5px 10px;
+        }
+
+        #grand_total{
+          border-top: 2px solid #e1e1e1;
+          border-bottom: 2px solid #e1e1e1;
+          margin-bottom: 0;
+          font-size: 1.4em;
+        }
+      }
+    }
+  /* INVOICES */
+
+
+  /* PROJECTS */
+    #view_projects{
+      padding: 10px 0; 
+
+      .card{
+        padding: 0;
+
+        .card-body{
+          padding: 2.25rem;
+          padding-top: 10px;
+        }
+      }
+
+
+      h1{
+        margin-bottom: 10px;
+      }
+
+      .sh{
+        display: inline-block;
+        padding-bottom: 10px;
+      }
+
+      #markers{
+
+        .status_open{
+          background: #999;
+        }
+
+        .status_completed{
+          background: $green;
+        }
+
+        .status_dropped{
+          background: $orange;
+        }
+
+        .status{
+          border-top-left-radius: 0.25rem;
+          color: #fff;
+          display: inline-block;
+          padding: 15px 40px;
+          font-size: 1.3em;
+          text-transform:   uppercase;  
+          letter-spacing: 1px;
+        }
+
+        #invoice_menu{
+          padding: 30px 40px 0;
+        }
+
+      }
+
+      #basic_invoice_info{
+        margin-bottom: 20px;
+        .info-item{
+          strong{
+            display: inline-block;
+            width: 100px;
+            padding-right: 10px;
+          }
+          margin-bottom: 5px;
+        }
+      }
+
+      #invoices_table_head{
+        padding-bottom: 20px;
+      }
+
+      h5{
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #999;
+        font-size: 1.3em;
+        margin: 0;
+      }
+
+
+      #listpage_datatable_length, #listpage_datatable_filter{
+        display: none;
+      }
+
+      #listpage_datatable tr td:last-child{
+        width: 50px !important;
+        min-width: 50px !important;
+      }
+
+    }
+
+
+
+  /* PROJECTS */
 }
 
 

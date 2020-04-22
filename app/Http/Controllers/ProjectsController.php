@@ -163,6 +163,8 @@ class ProjectsController extends Controller
   {
     $user = auth()->user();
     $project = Projects::with('client')->find($id);
+    $invoices = Invoices::with('items','client','project')->where('projects_id', $id)->get();
+    $sum = count($invoices);
     $updater = User::find($project->updatedby_id);
 
     if($project->status){
@@ -170,7 +172,53 @@ class ProjectsController extends Controller
     }
 
 
-    return view('projects.view', ['user' => $user, 'project' => $project, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s]);
+    if(request()->ajax()){
+
+      return datatables()->of($invoices)
+        ->addColumn('action', function($data){
+      $button = '<div class="hover_buttons"><a href="/invoices/view/'.$data->id.'" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a></div>';
+
+      $button .= '</div>';
+
+      return $button;
+      })
+      ->addColumn('total', function($data){
+        return '<div class="price">'. priceFormatFancy($data->total) .'</div>';
+      })
+      ->addColumn('subtotal', function($data){
+        return '<div class="price">'. priceFormatFancy($data->subtotal) .'</div>';
+      })
+      ->addColumn('discount', function($data){
+        return '<div class="price">'. ($data->discount + 0) .'%</div>';
+      })
+      ->addColumn('created', function($data){
+          return dateTimeFormatSimple($data->created_at);
+      })
+      ->addColumn('due_date', function($data){
+          if($data->due_date){
+            return datetoDpicker($data->due_date);
+          }else{
+            return '-';
+          }
+          
+      })
+      ->addColumn('status', function($data){
+        if($data->status){
+          $s = $this->status[$data->status];
+        }
+        return $s;
+      })
+      ->addColumn('id', function($data){
+          return str_pad($data->id, 6, '0', STR_PAD_LEFT);
+      })
+      ->rawColumns(['total','discount','subtotal','client_name','company_name','action'])
+      ->make(true);
+      
+    }
+
+
+
+    return view('projects.view', ['user' => $user, 'project' => $project, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'invoices' => $invoices, 'sum' => $sum ]);
   }
 
 
