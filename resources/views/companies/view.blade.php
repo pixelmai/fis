@@ -34,7 +34,15 @@
                     <i class="fas fa-edit"></i>
                   </a>
 
-                  <a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn btn-outline-danger btn-lg"><i class="fas fa-trash"></i></a>
+                  @if($sum == 0)
+                    <a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$supplier->id.'" class="delete btn btn-outline-danger btn-lg"><i class="fas fa-trash"></i></a>
+                  @else
+                    @if($company->is_deactivated == 0)
+                      <a href="javascript:void(0);" id="deactivate-row" data-toggle="tooltip" data-placement="top" data-original-title="Deactivate" data-id="{{ $company->id }}" class="delete btn btn-outline-danger btn-lg"><i class="fas fa-ban"></i></a>
+                    @else
+                      <a href="javascript:void(0);" id="activate-row" data-toggle="tooltip" data-placement="top" data-original-title="Activate" data-id="{{ $company->id }}" class="delete btn btn-outline-success btn-lg"><i class="fas fa-check"></i></a>
+                    @endif
+                  @endif
 
                 </div>
 
@@ -211,8 +219,7 @@
 
 
       $('body').on('click', '#delete-row', function () {
-        
-
+      
         if (confirm('Are you sure want to delete company?')) {
 
           $.ajax({
@@ -229,7 +236,61 @@
         } 
       });   
 
-    
+
+      $('body').on('click', '#deactivate-row', function () {
+        var row_id = $(this).data("id");
+
+        if (confirm('Are you sure want to deactivate row?')) {
+
+          $.ajax({
+              type: "get",
+              url: "/companies/deactivate/" + row_id,
+              success: function (data) {
+                window.location.href = '{{ url('/companies') }}';
+
+
+                var notifData = {
+                  status: 'warning',
+                  message: 'Successfully deactivated a company.',
+                };
+
+                generateNotif(notifData);
+
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+      });   
+
+      $('body').on('click', '#activate-row', function () {
+        var row_id = $(this).data("id");
+
+        if (confirm('Are you sure want to activate row?')) {
+
+          $.ajax({
+              type: "get",
+              url: "/companies/activate/" + row_id,
+              success: function (data) {
+                window.location.href = '{{ url('/companies') }}';
+                
+                var notifData = {
+                  status: 'success',
+                  message: 'Successfully activated a company.',
+                };
+
+                generateNotif(notifData);
+
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+      });  
+
+
 
     }); //end document ready
 

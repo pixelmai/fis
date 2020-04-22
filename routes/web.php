@@ -141,6 +141,11 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/companies/massrem', 'CompaniesController@massrem');
   Route::get('/companies/autocomplete', 'CompaniesController@autocomplete')->name('companiesauto');
   Route::get('/companies/invoiceautocomplete', 'CompaniesController@invoiceautocomplete')->name('companyinvoiceauto');
+  Route::get('/companies/deactivate/{id}', 'CompaniesController@deactivate');
+  Route::get('/companies/activate/{id}', 'CompaniesController@activate');
+  Route::get('/companies/massdeac', 'CompaniesController@massdeac');
+  Route::get('/companies/massacti', 'CompaniesController@massacti');
+  
 /* Companies */
 
 
