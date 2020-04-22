@@ -176,7 +176,6 @@ class MachinesController extends Controller
       $sum = $dmachines + $ditems + $dlogs;
 
 
-
       $updater = User::find($machine->updatedby_id);
       if($machine->status){
         $s = $this->status[$machine->status];

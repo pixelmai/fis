@@ -48,7 +48,6 @@ class InvoicesController extends Controller
       Invoiceitems::where('invoices_id', 0)->delete();
     }
 
-
     if(request()->ajax()){
 
       $active_status = (isset($_GET['active_status']) ? $_GET['active_status'] : 0);

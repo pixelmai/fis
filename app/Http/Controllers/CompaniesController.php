@@ -355,24 +355,32 @@ class CompaniesController extends Controller
     $company = Companies::find($id);
     if($company){
 
-      if(request()->ajax()){
-        $total_clients = Clients::where('company_id', $id)->get(); 
 
-        if (count($total_clients) > 1){
-          foreach ($total_clients as $client_row) {
-            $client = Clients::find($client_row->id);
+
+      if(request()->ajax()){
+
+        $ditems = Invoices::where('companies_id', $id)->get();   
+        $sum = count($ditems);
+
+        if($sum == 0 ){
+          $total_clients = Clients::where('company_id', $id)->get(); 
+
+          if (count($total_clients) > 1){
+            foreach ($total_clients as $client_row) {
+              $client = Clients::find($client_row->id);
+              $client_comp = Companies::where('client_id', $client->id)->get();
+              $this->deleteClientUpdater($client, $client_comp, $id);
+            }
+          }else{
+            $client = Clients::find($company->client_id);
             $client_comp = Companies::where('client_id', $client->id)->get();
             $this->deleteClientUpdater($client, $client_comp, $id);
           }
-        }else{
-          $client = Clients::find($company->client_id);
-          $client_comp = Companies::where('client_id', $client->id)->get();
-          $this->deleteClientUpdater($client, $client_comp, $id);
+
+
+          $row = Companies::where('id',$id)->delete();
+          return Response::json($row);
         }
-
-
-        $row = Companies::where('id',$id)->delete();
-        return Response::json($row);
 
       
       }else{
