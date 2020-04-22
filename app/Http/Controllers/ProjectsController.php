@@ -164,12 +164,15 @@ class ProjectsController extends Controller
     $user = auth()->user();
     $project = Projects::with('client')->find($id);
     $invoices = Invoices::with('items','client','project')->where('projects_id', $id)->get();
-    $sum = count($invoices);
-    $updater = User::find($project->updatedby_id);
 
     if($project->status){
       $s = $this->status[$project->status];
     }
+
+
+    $sum = count($invoices);
+    $updater = User::find($project->updatedby_id);
+
 
 
     if(request()->ajax()){
@@ -203,10 +206,19 @@ class ProjectsController extends Controller
           
       })
       ->addColumn('status', function($data){
+
+        $proj_status = array( 
+          '1' => 'Draft', 
+          '2' => 'Sent',
+          '3' => 'Paid'
+        );
+
+
         if($data->status){
-          $s = $this->status[$data->status];
+          $ps = $proj_status[$data->status];
         }
-        return $s;
+
+        return $ps;
       })
       ->addColumn('id', function($data){
           return str_pad($data->id, 6, '0', STR_PAD_LEFT);

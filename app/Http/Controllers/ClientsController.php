@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Clients;
 use App\Companies;
+use App\Invoices;
 use App\Regtypes;
 use App\Partners;
 use App\Sectors;
@@ -84,10 +85,13 @@ class ClientsController extends Controller
 
         $company = Companies::where('client_id', $data->id)->get();        
         $projects = Projects::where('client_id', $data->id)->where('is_categorized', 1)->get();   
+        $invoices = Invoices::where('clients_id', $data->id)->get();
 
         $dcompany = (count($company) != 0 ? 1 : 0);
         $dproject = (count($projects) != 0 ? 1 : 0);
-        $sum = $dcompany + $dproject;
+        $dinvoices = (count($invoices) != 0 ? 1 : 0);
+
+        $sum = $dinvoices + $dcompany + $dproject;
 
         $activate_button = '<a href="javascript:void(0);" id="activate-row" data-toggle="tooltip" data-placement="top" data-original-title="Activate" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-success"><i class="fas fa-check"></i></a></div>';
 
@@ -268,11 +272,13 @@ class ClientsController extends Controller
       //now checks only for company and project, soon must include invoices
       $company = Companies::where('client_id', $id)->get();        
       $projects = Projects::where('client_id', $id)->where('is_categorized', 1)->get();   
-      
+      $invoices = Invoices::where('clients_id', $id)->get();
+
       $dcompany = (count($company) != 0 ? 1 : 0);
       $dproject = (count($projects) != 0 ? 1 : 0);
-      $sum = $dcompany + $dproject;
+      $dinvoices = (count($invoices) != 0 ? 1 : 0);
 
+      $sum = $dinvoices + $dcompany + $dproject;
 
       return view('clients.view', ['user' => $user, 'client' => $client, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'sum' => $sum]);
 
