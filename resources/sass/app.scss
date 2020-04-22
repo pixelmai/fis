@@ -1218,11 +1218,48 @@
       }
 
     }
-
-
-
   /* PROJECTS */
+
+
+  #view_clients{
+    padding: 10px 0; 
+
+    .card{
+      padding: 0;
+
+      .card-body{
+        padding: 2.25rem;
+        padding-top: 10px;
+      }
+    }
+
+    h1{
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .sh{
+      display: inline-block;
+      padding-bottom: 10px;
+    }
+
+    #markers{
+      padding: 40px;
+    }
+
+    h5{
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #999;
+      margin-bottom: 10px;
+    }
+
+
+  }
+  
+
 }
+
 
 
 

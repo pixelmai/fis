@@ -12042,6 +12042,40 @@ form label #compExists {
   min-width: 50px !important;
 }
 
+#app #view_clients {
+  padding: 10px 0;
+}
+
+#app #view_clients .card {
+  padding: 0;
+}
+
+#app #view_clients .card .card-body {
+  padding: 2.25rem;
+  padding-top: 10px;
+}
+
+#app #view_clients h1 {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+#app #view_clients .sh {
+  display: inline-block;
+  padding-bottom: 10px;
+}
+
+#app #view_clients #markers {
+  padding: 40px;
+}
+
+#app #view_clients h5 {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #999;
+  margin-bottom: 10px;
+}
+
 /* ---------------------------------------------------
   ADDITIONAL OOP
 ----------------------------------------------------- */

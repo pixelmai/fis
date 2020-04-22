@@ -1,71 +1,61 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="container pt-3">
+<div id="view_clients" class="container">
 
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
+  <div class="sh">Client Profile</div>
+
+  <div id="card_area" class="row justify-content-center">
+    <div class="col-lg-12">
       <div class="card">
-        <div class="card-header">
-          <div class="d-flex justify-content-between align-items-center">
-            <div class="sh">Client Profile</div>
+        <div id="markers" class="d-flex justify-content-between align-items-center">
+          <div>
+            <h1>{{ $client->fname }} {{ $client->lname }}</h1>
+              <div class="chip mb-2">
+                {{ $client->sector->name }}
+              </div>
+
+              @if ($client->is_freelancer == 1)
+                <div class="chip mb-2 chip-freelancer">
+                  Freelancer
+                </div>
+              @endif
+
+
+              @if ($client->is_pwd == 1)
+                <div class="chip mb-2 chip-pwd">
+                  PWD
+                </div>
+              @endif
+
+          </div>
+
+          <div>
+
+          <a href="/clients/edit/{{ $client->id }}" class="edit btn btn-outline-secondary btn-md">
+            <i class="fas fa-edit"></i>
+            Edit
+          </a>
+
+          @if($sum == 0)
+            <a href="javascript:void(0);" id="delete-row" data-id="'.$data->id.'" class="delete btn btn-outline-danger btn-md"><i class="fas fa-trash"></i> Delete</a>
+          @else
+            @if($client->is_deactivated == 0)
+              <a href="javascript:void(0);" id="deactivate-row" data-id="{{ $client->id }}" class="delete btn btn-outline-danger btn-md"><i class="fas fa-ban"></i> Deactivate</a>
+            @else
+              <a href="javascript:void(0);" id="activate-row" data-id="{{ $client->id }}" class="delete btn btn-outline-success btn-md"><i class="fas fa-check"></i> Activate</a>
+            @endif
+          @endif
           </div>
         </div>
 
-          <div class="card-body">
 
-            <div class="row">
-              <div class="col-md-12">
-                <div class="d-flex justify-content-between">
-                  <div>
-                    <h1>{{ $client->fname }} {{ $client->lname }}</h1>
-
-                    <div class="chip mb-2">
-                      {{ $client->sector->name }}
-                    </div>
-
-                    @if ($client->is_freelancer == 1)
-                      <div class="chip mb-2 chip-freelancer">
-                        Freelancer
-                      </div>
-                    @endif
-
-
-                    @if ($client->is_pwd == 1)
-                      <div class="chip mb-2 chip-pwd">
-                        PWD
-                      </div>
-                    @endif
-
-
-                  </div>
-                  <div>
-                    <a href="/clients/edit/{{ $client->id }}" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-lg">
-                      <i class="fas fa-edit"></i>
-                    </a>
-
-                    @if($sum == 0)
-                      <a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn btn-outline-danger btn-lg"><i class="fas fa-trash"></i></a>
-                    @else
-                      @if($client->is_deactivated == 0)
-                        <a href="javascript:void(0);" id="deactivate-row" data-toggle="tooltip" data-placement="top" data-original-title="Deactivate" data-id="{{ $client->id }}" class="delete btn btn-outline-danger btn-lg"><i class="fas fa-ban"></i></a>
-                      @else
-                        <a href="javascript:void(0);" id="activate-row" data-toggle="tooltip" data-placement="top" data-original-title="Activate" data-id="{{ $client->id }}" class="delete btn btn-outline-success btn-lg"><i class="fas fa-check"></i></a>
-                      @endif
-                    @endif
-
-
-                  </div>
-                </div>
-              
-
-                <hr />
-
-                <div class="info-block pt-1">
-
+        <div class="card-body">
+          <div id="basic_invoice_info">
+            <div class="info-block">
 
                 @if ($client->email || $client->number || $client->url || $client->address)
-                  <h3>Contact Information</h3>
+                  <h5>Contact Information</h5>
                 @endif
 
                 @if ($client->email)
@@ -103,12 +93,12 @@
                   <hr class="dotted" />
                 @endif
 
-                
 
-                <h3>Professional Profile</h3>
 
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-lg-6">
+                    <h5>Professional Info</h5>
+
                     @if ($client->company_id && $client->company_id != 1)
                       <div class="info-item">
                         <strong>Company/Institution</strong>
@@ -132,9 +122,7 @@
                       <strong>Registration Type</strong>
                       {{ $client->regtype->name }}
                     </div>
-                  </div>
 
-                  <div class="col-md-6">
                     @if ($client->is_food == 1)
                       <div class="info-item">
                         <strong>Food Business</strong>
@@ -151,6 +139,51 @@
 
                   </div>
 
+                  <div class="col-lg-6">
+
+                   <h5>Personal Info</h5>
+
+                      @if ($client->gender)
+                        <div class="info-item">
+                          <strong>Sex</strong>
+
+                          {{ $client->gender === "m" ? "Male" : "Female" }}
+
+                        </div>
+                      @endif
+
+                      @if ($client->date_of_birth)
+                        <div class="info-item">
+                          <strong>Date of Birth</strong>
+                          {{ dateOnly($client->date_of_birth) }}
+                        </div>
+                      @endif
+
+                      @if ($client->is_pwd == 1)
+                        <div class="info-item">
+                          <strong>PWD</strong>
+                          Yes
+                        </div>
+                      @endif
+
+
+                      @if ($client->skillset)
+                        <div class="info-item">
+                          <strong>Skillset</strong>
+                          {{ $client->skillset }}
+                        </div>
+                      @endif
+
+                      @if ($client->hobbies)
+                        <div class="info-item">
+                          <strong>Hobbies</strong>
+                          {{ $client->hobbies }}
+                        </div>
+                      @endif
+
+
+                  </div>
+
 
                 </div>
 
@@ -158,45 +191,8 @@
 
                 <hr class="dotted" />
 
-                <h3>Personal Profile</h3>
+ 
 
-                  @if ($client->gender)
-                    <div class="info-item">
-                      <strong>Sex</strong>
-
-                      {{ $client->gender === "m" ? "Male" : "Female" }}
-
-                    </div>
-                  @endif
-
-                  @if ($client->date_of_birth)
-                    <div class="info-item">
-                      <strong>Date of Birth</strong>
-                      {{ dateOnly($client->date_of_birth) }}
-                    </div>
-                  @endif
-
-                  @if ($client->is_pwd == 1)
-                    <div class="info-item">
-                      <strong>PWD</strong>
-                      Yes
-                    </div>
-                  @endif
-
-
-                  @if ($client->skillset)
-                    <div class="info-item">
-                      <strong>Skillset</strong>
-                      {{ $client->skillset }}
-                    </div>
-                  @endif
-
-                  @if ($client->hobbies)
-                    <div class="info-item">
-                      <strong>Hobbies</strong>
-                      {{ $client->hobbies }}
-                    </div>
-                  @endif
 
 
                   <div class="updatedby text-right">
@@ -211,17 +207,8 @@
                     {{ dateOnly($client->updated_at) }}
                   </div>
 
-
-                </div>
-
-
-              </div>
             </div>
-
-            
-
-
-
+          </div>
         </div>
 
 
@@ -230,6 +217,8 @@
   </div>
 </div>
 
+
+       
 
 
 @stop
