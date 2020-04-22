@@ -433,13 +433,19 @@ class CompaniesController extends Controller
 
   public function deactivate($id)
   {
-    $machine = Companies::find($id);
-    if($machine){
+    $company = Companies::find($id);
+    if($company){
 
       if(request()->ajax()){
 
-        $machine->is_deactivated = 1;
-        $machine->update();
+        $company->is_deactivated = 1;
+        $company->update();
+
+        $client = Clients::find($company->client_id);
+        if($company->id == $client->id){
+          $client->company_id = 1;
+          $client->update();
+        }
 
         return Response::json('1');
       }else{
@@ -452,13 +458,13 @@ class CompaniesController extends Controller
 
   public function activate($id)
   {
-    $machine = Companies::find($id);
-    if($machine){
+    $company = Companies::find($id);
+    if($company){
 
       if(request()->ajax()){
 
-        $machine->is_deactivated = 0;
-        $machine->update();
+        $company->is_deactivated = 0;
+        $company->update();
 
         return Response::json('1');
       }else{
@@ -521,7 +527,7 @@ class CompaniesController extends Controller
 
     if($client){
       $checker = stripos($client->company->name, $q);
-      if(is_numeric($checker) == TRUE ){
+      if(is_numeric($checker) == TRUE && $client->company->is_deactivated == 0){
 
         $com = array( 
           "id" => $client->company->id, 
@@ -585,6 +591,14 @@ class CompaniesController extends Controller
         $company = Companies::find($company_row);
         $company->is_deactivated = 1;
         $company->update();
+
+
+        $client = Clients::find($company->client_id);
+        if($company->id == $client->id){
+          $client->company_id = 1;
+          $client->update();
+        }
+
         $count++;
       }
 

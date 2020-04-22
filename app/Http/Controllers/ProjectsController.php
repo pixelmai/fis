@@ -238,7 +238,7 @@ class ProjectsController extends Controller
         if($sum == 0){
           $row = Projects::where('id',$id)->delete();
         }
-        
+
         return Response::json($row);
       }else{
         return notifyRedirect($this->homeLink, 'Unauthorized to delete', 'danger');
@@ -296,7 +296,7 @@ class ProjectsController extends Controller
 
   public function invoiceautocomplete(Request $request)
   {
-    return Projects::where("client_id","=","{$request->get('c')}")->where("name","LIKE","%{$request->get('q')}%")->where('is_categorized', 1)->where('is_deactivated', 0)->get();
+    return Projects::where("client_id","=","{$request->get('c')}")->where("name","LIKE","%{$request->get('q')}%")->where('is_categorized', 1)->where('status', 1)->get();
   }
 
 }
