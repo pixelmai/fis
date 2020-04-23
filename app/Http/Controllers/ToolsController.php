@@ -79,13 +79,14 @@ class ToolsController extends Controller
         if($data->status){
           $s = $this->status[$data->status];
         }
-        return $s;
+
+        return '<span class="status status_'.strtolower($s).'">'. $s .'</span>';
       })
       ->addColumn('updated', function($data){
         return $data->updated_at;
       })
 
-      ->rawColumns(['checkbox','action'])
+      ->rawColumns(['checkbox','action','status'])
       ->make(true);
     }
         

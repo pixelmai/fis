@@ -33,7 +33,7 @@
                       <i class="fas fa-edit"></i>
                     </a>
 
-                    @if(count($services->machines) == 0)
+                    @if($sum == 0)
                       <a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="{{ $services->id }}" class="delete btn btn-outline-danger btn-lg"><i class="fas fa-trash"></i></a>
                     @else
                       @if($services->is_deactivated == 0)

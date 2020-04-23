@@ -93,25 +93,6 @@
               </div>
 
 
-              <div class="form-group row">
-                <div class="col-3">
-                  <label for="status" class="col-form-label">Status</label>
-
-                    <select id="status" name="status" class="form-control @error('$status') is-invalid @enderror" autofocus>
-                      <option value="1">Open</option>
-                      <option value="2">Completed</option>
-                      <option value="3">Dropped</option>
-                    </select>
-
-                    @error('$status')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-              </div>
-
-
 
 
             <div class="row py-2">

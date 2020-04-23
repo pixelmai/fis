@@ -94,29 +94,6 @@
               </div>
 
 
-              <div class="form-group row">
-                <div class="col-3">
-                  <label for="status" class="col-form-label">Status</label>
-
-
-
-                    <select id="status" name="status" class="form-control @error('$status') is-invalid @enderror" autofocus>
-                      <option value="1" @if($project->status == 1) selected @endif >Open</option>
-                      <option value="2" @if($project->status == 2) selected @endif >Completed</option>
-                      <option value="3" @if($project->status == 3) selected @endif >Dropped</option>
-                    </select>
-
-                    @error('$status')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-              </div>
-
-
-
-
             <div class="row py-2">
               <div class="col-12">
                 <button id="submit-button" type="submit" class="btn btn-primary btn-lg">Edit Project</button>

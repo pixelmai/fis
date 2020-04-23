@@ -30,7 +30,8 @@
               <th scope="col">Partner Type</th>
               <th scope="col">Contact Person</th>
               <th scope="col" class="col_actions"/>
-                <button type="button" name="bulk_delete" id="bulk_delete" class="btn btn-danger btn-sm d-none">Delete All</i></button>
+                <button type="button" name="bulk_deac" id="bulk_deac" class="btn btn-danger btn-sm d-none">Deactivate All</i></button>
+                <button type="button" name="bulk_acti" id="bulk_acti" class="btn btn-success btn-sm d-none">Activate All</i></button>
               </th>
             </tr>
           </thead>
@@ -100,15 +101,22 @@
 
       $('#listpage_datatable tbody').on('click', '.tbl_row_checkbox', function () {
           $(this).parent().parent().toggleClass('rowselected');
+          var as = $('#active_status').children("option:selected").val();
 
           if ( document.querySelector('.rowselected') !== null ) {
-            $('#bulk_delete').removeClass('d-none');
+            if(as == 0){
+              $('#bulk_deac').removeClass('d-none');
+              $('#bulk_acti').addClass('d-none');
+            }else if(as == 1){
+              $('#bulk_deac').addClass('d-none');
+              $('#bulk_acti').removeClass('d-none');
+            }
           }else{
-            $('#bulk_delete').addClass('d-none');
+            $('#bulk_deac').addClass('d-none');
+            $('#bulk_acti').addClass('d-none');
           }
 
-      } );
-
+      });
 
       $('body').on('click', '#delete-row', function () {
         var row_id = $(this).data("id");
@@ -178,6 +186,154 @@
           }
       });
 
+
+      $('body').on('click', '#deactivate-row', function () {
+        var row_id = $(this).data("id");
+
+        if (confirm('Are you sure want to deactivate row?')) {
+
+          $.ajax({
+              type: "get",
+              url: "/companies/deactivate/"+row_id,
+              success: function (data) {
+                var oTable = $('#listpage_datatable').dataTable(); 
+                oTable.fnDraw(false);
+
+                var notifData = {
+                  status: 'warning',
+                  message: 'Successfully deactivated a company.',
+                };
+
+                generateNotif(notifData);
+                //$('#bulk_delete').addClass('d-none');
+
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+      });   
+
+      $('body').on('click', '#activate-row', function () {
+        var row_id = $(this).data("id");
+
+        if (confirm('Are you sure want to activate row?')) {
+
+          $.ajax({
+              type: "get",
+              url: "/companies/activate/"+row_id,
+              success: function (data) {
+                var oTable = $('#listpage_datatable').dataTable(); 
+                oTable.fnDraw(false);
+
+                var notifData = {
+                  status: 'success',
+                  message: 'Successfully activated a company.',
+                };
+
+                generateNotif(notifData);
+                //$('#bulk_delete').addClass('d-none');
+
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+      });  
+
+
+      $(document).on('click', '#bulk_deac', function(){
+          var id = [];
+
+          if(confirm("Are you sure you want to deactivate these rows?"))
+          {
+              $('.tbl_row_checkbox:checked').each(function(){
+                 id.push($(this).val());
+              });
+
+              if(id.length > 0)
+              {
+                $.ajax({
+                  type: "get",
+                  data:{id:id},
+                  url: "/companies/massdeac",
+                  success: function (data) {
+                    var notifData = [];
+                    var oTable = $('#listpage_datatable').dataTable(); 
+                    oTable.fnDraw(false);
+                   
+                    $('#listpage_datatable').DataTable().ajax.reload();
+                    notifData = {
+                      status: 'danger',
+                      message: 'Successfully deactivated '+ data +' companies.',
+                    };
+                   
+
+                    generateNotif(notifData);
+
+                    $('#bulk_deac').addClass('d-none');
+                    $('#bulk_acti').addClass('d-none');
+
+                  },
+                  error: function (data) {
+                    console.log('Error:', data);
+                  }
+                });
+              }
+              else
+              {
+                  alert("Please select atleast one checkbox");
+              }
+          }
+      });
+
+
+      $(document).on('click', '#bulk_acti', function(){
+          var id = [];
+
+          if(confirm("Are you sure you want to activate these rows?"))
+          {
+              $('.tbl_row_checkbox:checked').each(function(){
+                 id.push($(this).val());
+              });
+
+              if(id.length > 0)
+              {
+                $.ajax({
+                  type: "get",
+                  data:{id:id},
+                  url: "/companies/massacti",
+                  success: function (data) {
+                    var notifData = [];
+                    var oTable = $('#listpage_datatable').dataTable(); 
+                    oTable.fnDraw(false);
+                   
+                    $('#listpage_datatable').DataTable().ajax.reload();
+                    notifData = {
+                      status: 'success',
+                      message: 'Successfully activated '+ data +' companies.',
+                    };
+                   
+
+                    generateNotif(notifData);
+
+                    $('#bulk_deac').addClass('d-none');
+                    $('#bulk_acti').addClass('d-none');
+
+                  },
+                  error: function (data) {
+                    console.log('Error:', data);
+                  }
+                });
+              }
+              else
+              {
+                  alert("Please select atleast one checkbox");
+              }
+          }
+      });
 
       /* Append Status Select Box */
         var activeStatusHTML = '<div id="active_status_container"><label for="status" class="col-form-label">Showing</label><select id="active_status" name="active_status"><option value="0">Active</option><option value="1">Inactive</option><option value="2">All</option></select><span class="divider d-none d-sm-inline">|</span></div>'; 

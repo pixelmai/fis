@@ -119,7 +119,6 @@
       /* Append Status Select Box */
       
 
-
       $('body').on('click', '#delete-row', function () {
         var row_id = $(this).data("id");
 
@@ -245,7 +244,7 @@
 
                   var notifData = {
                     status: 'success',
-                    message: 'Successfully updated status of the selected ' + data + ' tools.',
+                    message: 'Successfully updated status of the selected ' + data + ' invoices.',
                   };
 
                   generateNotif(notifData);

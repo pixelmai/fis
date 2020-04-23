@@ -8,6 +8,7 @@ use App\User;
 use App\Machines;
 use App\Servcats;
 use App\Services;
+use App\Invoiceitems;
 use App\Servicesrates;
 use Illuminate\Http\Request;
 use Redirect,Response,DB,Config;
@@ -49,9 +50,9 @@ class ServicesController extends Controller
 
 
       if($active_status == 2){
-        $dbtable = Services::with('current','category')->get();
+        $dbtable = Services::with('current','mainmachine','category')->get();
       }else{
-        $dbtable = Services::with('current','category')->where('is_deactivated', $active_status)->get();
+        $dbtable = Services::with('current','mainmachine','category')->where('is_deactivated', $active_status)->get();
       }
 
       return datatables()->of($dbtable)
@@ -59,16 +60,15 @@ class ServicesController extends Controller
       $button = '<div class="hover_buttons"><a href="/services/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
       $button .= '<a href="/services/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
 
-      $sum = 0;
+
+      $items = Invoiceitems::where('services_id', $data->id)->get();   
+      $dmachines = count($data->machines);
+      $sum = (count($items) != 0 ? 1 : 0) + $dmachines;
 
       $activate_button = '<a href="javascript:void(0);" id="activate-row" data-toggle="tooltip" data-placement="top" data-original-title="Activate" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-success"><i class="fas fa-check"></i></a></div>';
 
       if($sum == 0){
-        if($data->is_deactivated == 1){
-            $button .= $activate_button;
-        }else{
-            $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
-        }
+        $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
       }else{
         if($data->is_deactivated == 0){
           $button .= '<a href="javascript:void(0);" id="deactivate-row" data-toggle="tooltip" data-placement="top" data-original-title="Deactivate" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-ban"></i></a></div>';
@@ -87,7 +87,9 @@ class ServicesController extends Controller
         return '<div class="price">'. priceFormatFancy($data->current->up_price) .'</div>';
       })
       ->addColumn('machines', function($data){
+        /*
         if(count($data->machines) != 0){
+
           $m = '';
           $x = 0;
           foreach($data->machines as $machine){
@@ -97,12 +99,17 @@ class ServicesController extends Controller
               $m .= ', ';
             }
           }
-
-
           return $m;
         }else{
           return '-';
+        }*/
+
+        if($data->mainmachine){
+          return $data->mainmachine->name;
+        }else{
+          return '-';
         }
+
       })
 
       ->rawColumns(['checkbox','action','uprice','dprice'])
@@ -199,11 +206,14 @@ class ServicesController extends Controller
     $user = auth()->user();
     $services = Services::with('machines','category','current')->find($id);
 
+    $items = Invoiceitems::where('services_id', $id)->get();   
+    $dmachines = count($services->machines);
+    $sum = (count($items) != 0 ? 1 : 0) + $dmachines;
 
     if($services){
       $updater = User::find($services->updatedby_id);
 
-      return view('services.view', ['user' => $user, 'services' => $services, 'page_settings'=> $this->page_settings, 'updater' => $updater]);
+      return view('services.view', ['user' => $user, 'services' => $services, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'sum' => $sum]);
 
     }else{
       return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
@@ -404,6 +414,91 @@ class ServicesController extends Controller
     }
 
     return json_encode($price);
+  }
+
+
+
+  public function deactivate($id)
+  {
+    $service = Services::find($id);
+    if($service){
+
+      if(request()->ajax()){
+
+        $service->is_deactivated = 1;
+        $service->update();
+
+        return Response::json('1');
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to deactivate', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Service not found', 'danger');
+    }
+  }
+
+  public function activate($id)
+  {
+    $service = Services::find($id);
+    if($service){
+
+      if(request()->ajax()){
+
+        $service->is_deactivated = 0;
+        $service->update();
+
+        return Response::json('1');
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to activate', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Service not found', 'danger');
+    }
+  }
+
+
+  public function massdeac(Request $request)
+  {
+    if(request()->ajax()){
+      
+      $row_id_array = $request->input('id');
+
+      $count = 0;
+
+      foreach ($row_id_array as $service_row) {
+        $service = Services::find($service_row);
+        $service->is_deactivated = 1;
+        $service->update();
+        $count++;
+      }
+
+      return Response::json($count);
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Action not permitted', 'danger');
+    }
+  }
+
+  public function massacti(Request $request)
+  {
+    if(request()->ajax()){
+      
+      $row_id_array = $request->input('id');
+
+      $count = 0;
+
+      foreach ($row_id_array as $service_row) {
+        $service = Services::find($service_row);
+        $service->is_deactivated = 0;
+        $service->update();
+        $count++;
+      }
+
+      return Response::json($count);
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Action not permitted', 'danger');
+    }
   }
 
 

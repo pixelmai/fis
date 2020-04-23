@@ -206,7 +206,7 @@
 
           $.ajax({
               type: "get",
-              url: "/suppliers/deactivate/"+row_id,
+              url: "/suppliers/deactivate/"+ row_id,
               success: function (data) {
                 window.location.href = '{{ url('/suppliers') }}';
 

@@ -37,7 +37,7 @@
                       <i class="fas fa-edit"></i>
                     </a>
 
-                    @if(count($logs) == 0)
+                    @if($sum == 0)
                       <a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="{{ $machine->id }}" class="delete btn btn-outline-danger btn-lg"><i class="fas fa-trash"></i></a>
                     @else
                       @if($machine->is_deactivated == 0)
