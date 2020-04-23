@@ -28,7 +28,7 @@
               <th scope="col">Unit</th>
               <th scope="col"><div class="price">Price</div></th>
               <th scope="col"><div class="price">UP Price</div></th>
-              <th scope="col">Machines</th>
+              <th scope="col">Main Machine</th>
               <th scope="col" class="col_actions"/>
                 <button type="button" name="bulk_deac" id="bulk_deac" class="btn btn-danger btn-sm d-none">Deactivate All</i></button>
                 <button type="button" name="bulk_acti" id="bulk_acti" class="btn btn-success btn-sm d-none">Activate All</i></button>

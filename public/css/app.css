@@ -11645,6 +11645,38 @@ form label #compExists {
   text-align: right;
 }
 
+#app #listpage_datatable .status_open,
+#app #listpage_datatable .status_draft {
+  background: #999;
+}
+
+#app #listpage_datatable .status_completed,
+#app #listpage_datatable .status_paid,
+#app #listpage_datatable .status_available {
+  background: #38c172;
+}
+
+#app #listpage_datatable .status_dropped,
+#app #listpage_datatable .status_sent,
+#app #listpage_datatable .status_maintenance,
+#app #listpage_datatable .status_borrowed {
+  background: #f6993f;
+}
+
+#app #listpage_datatable .status_damaged {
+  background: #e3342f;
+}
+
+#app #listpage_datatable .status {
+  display: inline-block;
+  font-size: 0.7em;
+  padding: 2px 5px;
+  color: #fff;
+  text-transform: uppercase;
+  border-radius: 0.3rem;
+  letter-spacing: 1px;
+}
+
 #app .dataTables_wrapper {
   border-top: 1px dotted #ccc;
 }

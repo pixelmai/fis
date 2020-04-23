@@ -807,6 +807,32 @@
         display: block;
         text-align: right;
       }
+
+      .status_open, .status_draft{
+        background: #999;
+      }
+
+      .status_completed, .status_paid, .status_available{
+        background: $green;
+      }
+
+      .status_dropped, .status_sent, .status_maintenance, .status_borrowed{
+        background: $orange;
+      }
+
+      .status_damaged{
+        background: $red;
+      }
+
+      .status{
+        display: inline-block;
+        font-size: .7em;
+        padding: 2px 5px;
+        color: #fff;
+        text-transform: uppercase;
+        border-radius: 0.3rem;
+        letter-spacing: 1px;
+      }
     }
 
     .dataTables_wrapper{

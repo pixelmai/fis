@@ -50,9 +50,9 @@ class ServicesController extends Controller
 
 
       if($active_status == 2){
-        $dbtable = Services::with('current','category')->get();
+        $dbtable = Services::with('current','mainmachine','category')->get();
       }else{
-        $dbtable = Services::with('current','category')->where('is_deactivated', $active_status)->get();
+        $dbtable = Services::with('current','mainmachine','category')->where('is_deactivated', $active_status)->get();
       }
 
       return datatables()->of($dbtable)
@@ -87,7 +87,9 @@ class ServicesController extends Controller
         return '<div class="price">'. priceFormatFancy($data->current->up_price) .'</div>';
       })
       ->addColumn('machines', function($data){
+        /*
         if(count($data->machines) != 0){
+
           $m = '';
           $x = 0;
           foreach($data->machines as $machine){
@@ -97,12 +99,17 @@ class ServicesController extends Controller
               $m .= ', ';
             }
           }
-
-
           return $m;
         }else{
           return '-';
+        }*/
+
+        if($data->mainmachine){
+          return $data->mainmachine->name;
+        }else{
+          return '-';
         }
+
       })
 
       ->rawColumns(['checkbox','action','uprice','dprice'])

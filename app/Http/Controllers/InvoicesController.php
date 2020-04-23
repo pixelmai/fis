@@ -139,13 +139,14 @@ class InvoicesController extends Controller
       ->addColumn('id', function($data){
           return str_pad($data->id, 6, '0', STR_PAD_LEFT);
       })
-      ->rawColumns(['checkbox','action','total','client_name','company_name','project_name'])
       ->addColumn('status', function($data){
         if($data->status){
           $s = $this->status[$data->status];
         }
-        return $s;
+
+        return '<span class="status status_'.strtolower($s).'">'. $s .'</span>';
       })
+      ->rawColumns(['checkbox','action','status','total','client_name','company_name','project_name'])
       ->make(true);
       
     }

@@ -74,7 +74,8 @@ class ProjectsController extends Controller
         if($data->status){
           $s = $this->status[$data->status];
         }
-        return $s;
+
+        return '<span class="status status_'.strtolower($s).'">'. $s .'</span>';
       })
       ->addColumn('jobs',  function($data){
         $ditems = Invoices::where('projects_id', $data->id)->get();   
