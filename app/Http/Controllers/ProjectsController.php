@@ -196,7 +196,7 @@ class ProjectsController extends Controller
         return '<div class="price">'. ($data->discount + 0) .'%</div>';
       })
       ->addColumn('created', function($data){
-          return dateTimeFormatSimple($data->created_at);
+          return datetoDpicker($data->created_at);
       })
       ->addColumn('due_date', function($data){
           if($data->due_date){
