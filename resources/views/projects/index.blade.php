@@ -28,7 +28,7 @@
               <th scope="col">Owner</th>
               <th scope="col">Status</th>
               <th scope="col">URL</th>
-              <th scope="col">No. of Jobs</th>
+              <th scope="col">Invoices</th>
               <th scope="col">Created</th>
               <th scope="col">Last Updated</th>
               <th scope="col" class="col_actions"/>
@@ -98,7 +98,7 @@
                       }, orderable: false },
                       { data: 'status', name: 'status', orderable: false },
                       { data: 'url', name: 'url', orderable: false, searchable:false },
-                      { data: 'url', name: 'jobs', orderable: false, searchable:false },
+                      { data: 'jobs', name: 'jobs', orderable: false, searchable:false },
                       { data: 'created', name: 'created', orderable: false},
                       { data: 'updated', name: 'created', orderable: false},
                       {data: 'action', name: 'action', orderable: false,  searchable:false},
@@ -146,20 +146,42 @@
         } 
       });   
 
+      $('body').on('click', '#add-log-row', function () {
+        var row_id = $(this).data("id");
+        $('#ajaxForm #project_id').val(row_id);
+        $('#ajax-crud-modal').trigger("reset");
+        $('#ajax-crud-modal').modal('show');
+        $('#btn-multiple-save-status').addClass('d-none');
+        $('#btn-single-save-status').removeClass('d-none');
+      });   
+
+
+      $('body').on('click', '#btn-single-save-status', function () {
+        initvalidator($('#project_id').val());
+      });   
+
+
+      $('body').on('click', '#btn-multiple-save-status', function () {
+        var id = [];
+        $('.tbl_row_checkbox:checked').each(function(){
+           id.push($(this).val());
+        });
+
+        initvalidator(id);
+      });   
+
 
       $(document).on('click', '#bulk_status', function(){
-
           var id = [];
-
           $('.tbl_row_checkbox:checked').each(function(){
              id.push($(this).val());
           });
-
-
           if(id.length > 0)
           {
             $('#ajax-crud-modal').trigger("reset");
             $('#ajax-crud-modal').modal('show');
+            $('#btn-single-save-status').addClass('d-none');
+            $('#btn-multiple-save-status').removeClass('d-none');
           }
           else
           {
@@ -169,81 +191,12 @@
       });
 
 
-
-      var validator = $("#ajaxForm").validate({
-        errorPlacement: function(error, element) {
-          // Append error within linked label
-          $( element )
-            .closest( "form" )
-              .find( "label[for='" + element.attr( "id" ) + "']" )
-                .append( error );
-        },
-        errorElement: "span",
-        rules: {
-          status: {
-            required: true
-          }
-        },
-        messages: {
-          status: " (required)",
-        },
-        submitHandler: function(form) {
-          
-          $.ajaxSetup({
-              headers: {
-                  'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-              }
-          });
-
-          var id = [];
-
-          $('.tbl_row_checkbox:checked').each(function(){
-             id.push($(this).val());
-          });
-
-      
-          var formData = {
-            status: $('#status').children("option:selected").val(),
-            updatedby_id: jQuery('#updatedby_id').val(),
-          };
-
-          var state = jQuery('#btn-save').val();
-          var type = "POST";
-
-          $.ajax({
-              type: type,
-              url: "/projects/status",
-              data: { "formData" : formData, "id": id } ,
-              dataType: 'json',
-              success: function (data) {
-                $('#ajax-crud-modal').modal('hide');
-                var oTable = $('#listpage_datatable').dataTable(); 
-                oTable.fnDraw(false);
-
-                var notifData = {
-                  status: 'success',
-                  message: 'Successfully updated status of the selected ' + data + ' companies.',
-                };
-
-                generateNotif(notifData);
-                $('#bulk_status').addClass('d-none');
-              },
-              error: function (data) {
-                console.log('Error:', data);
-              }
-          });
-
-        },
-      });
-
-
       /* Append Status Select Box */
-        var activeStatusHTML = '<div id="active_status_container"><label for="status" class="col-form-label">Showing</label><select id="active_status" name="active_status"><option value="0">Active</option><option value="1">Inactive</option><option value="2">All</option></select><span class="divider d-none d-sm-inline">|</span></div>'; 
+        var activeStatusHTML = '<div id="active_status_container"><label for="status" class="col-form-label">Showing</label><select id="active_status" name="active_status"><option value="0">All</option>@foreach($status as $statnum => $statdesc) <option value="{{ $statnum }}">{{ $statdesc }}</option> @endforeach </select><span class="divider d-none d-sm-inline">|</span></div>'; 
 
         $('#listpage_datatable_filter').prepend(activeStatusHTML); //Add field html
 
         $( "#active_status" ).change(function() {
-          $('#bulk_status').addClass('d-none');
           var oTable = $('#listpage_datatable').dataTable(); 
           oTable.fnDraw(false);
         });
@@ -252,6 +205,70 @@
     
 
 
+
+      function initvalidator(ids){
+        var validator = $("#ajaxForm").validate({
+          errorPlacement: function(error, element) {
+            // Append error within linked label
+            $( element )
+              .closest( "form" )
+                .find( "label[for='" + element.attr( "id" ) + "']" )
+                  .append( error );
+          },
+          errorElement: "span",
+          rules: {
+            status: {
+              required: true
+            }
+          },
+          messages: {
+            status: " (required)",
+          },
+          submitHandler: function(form) {
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+        
+            var formData = {
+              status: $('#status').children("option:selected").val(),
+              updatedby_id: $('#updatedby_id').val(),
+            };
+
+            var state = jQuery('#btn-save').val();
+            var type = "POST";
+
+            $.ajax({
+                type: type,
+                url: "/projects/status",
+                data: { "formData" : formData, "id": ids } ,
+                dataType: 'json',
+                success: function (data) {
+                  $('#ajax-crud-modal').trigger("reset");
+                  $('#ajax-crud-modal').modal('hide');
+                  var oTable = $('#listpage_datatable').dataTable(); 
+                  oTable.fnDraw(false);
+
+                  var notifData = {
+                    status: 'success',
+                    message: 'Successfully updated status of the selected ' + data + ' projects.',
+                  };
+
+                  generateNotif(notifData);
+                  $('#bulk_status').addClass('d-none');
+                },
+                error: function (data) {
+                  console.log('Error:', data);
+                }
+            });
+
+          },
+        });
+
+      }
 
 
     

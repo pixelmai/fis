@@ -48,7 +48,6 @@ class InvoicesController extends Controller
       Invoiceitems::where('invoices_id', 0)->delete();
     }
 
-
     if(request()->ajax()){
 
       $active_status = (isset($_GET['active_status']) ? $_GET['active_status'] : 0);
@@ -127,11 +126,11 @@ class InvoicesController extends Controller
         }
       })
       ->addColumn('created', function($data){
-          return dateTimeFormatSimple($data->created_at);
+          return dateShortOnly($data->created_at);
       })
       ->addColumn('due_date', function($data){
           if($data->due_date){
-            return datetoDpicker($data->due_date);
+            return dateShortOnly($data->due_date);
           }else{
             return '-';
           }
@@ -140,13 +139,14 @@ class InvoicesController extends Controller
       ->addColumn('id', function($data){
           return str_pad($data->id, 6, '0', STR_PAD_LEFT);
       })
-      ->rawColumns(['checkbox','action','total','client_name','company_name','project_name'])
       ->addColumn('status', function($data){
         if($data->status){
           $s = $this->status[$data->status];
         }
-        return $s;
+
+        return '<span class="status status_'.strtolower($s).'">'. $s .'</span>';
       })
+      ->rawColumns(['checkbox','action','status','total','client_name','company_name','project_name'])
       ->make(true);
       
     }

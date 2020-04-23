@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Clients;
 use App\Companies;
+use App\Invoices;
 use App\Regtypes;
 use App\Partners;
 use App\Sectors;
@@ -53,10 +54,24 @@ class CompaniesController extends Controller
 
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){
-      $button = '<div class="hover_buttons"><a href="/companies/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
-      $button .= '<a href="/companies/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
-      $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
-      return $button;
+
+          $ditems = Invoices::where('companies_id', $data->id)->get();   
+          $sum = count($ditems);
+
+          $button = '<div class="hover_buttons"><a href="/companies/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
+          $button .= '<a href="/companies/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
+
+          if($sum == 0){
+            $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a></div>';
+          }else{
+            if($data->is_deactivated == 0){
+              $button .= '<a href="javascript:void(0);" id="deactivate-row" data-toggle="tooltip" data-placement="top" data-original-title="Deactivate" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-ban"></i></a></div>';
+            }else{
+              $button .= '<a href="javascript:void(0);" id="activate-row" data-toggle="tooltip" data-placement="top" data-original-title="Activate" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-success"><i class="fas fa-check"></i></a></div>';
+            }
+          }
+          return $button;
+
       })
       ->addColumn('checkbox', '<input type="checkbox" name="tbl_row_checkbox[]" class="tbl_row_checkbox" value="{{$id}}" />')
         ->rawColumns(['checkbox','action'])
@@ -66,7 +81,6 @@ class CompaniesController extends Controller
     }
         
     return view('companies.index', ['user' => $user, 'page_settings'=> $this->page_settings]);
-
   }
 
 
@@ -182,46 +196,55 @@ class CompaniesController extends Controller
 
     if($id == 1){
       return notifyRedirect($this->homeLink, 'Company not found', 'danger');
-    }
-
-    $company = Companies::with('contactperson','partner','clients')->find($id);
-    $employees = Clients::where('company_id',$id)->get();
-    $emp_list = array();
-    $found = FALSE;
-
-    foreach ($employees as $employee) {
-      $emp = array( 
-        "id" => $employee->id, 
-        "fname" => $employee->fname, 
-        "lname" => $employee->lname, 
-      );
-
-      if($company->contactperson->id == $employee->id){
-        $found = TRUE;
-      }
-
-      array_push($emp_list, $emp);
-    }
-
-
-    if($found == FALSE){
-      $emp = array( 
-        "id" => $company->contactperson->id, 
-        "fname" => $company->contactperson->fname, 
-        "lname" => $company->contactperson->lname, 
-      );
-
-      array_push($emp_list, $emp);
-    }
-
-
-
-    if($company){
-      $updater = User::find($company->updatedby_id);
-      return view('companies.view', ['user' => $user, 'company' => $company, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'employees'=> $emp_list]);
-
     }else{
-      return notifyRedirect($this->homeLink, 'Client not found', 'danger');
+
+      $company = Companies::with('contactperson','partner','clients')->find($id);
+
+      if($company){
+
+
+        $employees = Clients::where('company_id',$id)->get();
+        $emp_list = array();
+        $found = FALSE;
+
+
+        $ditems = Invoices::where('companies_id', $id)->get();   
+        $sum = count($ditems);
+
+        foreach ($employees as $employee) {
+          $emp = array( 
+            "id" => $employee->id, 
+            "fname" => $employee->fname, 
+            "lname" => $employee->lname, 
+          );
+
+          if($company->contactperson->id == $employee->id){
+            $found = TRUE;
+          }
+
+          array_push($emp_list, $emp);
+        }
+
+
+        if($found == FALSE){
+          $emp = array( 
+            "id" => $company->contactperson->id, 
+            "fname" => $company->contactperson->fname, 
+            "lname" => $company->contactperson->lname, 
+          );
+
+          array_push($emp_list, $emp);
+        }
+
+
+
+      
+        $updater = User::find($company->updatedby_id);
+        return view('companies.view', ['user' => $user, 'company' => $company, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'employees'=> $emp_list, 'sum' => $sum ]);
+
+      }else{
+        return notifyRedirect($this->homeLink, 'Client not found', 'danger');
+      }
     }
   }
 
@@ -332,24 +355,32 @@ class CompaniesController extends Controller
     $company = Companies::find($id);
     if($company){
 
-      if(request()->ajax()){
-        $total_clients = Clients::where('company_id', $id)->get(); 
 
-        if (count($total_clients) > 1){
-          foreach ($total_clients as $client_row) {
-            $client = Clients::find($client_row->id);
+
+      if(request()->ajax()){
+
+        $ditems = Invoices::where('companies_id', $id)->get();   
+        $sum = count($ditems);
+
+        if($sum == 0 ){
+          $total_clients = Clients::where('company_id', $id)->get(); 
+
+          if (count($total_clients) > 1){
+            foreach ($total_clients as $client_row) {
+              $client = Clients::find($client_row->id);
+              $client_comp = Companies::where('client_id', $client->id)->get();
+              $this->deleteClientUpdater($client, $client_comp, $id);
+            }
+          }else{
+            $client = Clients::find($company->client_id);
             $client_comp = Companies::where('client_id', $client->id)->get();
             $this->deleteClientUpdater($client, $client_comp, $id);
           }
-        }else{
-          $client = Clients::find($company->client_id);
-          $client_comp = Companies::where('client_id', $client->id)->get();
-          $this->deleteClientUpdater($client, $client_comp, $id);
+
+
+          $row = Companies::where('id',$id)->delete();
+          return Response::json($row);
         }
-
-
-        $row = Companies::where('id',$id)->delete();
-        return Response::json($row);
 
       
       }else{
@@ -400,6 +431,49 @@ class CompaniesController extends Controller
   }
 
 
+  public function deactivate($id)
+  {
+    $company = Companies::find($id);
+    if($company){
+
+      if(request()->ajax()){
+
+        $company->is_deactivated = 1;
+        $company->update();
+
+        $client = Clients::find($company->client_id);
+        if($company->id == $client->id){
+          $client->company_id = 1;
+          $client->update();
+        }
+
+        return Response::json('1');
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to deactivate', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Company not found', 'danger');
+    }
+  }
+
+  public function activate($id)
+  {
+    $company = Companies::find($id);
+    if($company){
+
+      if(request()->ajax()){
+
+        $company->is_deactivated = 0;
+        $company->update();
+
+        return Response::json('1');
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to activate', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Company not found', 'danger');
+    }
+  }
 
 
   public function dblist()
@@ -433,7 +507,54 @@ class CompaniesController extends Controller
 
   public function invoiceautocomplete(Request $request)
   {
-    return Companies::where("client_id","=","{$request->get('c')}")->where("name","LIKE","%{$request->get('q')}%")->where('is_deactivated', 0)->get();
+
+    // FIXED:
+    // There's a bug wherein things are being showed automatically irregardless of string
+
+    $id = $request->get('c');
+    $q = $request->get('q');
+
+    //return Companies::where("client_id","=","{$request->get('c')}")->where("name","LIKE","%{$request->get('q')}%")->where('is_deactivated', 0)->get();
+
+
+    $from_companies = Companies::select('id','name')->where("client_id","=", $id)->where('is_deactivated', 0)->where("name","LIKE","%{$request->get('q')}%")->get();
+
+    $client = Clients::select('company_id')->with('company')->find($id); //just 1
+
+    $comp_list = array();
+    $found = FALSE;
+
+
+    if($client){
+      $checker = stripos($client->company->name, $q);
+      if(is_numeric($checker) == TRUE && $client->company->is_deactivated == 0){
+
+        $com = array( 
+          "id" => $client->company->id, 
+          "name" => $client->company->name, 
+        );
+
+        $found = TRUE;
+        array_push($comp_list, $com);
+      }
+      
+    }
+
+    if(count($from_companies) != 0 && $found  == FALSE){
+      foreach ($from_companies as $company) {
+        $com = array( 
+          "id" => $company->id, 
+          "name" => $company->name, 
+        );
+
+        array_push($comp_list, $com);
+        
+      }
+    }
+
+    return $comp_list;
+
+
   }
 
 
@@ -456,5 +577,61 @@ class CompaniesController extends Controller
       $client->update();
     }
   }
+
+
+  public function massdeac(Request $request)
+  {
+    if(request()->ajax()){
+      
+      $row_id_array = $request->input('id');
+
+      $count = 0;
+
+      foreach ($row_id_array as $company_row) {
+        $company = Companies::find($company_row);
+        $company->is_deactivated = 1;
+        $company->update();
+
+
+        $client = Clients::find($company->client_id);
+        if($company->id == $client->id){
+          $client->company_id = 1;
+          $client->update();
+        }
+
+        $count++;
+      }
+
+      return Response::json($count);
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Action not permitted', 'danger');
+    }
+  }
+
+  public function massacti(Request $request)
+  {
+    if(request()->ajax()){
+      
+      $row_id_array = $request->input('id');
+
+      $count = 0;
+
+      foreach ($row_id_array as $company_row) {
+        $company = Companies::find($company_row);
+        $company->is_deactivated = 0;
+        $company->update();
+        $count++;
+      }
+      return Response::json($count);
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Action not permitted', 'danger');
+    }
+  }
+
+
+
+
 
 }

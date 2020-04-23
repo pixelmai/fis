@@ -7,7 +7,7 @@
     </div>
     <div class="modal-body">
         <form id="ajaxForm" name="ajaxForm" class="form-horizontal">
-
+          <input id="project_id" name="project_id" type="hidden" value="">
           <input id="updatedby_id" type="hidden" value="{{ $user->id }}">
 
           <div class="form-group row">
@@ -15,7 +15,6 @@
               <p>Please set status the selected projects</p>
 
               <select id="status" name="status" class="w-50 form-control @error('$status') is-invalid @enderror" autofocus>
-                <option value="1">Open</option>
                 <option value="2">Completed</option>
                 <option value="3">Dropped</option>
               </select>
@@ -33,11 +32,16 @@
 
           <div class="form-group row">
             <div class="col-12">
-             <button type="submit" class="btn btn-primary btn-lg" id="btn-save-status" value="create">Set Status
+             <button type="submit" class="btn btn-primary btn-lg d-none" id="btn-single-save-status" value="create">Set Status
              </button>
+
+             <button type="submit" class="btn btn-primary btn-lg d-none" id="btn-edit-status" value="create">Edit Status
+             </button>
+
+             <button type="submit" class="btn btn-primary btn-lg" id="btn-multiple-save-status" value="create">Set Status
+             </button>
+
              <button type="button" class="btn btn-outline-secondary btn-lg" data-dismiss="modal">Cancel</button>
-
-
              
             </div>
           </div>
