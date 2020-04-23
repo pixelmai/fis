@@ -11693,8 +11693,8 @@ form label #compExists {
 }
 
 #app #invoices_page #listpage_datatable tr td:last-child {
-  width: 200px !important;
-  min-width: 200px !important;
+  width: 180px !important;
+  min-width: 180px !important;
 }
 
 #app #invoice_heading {
@@ -12051,7 +12051,7 @@ form label #compExists {
 }
 
 #app #view_clients .card .card-body {
-  padding: 2.25rem;
+  padding: 40px;
   padding-top: 10px;
 }
 
@@ -12060,20 +12060,117 @@ form label #compExists {
   font-weight: bold;
 }
 
+#app #view_clients hr#after_marker {
+  margin: 0 40px 0px;
+  padding-bottom: 20px;
+}
+
 #app #view_clients .sh {
   display: inline-block;
   padding-bottom: 10px;
 }
 
 #app #view_clients #markers {
-  padding: 40px;
+  padding: 40px 40px 20px;
 }
 
 #app #view_clients h5 {
   text-transform: uppercase;
   letter-spacing: 1px;
   color: #999;
-  margin-bottom: 10px;
+  padding-top: 5px;
+  margin-bottom: 0;
+}
+
+#app #view_clients #tab_menu .first_item {
+  margin-left: 40px;
+}
+
+#app #view_clients .tab-pane .btn-outline-success {
+  color: #38c172;
+}
+
+#app #view_clients .tab-pane .btn-outline-success:hover {
+  color: #fff;
+}
+
+#app #view_clients #results_list {
+  border-top: 1px solid #ddd;
+}
+
+#app #view_clients #results_list .result_item {
+  width: 100%;
+  padding: 10px 0;
+  border-bottom: 1px dotted #ddd;
+}
+
+#app #view_clients #results_list .result_item .name {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+#app #view_clients #results_list .result_item strong {
+  display: inline-block;
+  width: 55px;
+}
+
+#app #view_clients #results_list .result_item .dates {
+  font-size: 0.8em;
+  color: #666;
+}
+
+#app #view_clients #results_list .result_item .dates span {
+  color: #ccc;
+  padding: 0 5px;
+  display: inline-block;
+}
+
+#app #view_clients #results_list .result_item .url,
+#app #view_clients #results_list .result_item .client_project {
+  font-size: 0.8em;
+  color: #666;
+}
+
+#app #view_clients #results_list .result_item .url a,
+#app #view_clients #results_list .result_item .client_project a {
+  color: #666;
+}
+
+#app #view_clients #results_list .result_item .status_open,
+#app #view_clients #results_list .result_item .status_draft {
+  background: #666;
+}
+
+#app #view_clients #results_list .result_item .status_completed,
+#app #view_clients #results_list .result_item .status_paid {
+  background: #38c172;
+}
+
+#app #view_clients #results_list .result_item .status_dropped,
+#app #view_clients #results_list .result_item .status_sent {
+  background: #f6993f;
+}
+
+#app #view_clients #results_list .result_item .status {
+  display: inline-block;
+  border-radius: 0.25rem;
+  padding: 3px 10px;
+  color: #fff;
+  font-size: 0.7em;
+  margin-bottom: 4px;
+}
+
+#app #view_clients #results_list .result_item .invoice_count {
+  font-size: 0.8em;
+}
+
+#app #view_clients #results_list .result_item .invoice_count span {
+  font-weight: bold;
+}
+
+#app #view_clients #results_list .result_item .total {
+  font-weight: bold;
+  font-size: 0.9em;
 }
 
 /* ---------------------------------------------------

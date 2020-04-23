@@ -114,7 +114,9 @@
                 <h5>Invoices</h5>
               </div>
               <div>
-                <a href="/invoices/create" class="btn btn-sm btn-outline-success">Add New Invoice</a>
+                @if($project->status == 1)
+                  <a href="/invoices/create" class="btn btn-sm btn-outline-success">Add New Invoice</a>
+                @endif
               </div>
             </div>
 

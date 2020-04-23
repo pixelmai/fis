@@ -271,8 +271,8 @@ class ClientsController extends Controller
 
       //now checks only for company and project, soon must include invoices
       $company = Companies::where('client_id', $id)->get();        
-      $projects = Projects::where('client_id', $id)->where('is_categorized', 1)->get();   
-      $invoices = Invoices::where('clients_id', $id)->get();
+      $projects = Projects::with('invoices')->where('client_id', $id)->where('is_categorized', 1)->get();   
+      $invoices = Invoices::with('project')->where('clients_id', $id)->orderBy('id', 'DESC')->get();
 
       $dcompany = (count($company) != 0 ? 1 : 0);
       $dproject = (count($projects) != 0 ? 1 : 0);
@@ -280,7 +280,19 @@ class ClientsController extends Controller
 
       $sum = $dinvoices + $dcompany + $dproject;
 
-      return view('clients.view', ['user' => $user, 'client' => $client, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'sum' => $sum]);
+      $pstatus = array( 
+        '1' => 'Open', 
+        '2' => 'Completed',
+        '3' => 'Dropped'
+      );
+
+      $istatus = array( 
+        '1' => 'Draft', 
+        '2' => 'Sent',
+        '3' => 'Paid'
+      );
+
+      return view('clients.view', ['user' => $user, 'client' => $client, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'sum' => $sum, 'projects' => $projects, 'pstatus' => $pstatus, 'invoices' => $invoices, 'istatus' => $istatus ]);
 
     }else{
       return notifyRedirect($this->homeLink, 'Client not found', 'danger');

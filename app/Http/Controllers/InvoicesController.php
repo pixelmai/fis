@@ -126,11 +126,11 @@ class InvoicesController extends Controller
         }
       })
       ->addColumn('created', function($data){
-          return dateTimeFormatSimple($data->created_at);
+          return dateShortOnly($data->created_at);
       })
       ->addColumn('due_date', function($data){
           if($data->due_date){
-            return datetoDpicker($data->due_date);
+            return dateShortOnly($data->due_date);
           }else{
             return '-';
           }

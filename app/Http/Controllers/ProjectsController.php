@@ -84,8 +84,8 @@ class ProjectsController extends Controller
       ->addColumn('url', function($data){
         if(isset($data->url)) {
           $url = $data->url;
-          if (strlen($url) >= 50) {
-            $n = shortenText($url, 50);
+          if (strlen($url) >= 30) {
+            $n = shortenText($url, 30);
           }
           else {
             $n = $url;
@@ -98,7 +98,7 @@ class ProjectsController extends Controller
       })
 
       ->addColumn('created',  '{{ dateShortOnly($created_at) }}')
-      ->addColumn('updated',  '{{ dateTimeFormat($updated_at) }}')
+      ->addColumn('updated',  '{{ dateShortOnly($updated_at) }}')
       ->addColumn('checkbox', function($data){
         if($data->status == 1){
           return '<input type="checkbox" name="tbl_row_checkbox[]" class="tbl_row_checkbox" value="'. $data->id .'" />';

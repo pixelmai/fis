@@ -27,7 +27,6 @@
                     </div>
                   @endif
 
-
                 </div>
                 <div>
                   <a href="/companies/edit/{{ $company->id }}" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-lg">
@@ -66,7 +65,7 @@
 
             
               <li class="nav-item">
-                <a class="nav-link" id="employees-tab" data-toggle="tab" href="#employees" role="tab" aria-controls="employees" aria-selected="false">Employees</a>
+                <a class="nav-link" id="employees-tab" data-toggle="tab" href="#employees" role="tab" aria-controls="employees" aria-selected="false">People</a>
               </li>
            
           </ul>
@@ -148,7 +147,7 @@
                     <div class="tab-pane fade" id="employees" role="tabpanel" aria-labelledby="employees-tab">
 
                       <div class="info-block pt-1">
-                        <h5>Employees</h5>
+                        <h5>People</h5>
 
                         <ul class="tab-content-list list-items">
                         @foreach($employees as $employee)
