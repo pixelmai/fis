@@ -11474,6 +11474,7 @@ form label #compExists {
   /* INVOICES */
   /* PROJECTS */
   /* PROJECTS */
+  /* REPORTS */
 }
 
 #app .card.card-table {
@@ -12203,6 +12204,18 @@ form label #compExists {
 #app #view_clients #results_list .result_item .total {
   font-weight: bold;
   font-size: 0.9em;
+}
+
+#app #reports_page #filters_container .filter_container {
+  display: inline-block;
+}
+
+#app #reports_page #filters_container #months_container .bootstrap-select {
+  width: 130px;
+}
+
+#app #reports_page #filters_container #years_container .bootstrap-select {
+  width: 80px;
 }
 
 /* ---------------------------------------------------

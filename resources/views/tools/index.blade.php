@@ -18,21 +18,16 @@
 
   <div class="row justify-content-center">
     <div class="col-lg-12">
-
-
-
-
-
         <table id="listpage_datatable" class="table table-responsive-md" data-page-length="25">
           <thead class="thead-dark">
             <tr>
               <th scope="col">&nbsp;</th>
               <th scope="col">&nbsp;</th>
               <th scope="col" class="col_checkbox">&nbsp;</th>
+              <th scope="col">Status</th>
               <th scope="col">Name</th>
               <th scope="col">Brand</th>
               <th scope="col">Model</th>
-              <th scope="col">Status</th>
               <th scope="col">Suppliers</th>
               <th scope="col" class="col_actions"/>
                 <button type="button" name="bulk_status" id="bulk_status" class="btn btn-primary btn-sm d-none">Set Status</i></button>
@@ -87,10 +82,10 @@
                 { data: 'id', name: 'id', 'visible': false},
                 { data: 'updated', name: 'updated', 'visible': false},
                 { data: 'checkbox', orderable:false, searchable:false},
+                { data: 'status', name: 'status' },
                 { data: 'name', name: 'name' },
                 { data: 'brand', name: 'brand' },
                 { data: 'model', name: 'model' },
-                { data: 'status', name: 'status' },
                 { data: 'number', name: 'number', orderable: false, searchable:false },
                 {data: 'action', name: 'action', orderable: false,  searchable:false},
              ],

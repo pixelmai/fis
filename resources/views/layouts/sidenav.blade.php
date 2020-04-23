@@ -32,7 +32,7 @@
                   <a href="/invoices">Invoices</a>
               </li>
               <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'official')) class="active" @endif>
-                  <a href="#">Official Billing</a>
+                  <a href="#">Official Billing (developing...)</a>
               </li>
               <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'services')) class="active" @endif>
                   <a href="/services">Services</a>
@@ -59,7 +59,17 @@
           </ul>
       </li>
       <li @if(!empty($page_settings['seltab']) && ($page_settings['seltab'] == 'reports')) class="active" @endif>
-          <a href="#">Reports</a>
+          <a href="#submenuReports" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Reports</a>
+
+          <ul class="@if(!empty($page_settings['seltab']) && ($page_settings['seltab'] == 'reports')) active @else collapse @endif list-unstyled" id="submenuReports">
+              <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'monthly')) class="active" @endif>
+                  <a href="/reports/monthly">Monthly</a>
+              </li>
+              <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'yearly')) class="active" @endif>
+                  <a href="/reports/yearly">Yearly</a>
+              </li>
+          </ul>
+
       </li>
   </ul>
 </nav>

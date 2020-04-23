@@ -23,10 +23,10 @@
             <tr>
               <th scope="col" class="col_checkbox">&nbsp;</th>
               <th scope="col">ID</th>
+              <th scope="col">Status</th>
               <th scope="col">Client Name</th>
               <th scope="col">Company</th>
               <th scope="col">Project</th>
-              <th scope="col">Status</th>
               <th scope="col">Date Created</th>
               <th scope="col">Due Date</th>
               <th scope="col"><div class="price">Total</div></th>
@@ -80,10 +80,10 @@
              columns: [
                       { data: 'checkbox', orderable:false, searchable:false},
                       { data: 'id', name: 'id'},
+                      { data: 'status', name: 'status' },
                       { data: 'client_name', name: 'client_name' },
                       { data: 'company_name', name: 'company_name' },
                       { data: 'project_name', name: 'project_name' },
-                      { data: 'status', name: 'status' },
                       { data: 'created', name: 'created' },
                       { data: 'due_date', name: 'due_date' },
                       { data: 'total', name: 'total', orderable: false, searchable: false},

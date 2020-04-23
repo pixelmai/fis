@@ -1378,6 +1378,29 @@
   }
   
 
+  /* REPORTS */
+  #reports_page{
+    #filters_container{
+      .filter_container{
+        display: inline-block;
+      }
+      #months_container{
+        
+        .bootstrap-select{
+          width: 130px;
+        }
+      }
+
+      #years_container{
+        .bootstrap-select{
+          width: 80px;
+        }
+      }
+
+    }
+  }
+
+
 }
 
 

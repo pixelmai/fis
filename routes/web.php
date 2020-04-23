@@ -257,6 +257,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 /* Invoices */
 
+  Route::get('/reports/monthly', 'ReportsController@monthly'); 
+  Route::get('/reports/yearly', 'InvoicesController@yearly');
+
 
   Route::get('/clientsList', 'ClientsController@dblist');
   Route::get('/companiesList', 'CompaniesController@dblist');
