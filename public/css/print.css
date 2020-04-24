@@ -11124,3 +11124,22 @@ body {
   font-weight: bold;
 }
 
+#print_page #reports_page #prepared_by {
+  width: 300px;
+  font-size: 1.2em;
+}
+
+#print_page #reports_page #prepared_by .user_name {
+  display: block;
+  text-align: center;
+  border-bottom: 1px solid #999;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+
+#print_page #reports_page #prepared_by em {
+  padding-top: 5px;
+  display: block;
+  text-align: center;
+}
+

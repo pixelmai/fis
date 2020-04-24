@@ -264,7 +264,23 @@ body{
         font-weight: bold;
       }
     }
-    
+
+    #prepared_by{
+      width: 300px;
+      font-size: 1.2em;
+      .user_name{
+        display: block;
+        text-align: center;
+        border-bottom: 1px solid #999;
+        font-weight: bold;
+        padding-bottom: 5px;
+      }
+      em{
+        padding-top: 5px;
+        display: block;
+        text-align: center;
+      }
+    }
   }
 
 

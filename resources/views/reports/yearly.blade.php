@@ -7,18 +7,11 @@
 
   <div class="row pb-3">
     <div class="col-lg-12 d-flex justify-content-between justify-content-center">
-        <h1 class="pt-1 pb-0">Monthly Report</h1>
+        <h1 class="pt-1 pb-0">Yearly Report</h1>
 
         <div class="d-flex">
           <div id="filters_container">
-            <label for="months" class="col-form-label">Showing </label>
-            <div id="months_container" class="filter_container">
-              <select id="month" name="month">
-                @foreach($months as $key => $month) 
-                  <option value="{{ $key }}" @if(date('m') == $key) selected @endif>{{ $month }}</option> 
-                @endforeach 
-              </select>
-            </div>
+            <label for="year" class="col-form-label">Showing </label>
             <div id="years_container" class="filter_container">
               <select id="year" name="year">
                 @for($i = 2016; $i <= date('Y'); $i++ )
@@ -27,7 +20,7 @@
               </select>
             </div>
             <div id="button_container" class="filter_container">
-              <a href="/reports/monthly/print/{{ date('m') }}/{{ date('Y') }}" id="print_button" class="btn btn-md btn-secondary" target="blank">Print View</a>
+              <a href="/reports/yearly/print/{{ date('Y') }}" id="print_button" class="btn btn-md btn-secondary" target="blank">Print View</a>
             </div>
           </div>
         </div>
@@ -92,7 +85,7 @@
              paging: false,
              searching: false,
              ajax: {
-              url: "/reports/monthly/",
+              url: "/reports/yearly/",
               type: 'GET',
               data: function (d) {
                 d.month = month;
@@ -119,24 +112,9 @@
       });
 
 
-      $( "#month" ).change(function() {
-        month = $('#month').children("option:selected").val();
-        year = $('#year').children("option:selected").val();
-        var print_url = '/reports/monthly/print/' + month + '/' + year;
-        $('#print_button').attr("href", print_url ); // Set herf value
-        
-        var oTable = $('#listpage_datatable').dataTable(); 
-
-        oTable.fnDraw(false);
-        grandtotal = 0;
-        rowtotal = 0;
-        $('#grand_total').text(grandtotal.toFixed(2));
-      });
-
       $( "#year" ).change(function() {
-        month = $('#month').children("option:selected").val();
         year = $('#year').children("option:selected").val();
-        var print_url = '/reports/monthly/print/' + month + '/' + year;
+        var print_url = '/reports/yearly/print/' + year;
         $('#print_button').attr("href", print_url ); // Set herf value
 
         var oTable = $('#listpage_datatable').dataTable(); 

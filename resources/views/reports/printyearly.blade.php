@@ -6,7 +6,7 @@
   <div class="row pb-3">
     <div class="col-lg-12">
       <h1 class="pt-1 pb-0">FABLAB UP CEBU Transactions Update Report</h1>
-      <h4>{{ $months[intval($m)] }} {{ $y }}</h4>
+      <h4>Year {{ $y }}</h4>
     </div>
   </div>
 
@@ -42,6 +42,7 @@
           <div id="grand_total"></div>
         </div>
 
+
         <div id="prepared_by" class="row pt-5">
           <div class="col-12">
             <strong>Prepared by:</strong>
@@ -50,7 +51,7 @@
             <em>{{ $user->position }}</em>
           </div>
         </div>
-
+        
     </div>
   </div>
 </div>
