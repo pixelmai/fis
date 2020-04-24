@@ -760,13 +760,14 @@
             var pp = $(this).find('.price');
             var am = $(this).find('.amount').children('input.amount');
             var qu = $(this).find('.quantity').children('input.quantity');
-            var up = pp.find('input.up_price').val();
-            var dp = pp.find('input.def_price').val();
+            var up = parseFloat(pp.find('input.up_price').val());
+            var dp = parseFloat(pp.find('input.def_price').val());
+
 
             if($('#is_up').is(":checked")) {
-              pp.find('input.price').val(up);
+              pp.find('input.price').val(up.toFixed(2));
             }else{
-              pp.find('input.price').val(dp);
+              pp.find('input.price').val(dp.toFixed(2));
             }
 
             var amount = pp.find('input.price').val() * qu.val();

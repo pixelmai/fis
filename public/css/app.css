@@ -10995,6 +10995,14 @@ a:focus {
   padding-top: 7px;
 }
 
+.navbar .quickadd-icon {
+  font-size: 2.2em;
+  padding: 0;
+  line-height: 1em;
+  padding-top: 7px;
+  margin: 0;
+}
+
 #navbarMobileContent .nav-item a {
   display: block;
   padding: 10px 20px;
