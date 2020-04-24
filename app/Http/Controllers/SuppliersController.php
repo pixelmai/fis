@@ -23,6 +23,8 @@ class SuppliersController extends Controller
     $this->page_settings['seltab'] = 'equipment';
     $this->page_settings['seltab2'] = 'suppliers';
     $this->homeLink = '/suppliers';
+    $this->page_title = 'Suppliers';
+
   }    
 
   public function index()
@@ -89,7 +91,8 @@ class SuppliersController extends Controller
       
     }
         
-    return view('suppliers.index', ['user' => $user, 'page_settings'=> $this->page_settings]);
+    return view('suppliers.index', ['user' => $user, 'page_settings'=> $this->page_settings, 'page_title'=> $this->page_title]);
+
 
 
   }
@@ -98,7 +101,8 @@ class SuppliersController extends Controller
   public function create()
   {
     $user = auth()->user();
-    return view('suppliers.create', ['user' => $user, 'page_settings'=> $this->page_settings]);
+    return view('suppliers.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'page_title'=> $this->page_title]);
+
   }
 
 
@@ -161,7 +165,8 @@ class SuppliersController extends Controller
       $sum = $dtools + $dmachines;
 
 
-      return view('suppliers.view', ['user' => $user, 'supplier' => $supplier, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'supplies' => $supplies, 'sum' => $sum]);
+      return view('suppliers.view', ['user' => $user, 'supplier' => $supplier, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'supplies' => $supplies, 'sum' => $sum, 'page_title'=> $this->page_title]);
+
     }else{
       return notifyRedirect($this->homeLink, 'Supplier not found', 'danger');
     }
@@ -173,7 +178,8 @@ class SuppliersController extends Controller
     $supplier = Suppliers::find($id);
 
     if(isset($supplier)){
-      return view('suppliers.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'supplier' => $supplier]);
+      return view('suppliers.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'supplier' => $supplier, 'page_title'=> $this->page_title]);
+
     }else{
       return notifyRedirect($this->homeLink, 'Supplier not found', 'danger');
     }

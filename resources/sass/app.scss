@@ -1396,7 +1396,24 @@
           width: 80px;
         }
       }
+    }
 
+
+    #gt{
+      font-size: 1.7em;
+
+      div{
+        padding-left: 10px; 
+      }
+
+      #gt_label{
+        font-size: .8em;
+        text-transform: uppercase;
+        color: #666;
+      }
+      #grand_total{
+        font-weight: bold;
+      }
     }
   }
 

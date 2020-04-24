@@ -327,7 +327,7 @@
         
               <div class="result_item d-flex justify-content-between">
                 <div class="info_details">
-                  <a href="/projects/view/{{ $invoice->id }}" class="name">
+                  <a href="/invoices/view/{{ $invoice->id }}" class="name">
                     Invoice #{{ str_pad($invoice->id, 6, '0', STR_PAD_LEFT) }}
                   </a>
 
@@ -343,7 +343,7 @@
                     <div class="client_project">
                       <strong>Project</strong> 
 
-                      <a href="/projects/view/{{ $invoice->project->id }}">
+                      <a href="/invoices/view/{{ $invoice->project->id }}">
                         {{ strlen($invoice->project->name) >= 50 ? shortenText($invoice->project->name, 50) : $invoice->project->name }}
                       </a>
                     </div>

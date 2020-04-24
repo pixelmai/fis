@@ -220,7 +220,7 @@
       </td> 
 
       <td class="quantity"> 
-        <input type="text" id="quantity{{$key}}" name="quantity[]" value="{{ $item['services_id'] }}" class="form-control w-100 quantity" required /> 
+        <input type="text" id="quantity{{$key}}" name="quantity[]" value="{{ $item['quantity'] + 0 }}" class="form-control w-100 quantity" required /> 
       </td> 
 
       <td class="unit"> 

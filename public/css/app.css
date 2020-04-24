@@ -12218,6 +12218,24 @@ form label #compExists {
   width: 80px;
 }
 
+#app #reports_page #gt {
+  font-size: 1.7em;
+}
+
+#app #reports_page #gt div {
+  padding-left: 10px;
+}
+
+#app #reports_page #gt #gt_label {
+  font-size: 0.8em;
+  text-transform: uppercase;
+  color: #666;
+}
+
+#app #reports_page #gt #grand_total {
+  font-weight: bold;
+}
+
 /* ---------------------------------------------------
   ADDITIONAL OOP
 ----------------------------------------------------- */

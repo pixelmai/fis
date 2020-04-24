@@ -10893,38 +10893,38 @@ body {
   padding: 30px 0;
 }
 
-#print_page h2 {
+#print_page #view_invoice h2 {
   text-transform: uppercase;
   display: block;
   text-align: center;
   font-weight: bold;
 }
 
-#print_page .basic_invoice_info table {
+#print_page #view_invoice .basic_invoice_info table {
   width: 100%;
 }
 
-#print_page .basic_invoice_info table td.label {
+#print_page #view_invoice .basic_invoice_info table td.label {
   padding-right: 20px;
   text-transform: uppercase;
   width: 100px;
 }
 
-#print_page .basic_invoice_info table td.value {
+#print_page #view_invoice .basic_invoice_info table td.value {
   border-bottom: 1px solid #ccc;
 }
 
-#print_page .invoice_items_table {
+#print_page #view_invoice .invoice_items_table {
   width: 100%;
   margin-top: 15px;
   border-bottom: 2px solid #ccc;
 }
 
-#print_page .invoice_items_table em.info_na {
+#print_page #view_invoice .invoice_items_table em.info_na {
   color: #ccc;
 }
 
-#print_page .invoice_items_table th {
+#print_page #view_invoice .invoice_items_table th {
   border-top: 2px solid #ccc;
   border-bottom: 2px solid #ccc;
   background: #f8f8f8;
@@ -10933,51 +10933,51 @@ body {
   text-transform: uppercase;
 }
 
-#print_page .invoice_items_table td {
+#print_page #view_invoice .invoice_items_table td {
   padding: 3px 10px;
 }
 
-#print_page .invoice_items_table th.price,
-#print_page .invoice_items_table th.quantity,
-#print_page .invoice_items_table th.amount {
+#print_page #view_invoice .invoice_items_table th.price,
+#print_page #view_invoice .invoice_items_table th.quantity,
+#print_page #view_invoice .invoice_items_table th.amount {
   text-align: right;
 }
 
-#print_page .invoice_items_table tbody tr.itemrow td {
+#print_page #view_invoice .invoice_items_table tbody tr.itemrow td {
   border-bottom: 1px dotted #e1e1e1;
   border-right: 1px solid #ccc;
 }
 
-#print_page .invoice_items_table tbody tr.itemrow td.id {
+#print_page #view_invoice .invoice_items_table tbody tr.itemrow td.id {
   width: 5%;
   text-align: center;
 }
 
-#print_page .invoice_items_table tbody tr.itemrow td.services {
+#print_page #view_invoice .invoice_items_table tbody tr.itemrow td.services {
   width: 55%;
 }
 
-#print_page .invoice_items_table tbody tr.itemrow td.services .notes {
+#print_page #view_invoice .invoice_items_table tbody tr.itemrow td.services .notes {
   padding-left: 10px;
   font-style: italic;
 }
 
-#print_page .invoice_items_table tbody tr.itemrow td.price {
+#print_page #view_invoice .invoice_items_table tbody tr.itemrow td.price {
   width: 13%;
   text-align: right;
 }
 
-#print_page .invoice_items_table tbody tr.itemrow td.unit {
+#print_page #view_invoice .invoice_items_table tbody tr.itemrow td.unit {
   text-align: left;
   width: 7%;
 }
 
-#print_page .invoice_items_table tbody tr.itemrow td.quantity {
+#print_page #view_invoice .invoice_items_table tbody tr.itemrow td.quantity {
   width: 5%;
   text-align: right;
 }
 
-#print_page .invoice_items_table tbody tr.itemrow td.amount {
+#print_page #view_invoice .invoice_items_table tbody tr.itemrow td.amount {
   border-bottom: 0;
   border-right: 0;
   background: #f0f4f8;
@@ -10985,82 +10985,142 @@ body {
   width: 15%;
 }
 
-#print_page .invoice_items_table tbody tr.itemrow:last-child td {
+#print_page #view_invoice .invoice_items_table tbody tr.itemrow:last-child td {
   border-bottom: 0 !important;
 }
 
-#print_page .totals_section {
+#print_page #view_invoice .totals_section {
   padding: 0;
   text-align: right;
   margin: 0;
   width: 100% !important;
 }
 
-#print_page .totals_section .totals_form_group {
+#print_page #view_invoice .totals_section .totals_form_group {
   width: 100%;
 }
 
-#print_page .totals_section .totals_form_group td {
+#print_page #view_invoice .totals_section .totals_form_group td {
   padding: 3px 10px;
 }
 
-#print_page .totals_section .label {
+#print_page #view_invoice .totals_section .label {
   width: 13%;
 }
 
-#print_page .totals_section .value {
+#print_page #view_invoice .totals_section .value {
   border-left: 1px solid #ccc;
   background: #f0f4f8;
   margin: 0;
   width: 15%;
 }
 
-#print_page .totals_section .grand_total .label,
-#print_page .totals_section .grand_total .value {
+#print_page #view_invoice .totals_section .grand_total .label,
+#print_page #view_invoice .totals_section .grand_total .value {
   border-top: 2px solid #ccc;
   border-bottom: 2px solid #ccc;
   margin-bottom: 0;
   font-size: 1.4em;
 }
 
-#print_page .signatories {
+#print_page #view_invoice .signatories {
   width: 100%;
   font-size: 1.2em;
 }
 
-#print_page .signatories table {
+#print_page #view_invoice .signatories table {
   width: 90%;
   margin: 0 auto;
   margin-top: 20px;
 }
 
-#print_page .signatories table td {
+#print_page #view_invoice .signatories table td {
   padding: 3px 10px;
 }
 
-#print_page .signatories table td.label {
+#print_page #view_invoice .signatories table td.label {
   text-transform: uppercase;
   width: 25%;
   text-align: right;
 }
 
-#print_page .signatories table td.value {
+#print_page #view_invoice .signatories table td.value {
   border-bottom: 1px solid #ccc;
   width: 25%;
 }
 
-#print_page .footer {
+#print_page #view_invoice .footer {
   width: 100%;
   padding: 10px 0;
   text-align: center;
 }
 
-#print_page .footer img {
+#print_page #view_invoice .footer img {
   margin: 0 auto;
 }
 
-#print_page .footer p {
+#print_page #view_invoice .footer p {
   padding: 10px 20px 0;
   margin: 0;
+}
+
+#print_page #reports_page h1 {
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 1.3em;
+  font-weight: bold;
+  margin: 0;
+}
+
+#print_page #reports_page h4 {
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+#print_page #reports_page #listpage_datatable {
+  border-bottom: 1px solid #ccc;
+}
+
+#print_page #reports_page #listpage_datatable th {
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  border-right: 1px dotted #ccc;
+  background: #dee2e6;
+  color: #333;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+#print_page #reports_page #listpage_datatable td {
+  border-right: 1px dotted #dee2e6;
+  border-bottom: 1px solid #ccc;
+}
+
+#print_page #reports_page #listpage_datatable td .total {
+  display: none !important;
+}
+
+#print_page #reports_page #listpage_datatable tr th:last-child,
+#print_page #reports_page #listpage_datatable tr td:last-child {
+  border-right: 0;
+}
+
+#print_page #reports_page #gt {
+  font-size: 1.7em;
+}
+
+#print_page #reports_page #gt div {
+  padding-left: 10px;
+}
+
+#print_page #reports_page #gt #gt_label {
+  font-size: 0.8em;
+  text-transform: uppercase;
+  color: #666;
+}
+
+#print_page #reports_page #gt #grand_total {
+  font-weight: bold;
 }
 

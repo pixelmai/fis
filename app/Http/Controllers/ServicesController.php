@@ -28,6 +28,8 @@ class ServicesController extends Controller
     $this->page_settings['seltab'] = 'transactions';
     $this->page_settings['seltab2'] = 'services';
     $this->homeLink = '/services';
+    $this->page_title = 'Services';
+
   }
 
 
@@ -117,7 +119,7 @@ class ServicesController extends Controller
       
     }
         
-    return view('services.index', ['user' => $user, 'page_settings'=> $this->page_settings]);
+    return view('services.index', ['user' => $user, 'page_settings'=> $this->page_settings, 'page_title'=> $this->page_title]);;
   }
 
 
@@ -126,7 +128,7 @@ class ServicesController extends Controller
     $user = auth()->user();
     $servcats_id = Servcats::where('is_active', '1')->orderBy('id', 'ASC')->get();
 
-    return view('services.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'servcats_id'=>$servcats_id]);
+    return view('services.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'servcats_id'=>$servcats_id, 'page_title'=> $this->page_title]);
   }
 
 
@@ -213,7 +215,7 @@ class ServicesController extends Controller
     if($services){
       $updater = User::find($services->updatedby_id);
 
-      return view('services.view', ['user' => $user, 'services' => $services, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'sum' => $sum]);
+      return view('services.view', ['user' => $user, 'services' => $services, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'sum' => $sum, 'page_title'=> $this->page_title]);
 
     }else{
       return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
@@ -230,7 +232,7 @@ class ServicesController extends Controller
 
     if(isset($service)){
 
-      return view('services.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'service' => $service, 'servcats_id' => $servcats_id]);
+      return view('services.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'service' => $service, 'servcats_id' => $servcats_id, 'page_title'=> $this->page_title]);
     }else{
       return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
     }

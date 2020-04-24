@@ -41,7 +41,7 @@ class AccountsController extends Controller
       'image' => '',
       'fname' => ['required', 'string', 'max:50'],
       'lname' => ['required', 'string', 'max:50'],
-      'email' => ['required', 'string', 'email', 'max:255', 'unique:user'],
+      'email' => ['required', 'string', 'email', 'max:255'],
       'number' => ['nullable', 'max:30', new PhoneNumber],
       'address' => 'nullable',
       'position' => ['required', 'string', 'max:100'],
@@ -63,6 +63,16 @@ class AccountsController extends Controller
       $imageArray ?? []
     ));
     */
+
+    if($user->email != $data['email']){
+      $email = request()->validate([
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+      ]);
+
+      $user->email = $email;
+    }
+
+
 
     $user->fname = $data['fname'];
     $user->lname = $data['lname'];

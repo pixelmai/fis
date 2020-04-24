@@ -25,6 +25,8 @@ class ProjectsController extends Controller
     $this->page_settings['seltab'] = 'customers';
     $this->page_settings['seltab2'] = 'projects';
     $this->homeLink = '/projects';
+    $this->page_title = 'Projects';
+
 
     $this->status = array( 
       '1' => 'Open', 
@@ -112,7 +114,7 @@ class ProjectsController extends Controller
       
     }
         
-    return view('projects.index', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status]);;
+    return view('projects.index', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'page_title'=> $this->page_title]);
 
   }
 
@@ -120,7 +122,7 @@ class ProjectsController extends Controller
   public function create()
   {
     $user = auth()->user();
-    return view('projects.create', ['user' => $user, 'page_settings'=> $this->page_settings]);
+    return view('projects.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'page_title'=> $this->page_title]);
   }
 
 
@@ -231,7 +233,7 @@ class ProjectsController extends Controller
 
 
 
-    return view('projects.view', ['user' => $user, 'project' => $project, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'invoices' => $invoices, 'sum' => $sum ]);
+    return view('projects.view', ['user' => $user, 'project' => $project, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'invoices' => $invoices, 'sum' => $sum, 'page_title'=> $this->page_title]);
   }
 
 
@@ -246,7 +248,7 @@ class ProjectsController extends Controller
         return notifyRedirect($this->homeLink, 'Project not found', 'danger');
       }
 
-      return view('projects.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'project' => $project]);
+      return view('projects.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'project' => $project, 'page_title'=> $this->page_title]);
     }else{
       return notifyRedirect($this->homeLink, 'Company not found', 'danger');
     }

@@ -31,6 +31,7 @@ class ClientsController extends Controller
     $this->page_settings['seltab'] = 'customers';
     $this->page_settings['seltab2'] = 'clients';
     $this->homeLink = '/clients';
+    $this->page_title = 'Clients';
   }
 
   public function index()
@@ -120,7 +121,7 @@ class ClientsController extends Controller
         
 
 
-    return view('clients.index', ['user' => $user, 'page_settings'=> $this->page_settings]);
+    return view('clients.index', ['user' => $user, 'page_settings'=> $this->page_settings, 'page_title'=> $this->page_title]);
 
   }
 
@@ -137,7 +138,7 @@ class ClientsController extends Controller
 
     $token = Str::random(60);
 
-    return view('clients.create', ['user' => $user, 'page_settings'=> $this->page_settings,'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 'partner_id' => $partner_id, 'dtoken' => $token ]);
+    return view('clients.create', ['user' => $user, 'page_settings'=> $this->page_settings,'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 'partner_id' => $partner_id, 'dtoken' => $token, 'page_title'=> $this->page_title]);
 
   }
 
@@ -292,7 +293,7 @@ class ClientsController extends Controller
         '3' => 'Paid'
       );
 
-      return view('clients.view', ['user' => $user, 'client' => $client, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'sum' => $sum, 'projects' => $projects, 'pstatus' => $pstatus, 'invoices' => $invoices, 'istatus' => $istatus ]);
+      return view('clients.view', ['user' => $user, 'client' => $client, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'sum' => $sum, 'projects' => $projects, 'pstatus' => $pstatus, 'invoices' => $invoices, 'istatus' => $istatus, 'page_title'=> $this->page_title]);
 
     }else{
       return notifyRedirect($this->homeLink, 'Client not found', 'danger');
@@ -322,7 +323,7 @@ class ClientsController extends Controller
       $dob = (!isset($client->date_of_birth) ? '' : datetoDpicker($client->date_of_birth));
 
 
-      return view('clients.edit', ['user' => $user, 'page_settings'=> $this->page_settings,'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 'client'=> $client, 'partner_id' => $partner_id, 'dob' => $dob]);
+      return view('clients.edit', ['user' => $user, 'page_settings'=> $this->page_settings,'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 'client'=> $client, 'partner_id' => $partner_id, 'dob' => $dob, 'page_title'=> $this->page_title]);
 
     }else{
       return notifyRedirect($this->homeLink, 'Client not found', 'danger');

@@ -27,14 +27,12 @@
               </select>
             </div>
             <div id="button_container" class="filter_container">
-              <a href="/reports/monthly/print/{{ date('m') }}/{{ date('Y') }}" id="print_button" class="btn btn-md btn-secondary">Print View</a>
+              <a href="/reports/monthly/print/{{ date('m') }}/{{ date('Y') }}" id="print_button" class="btn btn-md btn-secondary" target="blank">Print View</a>
             </div>
           </div>
         </div>
     </div>
   </div>
-
-
 
 
   <div class="row justify-content-center">
@@ -55,6 +53,11 @@
         
         </table>
 
+        <div id ="gt" class="d-flex justify-content-end">
+          <div id="gt_label" class="align-self-center">Total</div>
+          <div id="grand_total"></div>
+        </div>
+
     </div>
   </div>
 </div>
@@ -74,6 +77,8 @@
 
       var month = $('#month').children("option:selected").val();
       var year = $('#year').children("option:selected").val();
+      var grandtotal = 0;
+      var rowtotal = 0;
 
       $.ajaxSetup({
         headers: {
@@ -95,10 +100,10 @@
               }
              },
               createdRow: function( row, data, dataIndex ) {
-                // Set the data-status attribute, and add a class
-                if(data.is_deactivated == 1){
-                  $( row ).addClass('deactivated');
-                }
+                rowtotal = $( row ).children('td').find('.total').val();
+                rowtotal = parseFloat(rowtotal);
+                grandtotal = grandtotal + rowtotal;
+                $('#grand_total').text(grandtotal.toFixed(2));
               },
              columns: [
                       { data: 'id', name: 'id',  searchable: false},
@@ -108,7 +113,7 @@
                       { data: 'project_name', name: 'project_name', orderable: false, searchable: false },
                       { data: 'created', name: 'created', orderable: false, searchable: false },
                       { data: 'due_date', name: 'due_date', orderable: false, searchable: false },
-                      { data: 'total', name: 'total', orderable: false, searchable: false},
+                      { data: 'fancy_total', name: 'fancy_total', orderable: false, searchable: false},
                    ],
             order: [[0, 'desc']],
       });
@@ -123,6 +128,9 @@
         var oTable = $('#listpage_datatable').dataTable(); 
 
         oTable.fnDraw(false);
+        grandtotal = 0;
+        rowtotal = 0;
+        $('#grand_total').text(grandtotal.toFixed(2));
       });
 
       $( "#year" ).change(function() {
@@ -133,11 +141,13 @@
 
         var oTable = $('#listpage_datatable').dataTable(); 
         oTable.fnDraw(false);
+        grandtotal = 0;
+        rowtotal = 0;
+        $('#grand_total').text(grandtotal.toFixed(2));
+
       });
       /* Append Status Select Box */
       
-
-
 
 
 

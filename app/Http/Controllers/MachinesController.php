@@ -24,6 +24,8 @@ class MachinesController extends Controller
     $this->page_settings['seltab'] = 'equipment';
     $this->page_settings['seltab2'] = 'machines';
     $this->homeLink = '/machines';
+    $this->page_title = 'Machines';
+
 
     $this->status = array( 
       '1' => 'Available', 
@@ -100,7 +102,7 @@ class MachinesController extends Controller
       ->make(true);
     }
         
-    return view('machines.index', ['user' => $user, 'page_settings'=> $this->page_settings,  'status' => $this->status]);
+    return view('machines.index', ['user' => $user, 'page_settings'=> $this->page_settings,  'status' => $this->status, 'page_title'=> $this->page_title]);
     
   }
 
@@ -109,7 +111,7 @@ class MachinesController extends Controller
   {
     $user = auth()->user();
 
-    return view('machines.create', ['user' => $user, 'page_settings'=> $this->page_settings]);
+    return view('machines.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'page_title'=> $this->page_title]);
   }
 
 
@@ -181,8 +183,8 @@ class MachinesController extends Controller
         $s = $this->status[$machine->status];
       }
 
-      return view('machines.view', ['user' => $user, 'machine' => $machine, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'logs' => $logs, 'sum' => $sum]);
-
+      return view('machines.view', ['user' => $user, 'machine' => $machine, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'logs' => $logs, 'sum' => $sum, 'page_title'=> $this->page_title]);
+      
     }else{
       return notifyRedirect($this->homeLink, 'Machine not found', 'danger');
     }
@@ -197,7 +199,7 @@ class MachinesController extends Controller
 
     if(isset($machine)){
 
-      return view('machines.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'machine' => $machine]);
+      return view('machines.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'machine' => $machine, 'page_title'=> $this->page_title]);
     }else{
       return notifyRedirect($this->homeLink, 'Machine not found', 'danger');
     }

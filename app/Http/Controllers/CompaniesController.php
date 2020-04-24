@@ -30,6 +30,8 @@ class CompaniesController extends Controller
     $this->page_settings['seltab'] = 'customers';
     $this->page_settings['seltab2'] = 'companies';
     $this->homeLink = '/companies';
+    $this->page_title = 'Companies';
+
   }
 
   public function index()
@@ -80,7 +82,7 @@ class CompaniesController extends Controller
       
     }
         
-    return view('companies.index', ['user' => $user, 'page_settings'=> $this->page_settings]);
+    return view('companies.index', ['user' => $user, 'page_settings'=> $this->page_settings, 'page_title'=> $this->page_title]);
   }
 
 
@@ -95,7 +97,7 @@ class CompaniesController extends Controller
     $token = Str::random(60);
 
     return view('companies.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 
-      'partner_id' => $partner_id, 'dtoken' => $token ]);
+      'partner_id' => $partner_id, 'dtoken' => $token, 'page_title'=> $this->page_title]);
 
 
   }
@@ -240,7 +242,7 @@ class CompaniesController extends Controller
 
       
         $updater = User::find($company->updatedby_id);
-        return view('companies.view', ['user' => $user, 'company' => $company, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'employees'=> $emp_list, 'sum' => $sum ]);
+        return view('companies.view', ['user' => $user, 'company' => $company, 'page_settings'=> $this->page_settings, 'updater' => $updater, 'employees'=> $emp_list, 'sum' => $sum, 'page_title'=> $this->page_title]);
 
       }else{
         return notifyRedirect($this->homeLink, 'Client not found', 'danger');
@@ -268,7 +270,7 @@ class CompaniesController extends Controller
       $token = Str::random(60);
 
       return view('companies.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'regtype_id'=>$regtype_id, 'sector_id'=> $sector_id, 
-        'partner_id' => $partner_id, 'company' => $company, 'dtoken' => $token ]);
+        'partner_id' => $partner_id, 'company' => $company, 'dtoken' => $token, 'page_title'=> $this->page_title]);
     }else{
       return notifyRedirect($this->homeLink, 'Company not found', 'danger');
     }

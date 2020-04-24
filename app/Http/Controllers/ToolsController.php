@@ -23,6 +23,7 @@ class ToolsController extends Controller
     $this->page_settings['seltab'] = 'equipment';
     $this->page_settings['seltab2'] = 'tools';
     $this->homeLink = '/tools';
+    $this->page_title = 'Tools';
 
     $this->status = array( 
       '1' => 'Available', 
@@ -90,7 +91,7 @@ class ToolsController extends Controller
       ->make(true);
     }
         
-    return view('tools.index', ['user' => $user, 'page_settings'=> $this->page_settings,  'status' => $this->status]);
+    return view('tools.index', ['user' => $user, 'page_settings'=> $this->page_settings,  'status' => $this->status, 'page_title'=> $this->page_title]);
 
 
   }
@@ -99,7 +100,7 @@ class ToolsController extends Controller
   {
     $user = auth()->user();
 
-    return view('tools.create', ['user' => $user, 'page_settings'=> $this->page_settings]);
+    return view('tools.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'page_title'=> $this->page_title]);
   }
 
   public function store(Request $request)
@@ -158,7 +159,7 @@ class ToolsController extends Controller
         $s = $this->status[$tool->status];
       }
 
-      return view('tools.view', ['user' => $user, 'tools' => $tool, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'logs' => $logs]);
+      return view('tools.view', ['user' => $user, 'tools' => $tool, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'logs' => $logs, 'page_title'=> $this->page_title]);
 
     }else{
       return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
@@ -174,7 +175,7 @@ class ToolsController extends Controller
 
     if(isset($tool)){
 
-      return view('tools.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'tool' => $tool]);
+      return view('tools.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'tool' => $tool, 'page_title'=> $this->page_title]);
     }else{
       return notifyRedirect($this->homeLink, 'Tool not found', 'danger');
     }
