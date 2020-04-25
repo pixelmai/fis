@@ -156,7 +156,7 @@ class ProjectsController extends Controller
     ]);
 
     if($query){
-      return notifyRedirect($this->homeLink, 'Added Project Successfully!', 'success');
+      return notifyRedirect($this->homeLink.'/view/'.$query->id, 'Added Project Successfully!', 'success');
     }
 
   }

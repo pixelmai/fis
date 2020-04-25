@@ -11317,7 +11317,7 @@ a[data-toggle=collapse] {
   text-transform: uppercase;
   letter-spacing: 1px;
   color: #999;
-  margin-bottom: 20px;
+  padding-bottom: 10px;
 }
 
 #app .tab-pane a {
@@ -11367,6 +11367,19 @@ a[data-toggle=collapse] {
 
 #app .tab-pane .status_log.even {
   background: #f9f9f9;
+}
+
+#app .tab-pane .empty_results {
+  display: block;
+  background: #fafafa;
+  text-align: center;
+  padding: 45px 20px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+#app .tab-pane .empty_results p {
+  font-size: 1.3em;
 }
 
 /* CARDS */
@@ -12081,6 +12094,19 @@ form label #compExists {
 #app #view_projects #listpage_datatable tr td:last-child {
   width: 50px !important;
   min-width: 50px !important;
+}
+
+#app #view_projects .empty_results {
+  display: block;
+  background: #fafafa;
+  text-align: center;
+  padding: 75px 20px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+#app #view_projects .empty_results p {
+  font-size: 1.3em;
 }
 
 #app #view_clients {

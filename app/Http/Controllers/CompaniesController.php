@@ -154,7 +154,7 @@ class CompaniesController extends Controller
     }
 
     if($query){
-      return notifyRedirect($this->homeLink, 'Added a Company successfully', 'success');
+      return notifyRedirect($this->homeLink.'/view/'.$query->id, 'Added a Company successfully', 'success');
     }
   }
 
