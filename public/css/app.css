@@ -11495,6 +11495,10 @@ form label #compExists {
   /* INVOICES */
   /* PROJECTS */
   /* PROJECTS */
+  /* CLIENTS */
+  /* CLIENTS */
+  /* DASHBOARD */
+  /* DASHBOARD */
   /* REPORTS */
 }
 
@@ -12238,6 +12242,10 @@ form label #compExists {
 #app #view_clients #results_list .result_item .total {
   font-weight: bold;
   font-size: 0.9em;
+}
+
+#app #dashboard .stats.card {
+  box-shadow: 0 !important;
 }
 
 #app #reports_page #filters_container .filter_container {

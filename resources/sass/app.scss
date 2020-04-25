@@ -1282,136 +1282,147 @@
   /* PROJECTS */
 
 
-  #view_clients{
-    padding: 10px 0; 
+  /* CLIENTS */
+    #view_clients{
+      padding: 10px 0; 
 
-    .card{
-      padding: 0;
+      .card{
+        padding: 0;
 
-      .card-body{
-        padding: 40px;
-        padding-top: 10px;
-      }
-    }
-
-    h1{
-      margin-bottom: 10px;
-      font-weight: bold;
-    }
-
-    hr#after_marker{
-      margin: 0 40px 0px;
-      padding-bottom: 20px;
-    }
-
-    .sh{
-      display: inline-block;
-      padding-bottom: 10px;
-    }
-
-    #markers{
-      padding: 40px 40px 20px;
-    }
-
-    h5{
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #999;
-      padding-top: 5px;
-      margin-bottom: 0;
-    }
-
-    #tab_menu{
-      .first_item{
-        margin-left: 40px;
-      }
-    }
-
-    .tab-pane{
-      .btn-outline-success{
-        color: #38c172;
-
-        &:hover{
-          color: #fff;
+        .card-body{
+          padding: 40px;
+          padding-top: 10px;
         }
       }
-    }
-    #results_list{
-      border-top: 1px solid #ddd;
 
-      .result_item{
-        width: 100%;
-        padding: 10px 0;
-        border-bottom: 1px dotted #ddd;
+      h1{
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
 
-        .name{
-          font-size: 1.2em;
-          font-weight: bold;
+      hr#after_marker{
+        margin: 0 40px 0px;
+        padding-bottom: 20px;
+      }
+
+      .sh{
+        display: inline-block;
+        padding-bottom: 10px;
+      }
+
+      #markers{
+        padding: 40px 40px 20px;
+      }
+
+      h5{
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #999;
+        padding-top: 5px;
+        margin-bottom: 0;
+      }
+
+      #tab_menu{
+        .first_item{
+          margin-left: 40px;
         }
+      }
 
-        strong{
-          display: inline-block;
-          width: 55px;
-        }
+      .tab-pane{
+        .btn-outline-success{
+          color: #38c172;
 
-        .dates{
-          font-size: .8em;
-          color: #666;
-
-          span{
-            color: #ccc;
-            padding: 0 5px;
-            display: inline-block;
+          &:hover{
+            color: #fff;
           }
         }
+      }
+      #results_list{
+        border-top: 1px solid #ddd;
 
-        .url, .client_project{
-          font-size: .8em;
-          color: #666;
-          a{
-            color: #666;
-          }
-        }
+        .result_item{
+          width: 100%;
+          padding: 10px 0;
+          border-bottom: 1px dotted #ddd;
 
-        .status_open, .status_draft{
-          background: #666;
-        }
-
-        .status_completed, .status_paid{
-          background: $green;
-        }
-
-        .status_dropped, .status_sent{
-          background: $orange;
-        }
-
-        .status{
-          display: inline-block;
-          border-radius: 0.25rem;
-          padding: 3px 10px;
-          color: #fff;
-          font-size: .7em;
-          margin-bottom: 4px;
-        }
-
-        .invoice_count{
-          font-size: .8em;
-
-          span{
+          .name{
+            font-size: 1.2em;
             font-weight: bold;
           }
-        }
 
-        .total{
-          font-weight: bold;
-          font-size: .9em;
+          strong{
+            display: inline-block;
+            width: 55px;
+          }
+
+          .dates{
+            font-size: .8em;
+            color: #666;
+
+            span{
+              color: #ccc;
+              padding: 0 5px;
+              display: inline-block;
+            }
+          }
+
+          .url, .client_project{
+            font-size: .8em;
+            color: #666;
+            a{
+              color: #666;
+            }
+          }
+
+          .status_open, .status_draft{
+            background: #666;
+          }
+
+          .status_completed, .status_paid{
+            background: $green;
+          }
+
+          .status_dropped, .status_sent{
+            background: $orange;
+          }
+
+          .status{
+            display: inline-block;
+            border-radius: 0.25rem;
+            padding: 3px 10px;
+            color: #fff;
+            font-size: .7em;
+            margin-bottom: 4px;
+          }
+
+          .invoice_count{
+            font-size: .8em;
+
+            span{
+              font-weight: bold;
+            }
+          }
+
+          .total{
+            font-weight: bold;
+            font-size: .9em;
+          }
         }
       }
+
+
     }
+  /* CLIENTS */
 
-
-  }
-  
+  /* DASHBOARD */
+    #dashboard{
+      .stats.card{
+        -webkit-box-shadow: 0 !important;
+        -moz-box-shadow: 0 !important;
+        box-shadow: 0 !important;
+      }
+    }
+  /* DASHBOARD */
 
   /* REPORTS */
   #reports_page{
