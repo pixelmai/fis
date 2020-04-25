@@ -7,6 +7,7 @@ use App\Clients;
 use App\Invoices;
 use App\Invoiceitems;
 use App\Machines;
+use App\Projects;
 use App\Services;
 use App\Servicesrates;
 use App\User;
@@ -272,6 +273,11 @@ class InvoicesController extends Controller
       $query->jobs = $k;
       $query->update();
       
+      $pr = Projects::find($data['project_id']);
+      if($pr->is_categorized == 1){
+        $pr->updated_at = date('Y-m-d H:i:s');
+        $pr->update();
+      }
 
 
       if($query){
@@ -396,7 +402,7 @@ class InvoicesController extends Controller
           "notes" => $item->notes,
         );
       }
-
+      
       return view('invoices.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'services' => $services, 'discounts' => $discounts, 'invoice' => $invoice, 'current_data' => $invoice_current_data, 'items' => $invoice_items, 'machines' => $machines, 'dtoken' => $token, 'page_title'=> $this->page_title]);
 
 
@@ -525,7 +531,14 @@ class InvoicesController extends Controller
 
       }
       
-      if($new_item_count){
+
+      $pr = Projects::find($data['project_id']);
+      if($pr->is_categorized == 1){
+        $pr->updated_at = date('Y-m-d H:i:s');
+        $pr->update();
+      }
+
+      if($invoice_query){
         return notifyRedirect($this->homeLink.'/view/'.$id, 'Updated Invoice #'. $invoice->id .' successfully', 'success');
       }
     }else{

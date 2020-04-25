@@ -12245,7 +12245,103 @@ form label #compExists {
 }
 
 #app #dashboard .stats.card {
-  box-shadow: 0 !important;
+  color: #fff;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+#app #dashboard .stats.card .stat strong {
+  font-size: 1.9em;
+  padding-right: 5px;
+}
+
+#app #dashboard .stats.card .stat span {
+  vertical-align: center;
+}
+
+#app #dashboard .stats.card p {
+  text-transform: uppercase;
+  color: #fff;
+  margin: 0 0 0;
+  letter-spacing: 2px;
+  font-size: 0.9em;
+}
+
+#app #dashboard .green {
+  background-color: #2d995b;
+}
+
+#app #dashboard .blue {
+  background-color: #2176bd;
+}
+
+#app #dashboard .orange {
+  background-color: #f58c27;
+}
+
+#app #dashboard .purple {
+  background-color: #874bde;
+}
+
+#app #dashboard .card {
+  box-shadow: none;
+}
+
+#app #dashboard .card a:hover {
+  color: #3490dc;
+}
+
+#app #dashboard .card h5 {
+  text-transform: uppercase;
+  font-size: 1em;
+  letter-spacing: 1px;
+  color: #666;
+  padding-bottom: 5px;
+}
+
+#app #dashboard .card table {
+  margin-bottom: 0;
+}
+
+#app #dashboard .card table th {
+  padding: 5px 10px;
+  background: #f9f9f9;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+#app #dashboard .card table td {
+  padding: 5px 10px;
+  border-bottom: 1px dotted #ddd;
+}
+
+#app #dashboard .card table td .status_open {
+  background: #999;
+}
+
+#app #dashboard .card table td .status_completed {
+  background: #38c172;
+}
+
+#app #dashboard .card table td .status_dropped {
+  background: #f6993f;
+}
+
+#app #dashboard .card table td .status {
+  display: inline-block;
+  font-size: 0.7em;
+  padding: 2px 5px;
+  color: #fff;
+  text-transform: uppercase;
+  border-radius: 0.3rem;
+  letter-spacing: 1px;
+}
+
+#app #dashboard .card .view_all {
+  padding: 10px 10px 0;
+  display: block;
+  font-size: 0.9em;
+  color: #777;
 }
 
 #app #reports_page #filters_container .filter_container {
