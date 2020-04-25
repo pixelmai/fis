@@ -29,7 +29,7 @@
 
       <div class="col-md-3">
         <div class="orange stats card">
-          <p>Transactions this week</p>
+          <p>Jobs this week</p>
           <div class="stat d-flex align-items-center"><strong>{{ $winvoices }}</strong> <span>Invoices</span></div>
         </div>
       </div>
@@ -54,9 +54,8 @@
             <th>ID</th>
             <th>Status</th>
             <th>Client Name</th>
-            <th>Jobs</th>
             <th>Date</th>
-            <th class="price">Total</th>
+            <th class="text-right">Total</th>
           </thead>
           <tbody>
             @foreach($lastinvoices as $invoice)
@@ -75,9 +74,8 @@
                   </a>
                   @if($invoice->is_up) (UP) @endif
                 </td>
-                <td>{{ $invoice->jobs }}</td>
                 <td>{{ dateShortOnly($invoice->created_at) }}</td>
-                <td>{{ priceFormatFancy($invoice->total) }}</td>
+                <td class="text-right">{{ priceFormatFancy($invoice->total) }}</td>
               </tr>
             @endforeach
 
@@ -106,7 +104,9 @@
                   <span class="status status_{{ strtolower($sprojects[$project->status]) }}">{{ $sprojects[$project->status] }}</span>
                 </td>
                 <td>
-                  <a href="/projects/view/{{ $project->id }}">{{ $project->name }}</a>
+
+                
+                  <a href="/projects/view/{{ $project->id }}">{{ strlen($project->name) >= 20 ? shortenText($project->name, 20) : $project->name }}</a>
                 </td>
                 <td><a href="/clients/view/{{ $project->client->id }}">{{ $project->client->fname }} {{ $project->client->lname }}</a></td>
                 <td>{{ dateShortOnly($project->updated_at) }}</td>
