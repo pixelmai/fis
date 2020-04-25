@@ -11281,6 +11281,29 @@ a[data-toggle=collapse] {
   font-weight: bold;
 }
 
+#app .field_wrapper .generated_inputs {
+  padding-top: 10px;
+}
+
+#app .field_wrapper .generated_inputs .add_button,
+#app .field_wrapper .generated_inputs .remove_button {
+  padding: 4px 0;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+#app .field_wrapper .generated_inputs label {
+  padding-top: 4px;
+  margin: 0;
+  display: inline-block;
+}
+
+#app .field_wrapper .generated_inputs input[type=radio] {
+  margin: 2px 5px 0 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
 #app input[type=email]:focus,
 #app input[type=password]:focus {
   background: #ffffe5;

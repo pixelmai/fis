@@ -59,7 +59,7 @@ class HomeController extends Controller
 
 
     //Last 5 Projects
-    $lastprojects = Projects::with('client')->orderBy('updated_at','desc')->take(5)->get();
+    $lastprojects = Projects::with('client')->where('is_categorized', 1)->orderBy('updated_at','desc')->take(5)->get();
 
     $sprojects = array( 
       '1' => 'Open', 

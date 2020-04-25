@@ -149,7 +149,7 @@
                             </div>
                           </div>
                         @else
-                          <div class="generated_inputs row" data-rowid="{{ $key }}"><div class="col-6 pt-2"><div class="input_holder"><input type="text" name="machine_name[]" value="{{ $machine->name }}" class="form-control machine_name" placeholder="Search by Machine Name" /><input type="hidden" name="machine_id[]" value="{{ $machine->id }}" class="machine_id" /></div></div><div><a href="javascript:void(0);" class="remove_button" data-delid="{{ $key }}"><img src="/images/remove-icon.png" /></a>
+                          <div class="generated_inputs row" data-rowid="{{ $key }}"><div class="col-6"><div class="input_holder"><input type="text" name="machine_name[]" value="{{ $machine->name }}" class="form-control machine_name" placeholder="Search by Machine Name" /><input type="hidden" name="machine_id[]" value="{{ $machine->id }}" class="machine_id" /></div></div><div><a href="javascript:void(0);" class="remove_button" data-delid="{{ $key }}"><img src="/images/remove-icon.png" /></a>
                           <input type="radio" id="def{{ $key }}" name="default" class="def" value="{{ $machine->id }}" required @if($machine->id == $service->machines_id) checked @endif><label for="def{{ $key }}">default</label></div></div>
                         @endif
                         <?php $key++; ?>
@@ -203,7 +203,7 @@
       $(addButton).click(function(){
           //Check maximum number of input fields
 
-        var fieldHTML = '<div class="generated_inputs row" data-rowid="' + x + '"><div class="col-6 pt-2"><div class="input_holder"><input type="text" name="machine_name[]" value="" class="form-control machine_name" placeholder="Search by Machine Name" /><input type="hidden" name="machine_id[]" value="" class="machine_id" /></div></div><div><a href="javascript:void(0);" class="remove_button" data-delid="' + x + '"><img src="/images/remove-icon.png" /></a> <input type="radio" id="def' + x + '" name="default" class="def" value="" required><label for="def' + x + '">default</label></div></div></div></div>'; //New input field html 
+        var fieldHTML = '<div class="generated_inputs row" data-rowid="' + x + '"><div class="col-6"><div class="input_holder"><input type="text" name="machine_name[]" value="" class="form-control machine_name" placeholder="Search by Machine Name" /><input type="hidden" name="machine_id[]" value="" class="machine_id" /></div></div><div><a href="javascript:void(0);" class="remove_button" data-delid="' + x + '"><img src="/images/remove-icon.png" /></a> <input type="radio" id="def' + x + '" name="default" class="def" value="" required><label for="def' + x + '">default</label></div></div></div></div>'; //New input field html 
 
           if(x < maxField){ 
               x++; //Increment field counter

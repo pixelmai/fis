@@ -95,7 +95,7 @@
                       { data: 'position', name: 'position'},
                       {data: 'action', name: 'action', orderable: false},
                    ],
-            order: [[0, 'desc']]
+            order: [[2, 'asc']]
       });
 
       $('#listpage_datatable tbody').on('click', '.tbl_row_checkbox', function () {

@@ -435,6 +435,26 @@
 
     }
 
+    .field_wrapper .generated_inputs{
+      padding-top: 10px;
+      .add_button, .remove_button{
+        padding: 4px 0;
+        display: inline-block;
+        margin-right: 5px;
+      }
+
+      label{
+        padding-top: 4px;
+        margin: 0;
+        display: inline-block;
+      }
+      input[type="radio"] {
+        margin: 2px 5px 0 0;
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
+
     input[type=email], input[type=password]{
       &:focus{
         background: #ffffe5;

@@ -174,7 +174,7 @@
       $(addButton).click(function(){
           //Check maximum number of input fields
 
-        var fieldHTML = '<div class="generated_inputs row" data-rowid="' + x + '"><div class="col-6 pt-2"><div class="input_holder"><input type="text" name="supplier_name[]" value="" class="form-control supplier_name" placeholder="Search by Supplier Name" /><input type="hidden" name="supplier_id[]" value="" class="supplier_id" /></div></div><div><a href="javascript:void(0);" class="remove_button" data-delid="' + x + '"><img src="/images/remove-icon.png" /></a></div></div>'; //New input field html 
+        var fieldHTML = '<div class="generated_inputs row" data-rowid="' + x + '"><div class="col-6"><div class="input_holder"><input type="text" name="supplier_name[]" value="" class="form-control supplier_name" placeholder="Search by Supplier Name" /><input type="hidden" name="supplier_id[]" value="" class="supplier_id" /></div></div><div><a href="javascript:void(0);" class="remove_button" data-delid="' + x + '"><img src="/images/remove-icon.png" /></a></div></div>'; //New input field html 
 
           if(x < maxField){ 
               x++; //Increment field counter
