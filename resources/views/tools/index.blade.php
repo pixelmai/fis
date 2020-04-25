@@ -89,7 +89,7 @@
                 { data: 'number', name: 'number', orderable: false, searchable:false },
                 {data: 'action', name: 'action', orderable: false,  searchable:false},
              ],
-        order: [[1, 'desc']]
+        order: [[5, 'desc']]
               });
 
 
@@ -192,6 +192,7 @@
       $('body').on('click', '#add-log-row', function () {
         var row_id = $(this).data("id");
         $('#ajaxForm #tool_id').val(row_id);
+        $('#ajaxForm #notes').val('');
         $('#ajax-crud-modal').trigger("reset");
         $('#ajax-crud-modal').modal('show');
         $('#btn-multiple-save-status').addClass('d-none');
@@ -222,6 +223,7 @@
           });
           if(id.length > 0)
           {
+            $('#ajaxForm #notes').val('');
             $('#ajax-crud-modal').trigger("reset");
             $('#ajax-crud-modal').modal('show');
             $('#btn-single-save-status').addClass('d-none');
@@ -282,6 +284,7 @@
                 data: { "formData" : formData, "id": ids } ,
                 dataType: 'json',
                 success: function (data) {
+                  $('#ajaxForm #notes').val('');
                   $('#ajax-crud-modal').trigger("reset");
                   $('#ajax-crud-modal').modal('hide');
                   var oTable = $('#listpage_datatable').dataTable(); 
@@ -294,6 +297,7 @@
 
                   generateNotif(notifData);
                   $('#bulk_status').addClass('d-none');
+                  validator.destroy();
                 },
                 error: function (data) {
                   console.log('Error:', data);

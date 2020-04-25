@@ -202,9 +202,7 @@
         });
       /* Append Status Select Box */
 
-    
-
-
+  
 
       function initvalidator(ids){
         var validator = $("#ajaxForm").validate({
@@ -259,6 +257,7 @@
 
                   generateNotif(notifData);
                   $('#bulk_status').addClass('d-none');
+                  validator.destroy();
                 },
                 error: function (data) {
                   console.log('Error:', data);

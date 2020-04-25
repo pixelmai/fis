@@ -1417,9 +1417,105 @@
   /* DASHBOARD */
     #dashboard{
       .stats.card{
-        -webkit-box-shadow: 0 !important;
-        -moz-box-shadow: 0 !important;
-        box-shadow: 0 !important;
+        color: #fff;
+        padding: 20px;
+        margin-bottom: 30px;
+
+        .stat{
+          strong{
+            font-size: 1.9em;
+            padding-right: 5px;
+          }
+          span{
+            vertical-align: center;
+          }
+        }
+
+        p{
+          text-transform: uppercase;
+          color: #fff;
+          margin: 0 0 0;
+          letter-spacing: 2px;
+          font-size: .9em;
+        }
+      }
+
+      .green{
+        background-color: darken($green, 10%);
+      }
+
+      .blue{ background-color: darken($blue, 10%); }
+
+      .orange{ background-color: darken($orange, 5%);  }
+
+      .purple{ background-color: darken($purple, 5%); }
+
+      .card{
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+
+        a{
+          &:hover{
+            color: $blue;
+          }
+        }
+
+        h5{
+          text-transform: uppercase;
+          font-size: 1em;
+          letter-spacing: 1px;
+          color: #666;
+          padding-bottom: 5px;
+        }
+
+        table{
+          margin-bottom: 0;
+          th{
+            padding: 5px 10px;
+            background: #f9f9f9;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+          }
+
+          td{
+            padding: 5px 10px;
+            border-bottom: 1px dotted #ddd;
+
+              .status_open, .status_draft{
+                background: #999;
+              }
+
+              .status_completed, .status_paid{
+                background: $green;
+              }
+
+              .status_dropped, .status_sent{
+                background: $orange;
+              }
+
+              .status_damaged{
+                background: $red;
+              }
+
+            .status{
+              display: inline-block;
+              font-size: .7em;
+              padding: 2px 5px;
+              color: #fff;
+              text-transform: uppercase;
+              border-radius: 0.3rem;
+              letter-spacing: 1px;
+            }
+
+          }
+        }
+        .view_all{
+          padding: 10px 10px 0;
+          display: inline-block;
+          font-size: .9em;
+          color: #777;
+        }
       }
     }
   /* DASHBOARD */
