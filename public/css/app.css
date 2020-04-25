@@ -12315,16 +12315,23 @@ form label #compExists {
   border-bottom: 1px dotted #ddd;
 }
 
-#app #dashboard .card table td .status_open {
+#app #dashboard .card table td .status_open,
+#app #dashboard .card table td .status_draft {
   background: #999;
 }
 
-#app #dashboard .card table td .status_completed {
+#app #dashboard .card table td .status_completed,
+#app #dashboard .card table td .status_paid {
   background: #38c172;
 }
 
-#app #dashboard .card table td .status_dropped {
+#app #dashboard .card table td .status_dropped,
+#app #dashboard .card table td .status_sent {
   background: #f6993f;
+}
+
+#app #dashboard .card table td .status_damaged {
+  background: #e3342f;
 }
 
 #app #dashboard .card table td .status {
@@ -12339,7 +12346,7 @@ form label #compExists {
 
 #app #dashboard .card .view_all {
   padding: 10px 10px 0;
-  display: block;
+  display: inline-block;
   font-size: 0.9em;
   color: #777;
 }

@@ -67,6 +67,12 @@ class HomeController extends Controller
       '3' => 'Dropped'
     );
 
+    $sinvoices = array( 
+      '1' => 'Draft', 
+      '2' => 'Sent',
+      '3' => 'Paid'
+    );
+
 
     return view('home', [
       "user"=>$user, 
@@ -77,7 +83,8 @@ class HomeController extends Controller
       "wclients" => count($wclients),
       "lastinvoices" => $lastinvoices,
       "lastprojects" => $lastprojects,
-      "sprojects" => $sprojects
+      "sprojects" => $sprojects,
+      "sinvoices" => $sinvoices
     ]);
 
 

@@ -55,6 +55,9 @@
 
   <script>
     $(document).ready( function () {
+      var id = [];
+      var row_id = 0;
+
       $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -97,6 +100,8 @@
 
       $('#listpage_datatable tbody').on('click', '.tbl_row_checkbox', function () {
           $(this).parent().parent().toggleClass('rowselected');
+          id = [];
+          id.length = 0;
 
           if ( document.querySelector('.rowselected') !== null ) {
             $('#bulk_status').removeClass('d-none');
@@ -120,7 +125,7 @@
       
 
       $('body').on('click', '#delete-row', function () {
-        var row_id = $(this).data("id");
+        row_id = $(this).data("id");
 
         if (confirm('Are you sure want to delete row?')) {
 
@@ -150,9 +155,11 @@
 
 
       $('body').on('click', '#add-log-row', function () {
-        var row_id = $(this).data("id");
-        $('#ajaxForm #invoice_id').val(row_id);
+        id = [];
+        row_id = $(this).data("id");
+
         $('#ajax-crud-modal').trigger("reset");
+        $('#ajaxForm #invoice_id').val(row_id);
         $('#ajax-crud-modal').modal('show');
         $('#btn-multiple-save-status').addClass('d-none');
         $('#btn-single-save-status').removeClass('d-none');
@@ -165,38 +172,42 @@
 
 
       $('body').on('click', '#btn-multiple-save-status', function () {
-        var id = [];
+        id = [];
+
         $('.tbl_row_checkbox:checked').each(function(){
            id.push($(this).val());
         });
-
+        console.log('btn-multiple-save-status: '+id);
         initvalidator(id);
       });   
 
 
 
       $(document).on('click', '#bulk_status', function(){
-          var id = [];
-          $('.tbl_row_checkbox:checked').each(function(){
-             id.push($(this).val());
-          });
-          if(id.length > 0)
-          {
-            $('#ajax-crud-modal').trigger("reset");
-            $('#ajax-crud-modal').modal('show');
-            $('#btn-single-save-status').addClass('d-none');
-            $('#btn-multiple-save-status').removeClass('d-none');
-          }
-          else
-          {
-              alert("Please select atleast one checkbox");
-          }
-      
+        id = [];
+        id.length = 0;
+
+        $('.tbl_row_checkbox:checked').each(function(){
+           id.push($(this).val());
+        });
+        if(id.length > 0)
+        {
+          $('#ajax-crud-modal').trigger("reset");
+          $('#ajax-crud-modal').modal('show');
+          $('#btn-single-save-status').addClass('d-none');
+          $('#btn-multiple-save-status').removeClass('d-none');
+        }
+        else
+        {
+          alert("Please select atleast one checkbox");
+        }
+    
       });
 
 
 
-      function initvalidator(ids){
+      function initvalidator(idx){
+
         var validator = $("#ajaxForm").validate({
           errorPlacement: function(error, element) {
             // Append error within linked label
@@ -234,7 +245,7 @@
             $.ajax({
                 type: type,
                 url: "/invoices/status",
-                data: { "formData" : formData, "id": ids } ,
+                data: { "formData" : formData, "id": idx } ,
                 dataType: 'json',
                 success: function (data) {
                   $('#ajax-crud-modal').trigger("reset");
@@ -249,6 +260,10 @@
 
                   generateNotif(notifData);
                   $('#bulk_status').addClass('d-none');
+
+                  console.table(idx);
+                  validator.destroy();
+
                 },
                 error: function (data) {
                   console.log('Error:', data);

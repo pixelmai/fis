@@ -52,6 +52,7 @@
         <table>
           <thead>
             <th>ID</th>
+            <th>Status</th>
             <th>Client Name</th>
             <th>Jobs</th>
             <th>Date</th>
@@ -64,6 +65,9 @@
                   <a href="/invoices/view/{{ $invoice->id }}">
                     {{ str_pad($invoice->id, 6, '0', STR_PAD_LEFT) }}
                   </a>
+                </td>
+                <td>
+                  <span class="status status_{{ strtolower($sinvoices[$invoice->status]) }}">{{ $sinvoices[$invoice->status] }}</span>
                 </td>
                 <td>
                   <a href="/clients/view/{{ $invoice->client->id }}">

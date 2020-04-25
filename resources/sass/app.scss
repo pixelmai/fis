@@ -1482,17 +1482,21 @@
             padding: 5px 10px;
             border-bottom: 1px dotted #ddd;
 
-            .status_open{
-              background: #999;
-            }
+              .status_open, .status_draft{
+                background: #999;
+              }
 
-            .status_completed{
-              background: $green;
-            }
+              .status_completed, .status_paid{
+                background: $green;
+              }
 
-            .status_dropped{
-              background: $orange;
-            }
+              .status_dropped, .status_sent{
+                background: $orange;
+              }
+
+              .status_damaged{
+                background: $red;
+              }
 
             .status{
               display: inline-block;
@@ -1506,10 +1510,9 @@
 
           }
         }
-
         .view_all{
           padding: 10px 10px 0;
-          display: block;
+          display: inline-block;
           font-size: .9em;
           color: #777;
         }
