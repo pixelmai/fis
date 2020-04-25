@@ -88,7 +88,7 @@
 
     <div class="col-md-6">
       <div class="card">
-        <h5>Recently Updated Projects</h5>
+        <h5>Active Projects</h5>
 
         <table>
           <thead>
