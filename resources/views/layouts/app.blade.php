@@ -7,7 +7,7 @@
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>FABLAB UP Cebu</title>
+  <title>{{ (isset($page_title) ? $page_title . ' - ' : '') }} FABLAB UP Cebu</title>
 
 
   <!-- Fonts -->

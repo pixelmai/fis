@@ -53,32 +53,24 @@
   
         </div>
 
-          @if ($sum == 0 )
-            <hr id="after_marker"> 
-          @else
+
             <ul class="nav nav-tabs card-tabs" id="tab_menu" role="tablist">
 
               <li class="nav-item first_item">
                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Information</a>
               </li>
 
-              @if(count($projects) != 0)
-                <li class="nav-item">
-                  <a class="nav-link" id="projects-tab" data-toggle="tab" href="#projects_tab" role="tab" aria-controls="projects_tab" aria-selected="false">Projects</a>
-                </li>
-              @endif
-           
-              @if(count($client->invoices) != 0)
+              <li class="nav-item">
+                <a class="nav-link" id="projects-tab" data-toggle="tab" href="#projects_tab" role="tab" aria-controls="projects_tab" aria-selected="false">Projects</a>
+              </li>
+
                 <li class="nav-item">
                   <a class="nav-link" id="invoices-tab" data-toggle="tab" href="#invoices_tab" role="tab" aria-controls="invoices_tab" aria-selected="false">Invoices</a>
                 </li>
-              @endif
-
+  
             </ul>
-          @endif
 
-
-        <div class="card-body @if($sum != 0) pt-4 @endif">
+        <div class="card-body pt-4">
 
 <div class="tab-content" id="myTabContent">
   <!-- TAB CONTENT -->
@@ -89,7 +81,7 @@
         <div class="info-block">
 
             @if ($client->email || $client->number || $client->url || $client->address)
-              <h5 class="pb-3">Contact Information</h5>
+              <h5>Contact Information</h5>
             @endif
 
             @if ($client->email)
@@ -246,128 +238,142 @@
     </div>
   <!-- TAB CONTENT -->
 
-  @if(count($projects) != 0)
+
     <!-- TAB CONTENT -->
       
       <div class="tab-pane fade" id="projects_tab" role="tabpanel" aria-labelledby="projects-tab">
 
         <div class="d-flex justify-content-between pb-3">
          
-          <h5>Projects</h5>
-          <div>
-            <a href="/projects/create" class="btn btn-sm btn-outline-success">New Project</a>
+          <h5 class="pb-0">Projects</h5>
+          @if(count($projects) != 0)
+            <div>
+              <a href="/projects/create" class="btn btn-sm btn-outline-success">New Project</a>
+            </div>
+          @endif
+
+        </div>
+
+        @if(count($projects) != 0)
+          <div id="results_list">
+            @foreach($projects as $project)
+          
+                <div class="result_item d-flex justify-content-between">
+                  <div class="info_details">
+                    <a href="/projects/view/{{ $project->id }}" class="name">
+                      {{ strlen($project->name) >= 50 ? shortenText($project->name, 50) : $project->name }}
+                    </a>
+
+                    <div class="dates">
+                      <strong>Created</strong> {{ dateShortOnly($project->created_at) }}
+                      <span> | </span>
+                      <strong>Updated</strong> {{ dateShortOnly($project->updated_at) }}
+                    </div>
+
+                    @if($project->url)
+                      <div class="url">
+                        <strong>URL</strong> 
+                        <a href="{{ $project->url }}" target="blank">
+                          {{ strlen($project->url) >= 70 ? shortenText($project->url, 70) : $project->url }}
+                        </a>
+                      </div>
+                    @endif
+                  </div>
+                  <div class="status_count text-right">
+                    @if($pstatus)
+                      <div class="status status_{{ strtolower($pstatus[$project->status]) }}">
+                        {{ $pstatus[$project->status] }}
+                      </div>
+                    @endif
+
+                    <div class="invoice_count">
+                      <span>{{ count($project->invoices) }}</span>
+                      {{ count($project->invoices) == 1 ? "invoice" : "invoices" }}
+                    </div>
+                  </div>
+                </div>
+          
+            @endforeach
           </div>
-
-        </div>
-
-
-        <div id="results_list">
-          @foreach($projects as $project)
-        
-              <div class="result_item d-flex justify-content-between">
-                <div class="info_details">
-                  <a href="/projects/view/{{ $project->id }}" class="name">
-                    {{ strlen($project->name) >= 50 ? shortenText($project->name, 50) : $project->name }}
-                  </a>
-
-                  <div class="dates">
-                    <strong>Created</strong> {{ dateShortOnly($project->created_at) }}
-                    <span> | </span>
-                    <strong>Updated</strong> {{ dateShortOnly($project->updated_at) }}
-                  </div>
-
-                  @if($project->url)
-                    <div class="url">
-                      <strong>URL</strong> 
-                      <a href="{{ $project->url }}" target="blank">
-                        {{ strlen($project->url) >= 70 ? shortenText($project->url, 70) : $project->url }}
-                      </a>
-                    </div>
-                  @endif
-                </div>
-                <div class="status_count text-right">
-                  @if($pstatus)
-                    <div class="status status_{{ strtolower($pstatus[$project->status]) }}">
-                      {{ $pstatus[$project->status] }}
-                    </div>
-                  @endif
-
-                  <div class="invoice_count">
-                    <span>{{ count($project->invoices) }}</span>
-                    {{ count($project->invoices) == 1 ? "invoice" : "invoices" }}
-                  </div>
-                </div>
-              </div>
-        
-          @endforeach
-        </div>
+        @else
+          <div class="empty_results">
+            <p>No projects yet</p>
+            <a href="/projects/create" class="btn btn-lg btn-outline-success">Create New Project</a>
+          </div>
+        @endif
 
       </div>
     <!-- TAB CONTENT -->
-  @endif
 
 
-  @if(count($invoices) != 0)
+
+
     <!-- TAB CONTENT -->
       
       <div class="tab-pane fade" id="invoices_tab" role="tabpanel" aria-labelledby="invoices-tab">
 
         <div class="d-flex justify-content-between pb-3">
          
-          <h5>Invoices</h5>
-          <div>
-            <a href="/invoices/create" class="btn btn-sm btn-outline-success">New Invoice</a>
-          </div>
+          <h5 class="pb-0">Invoices</h5>
+          @if(count($invoices) != 0)
+            <div>
+              <a href="/invoices/create" class="btn btn-sm btn-outline-success">New Invoice</a>
+            </div>
+          @endif
 
         </div>
 
+        @if(count($invoices) != 0)
+          <div id="results_list">
+            @foreach($invoices as $invoice)
+          
+                <div class="result_item d-flex justify-content-between">
+                  <div class="info_details">
+                    <a href="/invoices/view/{{ $invoice->id }}" class="name">
+                      Invoice #{{ str_pad($invoice->id, 6, '0', STR_PAD_LEFT) }}
+                    </a>
 
-        <div id="results_list">
-          @foreach($invoices as $invoice)
-        
-              <div class="result_item d-flex justify-content-between">
-                <div class="info_details">
-                  <a href="/projects/view/{{ $invoice->id }}" class="name">
-                    Invoice #{{ str_pad($invoice->id, 6, '0', STR_PAD_LEFT) }}
-                  </a>
+                    <div class="dates">
+                      <strong>Created</strong> {{ dateShortOnly($invoice->created_at) }}
+                      @if($invoice->due_date != '')
+                        <span> | </span>
+                        <strong>Due Date</strong> {{ dateShortOnly($invoice->due_date) }}
+                      @endif
+                    </div>
 
-                  <div class="dates">
-                    <strong>Created</strong> {{ dateShortOnly($invoice->created_at) }}
-                    @if($invoice->due_date != '')
-                      <span> | </span>
-                      <strong>Due Date</strong> {{ dateShortOnly($invoice->due_date) }}
+                    @if($invoice->project->is_categorized == 1)
+                      <div class="client_project">
+                        <strong>Project</strong> 
+
+                        <a href="/invoices/view/{{ $invoice->project->id }}">
+                          {{ strlen($invoice->project->name) >= 50 ? shortenText($invoice->project->name, 50) : $invoice->project->name }}
+                        </a>
+                      </div>
                     @endif
                   </div>
+                  <div class="status_count text-right">
+                    @if($istatus)
+                      <div class="status status_{{ strtolower($istatus[$invoice->status]) }}">
+                        {{ $istatus[$invoice->status] }}
+                      </div>
+                    @endif
 
-                  @if($invoice->project->is_categorized == 1)
-                    <div class="client_project">
-                      <strong>Project</strong> 
-
-                      <a href="/projects/view/{{ $invoice->project->id }}">
-                        {{ strlen($invoice->project->name) >= 50 ? shortenText($invoice->project->name, 50) : $invoice->project->name }}
-                      </a>
+                    <div class="total">
+                      {{ priceFormatFancy($invoice->total) }}
                     </div>
-                  @endif
-                </div>
-                <div class="status_count text-right">
-                  @if($istatus)
-                    <div class="status status_{{ strtolower($istatus[$invoice->status]) }}">
-                      {{ $istatus[$invoice->status] }}
-                    </div>
-                  @endif
-
-                  <div class="total">
-                    {{ priceFormatFancy($invoice->total) }}
                   </div>
                 </div>
-              </div>
-        
-          @endforeach
-        </div>
-
+          
+            @endforeach
+          </div>
+        @else
+          <div class="empty_results">
+            <p>No invoices yet</p>
+            <a href="/invoices/create" class="btn btn-lg btn-outline-success">Create New Invoice</a>
+          </div>
+        @endif
       </div>
     <!-- TAB CONTENT -->
-  @endif
 
 </div>
         </div>

@@ -24,9 +24,9 @@
               <th scope="col">&nbsp;</th>
               <th scope="cold">&nbsp;</th>
               <th scope="col" class="col_checkbox">&nbsp;</th>
+              <th scope="col">Status</th>
               <th scope="col">Name</th>
               <th scope="col">Owner</th>
-              <th scope="col">Status</th>
               <th scope="col">URL</th>
               <th scope="col">Invoices</th>
               <th scope="col">Created</th>
@@ -84,6 +84,7 @@
                       { data: 'id', name: 'id', 'visible': false},
                       { data: "client.fname", 'visible': false},
                       { data: 'checkbox', orderable:false, searchable:false},
+                      { data: 'status', name: 'status', orderable: false },
                       { data: 'name', name: 'name' },
                       { data: "client.lname", render: function ( data, type, row ) {
                           if ( type === 'display' || type === 'filter' ) {
@@ -96,7 +97,6 @@
                             return row.client.lname;
                           }
                       }, orderable: false },
-                      { data: 'status', name: 'status', orderable: false },
                       { data: 'url', name: 'url', orderable: false, searchable:false },
                       { data: 'jobs', name: 'jobs', orderable: false, searchable:false },
                       { data: 'created', name: 'created', orderable: false},

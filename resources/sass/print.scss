@@ -18,191 +18,270 @@ body{
 #print_page{
   padding: 30px 0;
 
-  h2{
-    text-transform: uppercase;
-    display: block;
-    text-align: center;
-    font-weight: bold;
-  }
-
-  .basic_invoice_info table{
-    width: 100%;
-
-    td.label{
-      padding-right: 20px;
+  #view_invoice{
+    h2{
       text-transform: uppercase;
-      width: 100px;
+      display: block;
+      text-align: center;
+      font-weight: bold;
     }
 
-    td.value{
-      border-bottom: 1px solid #ccc;
-    }
-  }
-
-  .invoice_items_table{
-    width: 100%;
-    margin-top: 15px;
-    border-bottom: 2px solid #ccc;
-
-    em.info_na{
-      color: #ccc;
-    }
-
-
-    th{
-      border-top: 2px solid #ccc;
-      border-bottom: 2px solid #ccc;
-      background: #f8f8f8;
-      color: #333;
-      padding: 5px 10px;
-      text-transform: uppercase;
-    }
-
-    td{
-      padding: 3px 10px;
-    }
-
-    th.price, th.quantity, th.amount{ text-align: right; }
-
-    tbody{
-      tr.itemrow{
-        td{
-          border-bottom: 1px dotted #e1e1e1;
-          border-right: 1px solid #ccc;
-        }
-
-        td.id{ width: 5%; text-align: center; }
-        td.services{ 
-          width: 55%; 
-
-          .notes{
-            padding-left: 10px;
-            font-style: italic;
-          }
-        }
-
-        td.price{ 
-          width: 13%;
-          text-align: right;
-        }
-
-        td.unit{
-          text-align: left;
-          width: 7%;
-        }
-
-        td.quantity{ 
-          width: 5%; 
-          text-align: right;
-        }
-
-        td.amount{
-          border-bottom: 0;
-          border-right: 0;
-          background: #f0f4f8;
-          text-align: right;
-          width: 15%;
-        }
-
-        &:last-child{
-          td{
-            border-bottom: 0 !important;
-          }
-        }
-     
-
-      }
-
-
-    }
-  }
-
-
-  .totals_section{
-    padding: 0;
-    text-align: right;
-    margin: 0;
-    width: 100% !important;
-
-
-
-    .totals_form_group{
+    .basic_invoice_info table{
       width: 100%;
 
-      td{
-        padding: 3px 10px;
-      }
-    }
-
-    .label{
-      width: 13%;
-    }
-
-
-    .value{
-      border-left: 1px solid #ccc;
-      background: #f0f4f8;
-      margin: 0;
-      width: 15%;
-    }
-
-    .grand_total{
-      .label, .value{
-        border-top: 2px solid #ccc;
-        border-bottom: 2px solid #ccc;
-        margin-bottom: 0;
-        font-size: 1.4em;
-      }
-    }
-    
-  }
-
-
-  .signatories{
-    width: 100%;
-    font-size: 1.2em;
-
-    table{
-      width: 90%;
-      margin: 0 auto;
-      margin-top: 20px;
-
-      td{
-        padding: 3px 10px;
-      }
-
       td.label{
+        padding-right: 20px;
         text-transform: uppercase;
-        width: 25%;
-        text-align: right;
+        width: 100px;
       }
 
       td.value{
         border-bottom: 1px solid #ccc;
-        width: 25%;
+      }
+    }
+
+    .invoice_items_table{
+      width: 100%;
+      margin-top: 15px;
+      border-bottom: 2px solid #ccc;
+
+      em.info_na{
+        color: #ccc;
+      }
+
+
+      th{
+        border-top: 2px solid #ccc;
+        border-bottom: 2px solid #ccc;
+        background: #f8f8f8;
+        color: #333;
+        padding: 5px 10px;
+        text-transform: uppercase;
+      }
+
+      td{
+        padding: 3px 10px;
+      }
+
+      th.price, th.quantity, th.amount{ text-align: right; }
+
+      tbody{
+        tr.itemrow{
+          td{
+            border-bottom: 1px dotted #e1e1e1;
+            border-right: 1px solid #ccc;
+          }
+
+          td.id{ width: 5%; text-align: center; }
+          td.services{ 
+            width: 55%; 
+
+            .notes{
+              padding-left: 10px;
+              font-style: italic;
+            }
+          }
+
+          td.price{ 
+            width: 13%;
+            text-align: right;
+          }
+
+          td.unit{
+            text-align: left;
+            width: 7%;
+          }
+
+          td.quantity{ 
+            width: 5%; 
+            text-align: right;
+          }
+
+          td.amount{
+            border-bottom: 0;
+            border-right: 0;
+            background: #f0f4f8;
+            text-align: right;
+            width: 15%;
+          }
+
+          &:last-child{
+            td{
+              border-bottom: 0 !important;
+            }
+          }
+       
+
+        }
+
+
+      }
+    }
+
+
+    .totals_section{
+      padding: 0;
+      text-align: right;
+      margin: 0;
+      width: 100% !important;
+
+
+
+      .totals_form_group{
+        width: 100%;
+
+        td{
+          padding: 3px 10px;
+        }
+      }
+
+      .label{
+        width: 13%;
+      }
+
+
+      .value{
+        border-left: 1px solid #ccc;
+        background: #f0f4f8;
+        margin: 0;
+        width: 15%;
+      }
+
+      .grand_total{
+        .label, .value{
+          border-top: 2px solid #ccc;
+          border-bottom: 2px solid #ccc;
+          margin-bottom: 0;
+          font-size: 1.4em;
+        }
+      }
+      
+    }
+
+
+    .signatories{
+      width: 100%;
+      font-size: 1.2em;
+
+      table{
+        width: 90%;
+        margin: 0 auto;
+        margin-top: 20px;
+
+        td{
+          padding: 3px 10px;
+        }
+
+        td.label{
+          text-transform: uppercase;
+          width: 25%;
+          text-align: right;
+        }
+
+        td.value{
+          border-bottom: 1px solid #ccc;
+          width: 25%;
+        }
+      }
+    }
+
+
+    .footer{
+      width: 100%;
+      padding: 10px 0;
+      text-align: center;
+
+      img{
+        margin: 0 auto;
+      }
+
+      p{
+        padding: 10px 20px 0;
+        margin: 0;
+      }
+    }
+
+  }
+
+
+  #reports_page{
+    h1{
+      text-transform: uppercase;
+      text-align: center;
+      font-size: 1.3em;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    h4{
+      text-transform: uppercase;
+      text-align: center;
+      font-size: 1.2em;
+    }
+
+    #listpage_datatable{
+      border-bottom: 1px solid #ccc;
+      th{
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        border-right: 1px dotted #ccc;
+        background: #dee2e6;
+        color: #333;
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+
+      td{
+        border-right: 1px dotted #dee2e6;
+        border-bottom: 1px solid #ccc;
+
+        .total{
+          display: none !important;
+        }
+      }
+
+      tr{
+        th:last-child, td:last-child{
+          border-right: 0;
+        }
+      }
+    }
+
+
+    #gt{
+      font-size: 1.7em;
+
+      div{
+        padding-left: 10px; 
+      }
+
+      #gt_label{
+        font-size: .8em;
+        text-transform: uppercase;
+        color: #666;
+      }
+      #grand_total{
+        font-weight: bold;
+      }
+    }
+
+    #prepared_by{
+      width: 300px;
+      font-size: 1.2em;
+      .user_name{
+        display: block;
+        text-align: center;
+        border-bottom: 1px solid #999;
+        font-weight: bold;
+        padding-bottom: 5px;
+      }
+      em{
+        padding-top: 5px;
+        display: block;
+        text-align: center;
       }
     }
   }
-
-
-  .footer{
-    width: 100%;
-    padding: 10px 0;
-    text-align: center;
-
-    img{
-      margin: 0 auto;
-    }
-
-    p{
-      padding: 10px 20px 0;
-      margin: 0;
-    }
-  }
-
-
-
-
 
 
 

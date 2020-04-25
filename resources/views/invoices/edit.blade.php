@@ -220,7 +220,7 @@
       </td> 
 
       <td class="quantity"> 
-        <input type="text" id="quantity{{$key}}" name="quantity[]" value="{{ $item['services_id'] }}" class="form-control w-100 quantity" required /> 
+        <input type="text" id="quantity{{$key}}" name="quantity[]" value="{{ $item['quantity'] + 0 }}" class="form-control w-100 quantity" required /> 
       </td> 
 
       <td class="unit"> 
@@ -760,13 +760,14 @@
             var pp = $(this).find('.price');
             var am = $(this).find('.amount').children('input.amount');
             var qu = $(this).find('.quantity').children('input.quantity');
-            var up = pp.find('input.up_price').val();
-            var dp = pp.find('input.def_price').val();
+            var up = parseFloat(pp.find('input.up_price').val());
+            var dp = parseFloat(pp.find('input.def_price').val());
+
 
             if($('#is_up').is(":checked")) {
-              pp.find('input.price').val(up);
+              pp.find('input.price').val(up.toFixed(2));
             }else{
-              pp.find('input.price').val(dp);
+              pp.find('input.price').val(dp.toFixed(2));
             }
 
             var amount = pp.find('input.price').val() * qu.val();

@@ -10995,6 +10995,14 @@ a:focus {
   padding-top: 7px;
 }
 
+.navbar .quickadd-icon {
+  font-size: 2.2em;
+  padding: 0;
+  line-height: 1em;
+  padding-top: 7px;
+  margin: 0;
+}
+
 #navbarMobileContent .nav-item a {
   display: block;
   padding: 10px 20px;
@@ -11309,7 +11317,7 @@ a[data-toggle=collapse] {
   text-transform: uppercase;
   letter-spacing: 1px;
   color: #999;
-  margin-bottom: 20px;
+  padding-bottom: 10px;
 }
 
 #app .tab-pane a {
@@ -11359,6 +11367,19 @@ a[data-toggle=collapse] {
 
 #app .tab-pane .status_log.even {
   background: #f9f9f9;
+}
+
+#app .tab-pane .empty_results {
+  display: block;
+  background: #fafafa;
+  text-align: center;
+  padding: 45px 20px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+#app .tab-pane .empty_results p {
+  font-size: 1.3em;
 }
 
 /* CARDS */
@@ -11474,6 +11495,7 @@ form label #compExists {
   /* INVOICES */
   /* PROJECTS */
   /* PROJECTS */
+  /* REPORTS */
 }
 
 #app .card.card-table {
@@ -12074,6 +12096,19 @@ form label #compExists {
   min-width: 50px !important;
 }
 
+#app #view_projects .empty_results {
+  display: block;
+  background: #fafafa;
+  text-align: center;
+  padding: 75px 20px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+#app #view_projects .empty_results p {
+  font-size: 1.3em;
+}
+
 #app #view_clients {
   padding: 10px 0;
 }
@@ -12203,6 +12238,36 @@ form label #compExists {
 #app #view_clients #results_list .result_item .total {
   font-weight: bold;
   font-size: 0.9em;
+}
+
+#app #reports_page #filters_container .filter_container {
+  display: inline-block;
+}
+
+#app #reports_page #filters_container #months_container .bootstrap-select {
+  width: 130px;
+}
+
+#app #reports_page #filters_container #years_container .bootstrap-select {
+  width: 80px;
+}
+
+#app #reports_page #gt {
+  font-size: 1.7em;
+}
+
+#app #reports_page #gt div {
+  padding-left: 10px;
+}
+
+#app #reports_page #gt #gt_label {
+  font-size: 0.8em;
+  text-transform: uppercase;
+  color: #666;
+}
+
+#app #reports_page #gt #grand_total {
+  font-weight: bold;
 }
 
 /* ---------------------------------------------------

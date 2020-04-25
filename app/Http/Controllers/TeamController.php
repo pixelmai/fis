@@ -17,6 +17,7 @@ class TeamController extends Controller
   public function __construct()
   {
     $this->middleware('auth');
+    $this->page_title = 'Team';
   }
   
   public function index(){
@@ -30,7 +31,7 @@ class TeamController extends Controller
     }
   
 
-    return view('team.index', ['user' => $user, 'team' => $team]);
+    return view('team.index', ['user' => $user, 'team' => $team, 'page_title'=> $this->page_title]);
   }
 
 
@@ -40,7 +41,7 @@ class TeamController extends Controller
     $team_member = User::find($tm);
 
     if($user->id != $team_member->id){
-      return view('team.profile', ['user' => $user, 'team_member' => $team_member]);
+      return view('team.profile', ['user' => $user, 'team_member' => $team_member, 'page_title'=> 'Team Member: ' . $team_member->fname .' '. $team_member->lname ]);
     }else{
       return redirect("/account");
     }
@@ -112,7 +113,7 @@ class TeamController extends Controller
 
 
     if($this->canUpdate($team_member)){
-      return view('team.edit', ['user' => $user, 'team_member' => $team_member]);
+      return view('team.edit', ['user' => $user, 'team_member' => $team_member, 'page_title'=> $this->page_title]);
     }else{
       return redirect("/team")->with(['status' => 'danger', 'message' => 'No permission to edit user']);
     }

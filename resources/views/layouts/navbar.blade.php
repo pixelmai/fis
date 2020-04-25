@@ -32,7 +32,36 @@
             </a>
         </li>
 
+        <li class="nav-item">
+          <strong class="nav-caption">Quick Add links</strong>
+        </li>
 
+        <li class="nav-item">
+          <a class="dropdown-item" href="/invoices/create">
+            Add Invoice
+          </a>
+        </li>
+
+
+        <li class="nav-item">
+          <a class="dropdown-item" href="/clients/create">
+            Add Client
+          </a>
+
+        </li>
+
+        <li class="nav-item">
+          <a class="dropdown-item" href="/companies/create">
+            Add Company
+          </a>
+        </li>
+
+
+        <li class="nav-item">
+          <a class="dropdown-item" href="/projects/create">
+            Add Project
+          </a>
+        </li>
         
           <li class="nav-item superadmin">
             @if (Auth::user()->superadmin)
@@ -70,8 +99,37 @@
 
     <div class="collapse navbar-collapse d-none d-lg-block d-xl-block" id="navbarLarge">
       <ul class="nav navbar-nav ml-auto">
-        
           <li class="nav-item dropdown">
+            <a id="navBarDropdownQuickadd" class="nav-link quickadd-icon" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+              <div class="pr-2">
+                <i class="fas fa-plus-circle"></i>
+              </div>
+            </a>
+
+
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navBarDropdownQuickadd">
+              <h6 class="dropdown-header">Quick Links</h6>
+              <div class="dropdown-divider"></div>
+
+              <a class="dropdown-item" href="/invoices/create">
+                Add Invoice
+              </a>
+              <a class="dropdown-item" href="/clients/create">
+                Add Client
+              </a>
+              <a class="dropdown-item" href="/companies/create">
+                Add Company
+              </a>
+              <a class="dropdown-item" href="/projects/create">
+                Add Project
+              </a>
+
+            </div>
+          </li>
+       
+
+          <li class="nav-item dropdown">
+
             <a id="navBarDropdownAdmin" class="nav-link superadmin-icon" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
               <div class="pr-3">
                 @if (Auth::user()->superadmin)

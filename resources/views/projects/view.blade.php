@@ -135,6 +135,12 @@
                 </tr>
               </thead>
             </table>
+
+          @else
+            <div class="empty_results">
+              <p>No invoices yet</p>
+              <a href="/invoices/create" class="btn btn-lg btn-outline-success">Create New Invoice</a>
+            </div>
           @endif
 
 

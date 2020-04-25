@@ -28,6 +28,8 @@ class InvoicesController extends Controller
     $this->page_settings['seltab'] = 'transactions';
     $this->page_settings['seltab2'] = 'invoices';
     $this->homeLink = '/invoices';
+    $this->page_title = 'Invoices';
+
 
     $this->status = array( 
       '1' => 'Draft', 
@@ -151,7 +153,7 @@ class InvoicesController extends Controller
       
     }
 
-    return view('invoices.index', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status]);
+    return view('invoices.index', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'page_title'=> $this->page_title]);
   }
 
 
@@ -170,7 +172,7 @@ class InvoicesController extends Controller
 
     $token = Str::random(60);
 
-    return view('invoices.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'id_num'=> $id_num, 'services' => $services, 'discounts' => $discounts, 'dtoken' => $token ]);
+    return view('invoices.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'id_num'=> $id_num, 'services' => $services, 'discounts' => $discounts, 'dtoken' => $token, 'page_title'=> $this->page_title]);
   }
 
 
@@ -320,9 +322,9 @@ class InvoicesController extends Controller
       }
             
       if($print == 'print'){
-        return view('invoices.print', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items]);
+        return view('invoices.print', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items, 'page_title'=> 'Print Invoice #'. $id ]);
       }else{
-        return view('invoices.view', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items]);
+        return view('invoices.view', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items, 'page_title'=> $this->page_title]);
       }
 
     }else{
@@ -395,7 +397,7 @@ class InvoicesController extends Controller
         );
       }
 
-      return view('invoices.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'services' => $services, 'discounts' => $discounts, 'invoice' => $invoice, 'current_data' => $invoice_current_data, 'items' => $invoice_items, 'machines' => $machines, 'dtoken' => $token ]);
+      return view('invoices.edit', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'services' => $services, 'discounts' => $discounts, 'invoice' => $invoice, 'current_data' => $invoice_current_data, 'items' => $invoice_items, 'machines' => $machines, 'dtoken' => $token, 'page_title'=> $this->page_title]);
 
 
     }else{
