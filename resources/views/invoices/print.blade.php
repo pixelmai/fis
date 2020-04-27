@@ -240,7 +240,7 @@
         <h2>Billing Form</h2>
 
         <div class="basic_invoice_info row">
-          <div class="col-md-9">
+          <div class="col-md-8">
             <table>
               @if ($invoice->client->fname)
                 <tr>
@@ -308,7 +308,7 @@
             </table>
           </div>
 
-          <div class="col-md-3">
+          <div class="col-md-4">
 
 
             <table>
@@ -465,7 +465,7 @@
         <h2>Billing Form</h2>
 
         <div class="basic_invoice_info row">
-          <div class="col-md-9">
+          <div class="col-md-8">
             <table>
               @if ($invoice->client->fname)
                 <tr>
@@ -533,7 +533,7 @@
             </table>
           </div>
 
-          <div class="col-md-3">
+          <div class="col-md-4">
 
 
             <table>
