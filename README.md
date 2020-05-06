@@ -1,8 +1,8 @@
 ## About Fablab-WIS
 
-Fablab-WIS is a web application developed by [Pixelmai](https://pixelmai.com) for Fablab UP Cebu. This project is required for the fulfillment of her master's degree. For the backend development, it used Laravel - a PHP web framework and MySQL for its database. On the other hand, HTML/CSS (Bootstrap), jQuery, and Ajax were used for the front-end development.
+Fablab-WIS is a web application developed by [Pixelmai](https://pixelmai.com) for Fablab UP Cebu (Fabrication Laboratory). This project is submitted for the fulfillment of the author's master's degree. 
 
-The application of user-centered design practices during the implementation of this project was the aim of this project. Active roles were given to the beneficiary during the design, development, and testing process.
+The application of user-centered design practices during the implementation of this project was the aim of this project. Active roles were given to the beneficiary during the design, development, and testing process. Agile and modern collaborative methods were used throughout the study, especially on the data gathering and planning stages. For the backend development, the technologies used are Laravel - a PHP web framework and MySQL for its database. On the other hand, HTML/CSS (Bootstrap), jQuery, and Ajax were used for the front-end development.
 
 ## Screenshots
 
