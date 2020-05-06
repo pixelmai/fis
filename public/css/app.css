@@ -11617,6 +11617,7 @@ form label #compExists {
 
 #app #listpage_datatable tr td {
   vertical-align: middle;
+  cursor: pointer;
 }
 
 #app #listpage_datatable tr td .btn {
@@ -11654,12 +11655,14 @@ form label #compExists {
 #app #listpage_datatable tr td:first-child {
   line-height: 1em;
   padding-left: 20px;
+  cursor: default;
 }
 
 #app #listpage_datatable tr td:last-child {
   text-align: right;
   width: 150px !important;
   min-width: 150px !important;
+  cursor: default;
 }
 
 #app #listpage_datatable tr .hover_buttons {

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableOfficialbills extends Migration
+class CreateOfficialbills extends Migration
 {
     /**
      * Run the migrations.
@@ -25,6 +25,7 @@ class CreateTableOfficialbills extends Migration
             $table->string('by_name'); 
             $table->string('by_position');
             $table->tinyInteger('status')->default(1); 
+            $table->unsignedBigInteger('createdby_id');
             $table->unsignedBigInteger('updatedby_id');
             $table->timestamps(); 
         });
@@ -37,6 +38,6 @@ class CreateTableOfficialbills extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_officialbills');
+        Schema::dropIfExists('officialbills');
     }
 }

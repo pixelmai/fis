@@ -57,6 +57,7 @@
     $(document).ready( function () {
       var id = [];
       var row_id = 0;
+      var row_url = '';
 
       $.ajaxSetup({
         headers: {
@@ -79,6 +80,18 @@
                 if(data.is_deactivated == 1){
                   $( row ).addClass('deactivated');
                 }
+
+                row_url = '/invoices/view/' +  parseInt(data.id); 
+                $( row ).addClass('clickable-row').attr("data-href", row_url );
+
+                $(document).on('click','.clickable-row',function() {
+                    window.location = $(this).data("href");
+                });
+
+                $(document).on('click', '.clickable-row td:first-child', function(e) { e.stopPropagation() });
+
+                $(document).on('click', '.clickable-row td:last-child', function(e) { e.stopPropagation() });
+
               },
              columns: [
                       { data: 'checkbox', orderable:false, searchable:false},
@@ -274,6 +287,9 @@
         });
 
       }
+
+
+
 
 
 

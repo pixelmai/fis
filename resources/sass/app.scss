@@ -772,6 +772,7 @@
       tr{
         td{
           vertical-align: middle;
+          cursor: pointer;
 
           .btn{
             margin-left: 5px;
@@ -810,11 +811,13 @@
         td:first-child{
           line-height: 1em;
           padding-left: 20px;
+          cursor: default;
         }
         td:last-child{
           text-align: right;
           width: 150px !important;
           min-width: 150px !important;
+          cursor: default;
         }
 
         .hover_buttons{

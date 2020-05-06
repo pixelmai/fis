@@ -79,6 +79,19 @@
                 if(data.is_deactivated == 1){
                   $( row ).addClass('deactivated');
                 }
+
+                row_url = '/projects/view/' +  parseInt(data.id); 
+
+                $( row ).addClass('clickable-row').attr("data-href", row_url );
+
+                $(document).on('click','.clickable-row',function() {
+                    window.location = $(this).data("href");
+                });
+
+                $(document).on('click', '.clickable-row td:first-child', function(e) { e.stopPropagation() });
+
+                $(document).on('click', '.clickable-row td:last-child', function(e) { e.stopPropagation() });
+
               },
              columns: [
                       { data: 'id', name: 'id', 'visible': false},
