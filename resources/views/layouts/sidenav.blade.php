@@ -32,7 +32,7 @@
                   <a href="/invoices">Invoices</a>
               </li>
               <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'official')) class="active" @endif>
-                  <a href="#">Official Billing (developing...)</a>
+                  <a href="/bills">Official Billing</a>
               </li>
               <li @if(!empty($page_settings['seltab2']) && ($page_settings['seltab2'] == 'services')) class="active" @endif>
                   <a href="/services">Services</a>

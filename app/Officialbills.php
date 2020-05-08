@@ -13,9 +13,8 @@ class Officialbills extends Model
     'letter', 'billing_date', 'by_name', 'by_position', 'status', 'createdby_id', 'updatedby_id', 
   ];
 
-  public function companies(){
-    return $this->hasMany('App\Companies');
+  public function invoice(){
+    return $this->hasOne('App\Invoices','id', 'invoice_id');
   }
-
 
 }
