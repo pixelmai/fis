@@ -126,7 +126,6 @@
             </div>
           </div>
 
-          <h5>Invoice Items</h5>
 
           <div id="invoice_items_table">
             <table class="w-100">

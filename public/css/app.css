@@ -12585,6 +12585,10 @@ form label #compExists {
   border: 0;
 }
 
+#app #official_bills_view #totals_section #totals_form_group {
+  width: 310px;
+}
+
 /* ---------------------------------------------------
   ADDITIONAL OOP
 ----------------------------------------------------- */

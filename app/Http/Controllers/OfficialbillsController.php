@@ -328,7 +328,9 @@ class OfficialbillsController extends Controller
       }
             
       if($print == 'print'){
-        return view('invoices.print', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items, 'page_title'=> 'Print Invoice #'. $id ]);
+        //TODO
+
+        //return view('invoices.print', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items, 'page_title'=> 'Print Invoice #'. $id ]);
       }else{
         return view('bills.view', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items, 'page_title'=> $this->page_title, 'bill' => $bill]);
       }
@@ -346,9 +348,46 @@ class OfficialbillsController extends Controller
    * @param  \App\Officialbills  $officialbills
    * @return \Illuminate\Http\Response
    */
-  public function edit(Officialbills $officialbills)
+  public function edit($id)
   {
-    //
+    $user = auth()->user();
+    $bill = Officialbills::find($id);
+    $invoice = Invoices::with('items')->find($bill->invoice_id);
+    $appsettings = Appsettings::find(1);
+
+
+    if(isset($bill) && $bill->status == 1){
+
+      $updater = User::find($invoice->updatedby_id);
+      if($invoice->status){
+        $s = $this->status[$invoice->status];
+      }
+
+      $invoice_items = array();
+
+      foreach ($invoice->items as $key => $item) {
+        $stat = Services::find($item->services_id);
+        $r = Servicesrates::find($item->servicesrates_id);
+        $price = ( $invoice->is_up == 1  ? $r->up_price : $r->def_price);
+
+        $invoice_items[] = array( 
+          "id" => $item->id,
+          "services_id" => $stat->id,
+          "services_name" => $stat->name,
+          "quantity" => $item->quantity,
+          "unit" => $stat->unit,
+          "servicesrates_id" => $r->id,
+          "price" => $price,
+          "notes" => $item->notes,
+        );
+      }
+            
+
+      return view('bills.edit', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items, 'page_title'=> $this->page_title, 'appsettings' => $appsettings, 'bill' => $bill]);
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Invoice not found', 'danger');
+    }
   }
 
   /**
@@ -358,9 +397,48 @@ class OfficialbillsController extends Controller
    * @param  \App\Officialbills  $officialbills
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, Officialbills $officialbills)
+  public function update($id)
   {
-    //
+    $user = auth()->user();
+
+    $bill = Officialbills::find($id);
+
+    if($bill){
+
+
+      $data = request()->validate([
+        'for_name' => ['required'],
+        'for_company' => ['nullable'],
+        'for_position' => ['nullable'],
+        'letter' => ['required'],
+        'billing_date' => ['required'],
+        'by_name' => ['required'],
+        'by_position' => ['required'],
+      ]);
+
+
+      $billing_date = (isset($data['billing_date']) ? dateDatabase($data['billing_date']) : $data['billing_date']);
+
+      $bill->for_name = $data['for_name'];
+      $bill->for_company = $data['for_company'];
+      $bill->for_position = $data['for_position'];
+      $bill->letter = $data['letter'];
+      $bill->billing_date = $billing_date;
+      $bill->by_name = $data['by_name'];
+      $bill->by_position = $data['by_position'];
+      
+      $query = $bill->update();
+
+      if($query){
+        return notifyRedirect($this->homeLink.'/view/'.$bill->id, 'Updated Official Bill #'. $bill->id .' successfully', 'success');
+      }
+
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Client not found', 'danger');
+    }
+
+
   }
 
   /**
