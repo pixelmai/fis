@@ -12422,86 +12422,167 @@ form label #compExists {
   font-weight: bold;
 }
 
-#app #official_bills_form .btn-outline-secondary {
+#app #official_bills_form h5,
+#app #official_bills_view h5 {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #999;
+  padding-bottom: 10px;
+}
+
+#app #official_bills_form .btn-outline-secondary,
+#app #official_bills_view .btn-outline-secondary {
   color: #6c757d;
   border-color: #6c757d;
 }
 
-#app #official_bills_form .btn-outline-secondary:hover {
+#app #official_bills_form .btn-outline-secondary:hover,
+#app #official_bills_view .btn-outline-secondary:hover {
   color: #fff;
 }
 
+#app #official_bills_form #markers .status_draft,
+#app #official_bills_view #markers .status_draft {
+  background: #999;
+}
+
+#app #official_bills_form #markers .status_paid,
+#app #official_bills_view #markers .status_paid {
+  background: #38c172;
+}
+
+#app #official_bills_form #markers .status_sent,
+#app #official_bills_view #markers .status_sent {
+  background: #f6993f;
+}
+
+#app #official_bills_form #markers .status,
+#app #official_bills_view #markers .status {
+  border-top-left-radius: 0.25rem;
+  color: #fff;
+  display: inline-block;
+  padding: 15px 40px;
+  font-size: 1.3em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+#app #official_bills_form #markers #invoice_menu,
+#app #official_bills_view #markers #invoice_menu {
+  padding: 30px 40px 0;
+}
+
 #app #official_bills_form #bill_for_settings .form-group .row,
-#app #official_bills_form #prepared_by_settings .form-group .row {
+#app #official_bills_form #prepared_by_settings .form-group .row,
+#app #official_bills_view #bill_for_settings .form-group .row,
+#app #official_bills_view #prepared_by_settings .form-group .row {
   padding-bottom: 10px;
 }
 
-#app #official_bills_form #bill_message {
+#app #official_bills_form #bill_message,
+#app #official_bills_view #bill_message {
   padding-bottom: 20px;
   border-bottom: 1px dotted #ccc;
   margin-bottom: 20px;
 }
 
-#app #official_bills_form #invoice_items_table {
+#app #official_bills_form #invoice_items_table,
+#app #official_bills_view #invoice_items_table {
   min-width: 1030px !important;
 }
 
-#app #official_bills_form #invoice_items_table table td {
+#app #official_bills_form #invoice_items_table table td,
+#app #official_bills_view #invoice_items_table table td {
   padding: 5px 10px;
 }
 
-#app #official_bills_form #invoice_items_table table td.services {
+#app #official_bills_form #invoice_items_table table td.services,
+#app #official_bills_view #invoice_items_table table td.services {
   width: 55%;
 }
 
-#app #official_bills_form #invoice_items_table table td.services em {
+#app #official_bills_form #invoice_items_table table td.services em,
+#app #official_bills_view #invoice_items_table table td.services em {
   color: #666;
 }
 
-#app #official_bills_form #invoice_items_table table td.quantity {
+#app #official_bills_form #invoice_items_table table td.quantity,
+#app #official_bills_view #invoice_items_table table td.quantity {
   width: 8%;
 }
 
-#app #official_bills_form #invoice_items_table table td.unit {
+#app #official_bills_form #invoice_items_table table td.unit,
+#app #official_bills_view #invoice_items_table table td.unit {
   width: 8%;
 }
 
-#app #official_bills_form #invoice_items_table table td.price {
+#app #official_bills_form #invoice_items_table table td.price,
+#app #official_bills_view #invoice_items_table table td.price {
   width: 14%;
 }
 
-#app #official_bills_form #invoice_items_table table td.amount {
+#app #official_bills_form #invoice_items_table table td.amount,
+#app #official_bills_view #invoice_items_table table td.amount {
   width: 15%;
   border-bottom: 1px dotted #ccc !important;
 }
 
-#app #official_bills_form #totals_section {
+#app #official_bills_form #totals_section,
+#app #official_bills_view #totals_section {
   min-width: 1030px !important;
   padding: 0 0 20px 0;
   text-align: right;
   width: 100% !important;
 }
 
-#app #official_bills_form #totals_section #totals_form_group {
+#app #official_bills_form #totals_section #totals_form_group,
+#app #official_bills_view #totals_section #totals_form_group {
   width: 308px;
 }
 
-#app #official_bills_form #totals_section .row {
+#app #official_bills_form #totals_section .row,
+#app #official_bills_view #totals_section .row {
   margin: 0;
 }
 
-#app #official_bills_form #totals_section .num {
+#app #official_bills_form #totals_section .num,
+#app #official_bills_view #totals_section .num {
   border-left: 1px dotted #e1e1e1;
   background: #f0f4f8;
   margin: 0;
   padding: 5px 10px;
 }
 
-#app #official_bills_form #totals_section #grand_total {
+#app #official_bills_form #totals_section #grand_total,
+#app #official_bills_view #totals_section #grand_total {
   border-top: 2px solid #e1e1e1;
   border-bottom: 2px solid #e1e1e1;
   margin-bottom: 0;
   font-size: 1.4em;
+}
+
+#app #official_bills_view h3 {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+#app #official_bills_view .card {
+  padding: 0;
+}
+
+#app #official_bills_view .card .card-body {
+  padding: 2.25rem;
+  padding-top: 20px;
+}
+
+#app #official_bills_view #bill_for_settings span {
+  display: block;
+}
+
+#app #official_bills_view #bill_message {
+  border: 0;
 }
 
 /* ---------------------------------------------------

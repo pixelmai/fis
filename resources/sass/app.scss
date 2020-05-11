@@ -1599,7 +1599,14 @@
 
   /* OFFICIAL BILLS */
 
-    #official_bills_form{
+    #official_bills_form, #official_bills_view{
+
+      h5{
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #999;
+        padding-bottom: 10px;
+      }
 
       .btn-outline-secondary{
         color: #6c757d;
@@ -1608,6 +1615,37 @@
         &:hover{
           color: #fff;
         }
+      }
+
+
+      #markers{
+
+        .status_draft{
+          background: #999;
+        }
+
+        .status_paid{
+          background: $green;
+        }
+
+        .status_sent{
+          background: $orange;
+        }
+
+        .status{
+          border-top-left-radius: 0.25rem;
+          color: #fff;
+          display: inline-block;
+          padding: 15px 40px;
+          font-size: 1.3em;
+          text-transform:   uppercase;  
+          letter-spacing: 1px;
+        }
+
+        #invoice_menu{
+          padding: 30px 40px 0;
+        }
+
       }
 
       #bill_for_settings, #prepared_by_settings{
@@ -1622,9 +1660,6 @@
         margin-bottom: 20px;
       }
 
-      #totals_section{
-
-      }
 
       #invoice_items_table{
         min-width: 1030px !important;
@@ -1676,6 +1711,34 @@
       }
 
 
+    }
+
+    #official_bills_view{
+
+      h3{
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding-bottom: 10px;
+        text-align: center;
+      }
+
+      .card{
+        padding: 0;
+
+        .card-body{
+          padding: 2.25rem;
+          padding-top: 20px;
+        }
+      }
+
+      #bill_for_settings{
+        span{
+          display: block;
+        }
+      }
+      #bill_message{
+        border: 0;
+      }
     }
 
   /* OFFICIAL BILLS */

@@ -59,16 +59,16 @@ class OfficialbillsController extends Controller
 
       return datatables()->of($dbtable)
         ->addColumn('action', function($data){
-      $button = '<div class="hover_buttons"><a href="/invoices/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
+      $button = '<div class="hover_buttons"><a href="/bills/view/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="View" class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-eye"></i></a>';
 
-      $button .= '<a href="/invoices/view/'.$data->id.'/print" data-toggle="tooltip" data-placement="top" data-original-title="Print" class="edit btn btn-outline-secondary btn-sm" target="_blank"><i class="fas fa-print"></i></a>';
+      $button .= '<a href="/bills/view/'.$data->id.'/print" data-toggle="tooltip" data-placement="top" data-original-title="Print" class="edit btn btn-outline-secondary btn-sm" target="_blank"><i class="fas fa-print"></i></a>';
 
       if($data->status != 3){
         $button .= '<a href="javascript:void(0);" id="add-log-row" data-toggle="tooltip" data-placement="top" data-original-title="Set Status" data-id="'.$data->id.'"  class="edit btn btn-outline-secondary btn-sm"><i class="fas fa-history"></i></a>';
       }
 
       if($data->status == 1){        
-        $button .= '<a href="/invoices/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
+        $button .= '<a href="/bills/edit/'.$data->id.'" data-toggle="tooltip" data-placement="top" data-original-title="Edit" class="edit btn btn-outline-secondary btn-sm edit-post"><i class="fas fa-edit"></i></a>';
 
         $button .= '<a href="javascript:void(0);" id="delete-row" data-toggle="tooltip" data-placement="top" data-original-title="Delete" data-id="'.$data->id.'" class="delete btn-sm btn btn-outline-danger"><i class="fas fa-trash"></i></a>';
       }
@@ -251,7 +251,7 @@ class OfficialbillsController extends Controller
       'invoice_id' => ['required'],
       'for_name' => ['required'],
       'for_company' => ['nullable'],
-      'by_position' => ['nullable'],
+      'for_position' => ['nullable'],
       'letter' => ['required'],
       'billing_date' => ['required'],
       'by_name' => ['required'],
@@ -271,10 +271,11 @@ class OfficialbillsController extends Controller
         'invoice_id' => $data['invoice_id'],
         'for_name' => $data['for_name'],
         'for_company' => $data['for_company'],
-        'by_position' => $data['by_position'],
+        'for_position' => $data['for_position'],
         'letter' => $data['letter'],
         'billing_date' => $billing_date,
         'by_name' => $data['by_name'],
+        'by_position' => $data['by_position'],
         'status' => 1,
         'createdby_id' => $user->id,
         'updatedby_id' => $user->id,
@@ -293,16 +294,51 @@ class OfficialbillsController extends Controller
   
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  \App\Officialbills  $officialbills
-   * @return \Illuminate\Http\Response
-   */
-  public function show(Officialbills $officialbills)
+
+  public function view($id, $print = null)
   {
-    //
+    $user = auth()->user();
+    $bill = Officialbills::find($id);
+    $invoice = Invoices::with('items')->find($bill->invoice_id);
+
+
+    if($bill){
+      $updater = User::find($bill->updatedby_id);
+      if($bill->status){
+        $s = $this->status[$bill->status];
+      }
+
+      $invoice_items = array();
+
+      foreach ($invoice->items as $key => $item) {
+        $stat = Services::find($item->services_id);
+        $r = Servicesrates::find($item->servicesrates_id);
+        $price = ( $invoice->is_up == 1  ? $r->up_price : $r->def_price);
+
+        $invoice_items[] = array( 
+          "id" => $item->id,
+          "services_id" => $stat->id,
+          "services_name" => $stat->name,
+          "quantity" => $item->quantity,
+          "unit" => $stat->unit,
+          "servicesrates_id" => $r->id,
+          "price" => $price,
+          "notes" => $item->notes,
+        );
+      }
+            
+      if($print == 'print'){
+        return view('invoices.print', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items, 'page_title'=> 'Print Invoice #'. $id ]);
+      }else{
+        return view('bills.view', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items, 'page_title'=> $this->page_title, 'bill' => $bill]);
+      }
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Invoice not found', 'danger');
+    }
   }
+
+
 
   /**
    * Show the form for editing the specified resource.
