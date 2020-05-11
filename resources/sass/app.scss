@@ -759,7 +759,6 @@
   }
 
 
-
   /* DATA TABLES */
     #listpage_datatable{
       width: 100% !important;
@@ -927,6 +926,21 @@
 
       }
     }
+
+
+    #select_invoice_official_bill #listpage_datatable tr{
+      td:first-child{
+        line-height: 1em;
+        padding-left: 20px;
+        cursor: pointer;
+      }
+      td:last-child{
+        text-align: right;
+        padding-right: 20px;
+        cursor: pointer;
+      }
+    }
+
   /* DATA TABLES */
 
 
@@ -1544,45 +1558,127 @@
   /* DASHBOARD */
 
   /* REPORTS */
-  #reports_page{
-    #filters_container{
-      .filter_container{
-        display: inline-block;
-      }
-      #months_container{
-        
-        .bootstrap-select{
-          width: 130px;
+    #reports_page{
+      #filters_container{
+        .filter_container{
+          display: inline-block;
+        }
+        #months_container{
+          
+          .bootstrap-select{
+            width: 130px;
+          }
+        }
+
+        #years_container{
+          .bootstrap-select{
+            width: 80px;
+          }
         }
       }
 
-      #years_container{
-        .bootstrap-select{
-          width: 80px;
+
+      #gt{
+        font-size: 1.7em;
+
+        div{
+          padding-left: 10px; 
+        }
+
+        #gt_label{
+          font-size: .8em;
+          text-transform: uppercase;
+          color: #666;
+        }
+        #grand_total{
+          font-weight: bold;
         }
       }
     }
+  /* REPORTS */
 
+  /* OFFICIAL BILLS */
 
-    #gt{
-      font-size: 1.7em;
+    #official_bills_form{
 
-      div{
-        padding-left: 10px; 
+      .btn-outline-secondary{
+        color: #6c757d;
+        border-color: #6c757d;
+
+        &:hover{
+          color: #fff;
+        }
       }
 
-      #gt_label{
-        font-size: .8em;
-        text-transform: uppercase;
-        color: #666;
+      #bill_for_settings, #prepared_by_settings{
+        .form-group .row{
+          padding-bottom: 10px;
+        }
       }
-      #grand_total{
-        font-weight: bold;
+
+      #bill_message{
+        padding-bottom: 20px;
+        border-bottom: 1px dotted #ccc;
+        margin-bottom: 20px;
       }
+
+      #totals_section{
+
+      }
+
+      #invoice_items_table{
+        min-width: 1030px !important;
+        table{
+          td{
+            padding: 5px 10px;
+          }
+          td.services{ 
+            width: 55%; 
+            em{
+              color: #666;
+            }
+          }
+          td.quantity{ width: 8%; }
+          td.unit{ width: 8%; }
+          td.price{ width: 14%; }
+          td.amount{ width: 15%; border-bottom: 1px dotted #ccc !important; }
+        }
+      }
+
+
+      #totals_section{
+        min-width: 1030px !important;
+        padding: 0 0 20px 0;
+        text-align: right;
+        width: 100% !important;
+
+        #totals_form_group{
+          width: 308px;
+        }
+
+        .row{
+          margin: 0;
+        }
+
+        .num{
+          border-left: 1px dotted #e1e1e1;
+          background: #f0f4f8;
+          margin: 0;
+          padding: 5px 10px;
+        }
+
+        #grand_total{
+          border-top: 2px solid #e1e1e1;
+          border-bottom: 2px solid #e1e1e1;
+          margin-bottom: 0;
+          font-size: 1.4em;
+        }
+      }
+
+
     }
-  }
 
-
+  /* OFFICIAL BILLS */
 }
 
 

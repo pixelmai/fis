@@ -10,7 +10,7 @@ class Officialbills extends Model
 
   protected $fillable = [
     'invoice_id', 'for_name', 'for_company', 'for_position', 'for_address', 
-    'letter', 'billing_date', 'by_name', 'by_position', 'status', 'createdby_id', 'updatedby_id', 
+    'letter', 'billing_date', 'by_name', 'by_position', 'status', 'createdby_id', 'updatedby_id', 'token'
   ];
 
   public function invoice(){

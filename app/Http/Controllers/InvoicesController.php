@@ -37,7 +37,6 @@ class InvoicesController extends Controller
       '2' => 'Sent',
       '3' => 'Paid'
     );
-
   }
 
   public function index()

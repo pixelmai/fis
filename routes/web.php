@@ -256,18 +256,19 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 /* Bills */
-  Route::get('/bills', 'Officialbillscontroller@index'); 
-  Route::get('/bills/create', 'Officialbillscontroller@create');
-  Route::post('/bills/create', 'Officialbillscontroller@store');
-  Route::get('/bills/edit/{id}', 'Officialbillscontroller@edit');
-  Route::patch('/bills/edit/{id}', 'Officialbillscontroller@update');
-  Route::get('/bills/view/{id}/{print?}', 'Officialbillscontroller@view');
-  Route::get('/invoices/view/{id}', 'Officialbillscontroller@view');
-  Route::get('/bills/destroy/{id}', 'Officialbillscontroller@destroy');
+  Route::get('/bills', 'OfficialbillsController@index'); 
+  Route::get('/bills/select', 'OfficialbillsController@select');
+  Route::get('/bills/create/{id}', 'OfficialbillsController@create');
+  Route::post('/bills/store', 'OfficialbillsController@store');
+  Route::get('/bills/edit/{id}', 'OfficialbillsController@edit');
+  Route::patch('/bills/edit/{id}', 'OfficialbillsController@update');
+  Route::get('/bills/view/{id}/{print?}', 'OfficialbillsController@view');
+  Route::get('/invoices/view/{id}', 'OfficialbillsController@view');
+  Route::get('/bills/destroy/{id}', 'OfficialbillsController@destroy');
 
-  Route::get('/bills/deactivate/{id}', 'Officialbillscontroller@deactivate');
-  Route::get('/bills/activate/{id}', 'Officialbillscontroller@activate');
-  Route::post('/bills/status', 'Officialbillscontroller@status');
+  Route::get('/bills/deactivate/{id}', 'OfficialbillsController@deactivate');
+  Route::get('/bills/activate/{id}', 'OfficialbillsController@activate');
+  Route::post('/bills/status', 'OfficialbillsController@status');
 /* Bills */
 
 

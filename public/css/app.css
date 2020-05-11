@@ -11523,6 +11523,9 @@ form label #compExists {
   /* DASHBOARD */
   /* DASHBOARD */
   /* REPORTS */
+  /* REPORTS */
+  /* OFFICIAL BILLS */
+  /* OFFICIAL BILLS */
 }
 
 #app .card.card-table {
@@ -11774,6 +11777,18 @@ form label #compExists {
   width: 100px;
   text-align: left;
   margin-left: 10px;
+}
+
+#app #select_invoice_official_bill #listpage_datatable tr td:first-child {
+  line-height: 1em;
+  padding-left: 20px;
+  cursor: pointer;
+}
+
+#app #select_invoice_official_bill #listpage_datatable tr td:last-child {
+  text-align: right;
+  padding-right: 20px;
+  cursor: pointer;
 }
 
 #app #invoices_page #listpage_datatable tr td:last-child {
@@ -12405,6 +12420,88 @@ form label #compExists {
 
 #app #reports_page #gt #grand_total {
   font-weight: bold;
+}
+
+#app #official_bills_form .btn-outline-secondary {
+  color: #6c757d;
+  border-color: #6c757d;
+}
+
+#app #official_bills_form .btn-outline-secondary:hover {
+  color: #fff;
+}
+
+#app #official_bills_form #bill_for_settings .form-group .row,
+#app #official_bills_form #prepared_by_settings .form-group .row {
+  padding-bottom: 10px;
+}
+
+#app #official_bills_form #bill_message {
+  padding-bottom: 20px;
+  border-bottom: 1px dotted #ccc;
+  margin-bottom: 20px;
+}
+
+#app #official_bills_form #invoice_items_table {
+  min-width: 1030px !important;
+}
+
+#app #official_bills_form #invoice_items_table table td {
+  padding: 5px 10px;
+}
+
+#app #official_bills_form #invoice_items_table table td.services {
+  width: 55%;
+}
+
+#app #official_bills_form #invoice_items_table table td.services em {
+  color: #666;
+}
+
+#app #official_bills_form #invoice_items_table table td.quantity {
+  width: 8%;
+}
+
+#app #official_bills_form #invoice_items_table table td.unit {
+  width: 8%;
+}
+
+#app #official_bills_form #invoice_items_table table td.price {
+  width: 14%;
+}
+
+#app #official_bills_form #invoice_items_table table td.amount {
+  width: 15%;
+  border-bottom: 1px dotted #ccc !important;
+}
+
+#app #official_bills_form #totals_section {
+  min-width: 1030px !important;
+  padding: 0 0 20px 0;
+  text-align: right;
+  width: 100% !important;
+}
+
+#app #official_bills_form #totals_section #totals_form_group {
+  width: 308px;
+}
+
+#app #official_bills_form #totals_section .row {
+  margin: 0;
+}
+
+#app #official_bills_form #totals_section .num {
+  border-left: 1px dotted #e1e1e1;
+  background: #f0f4f8;
+  margin: 0;
+  padding: 5px 10px;
+}
+
+#app #official_bills_form #totals_section #grand_total {
+  border-top: 2px solid #e1e1e1;
+  border-bottom: 2px solid #e1e1e1;
+  margin-bottom: 0;
+  font-size: 1.4em;
 }
 
 /* ---------------------------------------------------

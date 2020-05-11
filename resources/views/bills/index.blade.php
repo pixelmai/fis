@@ -11,7 +11,7 @@
         <h1 class="pt-1 pb-0">Official Bills</h1>
       </div>
       <div>
-        <a href="/invoices/create" class="btn btn-lg btn-success">Add Official Bill</a>
+        <a href="/bills/select" class="btn btn-lg btn-success">Add Official Bill</a>
       </div>
     </div>
   </div>

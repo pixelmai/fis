@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOfficialbills extends Migration
+class CreateOfficialbillsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -27,6 +27,7 @@ class CreateOfficialbills extends Migration
             $table->tinyInteger('status')->default(1); 
             $table->unsignedBigInteger('createdby_id');
             $table->unsignedBigInteger('updatedby_id');
+            $table->string('token')->nullable();
             $table->timestamps(); 
         });
     }
