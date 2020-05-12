@@ -204,9 +204,7 @@ class OfficialbillsController extends Controller
 
     if($invoice){
       $updater = User::find($invoice->updatedby_id);
-      if($invoice->status){
-        $s = $this->status[$invoice->status];
-      }
+
 
       $invoice_items = array();
 
@@ -228,20 +226,13 @@ class OfficialbillsController extends Controller
       }
             
 
-      return view('bills.create', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items, 'page_title'=> $this->page_title, 'appsettings' => $appsettings, 'dtoken' => $token]);
+      return view('bills.create', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater,  'status'=> $this->status, 'items' => $invoice_items, 'page_title'=> $this->page_title, 'appsettings' => $appsettings, 'dtoken' => $token]);
     
 
     }else{
       return notifyRedirect($this->homeLink, 'Invoice not found', 'danger');
     }
   }
-
-  /**
-  protected $fillable = [
-  'invoice_id', 'for_name', 'for_company', 'for_position', 'for_address', 
-  'letter', 'billing_date', 'by_name', 'by_position', 'status', 'createdby_id', 'updatedby_id', 'token'
-  ];
-   */
 
   public function store()
   {
@@ -290,8 +281,6 @@ class OfficialbillsController extends Controller
     }else{
       return notifyRedirect($this->homeLink.'/view/'.$token_check->id, 'Added an Official Bill successfully', 'success');
     }
-
-  
   }
 
 
@@ -359,8 +348,8 @@ class OfficialbillsController extends Controller
     if(isset($bill) && $bill->status == 1){
 
       $updater = User::find($invoice->updatedby_id);
-      if($invoice->status){
-        $s = $this->status[$invoice->status];
+      if($bill->status){
+        $s = $this->status[$bill->status];
       }
 
       $invoice_items = array();
@@ -454,6 +443,46 @@ class OfficialbillsController extends Controller
       }
     }else{
       return notifyRedirect($this->homeLink, 'Official Bill  not found', 'danger');
+    }
+  }
+
+  public function status(Request $request)
+  {
+    if(request()->ajax()){
+      $req_id = $request->input('id');
+      $form = $request->input('formData');
+
+      if(is_array($req_id)){
+        $count_updated = 0;
+
+        foreach ($req_id as $row_id) {
+
+            $row = Officialbills::find($row_id); 
+            if($row){
+              $row->status = $form['status'];
+              $row->updatedby_id = $form['updatedby_id'];
+              $row->update();
+
+              $count_updated++;
+            }
+        }
+        return Response::json($count_updated);
+
+      }else{
+
+        $row = Officialbills::find($req_id); 
+        if($row){
+          $row->status = $form['status'];
+          $row->updatedby_id = $form['updatedby_id'];
+          $row->update();
+
+          return Response::json(1);
+        }
+      }
+
+
+    }else{
+      return notifyRedirect($this->homeLink, 'Action not permitted', 'danger');
     }
   }
 

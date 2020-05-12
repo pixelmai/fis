@@ -45,7 +45,7 @@
 @stop
 
 @push('modals')
-  @include('invoices.modalSetStatus')
+  @include('bills.modalSetStatus')
 @endpush
 
 
@@ -172,7 +172,7 @@
         row_id = $(this).data("id");
 
         $('#ajax-crud-modal').trigger("reset");
-        $('#ajaxForm #invoice_id').val(row_id);
+        $('#ajaxForm #bill_id').val(row_id);
         $('#ajax-crud-modal').modal('show');
         $('#btn-multiple-save-status').addClass('d-none');
         $('#btn-single-save-status').removeClass('d-none');
@@ -180,7 +180,7 @@
 
 
       $('body').on('click', '#btn-single-save-status', function () {
-        initvalidator($('#invoice_id').val());
+        initvalidator($('#bill_id').val());
       });   
 
 
@@ -257,7 +257,7 @@
 
             $.ajax({
                 type: type,
-                url: "/invoices/status",
+                url: "/bills/status",
                 data: { "formData" : formData, "id": idx } ,
                 dataType: 'json',
                 success: function (data) {
@@ -268,7 +268,7 @@
 
                   var notifData = {
                     status: 'success',
-                    message: 'Successfully updated status of the selected ' + data + ' invoices.',
+                    message: 'Successfully updated status of the selected ' + data + ' official bill.',
                   };
 
                   generateNotif(notifData);

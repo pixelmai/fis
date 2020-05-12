@@ -263,7 +263,7 @@ Route::get('/home', 'HomeController@index')->name('home');
   Route::get('/bills/edit/{id}', 'OfficialbillsController@edit');
   Route::patch('/bills/edit/{id}', 'OfficialbillsController@update');
   Route::get('/bills/view/{id}/{print?}', 'OfficialbillsController@view');
-  Route::get('/invoices/view/{id}', 'OfficialbillsController@view');
+  Route::get('/bills/view/{id}', 'OfficialbillsController@view');
   Route::get('/bills/destroy/{id}', 'OfficialbillsController@destroy');
 
   Route::get('/bills/deactivate/{id}', 'OfficialbillsController@deactivate');

@@ -22,22 +22,22 @@
           <div id="invoice_menu">
 
             @if($s != 'Paid')
-              <a href="javascript:void(0);" id="add-log-row" data-id="{{ $invoice->id }}" class="edit btn btn-outline-secondary btn-md">
+              <a href="javascript:void(0);" id="add-log-row" data-id="{{ $bill->id }}" class="edit btn btn-outline-secondary btn-md">
                 <i class="fas fa-history"></i> Change Status
               </a>
             @endif
 
-            <a href="/bills/view/{{ $invoice->id }}/print" class="edit btn btn-outline-secondary btn-md" target="_blank">
+            <a href="/bills/view/{{ $bill->id }}/print" class="edit btn btn-outline-secondary btn-md" target="_blank">
               <i class="fas fa-print"></i> Print
             </a>
 
 
             @if($s == 'Draft')
-              <a href="/bills/edit/{{ $invoice->id }}" class="edit btn btn-outline-secondary btn-md">
+              <a href="/bills/edit/{{ $bill->id }}" class="edit btn btn-outline-secondary btn-md">
                 <i class="fas fa-edit"></i> Edit
               </a>
 
-              <a href="javascript:void(0);" id="delete-row" data-id="{{ $invoice->id }}" class="delete btn btn-outline-danger btn-md">
+              <a href="javascript:void(0);" id="delete-row" data-id="{{ $bill->id }}" class="delete btn btn-outline-danger btn-md">
                 <i class="fas fa-trash"></i> Delete
               </a>
             @endif
@@ -240,12 +240,12 @@
 
 
 @push('modals')
-  @include('invoices.modalSetStatus')
+  @include('bills.modalSetStatus')
 @endpush
 
 
 @push('scripts')
-<script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 
 <script type="text/javascript">
   $(document).ready(function(){
@@ -268,6 +268,88 @@
           });
         } 
       });   
+
+
+
+      $('body').on('click', '#add-log-row', function () {
+        $('#ajaxForm #bill_id').val({{ $bill->id }});
+        $('#ajax-crud-modal').trigger("reset");
+        $('#ajax-crud-modal').modal('show');
+        $('#btn-edit-status').addClass('d-none');
+        $('#btn-multiple-save-status').addClass('d-none');
+        $('#btn-single-save-status').removeClass('d-none');
+      });   
+
+    
+      $('body').on('click', '#btn-single-save-status', function () {
+        initvalidator("{{ $bill->id }}");
+      });   
+
+
+      function initvalidator(ids){
+        var validator = $("#ajaxForm").validate({
+          errorPlacement: function(error, element) {
+            // Append error within linked label
+            $( element )
+              .closest( "form" )
+                .find( "label[for='" + element.attr( "id" ) + "']" )
+                  .append( error );
+          },
+          errorElement: "span",
+          rules: {
+            status: {
+              required: true
+            }
+          },
+          messages: {
+            status: " (required)",
+          },
+          submitHandler: function(form) {
+            
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+        
+            var formData = {
+              status: $('#status').children("option:selected").val(),
+              updatedby_id: $('#updatedby_id').val(),
+            };
+
+            var state = jQuery('#btn-save').val();
+            var type = "POST";
+
+            $.ajax({
+                type: type,
+                url: "/bills/status",
+                data: { "formData" : formData, "id": ids } ,
+                dataType: 'json',
+                success: function (data) {
+                  $('#ajax-crud-modal').trigger("reset");
+                  $('#ajax-crud-modal').modal('hide');
+
+                  var notifData = {
+                    status: 'success',
+                    message: 'Successfully updated status of the selected ' + data + ' official bill.',
+                  };
+
+                  generateNotif(notifData);
+
+              
+                  window.location.href = '{{ url( '/bills/view/'.$bill->id ) }}';
+                },
+                error: function (data) {
+                  console.log('Error:', data);
+                }
+            });
+
+          },
+        });
+
+      }
+
 
 
   }); //Document Ready end
