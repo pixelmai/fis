@@ -92,6 +92,16 @@
 /* LOGIN */
 
 /* TEMPLATE DESIGN */
+
+  body{
+    h1, h2, h3, h4, h5, h6, .bh, .sh{
+      font-family: 'Nunito', 'Roboto', sans-serif;
+    }
+
+    .btn{
+      font-family: 'Nunito', 'Roboto', sans-serif;
+    }
+  }
   a,
   a:hover,
   a:focus {
@@ -259,6 +269,10 @@
     .sidebar-header {
       padding: 20px 10px;
       letter-spacing: 2px;
+
+      #fablab_system_name{
+        font-family: 'Nunito', 'Roboto', sans-serif;
+      }
     }
 
     ul.components {

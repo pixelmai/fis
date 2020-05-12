@@ -4,7 +4,7 @@
       <div class="pr-1" style="height: 30px;">
         <img src="/svg/dino.svg" alt="" height="30" width="56" class="pr-1" />
       </div>
-      <div class="pl-2 pt-1">FABLAB WIS</div>
+      <div id="fablab_system_name" class="pl-2 pt-1">FABLAB WIS</div>
     </a>
   </div>
   <ul class="list-unstyled components">

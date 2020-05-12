@@ -10965,6 +10965,21 @@ a.text-dark:focus {
 
 /* TEMPLATE DESIGN */
 
+body h1,
+body h2,
+body h3,
+body h4,
+body h5,
+body h6,
+body .bh,
+body .sh {
+  font-family: "Nunito", "Roboto", sans-serif;
+}
+
+body .btn {
+  font-family: "Nunito", "Roboto", sans-serif;
+}
+
 a,
 a:hover,
 a:focus {
@@ -11124,6 +11139,10 @@ a:focus {
 #sidebar .sidebar-header {
   padding: 20px 10px;
   letter-spacing: 2px;
+}
+
+#sidebar .sidebar-header #fablab_system_name {
+  font-family: "Nunito", "Roboto", sans-serif;
 }
 
 #sidebar ul.components {
