@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Appsettings;
 use App\User;
 use Illuminate\Http\Request;
-use App\Rules\PhoneNumber;
 
 class AppsettingsController extends Controller
 {
@@ -46,7 +45,7 @@ class AppsettingsController extends Controller
         'name' => 'required',
         'manager' => 'required',
         'email' => 'email',
-        'number' => ['required', new PhoneNumber],
+        'number' => ['required'],
         'address' => 'required',
         'dsc' => ['required','numeric'],
         'dpwd' => ['required','numeric'],

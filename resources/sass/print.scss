@@ -284,6 +284,169 @@ body{
   }
 
 
+  #official_bill{
+    font-size: 1.5em;
+    line-height: 1.5em;
+
+
+    #fablab_info{
+      margin-bottom: 20px;
+      h3{
+        font-weight: bold;
+      }
+
+      p{
+        margin-bottom: 0;
+      }
+    }
+
+
+    #bill_for_settings{
+      margin-bottom: 20px;
+
+      table{
+
+        th{
+          padding: 5px 20px;
+        }
+
+      }
+      #prepared_for{
+        width: 100%;
+        border: 1px solid #999;
+        th{
+          border-bottom: 1px solid #999;
+        }
+
+        td{
+          padding: 10px 20px;
+        }
+      }
+
+      #invoice_info{
+        width: 100%;
+        border-top: 1px solid #999;
+        border-right: 1px solid #999;
+
+        td{
+          border-bottom: 1px solid #999;
+          border-left: 1px solid #999;
+          padding: 5px 20px;
+        }
+
+        .heading{
+          width: 35%;
+        }
+      }
+
+    }
+
+
+    #bill_message{
+      margin-bottom: 20px;
+
+      h3{
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #333;
+        padding: 20px 0;
+        font-weight: bold;
+        font-size: 1.5em;
+        text-align: center;
+      }
+
+      p{
+        font-size: 1em;
+        color: #333;
+      }
+    }
+
+    #invoice_items_table{
+      min-width: 100%;
+      margin-bottom: 60px;
+
+      table{
+        td{
+          padding: 5px 20px;
+        }
+
+        th{
+          padding: 10px 20px;
+          border: 1px solid #999;
+        }
+        td.services{ 
+          width: 52%; 
+          em{
+            color: #666;
+          }
+        }
+        td.quantity{ width: 10%; }
+        td.unit{ width: 10%; }
+        td.price, th.price{ width: 12%; text-align: right }
+        td.amount, th.amount{ width: 16%; text-align: right }
+
+        .itemrow{
+          td{
+            border-right: 1px solid #999;
+            border-bottom: 0;
+            &:first-child{
+              border-left: 1px solid #999;
+            }
+          }
+
+
+        }
+
+        .subtotal{
+          td{
+            border-top: 1px solid #999;
+            border-right: 1px solid #999;
+            border-bottom: 0;
+            text-align: right;
+
+          }
+        }
+
+
+
+        .discount{
+          td{
+            border-right: 1px solid #999;
+            text-align: right;
+
+          }
+
+        }
+
+        .total{
+          td{
+            border-right: 1px solid #999;
+            text-align: right;
+
+          }
+
+          .grand{
+            border-top: 1px solid #999;
+            font-size: 1.3em;
+            border-bottom: 1px solid #999;
+          }
+
+        }
+
+      }
+    }
+
+
+    #prepared_by_settings{
+      h5{
+        padding-bottom: 100px;
+      }
+    }
+
+
+  }
+
+
 
 
 }

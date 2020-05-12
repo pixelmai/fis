@@ -41,7 +41,7 @@ class BootappController extends Controller
       Appsettings::create([
       'name' => 'FABLAB UP Cebu',
       'address' => 'Undergraduate Bldg., University of the Philippines Cebu, Gorordo Ave., Lahug, Cebu City 6000',
-      'number' => '(032) 232 8187',
+      'number' => '(032) 232 8187 (local 112)',
       'email' => 'fablab.upcebu@up.edu.ph',
       'manager' => 'Fidel Ricafranca',
       'dpwd' => 20,

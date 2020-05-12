@@ -289,6 +289,7 @@ class OfficialbillsController extends Controller
     $user = auth()->user();
     $bill = Officialbills::find($id);
     $invoice = Invoices::with('items')->find($bill->invoice_id);
+    $appsettings = Appsettings::find(1);
 
 
     if($bill){
@@ -319,7 +320,7 @@ class OfficialbillsController extends Controller
       if($print == 'print'){
         //TODO
 
-        //return view('invoices.print', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items, 'page_title'=> 'Print Invoice #'. $id ]);
+        return view('bills.print', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items, 'page_title'=> $this->page_title, 'bill' => $bill, 'appsettings'=> $appsettings]);
       }else{
         return view('bills.view', ['user' => $user, 'invoice' => $invoice, 'page_settings'=> $this->page_settings, 'updater' => $updater, 's'=> $s, 'status'=> $this->status, 'items' => $invoice_items, 'page_title'=> $this->page_title, 'bill' => $bill]);
       }

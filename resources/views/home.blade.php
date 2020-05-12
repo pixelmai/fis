@@ -2,7 +2,6 @@
 
 @section('content')
 
-
 <div id="dashboard" class="pt-2 px-2">
 
   <div class="row pb-3">

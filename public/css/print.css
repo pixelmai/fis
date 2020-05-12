@@ -11143,3 +11143,154 @@ body {
   text-align: center;
 }
 
+#print_page #official_bill {
+  font-size: 1.5em;
+  line-height: 1.5em;
+}
+
+#print_page #official_bill #fablab_info {
+  margin-bottom: 20px;
+}
+
+#print_page #official_bill #fablab_info h3 {
+  font-weight: bold;
+}
+
+#print_page #official_bill #fablab_info p {
+  margin-bottom: 0;
+}
+
+#print_page #official_bill #bill_for_settings {
+  margin-bottom: 20px;
+}
+
+#print_page #official_bill #bill_for_settings table th {
+  padding: 5px 20px;
+}
+
+#print_page #official_bill #bill_for_settings #prepared_for {
+  width: 100%;
+  border: 1px solid #999;
+}
+
+#print_page #official_bill #bill_for_settings #prepared_for th {
+  border-bottom: 1px solid #999;
+}
+
+#print_page #official_bill #bill_for_settings #prepared_for td {
+  padding: 10px 20px;
+}
+
+#print_page #official_bill #bill_for_settings #invoice_info {
+  width: 100%;
+  border-top: 1px solid #999;
+  border-right: 1px solid #999;
+}
+
+#print_page #official_bill #bill_for_settings #invoice_info td {
+  border-bottom: 1px solid #999;
+  border-left: 1px solid #999;
+  padding: 5px 20px;
+}
+
+#print_page #official_bill #bill_for_settings #invoice_info .heading {
+  width: 35%;
+}
+
+#print_page #official_bill #bill_message {
+  margin-bottom: 20px;
+}
+
+#print_page #official_bill #bill_message h3 {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #333;
+  padding: 20px 0;
+  font-weight: bold;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+#print_page #official_bill #bill_message p {
+  font-size: 1em;
+  color: #333;
+}
+
+#print_page #official_bill #invoice_items_table {
+  min-width: 100%;
+  margin-bottom: 60px;
+}
+
+#print_page #official_bill #invoice_items_table table td {
+  padding: 5px 20px;
+}
+
+#print_page #official_bill #invoice_items_table table th {
+  padding: 10px 20px;
+  border: 1px solid #999;
+}
+
+#print_page #official_bill #invoice_items_table table td.services {
+  width: 52%;
+}
+
+#print_page #official_bill #invoice_items_table table td.services em {
+  color: #666;
+}
+
+#print_page #official_bill #invoice_items_table table td.quantity {
+  width: 10%;
+}
+
+#print_page #official_bill #invoice_items_table table td.unit {
+  width: 10%;
+}
+
+#print_page #official_bill #invoice_items_table table td.price,
+#print_page #official_bill #invoice_items_table table th.price {
+  width: 12%;
+  text-align: right;
+}
+
+#print_page #official_bill #invoice_items_table table td.amount,
+#print_page #official_bill #invoice_items_table table th.amount {
+  width: 16%;
+  text-align: right;
+}
+
+#print_page #official_bill #invoice_items_table table .itemrow td {
+  border-right: 1px solid #999;
+  border-bottom: 0;
+}
+
+#print_page #official_bill #invoice_items_table table .itemrow td:first-child {
+  border-left: 1px solid #999;
+}
+
+#print_page #official_bill #invoice_items_table table .subtotal td {
+  border-top: 1px solid #999;
+  border-right: 1px solid #999;
+  border-bottom: 0;
+  text-align: right;
+}
+
+#print_page #official_bill #invoice_items_table table .discount td {
+  border-right: 1px solid #999;
+  text-align: right;
+}
+
+#print_page #official_bill #invoice_items_table table .total td {
+  border-right: 1px solid #999;
+  text-align: right;
+}
+
+#print_page #official_bill #invoice_items_table table .total .grand {
+  border-top: 1px solid #999;
+  font-size: 1.3em;
+  border-bottom: 1px solid #999;
+}
+
+#print_page #official_bill #prepared_by_settings h5 {
+  padding-bottom: 100px;
+}
+

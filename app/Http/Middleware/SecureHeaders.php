@@ -19,6 +19,11 @@ class SecureHeaders
         $response->headers->set('X-Content-Type-Options', 'nosniff');
         $response->headers->set('X-XSS-Protection', '1; mode=block');
         $response->headers->set('X-Frame-Options', 'DENY');
+        $response->headers->set('X-Content-Type-Options', 'nosniff');
+        $response->headers->set('Cache-Control', "no-cache, no-store, must-revalidate");
+        $response->headers->set('Pragma', "no-cache");
+        $response->headers->set('Expires', "0");
+        $response->headers->set('Content-Security-Policy', "frame-ancestors 'self'");
         $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
         $response->headers->set('Feature-Policy', "vibrate 'self'; unsized-media 'self'; sync-xhr 'self'");
         //$response->headers->set('Content-Security-Policy', "style-src 'self'"); // Clearly, you will be more elaborate here.
