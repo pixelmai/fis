@@ -144,14 +144,14 @@
 
           $.ajax({
               type: "get",
-              url: "/invoices/destroy/"+row_id,
+              url: "/bills/destroy/"+row_id,
               success: function (data) {
                 var oTable = $('#listpage_datatable').dataTable(); 
                 oTable.fnDraw(false);
 
                 var notifData = {
                   status: 'warning',
-                  message: 'Successfully deleted a invoice.',
+                  message: 'Successfully deleted an official bill.',
                 };
 
                 generateNotif(notifData);

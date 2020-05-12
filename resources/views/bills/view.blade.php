@@ -27,13 +27,13 @@
               </a>
             @endif
 
-            <a href="/invoices/view/{{ $invoice->id }}/print" class="edit btn btn-outline-secondary btn-md" target="_blank">
+            <a href="/bills/view/{{ $invoice->id }}/print" class="edit btn btn-outline-secondary btn-md" target="_blank">
               <i class="fas fa-print"></i> Print
             </a>
 
 
             @if($s == 'Draft')
-              <a href="/invoices/edit/{{ $invoice->id }}" class="edit btn btn-outline-secondary btn-md">
+              <a href="/bills/edit/{{ $invoice->id }}" class="edit btn btn-outline-secondary btn-md">
                 <i class="fas fa-edit"></i> Edit
               </a>
 
@@ -249,6 +249,25 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
+
+      $('body').on('click', '#delete-row', function () {
+        
+
+        if (confirm('Are you sure want to delete official bill?')) {
+
+          $.ajax({
+              type: "get",
+              url: "/bills/destroy/"+ {{ $bill->id }},
+              success: function (data) {
+                console.log(data);
+                window.location.href = '{{ url('/bills') }}';
+              },
+              error: function (data) {
+                  console.log('Error:', data);
+              }
+          });
+        } 
+      });   
 
 
   }); //Document Ready end

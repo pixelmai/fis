@@ -405,7 +405,6 @@ class OfficialbillsController extends Controller
 
     if($bill){
 
-
       $data = request()->validate([
         'for_name' => ['required'],
         'for_company' => ['nullable'],
@@ -433,22 +432,30 @@ class OfficialbillsController extends Controller
         return notifyRedirect($this->homeLink.'/view/'.$bill->id, 'Updated Official Bill #'. $bill->id .' successfully', 'success');
       }
 
-
     }else{
-      return notifyRedirect($this->homeLink, 'Client not found', 'danger');
+      return notifyRedirect($this->homeLink, 'Official Bill not found', 'danger');
     }
 
-
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  \App\Officialbills  $officialbills
-   * @return \Illuminate\Http\Response
-   */
-  public function destroy(Officialbills $officialbills)
+  public function destroy($id)
   {
-    //
+    $bill = Officialbills::find($id);
+
+    if($bill && $bill->status == 1){
+      if(request()->ajax()){
+        $row = Officialbills::where('id',$id)->delete();
+        
+        sessionSetter('warning', 'Deleted Official Bill successufully');
+
+        return Response::json($row);
+      }else{
+        return notifyRedirect($this->homeLink, 'Unauthorized to delete', 'danger');
+      }
+    }else{
+      return notifyRedirect($this->homeLink, 'Official Bill  not found', 'danger');
+    }
   }
+
+
 }
