@@ -2,7 +2,7 @@
   <div class="sidebar-header">
     <a class="navbar-brand d-flex justify-content-center" href="{{ url('/') }}">
       <div class="pr-1" style="height: 30px;">
-        <img src="/svg/dino.svg" alt="" style="height: 30px;" class="pr-1" />
+        <img src="/svg/dino.svg" alt="" height="30" width="56" class="pr-1" />
       </div>
       <div class="pl-2 pt-1">FABLAB WIS</div>
     </a>

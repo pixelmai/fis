@@ -7,7 +7,7 @@
     </button>
 
     <a href="#" class="d-inline-block d-lg-none ml-auto" data-toggle="collapse" data-target="#navbarMobileContent" aria-controls="navbarMobileContent" aria-expanded="false" aria-label="Toggle navigation">
-        <img src="{{ $user->profileImage() }}" class="rounded-circle border" style="width: 45px; height: 45px;" alt="" />
+        <img src="{{ $user->profileImage() }}" width="45" height="45" class="rounded-circle border" alt="" />
     </a>
 
     <div class="collapse navbar-collapse" id="navbarMobileContent">
@@ -176,7 +176,7 @@
         <li class="nav-item dropdown">
           <a id="navbarDropdown" class="nav-link user-image" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
             <div class="pl-3">
-              <img src="{{ $user->profileImage() }}" class="rounded-circle border" style="width: 45px; height: 45px;" alt="" />
+              <img src="{{ $user->profileImage() }}" class="rounded-circle border" width="45" height="45" alt="" />
               <span class="caret"></span>
             </div>
           </a>
