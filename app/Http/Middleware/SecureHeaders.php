@@ -20,6 +20,7 @@ class SecureHeaders
         $response->headers->set('X-XSS-Protection', '1; mode=block');
         $response->headers->set('X-Frame-Options', 'DENY');
         $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+        $response->headers->set('Feature-Policy', "vibrate 'self'; usermedia *; sync-xhr 'self'");
         //$response->headers->set('Content-Security-Policy', "style-src 'self'"); // Clearly, you will be more elaborate here.
 
         $response->headers->set('Content-Security-Policy',"font-src 'self' data: fonts.gstatic.com; img-src 'self' data:; style-src 'self' data: fonts.googleapis.com 'unsafe-inline'; ");
