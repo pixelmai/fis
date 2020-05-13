@@ -23,13 +23,11 @@ class SecureHeaders
         $response->headers->set('Cache-Control', "no-cache, no-store, must-revalidate");
         $response->headers->set('Pragma', "no-cache");
         $response->headers->set('Expires', "0");
-        $response->headers->set('Content-Security-Policy', "frame-ancestors 'self'");
         $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
         $response->headers->set('Feature-Policy', "vibrate 'self'; unsized-media 'self'; sync-xhr 'self'");
         //$response->headers->set('Content-Security-Policy', "style-src 'self'"); // Clearly, you will be more elaborate here.
 
-        $response->headers->set('Content-Security-Policy',"font-src 'self' data: fonts.gstatic.com; img-src 'self' data:; style-src 'self' data: fonts.googleapis.com 'unsafe-inline'; ");
-
+        $response->headers->set('Content-Security-Policy',"default-src 'self' 'unsafe-inline'; font-src 'self' data: fonts.gstatic.com; img-src 'self' data:; style-src 'self' data: fonts.googleapis.com 'unsafe-inline'; frame-ancestors 'self'; connect-src 'self'; frame-src 'self'; media-src 'self'; object-src 'self'; manifest-src 'self'; worker-src 'self'; prefetch-src 'self', script-src 'self' https://fablab.kboxstudios.com 'unsafe-inline'; script-src-elem 'self' https://fablab.kboxstudios.com 'unsafe-inline';  script-src-attr 'self' https://fablab.kboxstudios.com 'unsafe-inline'");
 
         return $response;
     }
