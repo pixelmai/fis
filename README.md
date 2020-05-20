@@ -16,7 +16,7 @@ The application of user-centered design practices during the implementation of t
 <img src="https://loti.xyz/fablabimages/ss/2.png" alt="Invoice Details">
 
 **Invoice List Page**
-<img src="https://loti.xyz/fablabimages/ss/3.jpg" alt="Invoice List">
+<img src="https://loti.xyz/fablabimages/ss/03.jpg" alt="Invoice List">
 
 **Invoice Details Page**
 <img src="https://loti.xyz/fablabimages/ss/4.jpg" alt="Invoice Details">
