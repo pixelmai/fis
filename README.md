@@ -12,14 +12,26 @@ The application of user-centered design practices during the implementation of t
 **Initial Dashboard**
 <img src="https://loti.xyz/fablabimages/ss/1.png" alt="Initial Dashboard">
 
+**Client Details Page**
+<img src="https://loti.xyz/fablabimages/ss/2.png" alt="Invoice Details">
+
+**Invoice List Page**
+<img src="https://loti.xyz/fablabimages/ss/3.jpg" alt="Invoice Details">
+
 **Invoice Details Page**
-<img src="https://loti.xyz/fablabimages/ss/2.jpg" alt="Invoice Details">
+<img src="https://loti.xyz/fablabimages/ss/4.jpg" alt="Invoice Details">
 
 **Create Invoice Page**
-<img src="https://loti.xyz/fablabimages/ss/3.jpg" alt="Create Invoice">
+<img src="https://loti.xyz/fablabimages/ss/5.jpg" alt="Create Invoice">
 
 **View Project Page**
-<img src="https://loti.xyz/fablabimages/ss/4.png" alt="View Project">
+<img src="https://loti.xyz/fablabimages/ss/7.png" alt="View Project">
+
+**App Settings Page**
+<img src="https://loti.xyz/fablabimages/ss/8.png" alt="View Project">
 
 **Invoice Print View**
-<img src="https://loti.xyz/fablabimages/ss/5.png" alt="Invoice Print View">
+<img src="https://loti.xyz/fablabimages/ss/6.png" alt="Invoice Print View">
+
+**Official Bill Print View**
+<img src="https://loti.xyz/fablabimages/ss/9.png" alt="Invoice Print View">
