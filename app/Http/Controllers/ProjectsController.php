@@ -119,10 +119,18 @@ class ProjectsController extends Controller
   }
 
 
-  public function create()
+  public function create($c = null)
   {
+    if(isset($c)){
+      $client_check = Clients::find($c);
+      $client = (isset($client_check) ? $client_check : 0);
+
+    }else{
+      $client = 0;
+    }
+
     $user = auth()->user();
-    return view('projects.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'page_title'=> $this->page_title]);
+    return view('projects.create', ['user' => $user, 'page_settings' => $this->page_settings, 'page_title'=> $this->page_title, 'client' => $client]);
   }
 
 

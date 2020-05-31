@@ -157,8 +157,26 @@ class InvoicesController extends Controller
   }
 
 
-  public function create()
+  public function create($c = NULL, $p = NULL)
   {
+
+    if(isset($c)){
+      $client_check = Clients::with('company','mainproject')->find($c);
+      $client = (isset($client_check) ? $client_check : 0);
+    }else{
+      $client = 0;
+    }
+
+    if(isset($p)){
+      $p_check = Projects::find($p);
+      $project = (isset($p_check) ? $p_check : 0);
+    }else{
+      $project = 0;
+    }
+
+
+
+
     $user = auth()->user();
     $latest_invoice = Invoices::orderBy('created_at', 'desc')->select('id')->first();
 
@@ -172,7 +190,7 @@ class InvoicesController extends Controller
 
     $token = Str::random(60);
 
-    return view('invoices.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'id_num'=> $id_num, 'services' => $services, 'discounts' => $discounts, 'dtoken' => $token, 'page_title'=> $this->page_title]);
+    return view('invoices.create', ['user' => $user, 'page_settings'=> $this->page_settings, 'status' => $this->status, 'id_num'=> $id_num, 'services' => $services, 'discounts' => $discounts, 'dtoken' => $token, 'page_title'=> $this->page_title, 'client' => $client, 'project' => $project ]);
   }
 
 

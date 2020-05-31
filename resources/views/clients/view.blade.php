@@ -248,7 +248,7 @@
           <h5 class="pb-0">Projects</h5>
           @if(count($projects) != 0)
             <div>
-              <a href="/projects/create" class="btn btn-sm btn-outline-success">New Project</a>
+              <a href="/projects/create/{{ $client->id }}" class="btn btn-sm btn-outline-success">New Project</a>
             </div>
           @endif
 
@@ -298,7 +298,7 @@
         @else
           <div class="empty_results">
             <p>No projects yet</p>
-            <a href="/projects/create" class="btn btn-lg btn-outline-success">Create New Project</a>
+            <a href="/projects/create/{{ $client->id }}" class="btn btn-lg btn-outline-success">Create New Project</a>
           </div>
         @endif
 
@@ -317,7 +317,7 @@
           <h5 class="pb-0">Invoices</h5>
           @if(count($invoices) != 0)
             <div>
-              <a href="/invoices/create" class="btn btn-sm btn-outline-success">New Invoice</a>
+              <a href="/invoices/create/{{ $client->id }}" class="btn btn-sm btn-outline-success">New Invoice</a>
             </div>
           @endif
 
@@ -369,7 +369,7 @@
         @else
           <div class="empty_results">
             <p>No invoices yet</p>
-            <a href="/invoices/create" class="btn btn-lg btn-outline-success">Create New Invoice</a>
+            <a href="/invoices/create/{{ $client->id }}" class="btn btn-lg btn-outline-success">Create New Invoice</a>
           </div>
         @endif
       </div>

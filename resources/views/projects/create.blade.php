@@ -40,14 +40,17 @@
                       
                       <div class="d-flex">
                         <div class="w-50">
-                          <input id="contact_person" type="text" class="form-control @error('contact_person') is-invalid @enderror" name="contact_person" value="{{ old('contact_person') }}" required autofocus autocomplete="off" placeholder="Search last name">
+                          <input id="contact_person" type="text" class="form-control @error('contact_person') is-invalid @enderror" name="contact_person" value="{{ $client != '0' ? $client->lname : old('contact_person') }}" required autofocus autocomplete="off" placeholder="Search last name">
                         </div>
                         <div class="w-50">
-                          <input id="contact_person_fname" class="form-control ml-2" type="text" disabled>
+                          <input id="contact_person_fname" class="form-control ml-2" type="text" value="{{ $client != '0' ? $client->fname : '' }}" disabled>
                         </div>
                       </div>
 
-                      <input id="client_id" type="hidden" name="client_id" value="{{ old('client_id') }}" required>
+
+
+
+                      <input id="client_id" type="hidden" name="client_id" value="{{ $client != '0' ? $client->id : old('client_id') }}" required>
 
                       @error('contact_person')
                         <span class="invalid-feedback" role="alert">

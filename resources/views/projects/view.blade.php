@@ -115,7 +115,7 @@
               </div>
               <div>
                 @if($project->status == 1)
-                  <a href="/invoices/create" class="btn btn-sm btn-outline-success">Add New Invoice</a>
+                  <a href="/invoices/create/{{ $project->client->id }}/{{ $project->id }}" class="btn btn-sm btn-outline-success">Add New Invoice</a>
                 @endif
               </div>
             </div>
@@ -139,7 +139,7 @@
           @else
             <div class="empty_results">
               <p>No invoices yet</p>
-              <a href="/invoices/create" class="btn btn-lg btn-outline-success">Create New Invoice</a>
+              <a href="/invoices/create/{{ $project->client->id }}/{{ $project->id }}" class="btn btn-lg btn-outline-success">Create New Invoice</a>
             </div>
           @endif
 

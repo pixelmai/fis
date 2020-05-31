@@ -31,12 +31,16 @@
                           
                           <div class="d-flex">
                             <div class="w-50">
-                              <input id="contact_person" type="text" class="form-control @error('contact_person') is-invalid @enderror" name="contact_person" value="{{ old('contact_person') }}" required autofocus autocomplete="off" placeholder="Search last name">
+
+
+                              <input id="contact_person" type="text" class="form-control @error('contact_person') is-invalid @enderror" name="contact_person" value="{{ $client != '0' ? $client->lname : old('contact_person') }}" required autofocus autocomplete="off" placeholder="Search last name">
                             </div>
                             <div class="w-50">
                               <input id="contact_person_fname" class="form-control ml-2" type="text" disabled>
                             </div>
                           </div>
+
+                          
 
                           <input id="client_id" type="hidden" name="client_id" value="{{ old('client_id') }}" required>
 
@@ -83,17 +87,24 @@
                     <div class="col-md-6">
                       <label for="company_name" class="col-form-label">Company/Institution</label>
                         <div>
+
+                          
+
+
                           <input id="company_name" 
                             type="text" 
                             class="w-100 form-control @error('company_name') is-invalid @enderror" 
                             name="company_name" 
                             value="{{ old('company_name') }}"  
-                            autocomplete="off" autofocus placeholder="Search company name" disabled="disabled">
+                            autocomplete="off" autofocus placeholder="Search company name"
+                            disabled="disabled" >
 
                           <input id="company_id" 
                             type="hidden" 
                             name="company_id" 
                             value="{{ old('company_id') }}">
+
+
 
                           @error('company_id')
                               <span class="invalid-feedback" role="alert">
@@ -112,6 +123,9 @@
                             name="project_name" 
                             value="{{ old('project_name') }}"  
                             autocomplete="off" autofocus placeholder="Search Project name" disabled="disabled">
+
+
+
 
                           <input id="project_id" 
                             type="hidden" 
@@ -822,8 +836,99 @@
     }
 
 
+
     
     initClients();
+
+
+    @if($client != '0')
+
+      function initWithData(){
+        var clid = '{{ $client->id }}';
+        var clfn = '{{ $client->fname }}';
+        var clcn = '{{ $client->company->name }}';
+        var clpj = '';
+        var clpn = '';
+        var clage = '{{ $client->date_of_birth }}';
+        var clpwd = '{{ $client->is_pwd }}';
+        @if($project != '0' )
+          clpj = '{{ $project->id }}';
+          clpn = '{{ $project->name }}';
+        @else
+          clpj = '{{ $client->mainproject->id }}';
+          clpn = '';
+        @endif
+
+
+        console.log(clid);
+        $("#discount").val(0);
+        $("#discount_type").text('');
+        $("#dtype").val(0);
+        $('#client_id').val( clid );
+        $('#contact_person_fname').val(clfn);
+        if( clcn != '-'){
+          $('#company_name').val(clcn);
+        }else{
+          $('#company_name').val('');
+        }
+        $('#company_id').val('{{ $client->company->id }}');
+        $('#project_id').val(clpj);
+        $('#project_name').val(clpn);
+
+        $("#company_name").removeClass("disabled");
+        $("#project_name").removeClass("disabled");
+
+
+        // FOR Discounts 
+          var dob = new Date(clage);
+          var discounts = [<?php echo '"'.implode('","', $discounts).'"' ?>];
+
+          if(dob != null){
+            var today = new Date();
+            var dayDiff = Math.ceil(today - dob) / (1000 * 60 * 60 * 24 * 365);
+            var age = parseInt(dayDiff);
+          }
+
+          if( clpwd == 1 || age >= 60){
+            if(clpwd == 1 && age >= 60){
+              applied_discount = (discounts[0] < discounts[1]) ? discounts[1] : discounts[0];
+              $("#discount_type").text('');
+              $("#discount").val(applied_discount);
+
+              if(discounts[0] == applied_discount){
+                $("#discount_type").text('(PWD)');
+                $("#dtype").val(1);
+              }else{
+                $("#discount_type").text('(SC)');
+                $("#dtype").val(2);
+              }
+            }else{
+              if(clpwd == 1){
+                $("#discount_type").text('');
+                $("#discount").val(discounts[0]);
+                $("#discount_type").text('(PWD)');
+                $("#dtype").val(1);
+              }
+
+              if(age >= 60){
+                $("#discount_type").text('');
+                $("#discount").val(discounts[1]);
+                $("#discount_type").text('(SC)');
+                $("#dtype").val(2);
+              }
+            }
+            updateTotal();
+          }
+          
+        // FOR Discounts 
+        initCompany(clid);
+        initProject(clid);
+        $("#status").focus();
+      }
+
+      initWithData();
+    @endif
+    
     initItemsTable();
 
 

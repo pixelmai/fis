@@ -151,7 +151,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 /* Projects */
   Route::get('/projects', 'ProjectsController@index'); 
-  Route::get('/projects/create', 'ProjectsController@create');
+  Route::get('/projects/create/{c?}', 'ProjectsController@create');
   Route::post('/projects/create', 'ProjectsController@store');
   Route::post('/projects/modalStore', 'ProjectsController@modalStore');
   Route::get('/projects/edit/{id}', 'ProjectsController@edit');
@@ -241,7 +241,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 /* Invoices */
   Route::get('/invoices', 'InvoicesController@index'); 
-  Route::get('/invoices/create', 'InvoicesController@create');
+  Route::get('/invoices/create/{c?}/{p?}', 'InvoicesController@create');
   Route::post('/invoices/create', 'InvoicesController@store');
   Route::get('/invoices/edit/{id}', 'InvoicesController@edit');
   Route::patch('/invoices/edit/{id}', 'InvoicesController@update');
