@@ -7,7 +7,7 @@ The application of user-centered design practices during the implementation of t
 ## Screenshots
 
 **Login**
-<img src="https://loti.xyz/fablabimages/ss/0.png" alt="Login">
+<img src="https://loti.pixelmai.com/fablabimages/ss/0.png" alt="Login">
 
 **Initial Dashboard**
 <img src="https://loti.xyz/fablabimages/ss/1.png" alt="Initial Dashboard">
